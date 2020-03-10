@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/07 20:24:05 by mrosario          #+#    #+#             */
-/*   Updated: 2020/03/10 20:24:31 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/03/10 20:42:26 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -1085,6 +1085,10 @@ int     getCColor(const char *line)
 // Cada eje de letras contiguas debe empezar y terminar en 1... así
 // de fácil... y difícil
 
+//IF NSEW --->> g_player.posX, g_player.posY, if 2x o más NSEW, tira mapa
+//IF S ---->>spriteData[index].x, spriteData[index].y (al igual que el mapa, hay que mallocear y crear un array o t_list de sprites, igual un puntero desde un struct global para tener siempre a mano... hay que sabe total de sprites antes de mallocear y pasarlos... igual al encontrar un sprite, guardar su posición y subir un contador, o hacer otra lista enlazada ;))
+//a partir de NSEW, analiza mapa para asegurar que zona del jugador está rodeada por 1
+
 int     getMapArray(int fd)
 {
     int     i;
@@ -1097,7 +1101,7 @@ int     getMapArray(int fd)
     t_list  *currentLine = NULL;
 
     y = 0;
-    mapchrs = " 012NnSsWwSs";
+    mapchrs = " 012NnSsEeWw";
     stayOut = 0;
     while (!stayOut)
     {
