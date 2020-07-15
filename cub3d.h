@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/03/10 20:19:48 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/07/15 19:19:27 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,15 @@
 #define YELLOW "\x1b[33m"
 #define RESET "\033[0m"
 
-#define mapWidth        24
-#define mapHeight       24
-#define screenWidth     2560 //640
+//#define mapWidth        24
+//#define mapHeight       24
+/*#define screenWidth     2560 //640
 #define screenHeight    1440 //480
 #define screenXCenter   320
 #define screenYCenter   240
 #define texWidth        64
 #define texHeight       64
-#define numSprites      2
+#define numSprites      2*/
 /*#define normiTexWidth   128
 #define normiTexHeight  164
 #define wallMultiplier  1 //modifies apparent wall height
@@ -82,9 +82,19 @@
   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 };*/
 
+typedef     struct spriteData_s
+{
+  double posX;
+  double posY;
+  char   spriteType;
+  unsigned int *texture;
+  struct spriteData_s *next;
+}                   spriteData_t;
+
 typedef     struct  configData_s
 {
   t_list *Map;
+  spriteData_t *spriteList;
   int mapW;
   int mapH;
   int screenW;
@@ -158,7 +168,7 @@ typedef     struct  rayData_s
 
 }                   rayData_t;
 
-//Habrá que localizar este struct en Raycaster para dinamizar screenHeight/screenWidth
+//Habrá que localizar arrays en Raycaster para dinamizar screenHeight/screenWidth
 typedef     struct frameData_s
 {
   clock_t       time;
@@ -178,10 +188,9 @@ typedef     struct frameData_s
   int           texY; //texture Y coordinate;
   double        step;
   double        texPos;
-  unsigned int  buffer[screenHeight][screenWidth]; //y coordinate first because it works per scanline
-  double        zBuffer[screenWidth]; //1D ZBuffer
-  int           spriteOrder[numSprites];
-  double        spriteDistance[numSprites];
+  //unsigned int  buffer[screenHeight][screenWidth]; //y coordinate first because it works per scanline
+  //double        zBuffer[screenWidth]; //1D ZBuffer
+  //int           spriteOrder[numSprites]; //traspasado a RayCaster
 }                  frameData_t;
 
 typedef     struct imageData_s
@@ -205,13 +214,6 @@ typedef     struct keyData_s
   char  m;
 }                   keyData_t;
 
-typedef     struct spriteData_s
-{
-  double x;
-  double y;
-  unsigned int *texture;
-}                   spriteData_t;
-
 configData_t g_config;
 player_t g_player;
 world_t g_world;
@@ -227,10 +229,10 @@ imageData_t g_ceilingImg;
 imageData_t g_floorImg;
 imageData_t g_normiImg;
 keyData_t g_keyData;
-spriteData_t  g_sprite[numSprites] = {
+/*spriteData_t  g_sprite[numSprites] = {
   {10.5, 14.5, 0},
   {6.5, 12.5, 0},
-};
+};*/
 
 double  ft_degtorad(double a);
 double  ft_radtodeg(double a);

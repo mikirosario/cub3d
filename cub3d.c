@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/07 20:24:05 by mrosario          #+#    #+#             */
-/*   Updated: 2020/03/10 20:42:26 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/07/15 19:17:16 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,68 @@
     mlx_string_put(g_screenData.mlx_ptr, g_screenData.mlx_win, g_config.screenW / 2, 0, 0x0000ff00, "TEST");
 }*/
 
+spriteData_t	*ft_sprtlstnew(void const *content)
+{
+	spriteData_t *tmp;
+
+	tmp = malloc(sizeof(spriteData_t));
+	if (tmp)
+	{
+		tmp->posX = 0;
+        tmp->posY = 0;
+        if (content)
+            tmp->texture = (void *)content;
+        else
+            tmp->texture = NULL;
+		tmp->next = NULL;
+	}
+	return (tmp);
+}
+
+spriteData_t	*ft_sprtlstlast(spriteData_t *lst)
+{
+	spriteData_t	*tmp;
+
+	tmp = lst;
+	if (!lst)
+		return (0);
+	while (tmp->next)
+		tmp = tmp->next;
+	return (tmp);
+}
+
+void	ft_sprtlstadd_back(spriteData_t **alst, spriteData_t *new)
+{
+	if (!new)
+		return ;
+	if (alst && *alst)
+	{
+		new->next = (ft_sprtlstlast(*alst))->next;
+		(ft_sprtlstlast(*alst))->next = new;
+	}
+	else
+	{
+		*alst = new;
+		new->next = NULL;
+	}
+}
+
 void    del(void *freeThis)
 {
     free(freeThis);
     freeThis = NULL;
+}
+
+void    freeSprtList(spriteData_t **alst)
+{
+    spriteData_t *tmp;
+
+    while (*alst)
+    {
+        tmp = (&(**alst))->next;
+        free(*alst);
+        *alst = tmp;
+    }
 }
 
 void    freeList(t_list **alst)
@@ -50,6 +108,18 @@ void    freeList(t_list **alst)
     }
 }
 
+spriteData_t    *spriteIter(int listMember)
+{
+    spriteData_t    *ptr;
+    int             i;
+
+    i = 0;
+    ptr = g_config.spriteList;
+    while (i++ < listMember)
+        ptr = ptr->next;
+    return (ptr);
+}
+
 char    mapList(int x, int y)
 {
     t_list  *ptr;
@@ -61,6 +131,35 @@ char    mapList(int x, int y)
         ptr = ptr->next;
     return (*((char *)(ptr->content + x)));
 }
+//Como mapList, pero devuelve dirección de char
+char    *mapListDir(int x, int y)
+{
+    t_list  *ptr;
+    int     i;
+(void)y;
+    i = 0;
+    ptr = g_config.Map;
+    while (ptr && i++ < y)
+        ptr = ptr->next;
+    if (!ptr)
+        return (0);
+    return (((char *)(ptr->content + x)));
+}
+
+//Como mapList, pero devuelve dirección del miembro asociado a y (línea)
+t_list  *mapListMem(int y)
+{
+    t_list  *ptr;
+    int     i;
+
+    i = 0;
+    ptr = g_config.Map;
+    while (ptr && i++ < y)
+        ptr = ptr->next;
+    if (!ptr)
+        return (0);
+    return (ptr);
+}
 
 //image dump cls
 void    cls()
@@ -68,36 +167,69 @@ void    cls()
    mlx_put_image_to_window(g_screenData.mlx_ptr, g_screenData.mlx_win, g_clsImg.mlx_img, 0, 0);
 }
 
-void    ft_sortSprites()
+void    ft_sortSprites(int *spriteOrder)
 {
-    double  distance[numSprites];
+    double  distance[g_config.spriteNum];
     int     tmp;
     int     i;
 
 //first get relative player-sprite distances == playerpos - spritepos. magia matemática.
 i = 0;
-while (i < numSprites)
+while (i < g_config.spriteNum)
 {
-    g_frameData.spriteOrder[i] = i;
-    distance[i] = ((g_player.posX - g_sprite[i].x) * (g_player.posX - g_sprite[i].x) + (g_player.posY - g_sprite[i].y) * (g_player.posY - g_sprite[i].y));
+    //g_frameData.spriteOrder[i] = i;
+    spriteOrder[i] = i;
+    //distance[i] = ((g_player.posX - g_sprite[i].posX) * (g_player.posX - g_sprite[i].posX) + (g_player.posY - g_sprite[i].posY) * (g_player.posY - g_sprite[i].posY));
+    distance[i] = ((g_player.posX - (spriteIter(i))->posX) * (g_player.posX - (spriteIter(i))->posX) + (g_player.posY - (spriteIter(i))->posY) * (g_player.posY - (spriteIter(i))->posY));
     i++;
 }
 i = -1;
-while (numSprites > 1 && ++i < numSprites - 1)
+while (g_config.spriteNum > 1 && ++i < g_config.spriteNum - 1)
 {
     if (distance[i] < distance[i + 1])
     {
         tmp = distance[i];
         distance[i] = distance[i + 1];
         distance[i + 1] = tmp;
-        tmp = g_frameData.spriteOrder[i];
-        g_frameData.spriteOrder[i] = g_frameData.spriteOrder[i + 1];
-        g_frameData.spriteOrder[i + 1] = tmp;
+        //tmp = g_frameData.spriteOrder[i];
+        tmp = spriteOrder[i];
+        //g_frameData.spriteOrder[i] = g_frameData.spriteOrder[i + 1];
+        spriteOrder[i] = spriteOrder[i + 1];
+        //g_frameData.spriteOrder[i + 1] = tmp;
+        spriteOrder[i + 1] = tmp;
         i = -1;
     }
 }
 
 }
+
+  int   ft_stop(int key, void *param)
+  {
+    (void)param;
+    if (key == 0x35 || key == 0x00)
+    {
+        mlx_destroy_window(g_screenData.mlx_ptr, g_screenData.mlx_win);
+        mlx_destroy_image(g_screenData.mlx_ptr, g_clsImg.mlx_img);
+        if (g_screenData.mlx_img_buffer)
+            mlx_destroy_image(g_screenData.mlx_ptr, g_screenData.mlx_img_buffer);
+        if (g_blueMetalImg.mlx_img)
+            mlx_destroy_image(g_screenData.mlx_ptr, g_blueMetalImg.mlx_img);
+        if (g_normiImg.mlx_img)
+            mlx_destroy_image(g_screenData.mlx_ptr, g_normiImg.mlx_img); //Nota: Esta función libera la memoria ocupada por la imágen; no intentar liberarla desde freeSprtlist o será doble-free. ;)
+        if (g_config.Map)
+            freeList(&g_config.Map);
+        if (g_config.spriteList)
+            freeSprtList(&g_config.spriteList);
+        free(g_blueMetalImg.texPath);
+        free(g_yellowMetalImg.texPath);
+        free(g_greenMetalImg.texPath);
+        free(g_pinkMetalImg.texPath);
+        free(g_config.spriteTexPath);
+        free(g_player.newDirXY);
+        exit(EXIT_SUCCESS);
+    }
+    return (0);
+  }
 
 int   ft_rayCaster(int key, void *param)
 {
@@ -105,11 +237,14 @@ int   ft_rayCaster(int key, void *param)
     int ibuf;
     unsigned int *buf;
     unsigned int *texPtr;
+    spriteData_t    *spritePtr;
     static time_t seconds = 0; //ILLEGAL!
     time_t endTime; //ILLEGAL! Mi fpscounter.. Sniff.
     static int fps = 0;
     static int printFPS = 0;
     static char stayOut = 'n';
+    static int *spriteOrder; //cómo le hago free? :( se hace al llegar a final de programa?)
+    static double *zBuffer;
 
     (void)param;
     (void)key;
@@ -127,11 +262,28 @@ int   ft_rayCaster(int key, void *param)
         g_yellowMetalImg.tex_Ptr = (unsigned int *)mlx_get_data_addr(g_yellowMetalImg.mlx_img, &g_yellowMetalImg.bpp, &g_yellowMetalImg.size_line, &g_yellowMetalImg.endian);
         g_greenMetalImg.tex_Ptr = (unsigned int *)mlx_get_data_addr(g_greenMetalImg.mlx_img, &g_greenMetalImg.bpp, &g_greenMetalImg.size_line, &g_greenMetalImg.endian);
         g_pinkMetalImg.tex_Ptr = (unsigned int *)mlx_get_data_addr(g_pinkMetalImg.mlx_img, &g_pinkMetalImg.bpp, &g_pinkMetalImg.size_line, &g_pinkMetalImg.endian);
-        while (tonti < numSprites)
+
+        if (g_config.spriteNum)
         {
+            if (!(spriteOrder = (ft_calloc(g_config.spriteNum, sizeof(int)))))
+                ft_stop(0x0, (void *)0);
+        }
+        if (!(zBuffer = (ft_calloc(g_config.screenW, sizeof(double)))))
+            ft_stop(0x0, (void *)0);
+        spritePtr = g_config.spriteList;
+        while (spritePtr)
+        {
+            if (spritePtr->spriteType == '2') //asigna textura en función de sprite type
+                spritePtr->texture = (unsigned int *)mlx_get_data_addr(g_normiImg.mlx_img, &g_normiImg.bpp, &g_normiImg.size_line, &g_normiImg.endian);
+            spritePtr = spritePtr->next;
+        }
+        
+        /*while (tonti < g_config.spriteNum)
+        {
+            //g_config.spriteList->texture = (unsigned int *)mlx_get_data_addr(g_normiImg.mlx_img, &g_normiImg.bpp, &g_normiImg.size_line, &g_normiImg.endian);
             g_sprite[tonti].texture = (unsigned int *)mlx_get_data_addr(g_normiImg.mlx_img, &g_normiImg.bpp, &g_normiImg.size_line, &g_normiImg.endian);
             tonti++;
-        }
+        }*/
         stayOut = 'y';
     }
     cls();
@@ -317,13 +469,13 @@ int   ft_rayCaster(int key, void *param)
             ibuf += g_config.screenW;
         }
         //set zBuffer for sprite casting
-        g_frameData.zBuffer[x] = g_rayData.perpWallDist; //perpendicular distances to walls from camera
+        zBuffer[x] = g_rayData.perpWallDist; //perpendicular distances to walls from camera
         x++;
     }
     //Sprite Casting
     //sort sprites from far to close, creating a sorting mask at g_frameData spriteOrder, if there are sprites
-    if (numSprites)
-        ft_sortSprites();
+    if (g_config.spriteNum)
+        ft_sortSprites(spriteOrder);
     //having sorted sprites, project and draw them
     int     i;
     int     stripe;
@@ -344,11 +496,15 @@ int   ft_rayCaster(int key, void *param)
     int     vMoveScreen;
 
     i = 0;
-    while (i < numSprites)
+    while (i < g_config.spriteNum)
     {
         //translate sprite position to relative to camera, taking most distant sprite first with order mask
-        spriteX = g_sprite[g_frameData.spriteOrder[i]].x - g_player.posX;
-        spriteY = g_sprite[g_frameData.spriteOrder[i]].y - g_player.posY;
+        //spriteX = g_sprite[g_frameData.spriteOrder[i]].posX - g_player.posX;
+        //spriteX = g_sprite[spriteOrder[i]].posX - g_player.posX;
+        spriteX = (spriteIter(spriteOrder[i]))->posX - g_player.posX;
+        //spriteY = g_sprite[g_frameData.spriteOrder[i]].posY - g_player.posY;
+        //spriteY = g_sprite[spriteOrder[i]].posY - g_player.posY;
+        spriteY = (spriteIter(spriteOrder[i]))->posY - g_player.posY;
         //transform sprite with the inverse camera matrix O_O
         invDet = 1.0 / (g_player.planeX * g_player.dirY - g_player.dirX * g_player.planeY); //required for correct matrix multiplication porque Lode lo dice
         transformX = invDet * (g_player.dirY * spriteX - g_player.dirX * spriteY);
@@ -388,13 +544,15 @@ int   ft_rayCaster(int key, void *param)
             //4) ZBuffer, with perpendicular distance
             int y = spriteDrawStartY;
             int d;
-            if (transformY > 0 && stripe > 0 && stripe < g_config.screenW && transformY < g_frameData.zBuffer[stripe])
+            if (transformY > 0 && stripe > 0 && stripe < g_config.screenW && transformY < zBuffer[stripe])
             {
                 while (y < spriteDrawEndY) //for every pixel of the current stripe
                 {
                     d = (y - vMoveScreen) * 256 - g_config.screenH * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats =_=
                     spriteTexY = ((d * g_config.spriteH) / spriteHeight) / 256;
-                    g_frameData.ocolor = g_sprite[g_frameData.spriteOrder[i]].texture[g_config.spriteW * spriteTexY + spriteTexX]; //get current color from the texture
+                    //g_frameData.ocolor = g_sprite[g_frameData.spriteOrder[i]].texture[g_config.spriteW * spriteTexY + spriteTexX]; //get current color from the texture
+                    //g_frameData.ocolor = g_sprite[spriteOrder[i]].texture[g_config.spriteW * spriteTexY + spriteTexX]; //get current color from the texture
+                    g_frameData.ocolor = (spriteIter(spriteOrder[i]))->texture[g_config.spriteW * spriteTexY + spriteTexX]; //get current color from the texture
                     if (g_frameData.ocolor != 0x0000ff00)
                         buf[stripe + (g_config.screenW * y)] = g_frameData.ocolor;
                     y++;
@@ -432,9 +590,9 @@ int   ft_rayCaster(int key, void *param)
         if ((mapList((int)g_player.posX, (int)(g_player.posY - g_player.dirY * g_player.moveSpeed))) == '0')
             g_player.posY -= g_player.dirY * g_player.moveSpeed;
     }
-    //strafe right if no wall to right
-    if (g_keyData.d)
-        {
+    //strafe left if no wall to left
+    if (g_keyData.a)
+    {
         ft_rotate_2D(g_player.dirX, g_player.dirY, 90, 6, &g_player.newDirXY);
         mlx_string_put(g_screenData.mlx_ptr, g_screenData.mlx_win, 0, 0, 0xFF00000, "RIGHT"); //CHIVATO
     //if (g_worldMap[(int)(g_player.posX + g_player.newDirXY[0] * g_player.moveSpeed)][(int)g_player.posY] == 0)
@@ -444,8 +602,8 @@ int   ft_rayCaster(int key, void *param)
     if (mapList((int)g_player.posX, (int)(g_player.posY + g_player.newDirXY[1] * g_player.moveSpeed)) == '0')
         g_player.posY += g_player.newDirXY[1] * g_player.moveSpeed;
     }
-    //strafe left if no wall to left
-    if (g_keyData.a)
+    //strafe right if no wall to right
+    if (g_keyData.d)
     {
         ft_rotate_2D(g_player.dirX, g_player.dirY, 90, 6, &g_player.newDirXY);
         mlx_string_put(g_screenData.mlx_ptr, g_screenData.mlx_win, 0, 0, 0xFF00000, "LEFT"); //CHIVATO
@@ -463,13 +621,13 @@ int   ft_rayCaster(int key, void *param)
         mlx_string_put(g_screenData.mlx_ptr, g_screenData.mlx_win, 0, 0, 0xFF00000, "CLOCKWISE"); //CHIVATO
 
         //mi método
-        ft_rotate_2D(g_player.dirX, g_player.dirY, 3, 6, &g_player.newDirXY);
+        ft_rotate_2D(g_player.dirX, g_player.dirY, -3, 6, &g_player.newDirXY);
         g_player.dirX = g_player.newDirXY[0];
         g_player.dirY = g_player.newDirXY[1];
-        ft_rotate_2D(g_player.planeX, g_player.planeY, 3, 6, &g_player.newDirXY);
+        ft_rotate_2D(g_player.planeX, g_player.planeY, -3, 6, &g_player.newDirXY);
         g_player.planeX = g_player.newDirXY[0];
         g_player.planeY = g_player.newDirXY[1];
-    
+        
         //método Lode
         /*g_player.oldDirX = g_player.dirX;
         g_player.dirX = g_player.dirX * cos(-g_player.rotSpeed) - g_player.dirY * sin(-g_player.rotSpeed);
@@ -484,10 +642,10 @@ int   ft_rayCaster(int key, void *param)
         mlx_string_put(g_screenData.mlx_ptr, g_screenData.mlx_win, 0, 0, 0xFF00000, "COUNTERCLOCKWISE"); //CHIVATO
 
         //mi método
-        ft_rotate_2D(g_player.dirX, g_player.dirY, -3, 6, &g_player.newDirXY);
+        ft_rotate_2D(g_player.dirX, g_player.dirY, 3, 6, &g_player.newDirXY);
         g_player.dirX = g_player.newDirXY[0];
         g_player.dirY = g_player.newDirXY[1];
-        ft_rotate_2D(g_player.planeX, g_player.planeY, -3, 6, &g_player.newDirXY);
+        ft_rotate_2D(g_player.planeX, g_player.planeY, 3, 6, &g_player.newDirXY);
         g_player.planeX = g_player.newDirXY[0];
         g_player.planeY = g_player.newDirXY[1];
         
@@ -526,32 +684,6 @@ int   ft_rayCaster(int key, void *param)
             mlx_string_put(g_screenData.mlx_ptr, g_screenData.mlx_win, g_config.screenW / 2, 0, 0x0000ff00, "Mode 2 Grafx");
     return (0);
 }
-    
-  int   ft_stop(int key, void *param)
-  {
-    (void)param;
-    if (key == 0x35 || key == 0x00)
-    {
-        mlx_destroy_window(g_screenData.mlx_ptr, g_screenData.mlx_win);
-        mlx_destroy_image(g_screenData.mlx_ptr, g_clsImg.mlx_img);
-        if (g_screenData.mlx_img_buffer)
-            mlx_destroy_image(g_screenData.mlx_ptr, g_screenData.mlx_img_buffer);
-        if (g_blueMetalImg.mlx_img)
-            mlx_destroy_image(g_screenData.mlx_ptr, g_blueMetalImg.mlx_img);
-        if (g_normiImg.mlx_img)
-            mlx_destroy_image(g_screenData.mlx_ptr, g_normiImg.mlx_img);
-        if (g_config.Map)
-            freeList(&g_config.Map);
-        free(g_blueMetalImg.texPath);
-        free(g_yellowMetalImg.texPath);
-        free(g_greenMetalImg.texPath);
-        free(g_pinkMetalImg.texPath);
-        free(g_config.spriteTexPath);
-        free(g_player.newDirXY);
-        exit(EXIT_SUCCESS);
-    }
-    return (0);
-  }
 
 int ft_keyPress(int key, void *param)
 {
@@ -617,12 +749,12 @@ int ft_keyRelease(int key, void *param)
 void initialize(void)
 {
     //CGDirectDisplayID disID; BONUS
-    g_player.posX = 22;
-    g_player.posY = 12;
-    g_player.dirX = -1;
+    g_player.posX = 0;
+    g_player.posY = 0;
+    g_player.dirX = 0;
     g_player.dirY = 0;
     g_player.planeX = 0;
-    g_player.planeY = 0.66;
+    g_player.planeY = 0;
     g_player.rotSpeed = 0.1;
     g_player.moveSpeed = 0.25;
     g_frameData.time = 0;
@@ -632,6 +764,8 @@ void initialize(void)
     //disID = CGMainDisplayID(); BONUS
     //g_config.screenW = CGDisplayPixelsWide(disID); BONUS
     //((g_config.screenH = CGDisplayPixelsHigh(disID); BONUS
+    g_config.spriteNum = 0;
+    g_config.spriteList = NULL;
     g_config.screenW = 2560;
     g_config.screenH = 1440;
     g_config.texW = 64;
@@ -1081,85 +1215,536 @@ int     getCColor(const char *line)
     return (resCount == 3 ? 1 : -1);
 }
 
-//NUEVO PLAN Primero copia a array bidimensional, después analiza
-// Cada eje de letras contiguas debe empezar y terminar en 1... así
-// de fácil... y difícil
+void    spriteCounter(double x, double y, char c)
+{
+static spriteData_t *lstPtr = NULL;
+
+    g_config.spriteNum++;
+
+    if (!g_config.spriteList)
+    {
+        g_config.spriteList = ft_sprtlstnew((void *)0);
+        lstPtr = g_config.spriteList;
+    }
+    else
+    {
+        ft_sprtlstadd_back(&g_config.spriteList, (ft_sprtlstnew((void *)0)));
+        lstPtr = lstPtr->next;
+    }
+    lstPtr->posX = x;
+    lstPtr->posY = y;
+    if (c == '2') //aquí podemos asignar la textura en función del número en el mapa :)
+        lstPtr->spriteType = '2';
+}
+
+//Floodfill algorithm
+
+int     floodRight(int x, int y)
+{
+    t_list  *lstPtr;
+    char    mapChar;
+
+    while ((mapChar = mapList(++x, y)) != '1' && mapChar != 'T') //izq. a der. transitables contiguas; dado que NULL es a la vez condición de invalidez del mapa, salida del while y cierre de función, se gestiona dentro del while.
+        {
+            if (mapChar == '0' || mapChar == '2' || mapChar == 'A')
+            {
+                //mapChar == '2' ? spriteReg : mapChar; //no implementado: si es '2', registra sprite en spriteList con función spriteReg
+                if ((lstPtr = mapListMem(y))->next && ((mapListMem(y + 1))->len) >= (size_t)x && (mapChar = mapList(x, y + 1)) && (mapChar == '0' || mapChar == '2')) //mira char de debajo, primero strlen para asegurarnos de que la fila abarca lo suficiente para evitar segfault...
+                    (*(mapListDir(x, y + 1)) = 'A'); //marca como transitable provisional (pdte de comprobar sus verticales)
+                else if (!lstPtr->next || mapChar == ' ' || !mapChar)
+                    return (0);
+                if (lstPtr != g_config.Map && ((mapListMem(y - 1))->len) >= (size_t)x && (mapChar = mapList(x, y -1)) && (mapChar == '0' || mapChar == '2'))//mira char de encima, primero strlen para asegurarnos de que la fila abarca lo suficiente para evitar segfault.
+                    (*(mapListDir(x, y - 1)) = 'A'); //marca como transitable (pdte de comprobar sus verticales)
+                else if (lstPtr == g_config.Map || mapChar == ' ' || !mapChar)
+                    return (0);
+                (*(mapListDir(x, y)) = 'T'); //marca como transitable con todos los ejes comprobados.
+            }
+            else if (mapChar == ' ' || !mapChar) //nótese que en floodRight, llegar al NULL en un barrido es condición de invalidez del mapa, por lo que su comprobación es a la vez condición de salida del while y de la función.
+                return (0);
+        }
+    return (1);
+}
+
+int     floodLeft(int x, int y)
+{
+    t_list  *lstPtr;
+    char    mapChar;
+
+    while (x > -1 && (mapChar = mapList(x, y)) && mapChar != '1' && mapChar != 'T') //der. a izq. transitables contiguas; en floodLeft ni de coña queremos entrar si x == -1, sería segfault al canto, sino que significa que todo el barrido bien hasta el final y es condición de salida.
+    {
+        if (x > 0 && (mapChar == '0' || mapChar == '2' || mapChar == 'A'))//si encontramos un transitable en cualquier casilla menos la de pos0, bien
+        {
+            //mapChar == '2' ? spriteReg : mapChar; //no implementado: si es '2', registra sprite en spriteList con función spriteReg
+            if ((lstPtr = mapListMem(y))->next && ((mapListMem(y + 1))->len) >= (size_t)x && (mapChar = mapList(x, y + 1)) && (mapChar == '0' || mapChar == '2')) //primero strlen para asegurarnos de que la fila abarca lo suficiente para evitar segfault...
+                (*(mapListDir(x, y + 1)) = 'A'); //marca como transitable, pdte de comprobar verticales
+            else if (!lstPtr->next || mapChar == ' ' || !mapChar)
+                return (0);
+            if (lstPtr != g_config.Map && ((mapListMem(y - 1))->len) >= (size_t)x && (mapChar = mapList(x, y -1)) && (mapChar == '0' || mapChar == '2'))
+                (*(mapListDir(x, y - 1)) = 'A'); //marca como transitable, pdte de comprobar verticales
+            else if (lstPtr == g_config.Map || mapChar == ' ' || !mapChar)
+                return (0);
+            (*(mapListDir(x, y)) = 'T'); //marca como transitable
+        }
+        else if (mapChar == ' ' || !x)//si encontramos un espacio o hemos encontrado un transitable en pos0, mapa inválido
+            return (0);
+        x--;
+    }
+    return (1);
+}
+
+void    unfloodMap(void)
+{
+    t_list  *mapPtr;
+    char    mapChar;
+    int     i;
+
+    mapPtr = g_config.Map;
+    while (mapPtr)
+    {
+        i = 0;
+        while ((mapChar = *(char *)(mapPtr->content + i)))
+        {
+            if (mapChar == 'T')
+                (*(char *)(mapPtr->content + i)) = '0';
+            i++;
+        }
+        mapPtr = mapPtr->next;
+    }
+    
+    mapPtr = g_config.Map;
+    write(1, "\n", 1);
+        while (mapPtr)
+    {
+        printf("\n # %s", mapPtr->content);
+        mapPtr = mapPtr->next;
+    }
+}
+
+int     floodFill(void)
+{
+    char    mapChar;
+    char    foundA;
+    t_list  *listPtr;
+    int     c = 0;
+    int     x;
+    int     y;
+
+
+    x = g_player.posX;
+    y = g_player.posY;
+    foundA = '1';
+    if ((mapChar = mapList(x, y)) && mapChar != '1' && mapChar != 'T') //transitables contiguas
+    {
+        if (((mapListMem(y + 1))->len) >= (size_t)x && (mapChar = mapList(x, y + 1)) && (mapChar == '0' || mapChar == '2')) //primero strlen para asegurarnos de que la fila de arriba abarca lo suficiente para evitar segfault...
+            (*(mapListDir(x, y + 1)) = 'A'); //marca como transitable provisional, pdte de comprobar verticales
+        else if (mapChar == ' ' || !mapChar)
+            return (-1);
+        if (((mapListMem(y - 1))->len) >= (size_t)x && (mapChar = mapList(x, y -1)) && (mapChar == '0' || mapChar == '2'))
+            (*(mapListDir(x, y - 1)) = 'A'); //marca como transitable, pdte de comprobar verticales
+        else if (mapChar == ' ' || !mapChar)
+            return (-1);
+    }
+    while (foundA) //mientras siga encontrando As (es decir, transitables provisionales), sigue haciendo barridos de inundación, hasta dejar de encontrarlas.
+    {    
+        y = 0;
+        foundA = 0;
+        while (y <= g_config.mapH)
+        {
+            c++;
+            x = 0;
+            while ((mapChar = mapList(x, y)))
+            {
+                if (mapChar == 'A')
+                {
+                    if (!foundA)
+                        foundA = '1';
+                    if (!(floodRight(x, y)))
+                    {
+                        printf("\nX = %d Y = %d Barridos = %d", x, y, c);
+                        return (-1);
+                    }
+                    if (!(floodLeft(x, y)))
+                        return (-1);
+                }
+                x++;
+            }
+            y++;
+        }
+    }
+
+    /*    if (!(floodRight(x, y)))
+            return (-1);
+        if (!(floodLeft(x, y)))
+            return (-1);
+    */
+    listPtr = g_config.Map;
+    while (listPtr)
+    {
+        printf("# %s\n", listPtr->content);
+        listPtr = listPtr->next;
+    }
+    write(1, "\n", 1);
+
+    unfloodMap();
+    return (1);
+}
+
+//NUEVO PLAN Algoritmo floodfill
 
 //IF NSEW --->> g_player.posX, g_player.posY, if 2x o más NSEW, tira mapa
 //IF S ---->>spriteData[index].x, spriteData[index].y (al igual que el mapa, hay que mallocear y crear un array o t_list de sprites, igual un puntero desde un struct global para tener siempre a mano... hay que sabe total de sprites antes de mallocear y pasarlos... igual al encontrar un sprite, guardar su posición y subir un contador, o hacer otra lista enlazada ;))
 //a partir de NSEW, analiza mapa para asegurar que zona del jugador está rodeada por 1
 
-int     getMapArray(int fd)
+int     getMapArray(int fd, char *firstLine)
 {
     int     i;
+    int     f;
     int     y;
+    char    foundPlayer;
     char    stayOut;
     char    *mapchrs;
     char    *line;
     t_list  *listPtr;
+    spriteData_t *sprtListPtr;
     char    *tmp;
-    t_list  *currentLine = NULL;
+    t_list  *midLine = NULL;
 
     y = 0;
     mapchrs = " 012NnSsEeWw";
     stayOut = 0;
+    foundPlayer = 0;
     while (!stayOut)
     {
-        if (!(ft_get_next_line(fd, &line))) // me chiva la última línea... bieeen.
-            stayOut = 1;
-        i = 0;
-        if (!y) //primera línea de todas solo puede contener _ y 1.
+        if (!y)
+            line = firstLine;
+        else
+            if (!(ft_get_next_line(fd, &line))) // me chiva la última línea... bieeen.
+                stayOut = 49;
+        /*if (!line[0]) //si encuentro línea inválida, mapa acaba
         {
-            while (line[i] == '1' || line[i] == ' ')
+            if (g_config.spriteList)
+                freeSprtList(&g_config.spriteList);
+            if (g_config.Map)
+                freeList(&g_config.Map); //function with lstiter(lst, del) to free content, then while(lst) tmp = lst->next free (lst) lst = tmp to free list members. ugh.
+            return (-1);
+        }*/
+        i = 0;
+        while (line[i] && (tmp = ft_strchr(mapchrs, line[i]))) //mientras exista un char y sea un mapchar queremos estar dentro de este while y subir i para recorrer la línea. hay que analizar no-mapchr después en su caso
+        {
+            if (line[i] == '2')
+                spriteCounter((double)i, (double)y, line[i]); //si encuentras un sprite, metelo en spriteList y cuentalo          
+            //primera o última línea
+            if (!y || stayOut) //si estamos en primera (y == 0) o última (stayOut activado) línea de todas no pueden contener ningún NSEW.
+            {
+                if (tmp >= (mapchrs + 4)) //si encuentras al personaje en primera o última linea, mapa inválido, error -1
+                {
+                    if (g_config.spriteList)
+                        freeSprtList(&g_config.spriteList);
+                    if (g_config.Map)
+                        freeList(&g_config.Map);
+                    return (-1);
+                }
+            }
+            i++;
+        }
+        if (i > 0 && !line[i]) //si i no es mayor que 0 es línea vacía; si es mayor que cero y hemos llegado a NULL es fin de línea; llegamos a final de línea crea línea nueva de mapList; si es la primera línea a ella, apunta g_config.Map a ella para indizarla
+        {
+            tmp = ft_strdup(line);
+            listPtr = ft_lstnew((char *)tmp);
+            listPtr->len = ft_strlen((const char *)tmp);
+            if (!y) //si es primera línea
+                g_config.Map = listPtr;
+            else //si es última - todo esto se podría ternarizar.
+                ft_lstadd_back(&g_config.Map, listPtr);
+        }
+        else //si no se cumple lo anterior, es línea inválida; esta línea no cuenta y la anterior será fin de mapa. Si la última línea del mapa es la última del archivo, 'stayOut' cumplirá esta función.
+            break ;
+        if (y >= 2) //si tenemos al menos 3 líneas buscaremos al jugador (NSEW) en las líneas de en medio, y comprobaremos que sus cuatro vecinos inmediatos son válidos, y comprobaremos que solo hay un jugador
+            {
+                f = 0;
+                if (y == 2)
+                    midLine = g_config.Map->next; //la primera línea de en medio es la siguiente a la primera de todas, y se analiza al copiar la tercera línea
+                else if (y > 2)
+                    midLine = midLine->next; //sucesivamente será la siguiente a la anterior, y se analizará tras copiar la línea siguiente a sí misma
+                while (*((char *)(midLine->content + f))) //mientras no sea NULL
+                {
+                    if ((tmp = ft_strchr(mapchrs, *((char *)(midLine->content + f)))) && tmp > (mapchrs + 3))//si es mapchr y es mapchr de los posteriores a pos 3
+                    {
+                        if (foundPlayer) //si ya se había encontrado jugador, hay mas de un jugador, mapa inválido
+                        {
+                            if (g_config.spriteList)
+                                freeSprtList(&g_config.spriteList);
+                            freeList(&g_config.Map); //function with lstiter(lst, del) to free content, then while(lst) tmp = lst->next free (lst) lst = tmp to free list members. ugh.
+                            return (-4);
+                        }
+                        else if (f == 0 /*si f es NULL no entramos pero weno*/|| *((char *)(midLine->content + f + 1)) == '\0' || *((char *)(midLine->content + f + 1)) == ' ' || *((char *)(midLine->content + f - 1)) == ' ' || (mapListMem(y - 2))->len < f || (mapListMem(y))->len < f ||  mapList(f, y - 2) == ' ' || mapList(f, y) == ' ') //si el jugador está como primer char o último char de línea, o si es contiguo a un espacio, tira todo el mapa, hombre ya
+                        {
+                            if (g_config.spriteList)
+                                freeSprtList(&g_config.spriteList);
+                            freeList(&g_config.Map); //function with lstiter(lst, del) to free content, then while(lst) tmp = lst->next free (lst) lst = tmp to free list members. ugh.
+                            return (-1);
+                        }
+                        foundPlayer = 49; //si encontramos jugador lo reportamos
+                        *((char *)(midLine->content + f)) = 'A'; //marcamos pos de jugador como transitable provisional (no se ha comprobado transitabilidad en todo el eje, solo en sus vecinos, lo primero se hace en floodFill)
+                        g_player.posX = (double)f + 0.5;//asignamos su posición en eje X a posX inicial del jugador, con un desplazamiento para estar en medio de la casilla
+                        g_player.posY = (double)(y - 1) + 0.5; // asignamos su posición en eje Y a posY del jugador. Y es Y - 1 porque y siempre es la posterior a midLine, donde analizamos presencia del jugador para poder mirar arriba y abajo, y nuevamente 0.5 es un offset para llevar al jugador al medio de su casilla.
+                        //y aquí asignamos la orientación inicial del jugador en función de su letra N->Norte, S->Sur, E-Este, W-Oeste.
+                        if (*tmp == 'N' || *tmp == 'n')
+                        {
+                            g_player.dirX = (double)-0;
+                            g_player.dirY = (double)-1;
+                            g_player.planeX = (double)0.66;
+                            g_player.planeY = (double)-0;
+                        }
+                        else if (*tmp == 'S' || *tmp == 's')
+                        {
+                            g_player.dirX = (double)0;
+                            g_player.dirY = (double)1;
+                            g_player.planeX = (double)-0.66;
+                            g_player.planeY = (double)0;
+                        }
+                        else if (*tmp == 'E' || *tmp == 'e')
+                        {
+                            g_player.dirX = (double)1;
+                            g_player.dirY = (double)-0;
+                            g_player.planeX = (double)0;
+                            g_player.planeY = (double)0.66;
+                        }
+                        else if (*tmp == 'W' || *tmp == 'w')
+                        {
+                            g_player.dirX = (double)-1;
+                            g_player.dirY = (double)0;
+                            g_player.planeX = (double)-0;
+                            g_player.planeY = (double)-0.66;
+                        }
+                    }
+                    f++;     
+                }
+            }
+        if (!y)
+            {
+                free(firstLine);
+                line = NULL;
+            }
+        y++;
+    }
+    /*    ////////
+        if (!y || stayOut) //primera (y == 0) y última (stayOut activado) línea de todas no pueden contener ningún NSEW.
+        {
+            //while (line[i] == '1' || line[i] == ' ')
+            while (line[i] && (tmp = ft_strchr(mapchrs, line[i])) && tmp < (mapchrs + 4)) // Mientras line[i] exista y sea un char de posiciones 0 a 3 de mapchrs (no NSEW)
+            {
+                if (line[i] == '2')
+                    spriteCounter((double)i, (double)y, line[i]);
                 i++;
-            if (line[i])
+            }
+            if (line[i] && !y) //si encuentras al personaje en la primera línea, mapa inválido
                 return (-1);
+            else if (!line[0]) //si última línea vacía
+                break ;
+            else if (line[i]) //si encuentras al personaje en la última línea 
+            {
+                if (g_config.spriteList)
+                    freeSprtList(&g_config.spriteList);
+                freeList(&g_config.Map); //function with lstiter(lst, del) to free content, then while(lst) tmp = lst->next free (lst) lst = tmp to free list members. ugh.
+                return (-1);
+            }
+            else if (!y)
+            {
+                tmp = ft_strdup(line);
+                listPtr = ft_lstnew((char *)tmp);
+                listPtr->len = ft_strlen((const char *)tmp);
+                g_config.Map = listPtr;
+            }
             else
             {
                 tmp = ft_strdup(line);
                 listPtr = ft_lstnew((char *)tmp);
-                g_config.Map = listPtr;
+                listPtr->len = ft_strlen((const char *)tmp);
+                ft_lstadd_back(&g_config.Map, listPtr);
             }
         }
         else 
         {  
-            while ((line[i] && ft_strchr(mapchrs, line[i]))) //al principio de la cadena, si mapchrs, salta espacios hasta primer char no espacio
-                i++;
-            if (line[i]) //líneas siguientes solo pueden contener cualquier char de mapchrs
+            while ((line[i] && ft_strchr(mapchrs, line[i]))) //al principio de la cadena, si mapchrs, salta hasta primer char no mapchr
             {
-                freeList(&g_config.Map); //function with lstiter(lst, del) to free content, then while(lst) tmp = lst->next free (lst) lst = tmp to free list members. ugh.
-                return (-1);
+                if (line[i] == '2')
+                    spriteCounter((double)i, (double)y, line[i]);
+                i++;
             }
+            if (line[i] && y < 2) //si encontramos línea inválida y no hay al menos 3 líneas, cortamos --> esto ahora fuera del while
+            {
+                if (g_config.spriteList)
+                    freeSprtList(&g_config.spriteList);
+                freeList(&g_config.Map); //function with lstiter(lst, del) to free content, then while(lst) tmp = lst->next free (lst) lst = tmp to free list members. ugh.
+                return (-2);
+            }
+            else if (line[i]) //si encontramos línea inválida y hay al menos 3 líneas, cortamos en la línea anterior --> esto ahora fuera del while
+                {
+                    stayOut = 0;
+                    break ;
+                }
+
             else
             {
                 tmp = ft_strdup(line);
                 listPtr = ft_lstnew((char *)tmp);
+                listPtr->len = ft_strlen((const char *)tmp);
                 ft_lstadd_back(&g_config.Map, listPtr);
             }
         }
-        if (y == 3)
-            currentLine = g_config.Map; //siempre a 3 líneas del final
-        else if (y > 3)
-            currentLine = currentLine->next;
-        y++;
-    }
-    currentLine = g_config.Map;
-    while (currentLine)
+        if (y >= 2) //buscaremos al jugador (NSEW) en las líneas de en medio, y comprobaremos que sus vecinos inmediatos son válidos y que solo hay un jugador
+        {
+            if (y == 2)
+                midLine = g_config.Map->next; //siempre línea de en medio
+            else if (y > 2)
+                midLine = midLine->next;
+            i = 0;
+            while (*((char *)(midLine->content + i))) //mientras no sea NULL
+            {
+                if ((tmp = ft_strchr(mapchrs, *((char *)(midLine->content + i)))) && tmp > (mapchrs + 3))//si es mapchr y es mapchr de los posteriores a pos 3
+                {
+                
+                //printf("\nPosX Value: %f\n", g_player.posX);
+                //printf("\nPosY Value: %f\n", g_player.posY);
+                //printf("\nmidlineContent: %s\n", ((char *)(midLine->content)));
+                //printf("\ni: %d\n", i);
+                    if (foundPlayer) //si hay mas de un jugador, mapa inválido
+                    {
+                        if (g_config.spriteList)
+                            freeSprtList(&g_config.spriteList);
+                        freeList(&g_config.Map); //function with lstiter(lst, del) to free content, then while(lst) tmp = lst->next free (lst) lst = tmp to free list members. ugh.
+                        return (-4);
+                    }
+                    else if (i == 0 || *((char *)(midLine->content + i + 1)) == '\0' || mapList(i, y - 2) == ' ' || mapList(i, y) == ' ' || mapList(i + 1, y - 1) == ' ' || mapList(i - 1, y - 1) == ' ') //si el jugador está como primer char o último char de línea, o si es contiguo a un espacio, tira todo el mapa, hombre ya
+                    {
+                        if (g_config.spriteList)
+                            freeSprtList(&g_config.spriteList);
+                        freeList(&g_config.Map); //function with lstiter(lst, del) to free content, then while(lst) tmp = lst->next free (lst) lst = tmp to free list members. ugh.
+                        return (-1);
+                    } 
+                    foundPlayer = 49;
+                    *((char *)(midLine->content + i)) = 'A';
+                    g_player.posX = (double)i + 0.5;//cuenta como NWES, si no es la primera, aborta badMap, de lo contrario compara x-1 x+1 y+1 y-1
+                    g_player.posY = (double)(y - 1) + 0.5; // -1 porque y es la tercera línea, la posterior a midLine, 0.5 es un offset para llevar al jugador al medio del cuadrado.
+                    //printf("\nPosX Value: %f\n", g_player.posX);
+                    //printf("\nPosY Value: %f\n", g_player.posY);
+                    if (*tmp == 'N' || *tmp == 'n')
+                    {
+                        g_player.dirX = (double)-0;
+                        g_player.dirY = (double)-1;
+                        g_player.planeX = (double)0.66;
+                        g_player.planeY = (double)-0;
+                    }
+                    else if (*tmp == 'S' || *tmp == 's')
+                    {
+                        g_player.dirX = (double)0;
+                        g_player.dirY = (double)1;
+                        g_player.planeX = (double)-0.66;
+                        g_player.planeY = (double)0;
+                    }
+                    else if (*tmp == 'E' || *tmp == 'e')
+                    {
+                        g_player.dirX = (double)1;
+                        g_player.dirY = (double)-0;
+                        g_player.planeX = (double)0;
+                        g_player.planeY = (double)0.66;
+                    }
+                    else if (*tmp == 'W' || *tmp == 'w')
+                    {
+                        g_player.dirX = (double)-1;
+                        g_player.dirY = (double)0;
+                        g_player.planeX = (double)-0;
+                        g_player.planeY = (double)-0.66;
+                    }
+                }
+                i++;
+            }
+        }
+        
+        y++; //y siempre está en tercera línea
+        printf("\nY Value: %d\n", y);
+    }*/
+    g_config.mapH = --y; //Al salir, sea por EOF, pasando por el último y++, o por llegar a línea inválida que debe descontarse, y siempre acaba valiendo uno más que la posición de la última línea del mapa, por lo que debemos restarle uno
+    printf("\nmapH Value: %d\n", g_config.mapH);
+    listPtr = g_config.Map;
+    while (listPtr)
     {
-        printf("\n # %s", currentLine->content);
-        currentLine = currentLine->next;
+        printf("\n%zu # %s", listPtr->len, listPtr->content);
+        listPtr = listPtr->next;
+    }
+    printf("\nY Value: %d\n", y);
+    sprtListPtr = g_config.spriteList;
+    int tonti = 1;
+    while (sprtListPtr)
+    {
+        printf("\nSprite %d: X%f, Y%f Sprite Type: %c, Sprite Num %d", tonti, sprtListPtr->posX, sprtListPtr->posY, sprtListPtr->spriteType, g_config.spriteNum);
+        sprtListPtr = sprtListPtr->next;
+        tonti++;
     }
     //freeList(&g_config.Map);
-    if (y < 3) //mapa debe tener al menos tres líneas para ser valido
+    if (y < 2) //mapa debe tener al menos tres líneas para ser valido
+    {
+        if (g_config.Map)
+        {
+            if (g_config.spriteList)
+                freeSprtList(&g_config.spriteList);
+            freeList(&g_config.Map); //function with lstiter(lst, del) to free content, then while(lst) tmp = lst->next free (lst) lst = tmp to free list members. ugh.
+            return (-2);
+        }
+        else
+            return (-2);
+    }
+    if (!foundPlayer) //mapa debe tener un jugador para ser válido
+    {
+        if (g_config.Map)
+        {
+            if (g_config.spriteList)
+                freeSprtList(&g_config.spriteList);
+            freeList(&g_config.Map); //function with lstiter(lst, del) to free content, then while(lst) tmp = lst->next free (lst) lst = tmp to free list members. ugh.
+            return (-3);
+        }
+        else
+            return (-3);
+    }
+    if (floodFill() == -1)
+    {
+        if (g_config.spriteList)
+            freeSprtList(&g_config.spriteList);
+        freeList(&g_config.Map);
         return (-1);
+    }
     return (1);
 }
+
+
+/*
+** This function analyses a line. If the entire line consists of mapchars,
+** it returns 1 to validate it as a mapline. If it finds a non-mapchar in
+** the line or the line is empty, it returns 0 to reject it.
+*/
+int     isMap(char *line)
+{
+    int     i;
+    char    *tmp;
+    char    *mapchrs;
+
+    i = 0;
+    mapchrs = " 012NnSsEeWw";
+    while (line[i] && (tmp = ft_strchr(mapchrs, line[i])))
+        i++;
+    if (i > 0 && !line[i])
+        return (1);
+    else
+        return (0);  
+}
+
 
 /*
 ** The result array saves results of each map parsing function. 1 simply
 ** means successful; negative numbers correspond to error messages.
 */
-void    getMap(const char *ptr)
+int    getMap(const char *ptr)
 {
     int     fd;
     int     fdtest;
@@ -1183,6 +1768,7 @@ void    getMap(const char *ptr)
     {
         while ((ft_get_next_line(fd, line)) > 0) //mi get_next envía algo malloceado a EOF?
         {
+            i = 1;
             if (result[0] < 1)
                 result[0] = getRes(*line);
             if (result[1] < 1)
@@ -1199,6 +1785,11 @@ void    getMap(const char *ptr)
                 result[6] = getFColor(*line);
             if (result[7] < 1)
                 result[7] = getCColor(*line);
+            while (i < 6 && result[i] == 1)
+                i++;
+            if (i == 6) //si todas las configuraciones obligatorias están hechas puede seguir buscando las opcionales hasta encontrar una mapline o fin de archivo
+                if (isMap(*line)) //si encontramos una línea del mapa
+                        break ;
             free (*line);
             *line = NULL;
         }
@@ -1219,16 +1810,46 @@ void    getMap(const char *ptr)
             ft_putstr(FColorInvalid, ft_strlen(FColorInvalid));
         if (result[7] == -1)
             ft_putstr(CColorInvalid, ft_strlen(CColorInvalid));
-        while (--i && result[8])
-            if (result[i] != 1)
-                result[8] = 0; //If any retrieval fails
-        //if (result[8])
-            //result[8] = getMapArray(fd); //copy map Array - first step
-        getMapArray(fdtest);
-
+        i = 1;
+        while (result[i] > -1)
+            i++;
+        if (i < 6 && result[i] < 0) //Errores 'rojos' (1-5) son mortales y terminan el programa; amarillos permiten lanzar el programa con valores por defecto
+            return (0);
+        if ((i = getMapArray(fd, *line)) == -1)
+        {
+            //free(*line);
+            //*line = NULL;
+            ft_putstr(outOfBounds, strlen(outOfBounds));
+            return (0);
+        }
+        else if (i == -2)
+        {
+            //free(*line);
+            //*line = NULL;
+            ft_putstr(badMap3line, strlen(badMap3line));
+            return (0);   
+        }
+        else if (i == -3)
+        {
+            //free(*line);
+            //*line = NULL;
+            ft_putstr(noPlayer, strlen(noPlayer));
+            return (0);
+        }
+        else if (i == -4)
+        {
+            //free(*line);
+            //*line = NULL;
+            ft_putstr(tooManyPlayers, strlen(tooManyPlayers));
+            return (0);
+        }
+        //if (*line)
+        //{
+        //    free(*line);
+        //    *line = NULL;
+        //}
 
         printf("\nResolution: %d, %d", g_config.screenW, g_config.screenH);
-        printf("\nNO Result: %d", result[1]);
         char c = mapList(1, 1);
        printf("\nHABEERRRRR %c", c);
     }
@@ -1237,7 +1858,7 @@ void    getMap(const char *ptr)
     if (close(fd) < 0)
         ft_putstr(couldNotClose, ft_strlen(couldNotClose));
     close(fdtest);
-    return ;
+    return (1);
 }
 
 void makeClsImg(void)
@@ -1276,7 +1897,7 @@ void    makeTexImg(void)
                 ft_putstr(pathEAFail, ft_strlen(pathEAFail));
             if (!g_normiImg.mlx_img)
                 ft_putstr(pathSprFail, ft_strlen(pathSprFail));
-            exit(EXIT_FAILURE);
+            exit(EXIT_FAILURE); //Fugoso?
         }
         if ((getTexRes(wallSize, g_blueMetalImg.texPath)) < 0)
             ft_putstr(wallTexSizeFail, ft_strlen(wallTexSizeFail));
@@ -1308,7 +1929,8 @@ void    makeTexImg(void)
       (void)argc;
       initialize();
       initializeKeys();
-      getMap(argv[1]);
+      if (!getMap(argv[1]))
+        return (EXIT_FAILURE);
       //printf("\n%s", argv[1]);
       g_player.newDirXY = malloc(2 * sizeof(double));
 //Create screen
