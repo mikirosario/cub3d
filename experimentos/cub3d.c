@@ -6,23 +6,30 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/07 20:24:05 by mrosario          #+#    #+#             */
-/*   Updated: 2020/07/24 19:58:23 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/07/15 19:33:06 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
   #include "cub3d.h"
 
-error_t g_iamerror = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-
-void	setdisplayresolution(void)
+  //pixel_put cls
+/*  void cls()
 {
-	CGDirectDisplayID	displayid;
+    int x;
+    int y;
 
-	displayid = CGMainDisplayID();
-	g_config.screenW = CGDisplayPixelsWide(displayid);
-	g_config.screenH = CGDisplayPixelsHigh(displayid);
-	return ;
-}
+    x = 0;
+        while (x <= g_config.screenW) //clearscreen
+        {
+            y = g_config.screenH;
+            while (y)
+            {
+                mlx_pixel_put(g_screenData.mlx_ptr, g_screenData.mlx_win, x, y--, 0x0);
+            }
+            x++;
+        }
+    mlx_string_put(g_screenData.mlx_ptr, g_screenData.mlx_win, g_config.screenW / 2, 0, 0x0000ff00, "TEST");
+}*/
 
 spriteData_t	*ft_sprtlstnew(void const *content)
 {
@@ -250,6 +257,7 @@ int   ft_rayCaster(int key, void *param)
     buf = (unsigned int *)mlx_get_data_addr(g_screenData.mlx_img_buffer, &g_screenData.bpp, &g_screenData.size_line, &g_screenData.endian);
     if (stayOut == 'n')
     {
+        int tonti = 0;
         g_blueMetalImg.tex_Ptr = (unsigned int *)mlx_get_data_addr(g_blueMetalImg.mlx_img, &g_blueMetalImg.bpp, &g_blueMetalImg.size_line, &g_blueMetalImg.endian);
         g_yellowMetalImg.tex_Ptr = (unsigned int *)mlx_get_data_addr(g_yellowMetalImg.mlx_img, &g_yellowMetalImg.bpp, &g_yellowMetalImg.size_line, &g_yellowMetalImg.endian);
         g_greenMetalImg.tex_Ptr = (unsigned int *)mlx_get_data_addr(g_greenMetalImg.mlx_img, &g_greenMetalImg.bpp, &g_greenMetalImg.size_line, &g_greenMetalImg.endian);
@@ -758,8 +766,8 @@ void initialize(void)
     //((g_config.screenH = CGDisplayPixelsHigh(disID); BONUS
     g_config.spriteNum = 0;
     g_config.spriteList = NULL;
-    g_config.screenW = 0;
-    g_config.screenH = 0;
+    g_config.screenW = 2560;
+    g_config.screenH = 1440;
     g_config.texW = 64;
     g_config.texH = 64;
     g_config.spriteW = 64;
@@ -793,7 +801,235 @@ void    initializeKeys(void)
 **
 ** Integers must be separated from each other by any non-numeric character.
 */
+int     getRes(const char *line)
+{
+    const char  *charPtr;
+    int         resCount;
+    int         res;
 
+    charPtr = line;
+    resCount = 0;
+    if (!line)
+        return (-2);
+    while (*charPtr && (*charPtr != 'R' && *charPtr != 'r') && *charPtr != '/' && (*charPtr != '*' && *(charPtr + 1) != '*'))
+        charPtr++;
+    while (*charPtr && *charPtr != '/' && *charPtr != 'F' && *charPtr != 'f' && \
+    *charPtr != 'C' && *charPtr != 'c' && resCount < 3 && (*charPtr != '*' && *(charPtr + 1) != '*'))
+    {
+        if (*charPtr > 47 && *charPtr < 58)
+        {
+            resCount++;
+            if (resCount == 1 && (res = ft_atoi(charPtr)) > 239 && res < g_config.screenW)
+                g_config.screenW = res;
+            else if (resCount == 2 && (res = ft_atoi(charPtr)) > 239 && res < g_config.screenH)
+                g_config.screenH = res;
+            else
+                break ;
+            while (*charPtr > 47 && *charPtr < 58)
+                charPtr++;
+        }
+        else
+            charPtr++;
+    }
+    if (*charPtr == 'F' || *charPtr == 'f' || *charPtr == 'C' || *charPtr == 'c')
+        ft_putstr(badResSyn, ft_strlen(badResSyn));
+    if (resCount == 2)
+        printf("\nResolution Retrieved: %d, %d\n", g_config.screenW, g_config.screenH);
+    return (resCount == 2 ? 1 : -1);
+}
+
+int     getNO(const char *line)
+{
+    const char  *charPtr;
+    char        *path;
+    int         i;
+
+    charPtr = line;
+    
+    if (!line)
+        return (-2);
+    while (*charPtr && (*charPtr != '*' && *(charPtr + 1) != '*'))
+    {
+        if (*charPtr == 'N' || *charPtr == 'n')
+        {
+            if (*(charPtr + 1) == 'O' || *(charPtr + 1) == 'o')
+            {
+                charPtr += 2;
+                while (*charPtr && *charPtr != '/')
+                    charPtr++;
+                if (*charPtr == '/' && *(charPtr - 1) == '.')
+                    charPtr--;
+                if (*charPtr)
+                {
+                    i = 0;
+                    while (charPtr[i] && ft_isprint(charPtr[i]))
+                        i++;
+                    path = ft_calloc(i + 1, 1);
+                    ft_memcpy(path, charPtr, i + 1);
+                    g_blueMetalImg.texPath = strdup(path);
+                    printf("Quantum Path Info N Wall: \n%s\n", path);
+                    return (1);
+                }
+            }
+        }
+        charPtr++;
+    }
+    return (-1);
+}
+
+int     getSO(const char *line)
+{
+    const char  *charPtr;
+    char        *path;
+    int         i;
+
+    charPtr = line;
+    
+    if (!line)
+        return (-2);
+    while (*charPtr && (*charPtr != '*' && *(charPtr + 1) != '*'))
+    {
+        if (*charPtr == 'S' || *charPtr == 's')
+        {
+            if (*(charPtr + 1) == 'O' || *(charPtr + 1) == 'o')
+            {
+                charPtr += 2;
+                while (*charPtr && *charPtr != '/')
+                    charPtr++;
+                if (*charPtr == '/' && *(charPtr - 1) == '.')
+                    charPtr--;
+                if (*charPtr)
+                {
+                    i = 0;
+                    while (charPtr[i] && ft_isprint(charPtr[i]))
+                        i++;
+                    path = ft_calloc(i + 1, 1);
+                    ft_memcpy(path, charPtr, i + 1);
+                    g_yellowMetalImg.texPath = strdup(path);
+                    printf("Quantum Path Info S Wall: \n%s\n", path);
+                    return (1);
+                }
+            }
+        }
+        charPtr++;
+    }
+    return (-1);
+}
+
+int     getWE(const char *line)
+{
+    const char  *charPtr;
+    char        *path;
+    int         i;
+
+    charPtr = line;
+    
+    if (!line)
+        return (-2);
+    while (*charPtr && (*charPtr != '*' && *(charPtr + 1) != '*'))
+    {
+        if (*charPtr == 'W' || *charPtr == 'w')
+        {
+            if (*(charPtr + 1) == 'E' || *(charPtr + 1) == 'e')
+            {
+                charPtr += 2;
+                while (*charPtr && *charPtr != '/')
+                    charPtr++;
+                if (*charPtr == '/' && *(charPtr - 1) == '.')
+                    charPtr--;
+                if (*charPtr)
+                {
+                    i = 0;
+                    while (charPtr[i] && ft_isprint(charPtr[i]))
+                        i++;
+                    path = ft_calloc(i + 1, 1);
+                    ft_memcpy(path, charPtr, i + 1);
+                    g_greenMetalImg.texPath = strdup(path);
+                    printf("Quantum Path Info W Wall: \n%s\n", path);
+                    return (1);
+                }
+            }
+        }
+        charPtr++;
+    }
+    return (-1);
+}
+
+int     getEA(const char *line)
+{
+    const char  *charPtr;
+    char        *path;
+    int         i;
+
+    charPtr = line;
+    
+    if (!line)
+        return (-2);
+    while (*charPtr && (*charPtr != '*' && *(charPtr + 1) != '*'))
+    {
+        if (*charPtr == 'E' || *charPtr == 'e')
+        {
+            if (*(charPtr + 1) == 'A' || *(charPtr + 1) == 'a')
+            {
+                charPtr += 2;
+                while (*charPtr && *charPtr != '/')
+                    charPtr++;
+                if (*charPtr == '/' && *(charPtr - 1) == '.')
+                    charPtr--;
+                if (*charPtr)
+                {
+                    i = 0;
+                    while (charPtr[i] && ft_isprint(charPtr[i]))
+                        i++;
+                    path = ft_calloc(i + 1, 1);
+                    ft_memcpy(path, charPtr, i + 1);
+                    g_pinkMetalImg.texPath = strdup(path);
+                    printf("Quantum Path Info E Wall: \n%s\n", path);
+                    return (1);
+                }
+            }
+        }
+        charPtr++;
+    }
+    return (-1);
+}
+
+int     getSprite(const char *line)
+{
+    const char  *charPtr;
+    char        *path;
+    int         i;
+
+    charPtr = line;
+    
+    if (!line)
+        return (-2);
+    while (*charPtr && (*charPtr != '*' && *(charPtr + 1) != '*'))
+    {
+        if ((*charPtr == 'S' || *charPtr == 's') && *(charPtr + 1) != 'O' && *(charPtr + 1) != 'o')
+        {
+            charPtr++;
+            while (*charPtr && *charPtr != '/')
+                charPtr++;
+            if (*charPtr == '/' && *(charPtr - 1) == '.')
+                charPtr--;
+            if (*charPtr)
+            {
+                i = 0;
+                while (charPtr[i] && ft_isprint(charPtr[i]))
+                    i++;
+                path = ft_calloc(i + 1, 1);
+                ft_memcpy(path, charPtr, i + 1);
+                g_config.spriteTexPath = strdup(path);
+                printf("Quantum Path Info Sprite: \n%s\n", path);
+                return (1);
+            }
+        }
+        charPtr++;
+    }
+    return (-1);
+}
+//Cómo escribir esto con *line? A estas alturas y todavía no domino sintaxis de punteros :_(
 //meter que todos los muros deban tener el mismo texsize
 int     getTexRes(int *texRes, char *xmpPath)
 {
@@ -834,7 +1070,7 @@ int     getTexRes(int *texRes, char *xmpPath)
     }
     //printf("\nTex Sizes: %d, %d", texRes[0], texRes[1]);
     close(fd);
-    return (resCount == 2 ? 1 : 0);
+    return (resCount == 2 ? 1 : -1);
 }
 /*
 ** Compares initially retrieved wall texture resolution with all
@@ -899,6 +1135,84 @@ int     compTexRes(void)
 unsigned int     create_trgb(int t, int r, int g, int b)
 {
     return(t << 24 | r << 16 | g << 8 | b);
+}
+
+int     getFColor(const char *line)
+{
+    const char  *charPtr;
+    int         resCount;
+    int         res[3];
+    unsigned int    xcolor;
+
+    charPtr = line;
+    resCount = 0;
+    if (!line)
+        return (-2);
+    while ((*charPtr && (*charPtr != 'F' && *charPtr != 'f')) && *charPtr != '/' && (*charPtr != '*' && *(charPtr + 1) != '*'))
+        charPtr++;
+    while (*charPtr && *charPtr != '/' && resCount < 3 && *charPtr != 'R' && \
+    *charPtr != 'r' && *charPtr != 'C' && *charPtr != 'c' && (*charPtr != '*' && *(charPtr + 1) != '*'))
+    {
+        if (*charPtr > 47 && *charPtr < 58)
+        {
+            res[resCount] = ft_atoi(charPtr);
+            resCount++;
+            while (*charPtr > 47 && *charPtr < 58)
+                charPtr++;
+        }
+        else
+            charPtr++;
+    }
+    if (*charPtr == 'R' || *charPtr == 'r' || *charPtr == 'C' || *charPtr == 'c')
+        ft_putstr(badFColorSyn, ft_strlen(badFColorSyn));
+    if (resCount == 3)
+    {
+        xcolor = create_trgb(0, res[0], res[1], res[2]);
+        printf("\nColor: %d, %d, %d\n", res[0], res[1], res[2]);
+        printf("\nColor Convertido: %x", g_frameData.ofloorColor);
+        g_frameData.ofloorColor = xcolor;
+        printf("\nColor Convertido: %x", g_frameData.ofloorColor);
+    }
+    return (resCount == 3 ? 1 : -1);
+}
+
+int     getCColor(const char *line)
+{
+    const char  *charPtr;
+    int         resCount;
+    int         res[3];
+    unsigned int    xcolor;
+
+    charPtr = line;
+    resCount = 0;
+    if (!line)
+        return (-2);
+    while ((*charPtr && (*charPtr != 'C' && *charPtr != 'c')) && *charPtr != '/' && (*charPtr != '*' && *(charPtr + 1) != '*'))
+        charPtr++;
+    while (*charPtr && *charPtr != '/' && resCount < 3 && *charPtr != 'R' && \
+    *charPtr != 'r' && *charPtr != 'F' && *charPtr != 'f' && (*charPtr != '*' && *(charPtr + 1) != '*'))
+    {
+        if (*charPtr > 47 && *charPtr < 58)
+        {
+            res[resCount] = ft_atoi(charPtr);
+            resCount++;
+            while (*charPtr > 47 && *charPtr < 58)
+                charPtr++;
+        }
+        else
+            charPtr++;
+    }
+    if (*charPtr == 'R' || *charPtr == 'r' || *charPtr == 'F' || *charPtr == 'f')
+        ft_putstr(badFColorSyn, ft_strlen(badFColorSyn));
+    if (resCount == 3)
+    {
+        xcolor = create_trgb(0, res[0], res[1], res[2]);
+        printf("\nColor: %d, %d, %d\n", res[0], res[1], res[2]);
+        printf("\nColor Convertido: %x", g_frameData.oceilingColor);
+        g_frameData.oceilingColor = xcolor;
+        printf("\nColor Convertido: %x", g_frameData.oceilingColor);
+    }
+    return (resCount == 3 ? 1 : -1);
 }
 
 void    spriteCounter(double x, double y, char c)
@@ -1081,7 +1395,327 @@ int     floodFill(void)
 //IF S ---->>spriteData[index].x, spriteData[index].y (al igual que el mapa, hay que mallocear y crear un array o t_list de sprites, igual un puntero desde un struct global para tener siempre a mano... hay que sabe total de sprites antes de mallocear y pasarlos... igual al encontrar un sprite, guardar su posición y subir un contador, o hacer otra lista enlazada ;))
 //a partir de NSEW, analiza mapa para asegurar que zona del jugador está rodeada por 1
 
+int     getMapArray(int fd, char *firstLine)
+{
+    int     i;
+    int     f;
+    int     y;
+    char    foundPlayer;
+    char    stayOut;
+    char    *mapchrs;
+    char    *line;
+    t_list  *listPtr;
+    spriteData_t *sprtListPtr;
+    char    *tmp;
+    t_list  *midLine = NULL;
 
+    y = 0;
+    mapchrs = " 012NnSsEeWw";
+    stayOut = 0;
+    foundPlayer = 0;
+    while (!stayOut)
+    {
+        if (!y)
+            line = firstLine;
+        else
+            if (!(ft_get_next_line(fd, &line))) // me chiva la última línea... bieeen.
+                stayOut = 49;
+        /*if (!line[0]) //si encuentro línea inválida, mapa acaba
+        {
+            if (g_config.spriteList)
+                freeSprtList(&g_config.spriteList);
+            if (g_config.Map)
+                freeList(&g_config.Map); //function with lstiter(lst, del) to free content, then while(lst) tmp = lst->next free (lst) lst = tmp to free list members. ugh.
+            return (-1);
+        }*/
+        i = 0;
+        while (line[i] && (tmp = ft_strchr(mapchrs, line[i]))) //mientras exista un char y sea un mapchar queremos estar dentro de este while y subir i para recorrer la línea. hay que analizar no-mapchr después en su caso
+        {
+            if (line[i] == '2')
+                spriteCounter((double)i, (double)y, line[i]); //si encuentras un sprite, metelo en spriteList y cuentalo          
+            //primera o última línea
+            if (!y || stayOut) //si estamos en primera (y == 0) o última (stayOut activado) línea de todas no pueden contener ningún NSEW.
+            {
+                if (tmp >= (mapchrs + 4)) //si encuentras al personaje en primera o última linea, mapa inválido, error -1
+                {
+                    if (g_config.spriteList)
+                        freeSprtList(&g_config.spriteList);
+                    if (g_config.Map)
+                        freeList(&g_config.Map);
+                    return (-1);
+                }
+            }
+            i++;
+        }
+        if (i > 0 && !line[i]) //si i no es mayor que 0 es línea vacía; si es mayor que cero y hemos llegado a NULL es fin de línea; llegamos a final de línea crea línea nueva de mapList; si es la primera línea a ella, apunta g_config.Map a ella para indizarla
+        {
+            tmp = ft_strdup(line);
+            listPtr = ft_lstnew((char *)tmp);
+            listPtr->len = ft_strlen((const char *)tmp);
+            if (!y) //si es primera línea
+                g_config.Map = listPtr;
+            else //si es última - todo esto se podría ternarizar.
+                ft_lstadd_back(&g_config.Map, listPtr);
+        }
+        else //si no se cumple lo anterior, es línea inválida; esta línea no cuenta y la anterior será fin de mapa. Si la última línea del mapa es la última del archivo, 'stayOut' cumplirá esta función.
+            break ;
+        if (y >= 2) //si tenemos al menos 3 líneas buscaremos al jugador (NSEW) en las líneas de en medio, y comprobaremos que sus cuatro vecinos inmediatos son válidos, y comprobaremos que solo hay un jugador
+            {
+                f = 0;
+                if (y == 2)
+                    midLine = g_config.Map->next; //la primera línea de en medio es la siguiente a la primera de todas, y se analiza al copiar la tercera línea
+                else if (y > 2)
+                    midLine = midLine->next; //sucesivamente será la siguiente a la anterior, y se analizará tras copiar la línea siguiente a sí misma
+                while (*((char *)(midLine->content + f))) //mientras no sea NULL
+                {
+                    if ((tmp = ft_strchr(mapchrs, *((char *)(midLine->content + f)))) && tmp > (mapchrs + 3))//si es mapchr y es mapchr de los posteriores a pos 3
+                    {
+                        if (foundPlayer) //si ya se había encontrado jugador, hay mas de un jugador, mapa inválido
+                        {
+                            if (g_config.spriteList)
+                                freeSprtList(&g_config.spriteList);
+                            freeList(&g_config.Map); //function with lstiter(lst, del) to free content, then while(lst) tmp = lst->next free (lst) lst = tmp to free list members. ugh.
+                            return (-4);
+                        }
+                        else if (f == 0 /*si f es NULL no entramos pero weno*/|| *((char *)(midLine->content + f + 1)) == '\0' || *((char *)(midLine->content + f + 1)) == ' ' || *((char *)(midLine->content + f - 1)) == ' ' || (mapListMem(y - 2))->len < f || (mapListMem(y))->len < f ||  mapList(f, y - 2) == ' ' || mapList(f, y) == ' ') //si el jugador está como primer char o último char de línea, o si es contiguo a un espacio, tira todo el mapa, hombre ya
+                        {
+                            if (g_config.spriteList)
+                                freeSprtList(&g_config.spriteList);
+                            freeList(&g_config.Map); //function with lstiter(lst, del) to free content, then while(lst) tmp = lst->next free (lst) lst = tmp to free list members. ugh.
+                            return (-1);
+                        }
+                        foundPlayer = 49; //si encontramos jugador lo reportamos
+                        *((char *)(midLine->content + f)) = 'A'; //marcamos pos de jugador como transitable provisional (no se ha comprobado transitabilidad en todo el eje, solo en sus vecinos, lo primero se hace en floodFill)
+                        g_player.posX = (double)f + 0.5;//asignamos su posición en eje X a posX inicial del jugador, con un desplazamiento para estar en medio de la casilla
+                        g_player.posY = (double)(y - 1) + 0.5; // asignamos su posición en eje Y a posY del jugador. Y es Y - 1 porque y siempre es la posterior a midLine, donde analizamos presencia del jugador para poder mirar arriba y abajo, y nuevamente 0.5 es un offset para llevar al jugador al medio de su casilla.
+                        //y aquí asignamos la orientación inicial del jugador en función de su letra N->Norte, S->Sur, E-Este, W-Oeste.
+                        if (*tmp == 'N' || *tmp == 'n')
+                        {
+                            g_player.dirX = (double)-0;
+                            g_player.dirY = (double)-1;
+                            g_player.planeX = (double)0.66;
+                            g_player.planeY = (double)-0;
+                        }
+                        else if (*tmp == 'S' || *tmp == 's')
+                        {
+                            g_player.dirX = (double)0;
+                            g_player.dirY = (double)1;
+                            g_player.planeX = (double)-0.66;
+                            g_player.planeY = (double)0;
+                        }
+                        else if (*tmp == 'E' || *tmp == 'e')
+                        {
+                            g_player.dirX = (double)1;
+                            g_player.dirY = (double)-0;
+                            g_player.planeX = (double)0;
+                            g_player.planeY = (double)0.66;
+                        }
+                        else if (*tmp == 'W' || *tmp == 'w')
+                        {
+                            g_player.dirX = (double)-1;
+                            g_player.dirY = (double)0;
+                            g_player.planeX = (double)-0;
+                            g_player.planeY = (double)-0.66;
+                        }
+                    }
+                    f++;     
+                }
+            }
+        if (!y)
+            {
+                free(firstLine);
+                line = NULL;
+            }
+        y++;
+    }
+    /*    ////////
+        if (!y || stayOut) //primera (y == 0) y última (stayOut activado) línea de todas no pueden contener ningún NSEW.
+        {
+            //while (line[i] == '1' || line[i] == ' ')
+            while (line[i] && (tmp = ft_strchr(mapchrs, line[i])) && tmp < (mapchrs + 4)) // Mientras line[i] exista y sea un char de posiciones 0 a 3 de mapchrs (no NSEW)
+            {
+                if (line[i] == '2')
+                    spriteCounter((double)i, (double)y, line[i]);
+                i++;
+            }
+            if (line[i] && !y) //si encuentras al personaje en la primera línea, mapa inválido
+                return (-1);
+            else if (!line[0]) //si última línea vacía
+                break ;
+            else if (line[i]) //si encuentras al personaje en la última línea 
+            {
+                if (g_config.spriteList)
+                    freeSprtList(&g_config.spriteList);
+                freeList(&g_config.Map); //function with lstiter(lst, del) to free content, then while(lst) tmp = lst->next free (lst) lst = tmp to free list members. ugh.
+                return (-1);
+            }
+            else if (!y)
+            {
+                tmp = ft_strdup(line);
+                listPtr = ft_lstnew((char *)tmp);
+                listPtr->len = ft_strlen((const char *)tmp);
+                g_config.Map = listPtr;
+            }
+            else
+            {
+                tmp = ft_strdup(line);
+                listPtr = ft_lstnew((char *)tmp);
+                listPtr->len = ft_strlen((const char *)tmp);
+                ft_lstadd_back(&g_config.Map, listPtr);
+            }
+        }
+        else 
+        {  
+            while ((line[i] && ft_strchr(mapchrs, line[i]))) //al principio de la cadena, si mapchrs, salta hasta primer char no mapchr
+            {
+                if (line[i] == '2')
+                    spriteCounter((double)i, (double)y, line[i]);
+                i++;
+            }
+            if (line[i] && y < 2) //si encontramos línea inválida y no hay al menos 3 líneas, cortamos --> esto ahora fuera del while
+            {
+                if (g_config.spriteList)
+                    freeSprtList(&g_config.spriteList);
+                freeList(&g_config.Map); //function with lstiter(lst, del) to free content, then while(lst) tmp = lst->next free (lst) lst = tmp to free list members. ugh.
+                return (-2);
+            }
+            else if (line[i]) //si encontramos línea inválida y hay al menos 3 líneas, cortamos en la línea anterior --> esto ahora fuera del while
+                {
+                    stayOut = 0;
+                    break ;
+                }
+
+            else
+            {
+                tmp = ft_strdup(line);
+                listPtr = ft_lstnew((char *)tmp);
+                listPtr->len = ft_strlen((const char *)tmp);
+                ft_lstadd_back(&g_config.Map, listPtr);
+            }
+        }
+        if (y >= 2) //buscaremos al jugador (NSEW) en las líneas de en medio, y comprobaremos que sus vecinos inmediatos son válidos y que solo hay un jugador
+        {
+            if (y == 2)
+                midLine = g_config.Map->next; //siempre línea de en medio
+            else if (y > 2)
+                midLine = midLine->next;
+            i = 0;
+            while (*((char *)(midLine->content + i))) //mientras no sea NULL
+            {
+                if ((tmp = ft_strchr(mapchrs, *((char *)(midLine->content + i)))) && tmp > (mapchrs + 3))//si es mapchr y es mapchr de los posteriores a pos 3
+                {
+                
+                //printf("\nPosX Value: %f\n", g_player.posX);
+                //printf("\nPosY Value: %f\n", g_player.posY);
+                //printf("\nmidlineContent: %s\n", ((char *)(midLine->content)));
+                //printf("\ni: %d\n", i);
+                    if (foundPlayer) //si hay mas de un jugador, mapa inválido
+                    {
+                        if (g_config.spriteList)
+                            freeSprtList(&g_config.spriteList);
+                        freeList(&g_config.Map); //function with lstiter(lst, del) to free content, then while(lst) tmp = lst->next free (lst) lst = tmp to free list members. ugh.
+                        return (-4);
+                    }
+                    else if (i == 0 || *((char *)(midLine->content + i + 1)) == '\0' || mapList(i, y - 2) == ' ' || mapList(i, y) == ' ' || mapList(i + 1, y - 1) == ' ' || mapList(i - 1, y - 1) == ' ') //si el jugador está como primer char o último char de línea, o si es contiguo a un espacio, tira todo el mapa, hombre ya
+                    {
+                        if (g_config.spriteList)
+                            freeSprtList(&g_config.spriteList);
+                        freeList(&g_config.Map); //function with lstiter(lst, del) to free content, then while(lst) tmp = lst->next free (lst) lst = tmp to free list members. ugh.
+                        return (-1);
+                    } 
+                    foundPlayer = 49;
+                    *((char *)(midLine->content + i)) = 'A';
+                    g_player.posX = (double)i + 0.5;//cuenta como NWES, si no es la primera, aborta badMap, de lo contrario compara x-1 x+1 y+1 y-1
+                    g_player.posY = (double)(y - 1) + 0.5; // -1 porque y es la tercera línea, la posterior a midLine, 0.5 es un offset para llevar al jugador al medio del cuadrado.
+                    //printf("\nPosX Value: %f\n", g_player.posX);
+                    //printf("\nPosY Value: %f\n", g_player.posY);
+                    if (*tmp == 'N' || *tmp == 'n')
+                    {
+                        g_player.dirX = (double)-0;
+                        g_player.dirY = (double)-1;
+                        g_player.planeX = (double)0.66;
+                        g_player.planeY = (double)-0;
+                    }
+                    else if (*tmp == 'S' || *tmp == 's')
+                    {
+                        g_player.dirX = (double)0;
+                        g_player.dirY = (double)1;
+                        g_player.planeX = (double)-0.66;
+                        g_player.planeY = (double)0;
+                    }
+                    else if (*tmp == 'E' || *tmp == 'e')
+                    {
+                        g_player.dirX = (double)1;
+                        g_player.dirY = (double)-0;
+                        g_player.planeX = (double)0;
+                        g_player.planeY = (double)0.66;
+                    }
+                    else if (*tmp == 'W' || *tmp == 'w')
+                    {
+                        g_player.dirX = (double)-1;
+                        g_player.dirY = (double)0;
+                        g_player.planeX = (double)-0;
+                        g_player.planeY = (double)-0.66;
+                    }
+                }
+                i++;
+            }
+        }
+        
+        y++; //y siempre está en tercera línea
+        printf("\nY Value: %d\n", y);
+    }*/
+    g_config.mapH = --y; //Al salir, sea por EOF, pasando por el último y++, o por llegar a línea inválida que debe descontarse, y siempre acaba valiendo uno más que la posición de la última línea del mapa, por lo que debemos restarle uno
+    printf("\nmapH Value: %d\n", g_config.mapH);
+    listPtr = g_config.Map;
+    while (listPtr)
+    {
+        printf("\n%zu # %s", listPtr->len, listPtr->content);
+        listPtr = listPtr->next;
+    }
+    printf("\nY Value: %d\n", y);
+    sprtListPtr = g_config.spriteList;
+    int tonti = 1;
+    while (sprtListPtr)
+    {
+        printf("\nSprite %d: X%f, Y%f Sprite Type: %c, Sprite Num %d", tonti, sprtListPtr->posX, sprtListPtr->posY, sprtListPtr->spriteType, g_config.spriteNum);
+        sprtListPtr = sprtListPtr->next;
+        tonti++;
+    }
+    //freeList(&g_config.Map);
+    if (y < 2) //mapa debe tener al menos tres líneas para ser valido
+    {
+        if (g_config.Map)
+        {
+            if (g_config.spriteList)
+                freeSprtList(&g_config.spriteList);
+            freeList(&g_config.Map); //function with lstiter(lst, del) to free content, then while(lst) tmp = lst->next free (lst) lst = tmp to free list members. ugh.
+            return (-2);
+        }
+        else
+            return (-2);
+    }
+    if (!foundPlayer) //mapa debe tener un jugador para ser válido
+    {
+        if (g_config.Map)
+        {
+            if (g_config.spriteList)
+                freeSprtList(&g_config.spriteList);
+            freeList(&g_config.Map); //function with lstiter(lst, del) to free content, then while(lst) tmp = lst->next free (lst) lst = tmp to free list members. ugh.
+            return (-3);
+        }
+        else
+            return (-3);
+    }
+    if (floodFill() == -1)
+    {
+        if (g_config.spriteList)
+            freeSprtList(&g_config.spriteList);
+        freeList(&g_config.Map);
+        return (-1);
+    }
+    return (1);
+}
 
 
 /*
@@ -1103,6 +1737,128 @@ int     isMap(char *line)
         return (1);
     else
         return (0);  
+}
+
+
+/*
+** The result array saves results of each map parsing function. 1 simply
+** means successful; negative numbers correspond to error messages.
+*/
+int    getMap(const char *ptr)
+{
+    int     fd;
+    int     fdtest;
+    char    *subline;
+    char    **line;
+    int     result[9];
+    int     i;
+
+    line = &subline;
+    fd = open(ptr, O_RDONLY, S_IRUSR);
+    fdtest = open("testmap.cub", O_RDONLY, S_IRUSR);
+    i = 0;
+    while (i < 8)
+        result[i++] = 0;
+    result[8] = 1;
+    if (fd < 0)
+        ft_putstr(cubFileNotFound, ft_strlen(cubFileNotFound));
+    else if (fd >= 0 && fd < 3)
+        ft_putstr(weirdFD, ft_strlen(weirdFD));
+    else
+    {
+        while ((ft_get_next_line(fd, line)) > 0) //mi get_next envía algo malloceado a EOF?
+        {
+            i = 1;
+            if (result[0] < 1)
+                result[0] = getRes(*line);
+            if (result[1] < 1)
+                result[1] = getNO(*line);
+            if (result[2] < 1)
+                result[2] = getSO(*line);
+            if (result[3] < 1)
+                result[3] = getWE(*line);
+            if (result[4] < 1)
+                result[4] = getEA(*line);
+            if (result[5] < 1)
+                result[5] = getSprite(*line);
+            if (result[6] < 1)
+                result[6] = getFColor(*line);
+            if (result[7] < 1)
+                result[7] = getCColor(*line);
+            while (i < 6 && result[i] == 1)
+                i++;
+            if (i == 6) //si todas las configuraciones obligatorias están hechas puede seguir buscando las opcionales hasta encontrar una mapline o fin de archivo
+                if (isMap(*line)) //si encontramos una línea del mapa
+                        break ;
+            free (*line);
+            *line = NULL;
+        }
+        
+        if (result[0] == -1)
+            ft_putstr(getResFail, ft_strlen(getResFail));
+        if (result[1] == -1)
+            ft_putstr(getNOFail, ft_strlen(getNOFail));
+        if (result[2] == -1)
+            ft_putstr(getSOFail, ft_strlen(getSOFail));
+        if (result[3] == -1)
+            ft_putstr(getWEFail, ft_strlen(getWEFail));
+        if (result[4] == -1)
+            ft_putstr(getEAFail, ft_strlen(getEAFail));
+        if (result[5] == -1)
+            ft_putstr(getSprFail, ft_strlen(getSprFail));
+        if (result[6] == -1)
+            ft_putstr(FColorInvalid, ft_strlen(FColorInvalid));
+        if (result[7] == -1)
+            ft_putstr(CColorInvalid, ft_strlen(CColorInvalid));
+        i = 1;
+        while (result[i] > -1)
+            i++;
+        if (i < 6 && result[i] < 0) //Errores 'rojos' (1-5) son mortales y terminan el programa; amarillos permiten lanzar el programa con valores por defecto
+            return (0);
+        if ((i = getMapArray(fd, *line)) == -1)
+        {
+            //free(*line);
+            //*line = NULL;
+            ft_putstr(outOfBounds, strlen(outOfBounds));
+            return (0);
+        }
+        else if (i == -2)
+        {
+            //free(*line);
+            //*line = NULL;
+            ft_putstr(badMap3line, strlen(badMap3line));
+            return (0);   
+        }
+        else if (i == -3)
+        {
+            //free(*line);
+            //*line = NULL;
+            ft_putstr(noPlayer, strlen(noPlayer));
+            return (0);
+        }
+        else if (i == -4)
+        {
+            //free(*line);
+            //*line = NULL;
+            ft_putstr(tooManyPlayers, strlen(tooManyPlayers));
+            return (0);
+        }
+        //if (*line)
+        //{
+        //    free(*line);
+        //    *line = NULL;
+        //}
+
+        printf("\nResolution: %d, %d", g_config.screenW, g_config.screenH);
+        char c = mapList(1, 1);
+       printf("\nHABEERRRRR %c", c);
+    }
+                  //  printf("%d\n%d\n", g_config.screenW, g_config.screenH);
+    //printf("FD: %d", fd);
+    if (close(fd) < 0)
+        ft_putstr(couldNotClose, ft_strlen(couldNotClose));
+    close(fdtest);
+    return (1);
 }
 
 void makeClsImg(void)
@@ -1170,16 +1926,11 @@ void    makeTexImg(void)
 
   int   main(int argc, char **argv)
   {
-      int 	r;
-
-	  (void)argc;
+      (void)argc;
       initialize();
       initializeKeys();
-	  r = cubhandler(argv[1]);
-	  printnotifications();
-	  printerrors();
-	  if (!r)
-	  	return (EXIT_FAILURE);
+      if (!getMap(argv[1]))
+        return (EXIT_FAILURE);
       //printf("\n%s", argv[1]);
       g_player.newDirXY = malloc(2 * sizeof(double));
 //Create screen
@@ -1193,8 +1944,6 @@ void    makeTexImg(void)
         return (EXIT_FAILURE);
     makeClsImg();
     makeTexImg();
-	printf("\nSizeOf error_s: %zu\n", sizeof(g_iamerror));
-	printf("\nValor: %d\n", g_iamerror.getresfail);
     mlx_do_key_autorepeatoff(g_screenData.mlx_ptr);
     mlx_hook(g_screenData.mlx_win, 17, 0, ft_stop, (void*)0);
     mlx_hook(g_screenData.mlx_win, 2, 0, ft_keyPress, (void*)0);

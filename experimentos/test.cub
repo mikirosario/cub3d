@@ -10,23 +10,18 @@
 ** C    R,G,B color value for ceiling
 ** MAP ARRAY
 
-** No saltan bien errores de 'incorrect specifier', limpiar buscadores
-** getCColor es tolerante a falta de especificador pero tira un error, (o_O) Comportamiento deseado: intolerante.
-** getFColor no es tolerante ni tira el error. (o_O) Comportamiento deseado: que tire el error.
-** Hay que encontrar la diferencia. R es intolerante y tira bien el error, lo cual es correcto. ;)
-
-R  1920 1080
-no ./blueMetal.XPM
-SO ./yellowMetal.XPM
-WE ./greenMetal.XPM
-EA ./pinkMetal.XPM
-S  ./normiSprite.XPM
-F 	102 , 153,153
-C	102,0,75
+R   1920 1080
+no  ./blueMetal.XPM
+SO  ./yellowMetal.XPM
+WE  ./greenMetal.XPM
+EA  ./pinkMetal.XPM
+S   ./normiSprite.XPM
+F   102,153,153
+C   102,0,75
 
 basurilla
 l33t hacker
-1111111111111111111111110
+111111111111111111111111
 100000000000200000000001
 100000000000002000000001
 100000000000020000000001
@@ -50,5 +45,5 @@ l33t hacker
 110000000000000000000001
 111111111000000000000001
 111111111111111111111111
-er mapa ha cava haki kiyo
+er mapa a cava haki tronko
 

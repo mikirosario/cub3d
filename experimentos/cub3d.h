@@ -6,31 +6,45 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/07/24 19:28:33 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/07/15 19:19:27 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-#include <CoreGraphics/CGDisplayConfiguration.h> //need this to retrieve resolution
+//#include <CoreGraphics/CGDisplayConfiguration.h> BONUS
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 #include <mlx.h>
 #include <string.h>
-#include "./libft/libft.h"
+#include "libft.h"
 #include "iamerror.h"
-#include "printnotifications.h"
 #include <fcntl.h>
 #include <unistd.h>
 #include <time.h> //BONUS
 
-#define	GREEN "\033[0;32m"
-#define MAGENTA "\033[1;35m"
+#define MAGENTA "[1;35m"
 #define RED "\033[22;31m"
 #define YELLOW "\x1b[33m"
 #define RESET "\033[0m"
+
+//#define mapWidth        24
+//#define mapHeight       24
+/*#define screenWidth     2560 //640
+#define screenHeight    1440 //480
+#define screenXCenter   320
+#define screenYCenter   240
+#define texWidth        64
+#define texHeight       64
+#define numSprites      2*/
+/*#define normiTexWidth   128
+#define normiTexHeight  164
+#define wallMultiplier  1 //modifies apparent wall height
+#define uDiv            1
+#define vDiv            1 //raise to 
+#define vMove           (double)normiTexHeight //raise to lower sprite*/
 
 /*
 ** posX and posY determine position. dirX and dirY determine direction.
@@ -39,41 +53,34 @@
 ** perpendicullar to camera plane. Time stores current frame time;
 ** oldTime stores last frame time.
 */
-typedef		struct error_s
+
+/*int g_worldMap[mapWidth][mapHeight]=
 {
-	unsigned char	cubfilenotfound : 1;
-	unsigned char	weirdfd : 1;
-	unsigned char	couldnotclose : 1;
-	unsigned char	mallocfail : 1;
-	unsigned char	getresfail : 1;
-	unsigned int	badresSyn;
-	unsigned int	badresSize;
-	unsigned char	getnofail : 1;
-	unsigned int	badnosyn;
-	unsigned char	getsofail : 1;
-	unsigned int	badsosyn;
-	unsigned char	getwefail : 1;
-	unsigned int	badwesyn;	
-	unsigned char	geteafail : 1;
-	unsigned int	badeasyn;
-	unsigned char	getsprfail : 1;
-	unsigned int	badsprsyn;
-	unsigned char	pathsprfail : 1;
-	unsigned char	walltexsizefail : 1;
-	unsigned char	walltexsizedif : 1;
-	unsigned char	sprtexsizefail : 1;
-	unsigned char	fcolorinvalid : 1;
-	unsigned int	badfcolorsyn;
-	unsigned char	ccolorinvalid : 1;
-	unsigned int	badccolorsyn;
-	unsigned char	nomapfound : 1;
-	unsigned char	outofbounds : 1;
-	unsigned char	badmap3line : 1;
-	unsigned char	noplayer : 1;
-	unsigned char	toomanyplayers : 1;
-	unsigned char	getnextlinefail : 1;
-	unsigned char	mapchecked : 1;
-	}					error_t;
+  {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,0,0,0,2,2,2,2,2,0,0,0,0,3,0,3,0,3,0,0,0,1},
+  {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,3,0,0,0,3,0,0,0,1},
+  {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,0,0,0,2,2,0,2,2,0,0,0,0,3,0,3,0,3,0,0,0,1},
+  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,4,0,4,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,4,0,0,0,0,5,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,4,0,4,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,4,0,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
+};*/
 
 typedef     struct spriteData_s
 {
@@ -97,13 +104,15 @@ typedef     struct  configData_s
   int spriteW;
   int spriteH;
   int spriteNum;
-  int frgb[3];
-  int crgb[3];
-  int wallMultiplier; //modifies apparent wall height
-  int uDiv; //no recuerdo qué hacía
-  int vDiv; //no recuerdo qué hacía
-  int vMove; //raise to lower sprite
+  int wallMultiplier;
+  int uDiv;
+  int vDiv;
+  int vMove;
   char *spriteTexPath;
+  //int wallMultiplier;
+  //int uDiv;
+  //int vDiv;
+  //int vMove;
 }           configData_t;
 
 typedef     struct  screenData_s
@@ -159,6 +168,7 @@ typedef     struct  rayData_s
 
 }                   rayData_t;
 
+//Habrá que localizar arrays en Raycaster para dinamizar screenHeight/screenWidth
 typedef     struct frameData_s
 {
   clock_t       time;
@@ -178,6 +188,9 @@ typedef     struct frameData_s
   int           texY; //texture Y coordinate;
   double        step;
   double        texPos;
+  //unsigned int  buffer[screenHeight][screenWidth]; //y coordinate first because it works per scanline
+  //double        zBuffer[screenWidth]; //1D ZBuffer
+  //int           spriteOrder[numSprites]; //traspasado a RayCaster
 }                  frameData_t;
 
 typedef     struct imageData_s
@@ -216,63 +229,10 @@ imageData_t g_ceilingImg;
 imageData_t g_floorImg;
 imageData_t g_normiImg;
 keyData_t g_keyData;
-
-void			del(void *freeThis);
-spriteData_t	*ft_sprtlstnew(void const *content);
-spriteData_t	*ft_sprtlstlast(spriteData_t *lst);
-void			ft_sprtlstadd_back(spriteData_t **alst, spriteData_t *new);
-void			freeSprtList(spriteData_t **alst);
-spriteData_t	*spriteIter(int listMember);
-void			freeList(t_list **alst);
-char			mapList(int x, int y);
-char			*mapListDir(int x, int y);
-t_list			*mapListMem(int y);
-void			cls();
-void			ft_sortSprites(int *spriteOrder);
-int				ft_stop(int key, void *param);
-int				ft_rayCaster(int key, void *param);
-int				ft_keyPress(int key, void *param);
-int				ft_keyRelease(int key, void *param);
-void			initialize(void);
-void			initializeKeys(void);
-int				getres(const char *line, unsigned int linenum);
-int				getno(const char *line, unsigned int linenum);
-int				getso(const char *line, unsigned int linenum);
-int				getwe(const char *line, unsigned int linenum);
-int				getea(const char *line, unsigned int linenum);
-int				getsprite(const char *line, unsigned int linenum);
-int				getTexRes(int *texRes, char *xmpPath);
-int				compTexRes(void);
-unsigned int	create_trgb(int t, int r, int g, int b);
-int				getfcolor(const char *line, unsigned int linenum);
-int				getccolor(const char *line, unsigned int linenum);
-void			spriteCounter(double x, double y, char c);
-int				isMap(char *line);
-int				cubhandler(const char *ptr);
-void			cubread(int *result, char **line, int fd);
-void			setdisplayresolution(void);
-void			printerrors(void);
-void			printnotifications(void);
-int				floodFill(void);
-int				floodRight(int x, int y);
-int				floodLeft(int x, int y);
-void			unfloodMap(void);
-int				makeMapList(int fd, char *firstLine);
-void			makeClsImg(void);
-void			makeTexImg(void);
-int				main(int argc, char **argv);
-
-
-
-
-
-
-
-
-
-
-
-
+/*spriteData_t  g_sprite[numSprites] = {
+  {10.5, 14.5, 0},
+  {6.5, 12.5, 0},
+};*/
 
 double  ft_degtorad(double a);
 double  ft_radtodeg(double a);
