@@ -24,7 +24,7 @@ extern error_t	g_iamerror;
 ** valid map line, it will return '0'.
 */
 
-int		findfirstmapline(char **line, int *result)
+int		findfirstmapline(char **line, int *result, unsigned int linenum)
 {
 	int i;
 
@@ -35,6 +35,7 @@ int		findfirstmapline(char **line, int *result)
 		if (isMap(*line))
 		{
 			result[8] = 1;
+			g_iamerror.premaplines = linenum - 1;
 			return (1);
 		}
 	return (0);
@@ -79,7 +80,7 @@ void	cubread(int *result, char **line, int fd)
 			result[6] = getfcolor(*line, linenum);
 		if (result[7] < 1)
 			result[7] = getccolor(*line, linenum);
-		if (findfirstmapline(line, result))
+		if (findfirstmapline(line, result, linenum))
 			break ;
 		del(*line);
 	}
@@ -171,13 +172,13 @@ int		maphandler(int fd, char *line)
 	if (i < 0)
 	{
 		if (i == -1)
-			g_iamerror.outofbounds = 1;
+			g_iamerror.outofbounds[2] = 1;
 		else if (i == -2)
 			g_iamerror.badmap3line = 1;
 		else if (i == -3)
 			g_iamerror.noplayer = 1;
 		else if (i == -4)
-			g_iamerror.toomanyplayers = 1;
+			g_iamerror.toomanyplayers[2] = 1;
 		return (0);
 	}
 	return (1);

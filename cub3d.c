@@ -12,15 +12,24 @@
 
   #include "cub3d.h"
 
-error_t g_iamerror = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+error_t g_iamerror = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,{0,0,0},0,0,{0,0,0},0,0,0};
 
-void	setdisplayresolution(void)
+// MacOS
+/*void	setdisplayresolution(void)
 {
-	CGDirectDisplayID	displayid;
+	*CGDirectDisplayID	displayid;
 
 	displayid = CGMainDisplayID();
 	g_config.screenW = CGDisplayPixelsWide(displayid);
 	g_config.screenH = CGDisplayPixelsHigh(displayid);
+	return ;
+}*/
+
+//Linux
+void	setdisplayresolution(void)
+{
+    g_config.screenW = 1920;
+    g_config.screenH = 1080;
 	return ;
 }
 
@@ -195,8 +204,8 @@ while (g_config.spriteNum > 1 && ++i < g_config.spriteNum - 1)
 }
 
 }
-
-  int   ft_stop(int key, void *param)
+//Mac
+  /*int   ft_stop(int key, void *param)
   {
     (void)param;
     if (key == 0x35 || key == 0x00)
@@ -213,6 +222,33 @@ while (g_config.spriteNum > 1 && ++i < g_config.spriteNum - 1)
             freeList(&g_config.Map);
         if (g_config.spriteList)
             freeSprtList(&g_config.spriteList);
+        free(g_blueMetalImg.texPath);
+        free(g_yellowMetalImg.texPath);
+        free(g_greenMetalImg.texPath);
+        free(g_pinkMetalImg.texPath);
+        free(g_config.spriteTexPath);
+        free(g_player.newDirXY);
+        exit(EXIT_SUCCESS);
+    }
+    return (0);
+  }*/
+
+//Linux
+    int   ft_stop(int key, void *param)
+  {
+    (void)param;
+    if (key == 0xff1b || key == 0)
+    {
+        mlx_destroy_window(g_screenData.mlx_ptr, g_screenData.mlx_win);
+        mlx_destroy_image(g_screenData.mlx_ptr, g_clsImg.mlx_img);
+        if (g_screenData.mlx_img_buffer)
+            mlx_destroy_image(g_screenData.mlx_ptr, g_screenData.mlx_img_buffer);
+        if (g_blueMetalImg.mlx_img)
+            mlx_destroy_image(g_screenData.mlx_ptr, g_blueMetalImg.mlx_img);
+        if (g_normiImg.mlx_img)
+            mlx_destroy_image(g_screenData.mlx_ptr, g_normiImg.mlx_img);
+        if (g_config.Map)
+            freeList(&g_config.Map);
         free(g_blueMetalImg.texPath);
         free(g_yellowMetalImg.texPath);
         free(g_greenMetalImg.texPath);
@@ -278,7 +314,7 @@ int   ft_rayCaster(int key, void *param)
         }*/
         stayOut = 'y';
     }
-    cls();
+
     while (x < g_config.screenW)
     {
         //calculate ray position and direction
@@ -677,7 +713,8 @@ int   ft_rayCaster(int key, void *param)
     return (0);
 }
 
-int ft_keyPress(int key, void *param)
+//Mac
+/*int ft_keyPress(int key, void *param)
 {
     (void)param;
     if (key == 0x35)
@@ -710,7 +747,7 @@ int ft_keyPress(int key, void *param)
     }
     return (0);
 }
-
+//Mac
 int ft_keyRelease(int key, void *param)
 {
     (void)param;
@@ -731,6 +768,65 @@ int ft_keyRelease(int key, void *param)
         g_keyData.r = 0;
     //anticlockwise rotation
     if (key == 0x7B)
+        g_keyData.l = 0;
+    return (0);
+}*/
+
+//Linux
+int ft_keyPress(int key, void *param)
+{
+    (void)param;
+    if (key == 0xff1b)
+        ft_stop(key, (void *)0);
+    //move forwards if no wall in front
+    if (key == 0x77)
+        g_keyData.w = 1;
+    //move backwards if no wall in front
+    if (key == 0x73)
+        g_keyData.s = 1;
+    //strafe right if no wall to right
+    if (key == 0x64)
+        g_keyData.d = 1;
+    //strafe left if no wall to left
+    if (key == 0x61)
+        g_keyData.a = 1;
+    //clockwise rotation
+    if (key == 0xff53)
+        g_keyData.r = 1;
+    //anticlockwise rotation
+    if (key == 0xff51)
+        g_keyData.l = 1;
+    if (key == 0x6d)
+    {
+        if (g_keyData.m == 2)
+            g_keyData.m = 0;
+        else
+        
+            g_keyData.m += 1;
+    }
+    return (0);
+}
+//Linux
+int ft_keyRelease(int key, void *param)
+{
+    (void)param;
+    //move forwards if no wall in front
+    if (key == 0x77)
+        g_keyData.w = 0;
+    //move backwards if no wall in front
+    if (key == 0x73)
+        g_keyData.s = 0;
+    //strafe right if no wall to right
+    if (key == 0x64)
+        g_keyData.d = 0;
+    //strafe left if no wall to left
+    if (key == 0x61)
+        g_keyData.a = 0;
+    //clockwise rotation
+    if (key == 0xff53)
+        g_keyData.r = 0;
+    //anticlockwise rotation
+    if (key == 0xff51)
         g_keyData.l = 0;
     return (0);
 }
@@ -938,15 +1034,27 @@ int     floodRight(int x, int y)
                 if ((lstPtr = mapListMem(y))->next && ((mapListMem(y + 1))->len) >= (size_t)x && (mapChar = mapList(x, y + 1)) && (mapChar == '0' || mapChar == '2')) //mira char de debajo, primero strlen para asegurarnos de que la fila abarca lo suficiente para evitar segfault...
                     (*(mapListDir(x, y + 1)) = 'A'); //marca como transitable provisional (pdte de comprobar sus verticales)
                 else if (!lstPtr->next || mapChar == ' ' || !mapChar)
+                {
+                    g_iamerror.outofbounds[0] = x;
+                    g_iamerror.outofbounds[1] = y;
                     return (0);
+                }
                 if (lstPtr != g_config.Map && ((mapListMem(y - 1))->len) >= (size_t)x && (mapChar = mapList(x, y -1)) && (mapChar == '0' || mapChar == '2'))//mira char de encima, primero strlen para asegurarnos de que la fila abarca lo suficiente para evitar segfault.
                     (*(mapListDir(x, y - 1)) = 'A'); //marca como transitable (pdte de comprobar sus verticales)
                 else if (lstPtr == g_config.Map || mapChar == ' ' || !mapChar)
+                {
+                    g_iamerror.outofbounds[0] = x;
+                    g_iamerror.outofbounds[1] = y;
                     return (0);
+                }
                 (*(mapListDir(x, y)) = 'T'); //marca como transitable con todos los ejes comprobados.
             }
             else if (mapChar == ' ' || !mapChar) //nótese que en floodRight, llegar al NULL en un barrido es condición de invalidez del mapa, por lo que su comprobación es a la vez condición de salida del while y de la función.
-                return (0);
+                {
+                    g_iamerror.outofbounds[0] = x;
+                    g_iamerror.outofbounds[1] = y;
+                    return (0);
+                }
         }
     return (1);
 }
@@ -964,15 +1072,27 @@ int     floodLeft(int x, int y)
             if ((lstPtr = mapListMem(y))->next && ((mapListMem(y + 1))->len) >= (size_t)x && (mapChar = mapList(x, y + 1)) && (mapChar == '0' || mapChar == '2')) //primero strlen para asegurarnos de que la fila abarca lo suficiente para evitar segfault...
                 (*(mapListDir(x, y + 1)) = 'A'); //marca como transitable, pdte de comprobar verticales
             else if (!lstPtr->next || mapChar == ' ' || !mapChar)
+            {
+                g_iamerror.outofbounds[0] = x;
+                g_iamerror.outofbounds[1] = y;
                 return (0);
+            }
             if (lstPtr != g_config.Map && ((mapListMem(y - 1))->len) >= (size_t)x && (mapChar = mapList(x, y -1)) && (mapChar == '0' || mapChar == '2'))
                 (*(mapListDir(x, y - 1)) = 'A'); //marca como transitable, pdte de comprobar verticales
             else if (lstPtr == g_config.Map || mapChar == ' ' || !mapChar)
+            {
+                g_iamerror.outofbounds[0] = x;
+                g_iamerror.outofbounds[1] = y;
                 return (0);
+            }
             (*(mapListDir(x, y)) = 'T'); //marca como transitable
         }
         else if (mapChar == ' ' || !x)//si encontramos un espacio o hemos encontrado un transitable en pos0, mapa inválido
-            return (0);
+            {
+                g_iamerror.outofbounds[0] = x;
+                g_iamerror.outofbounds[1] = y;
+                return (0);
+            }
         x--;
     }
     return (1);
@@ -1001,7 +1121,7 @@ void    unfloodMap(void)
     write(1, "\n", 1);
         while (mapPtr)
     {
-        printf("\n # %s", mapPtr->content);
+        printf("\n # %s", (char *)mapPtr->content);
         mapPtr = mapPtr->next;
     }
 }
@@ -1024,11 +1144,19 @@ int     floodFill(void)
         if (((mapListMem(y + 1))->len) >= (size_t)x && (mapChar = mapList(x, y + 1)) && (mapChar == '0' || mapChar == '2')) //primero strlen para asegurarnos de que la fila de arriba abarca lo suficiente para evitar segfault...
             (*(mapListDir(x, y + 1)) = 'A'); //marca como transitable provisional, pdte de comprobar verticales
         else if (mapChar == ' ' || !mapChar)
+        {
+            g_iamerror.outofbounds[0] = x;
+            g_iamerror.outofbounds[1] = y;
             return (-1);
+        }
         if (((mapListMem(y - 1))->len) >= (size_t)x && (mapChar = mapList(x, y -1)) && (mapChar == '0' || mapChar == '2'))
             (*(mapListDir(x, y - 1)) = 'A'); //marca como transitable, pdte de comprobar verticales
         else if (mapChar == ' ' || !mapChar)
+        {
+            g_iamerror.outofbounds[0] = x;
+            g_iamerror.outofbounds[1] = y;
             return (-1);
+        }
     }
     while (foundA) //mientras siga encontrando As (es decir, transitables provisionales), sigue haciendo barridos de inundación, hasta dejar de encontrarlas.
     {    
@@ -1066,7 +1194,7 @@ int     floodFill(void)
     listPtr = g_config.Map;
     while (listPtr)
     {
-        printf("# %s\n", listPtr->content);
+        printf("# %s\n", (char *)listPtr->content);
         listPtr = listPtr->next;
     }
     write(1, "\n", 1);
@@ -1114,16 +1242,11 @@ void    makeTexImg(void)
 {
     int *wallSize;
     int *sprSize;
-    
-    int normiWidth;
-    int normiHeight;
 
     if (!(wallSize = malloc(2 * sizeof(int))) | (!(sprSize = malloc(2 * sizeof(int)))))
         ft_putstr(mallocFail, ft_strlen(mallocFail));
     else
     {   
-        normiWidth = 128;
-        normiHeight = 164;
         g_blueMetalImg.mlx_img = mlx_xpm_file_to_image(g_screenData.mlx_ptr, g_blueMetalImg.texPath, &g_config.texW, &g_config.texH);
         g_yellowMetalImg.mlx_img = mlx_xpm_file_to_image(g_screenData.mlx_ptr, g_yellowMetalImg.texPath, &g_config.texW, &g_config.texH);
         g_greenMetalImg.mlx_img = mlx_xpm_file_to_image(g_screenData.mlx_ptr, g_greenMetalImg.texPath, &g_config.texW, &g_config.texH);
@@ -1168,7 +1291,8 @@ void    makeTexImg(void)
         free(sprSize);
 }
 
-  int   main(int argc, char **argv)
+//Mac
+/*int   main(int argc, char **argv)
   {
       int 	r;
 
@@ -1199,6 +1323,47 @@ void    makeTexImg(void)
     mlx_hook(g_screenData.mlx_win, 17, 0, ft_stop, (void*)0);
     mlx_hook(g_screenData.mlx_win, 2, 0, ft_keyPress, (void*)0);
     mlx_hook(g_screenData.mlx_win, 3, 0, ft_keyRelease, (void *)0);
+    mlx_loop_hook(g_screenData.mlx_ptr, ft_rayCaster, (void *)0);    
+    mlx_loop(g_screenData.mlx_ptr);
+    return(EXIT_SUCCESS);
+  }*/
+
+
+//Linux
+  int   main(int argc, char **argv)
+  {
+      int 	r;
+
+	  (void)argc;
+      initialize();
+      initializeKeys();
+	  r = cubhandler(argv[1]);
+	  printnotifications();
+	  printerrors();
+	  if (!r)
+	  	return (EXIT_FAILURE);
+      //printf("\n%s", argv[1]);
+      g_player.newDirXY = malloc(2 * sizeof(double));
+//Create screen
+   //if (getMap fails, do not start)
+   
+   
+   
+    if (!(g_screenData.mlx_ptr = mlx_init()))
+        return (EXIT_FAILURE);
+    if (!(g_screenData.mlx_win = mlx_new_window(g_screenData.mlx_ptr, g_config.screenW, g_config.screenH, "Norminator 3D")))
+        return (EXIT_FAILURE);
+    makeClsImg();
+    makeTexImg();
+	printf("\nSizeOf error_s: %zu\n", sizeof(g_iamerror));
+	printf("\nValor: %d\n", g_iamerror.getresfail);
+    mlx_do_key_autorepeatoff(g_screenData.mlx_ptr);
+    /*mlx_hook(g_screenData.mlx_win, 17, 0, ft_stop, (void*)0);
+    mlx_hook(g_screenData.mlx_win, 2, 0, ft_keyPress, (void*)0);
+    mlx_hook(g_screenData.mlx_win, 3, 0, ft_keyRelease, (void *)0);*/
+    mlx_hook(g_screenData.mlx_win, 17, 1L << 17, ft_stop, (void*)0);
+    mlx_hook(g_screenData.mlx_win, 2, 1L << 0, ft_keyPress, (void*)0);
+    mlx_hook(g_screenData.mlx_win, 3, 1L << 1, ft_keyRelease, (void *)0);
     mlx_loop_hook(g_screenData.mlx_ptr, ft_rayCaster, (void *)0);    
     mlx_loop(g_screenData.mlx_ptr);
     return(EXIT_SUCCESS);

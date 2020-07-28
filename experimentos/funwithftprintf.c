@@ -1,0 +1,1 @@
+ft_printf("Line: %u: %.*s"RED"%c"RESET"%s", g_iamerror.outofbounds[1], g_iamerror.outofbounds[0], mapListDir(0, g_iamerror.outofbounds[1]), mapList(g_iamerror.outofbounds[0], g_iamerror.outofbounds[1]), mapListDir(g_iamerror.outofbounds[0] + 1, g_iamerror.outofbounds[1]));

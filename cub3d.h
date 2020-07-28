@@ -13,7 +13,7 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 
-#include <CoreGraphics/CGDisplayConfiguration.h> //need this to retrieve resolution
+//#include <CoreGraphics/CGDisplayConfiguration.h> //need this to retrieve resolution
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -67,12 +67,13 @@ typedef		struct error_s
 	unsigned char	ccolorinvalid : 1;
 	unsigned int	badccolorsyn;
 	unsigned char	nomapfound : 1;
-	unsigned char	outofbounds : 1;
+	unsigned int	outofbounds[3];
 	unsigned char	badmap3line : 1;
 	unsigned char	noplayer : 1;
-	unsigned char	toomanyplayers : 1;
+	unsigned char	toomanyplayers[3];
 	unsigned char	getnextlinefail : 1;
 	unsigned char	mapchecked : 1;
+  unsigned int  premaplines;
 	}					error_t;
 
 typedef     struct spriteData_s

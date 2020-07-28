@@ -32,7 +32,8 @@ extern error_t	g_iamerror;
 ** library will be used. To check the number values, ft_atoi will be used.
 */
 
-int		setres(const char *line, int res, unsigned int linenum)
+//Mac
+/*int		setres(const char *line, int res, unsigned int linenum)
 {
 	CGDirectDisplayID	displayid;
 
@@ -46,6 +47,32 @@ int		setres(const char *line, int res, unsigned int linenum)
 	}
 	else if (res && (res = ft_atoi(line)) > 239 && \
 	(size_t)res <= CGDisplayPixelsHigh(displayid))
+	{
+		g_config.screenH = res;
+		return (2);
+	}
+	g_iamerror.badresSize = linenum;
+	return (0);
+}*/
+
+//Linux
+int		setres(const char *line, int res, unsigned int linenum)
+{
+	//CGDirectDisplayID	displayid;
+
+	//displayid = CGMainDisplayID();
+	unsigned int maxW = 1920;
+	unsigned int maxH = 1080;
+	
+	ft_printf(RED"\nRES: %d\n"RESET, res);
+	if (!res && (res = ft_atoi(line)) > 239 && \
+	(size_t)res <= maxW)
+	{
+		g_config.screenW = res;
+		return (1);
+	}
+	else if (res && (res = ft_atoi(line)) > 239 && \
+	(size_t)res <= maxH)
 	{
 		g_config.screenH = res;
 		return (2);

@@ -12,6 +12,8 @@
 
 #include "../../cub3d.h"
 
+extern error_t  g_iamerror;
+
 /*
 ** This is the function that checks a map line for validity. A line is invalid
 ** if any character not in the mapchrs string is found, or if the line is empty.
@@ -38,6 +40,7 @@ int		linecheck(char *line, int y, char endmap)
 	char	*mapchrs;
 	t_list	*listPtr;
 
+
 	mapchrs = " 012NnSsEeWw";
 	x = 0;
 	while (line[x] && (match = ft_strchr(mapchrs, line[x]))) //mientras exista un char y sea un mapchar queremos estar dentro de este while y subir i para recorrer la línea. hay que analizar no-mapchr después en su caso
@@ -48,13 +51,14 @@ int		linecheck(char *line, int y, char endmap)
 		if (!y || endmap) //si estamos en primera (y == 0) o última (endmap activado) línea de todas no pueden contener ningún NSEW.
 		{
 			if (match >= (mapchrs + 4)) //si encuentras al personaje en primera o última linea, mapa inválido, error -1
-			{
-				if (g_config.spriteList)
-					freeSprtList(&g_config.spriteList);
-				if (g_config.Map)
-					freeList(&g_config.Map);
-				return (-1);
-			}
+            {
+            listPtr = ft_lstnew(((char *)ft_strdup(line)));
+            listPtr->len = ft_strlen((const char *)line);
+			!y ? g_config.Map = listPtr : ft_lstadd_back(&g_config.Map, listPtr);
+                g_iamerror.outofbounds[0] = (unsigned int)x;
+                g_iamerror.outofbounds[1] = (unsigned int)y;
+                return (-1);
+            }
 		}
 		x++;
 	}
@@ -95,14 +99,13 @@ int     makeMapList(int fd, char *firstLine)
         else
             if (!(ft_get_next_line(fd, &line))) // me chiva la última línea... bieeen.
                 endmap = 49;
-        if (!(x = linecheck(line, y, endmap)))
+        if (!(x = linecheck(line, y, endmap))) //cuando la línea no sirve como línea del mapa
 		{
 			y--;
-			endmap = 49;
+            endmap = 49;
 		}
-		else if (x == -1)
-			return (-1);
-
+		else if (x == -1) //cuando el mapa no sirve porque se ha encontrado un jugador en primer o última línea
+            return (-1);
         if (y >= 2) //si tenemos al menos 3 líneas buscaremos al jugador (NSEW) en las líneas de en medio, y comprobaremos que sus cuatro vecinos inmediatos son válidos, y comprobaremos que solo hay un jugador
             {
                 f = 0;
@@ -116,16 +119,14 @@ int     makeMapList(int fd, char *firstLine)
                     {
                         if (foundPlayer) //si ya se había encontrado jugador, hay mas de un jugador, mapa inválido
                         {
-                            if (g_config.spriteList)
-                                freeSprtList(&g_config.spriteList);
-                            freeList(&g_config.Map); //function with lstiter(lst, del) to free content, then while(lst) tmp = lst->next free (lst) lst = tmp to free list members. ugh.
+                            g_iamerror.toomanyplayers[0] = f;
+                            g_iamerror.toomanyplayers[1] = y - 1;
                             return (-4);
                         }
                         else if (f == 0 /*si f es NULL no entramos pero weno*/|| *((char *)(midLine->content + f + 1)) == '\0' || *((char *)(midLine->content + f + 1)) == ' ' || *((char *)(midLine->content + f - 1)) == ' ' || (int)(mapListMem(y - 2))->len < f || (int)(mapListMem(y))->len < f ||  mapList(f, y - 2) == ' ' || mapList(f, y) == ' ') //si el jugador está como primer char o último char de línea, o si es contiguo a un espacio, tira todo el mapa, hombre ya
                         {
-                            if (g_config.spriteList)
-                                freeSprtList(&g_config.spriteList);
-                            freeList(&g_config.Map); //function with lstiter(lst, del) to free content, then while(lst) tmp = lst->next free (lst) lst = tmp to free list members. ugh.
+                            g_iamerror.outofbounds[0] = f;
+                            g_iamerror.outofbounds[1] = y - 1;
                             return (-1);
                         }
                         foundPlayer = 49; //si encontramos jugador lo reportamos
@@ -177,7 +178,7 @@ int     makeMapList(int fd, char *firstLine)
     listPtr = g_config.Map;
     while (listPtr)
     {
-        printf("\n%zu # %s", listPtr->len, listPtr->content);
+        printf("\n%zu # %s", listPtr->len, (char *)listPtr->content);
         listPtr = listPtr->next;
     }
     printf("\nY Value: %d\n", y);
@@ -191,35 +192,10 @@ int     makeMapList(int fd, char *firstLine)
     }
     //freeList(&g_config.Map);
     if (y < 2) //mapa debe tener al menos tres líneas para ser valido
-    {
-        if (g_config.Map)
-        {
-            if (g_config.spriteList)
-                freeSprtList(&g_config.spriteList);
-            freeList(&g_config.Map); //function with lstiter(lst, del) to free content, then while(lst) tmp = lst->next free (lst) lst = tmp to free list members. ugh.
-            return (-2);
-        }
-        else
-            return (-2);
-    }
+        return (-2);
     if (!foundPlayer) //mapa debe tener un jugador para ser válido
-    {
-        if (g_config.Map)
-        {
-            if (g_config.spriteList)
-                freeSprtList(&g_config.spriteList);
-            freeList(&g_config.Map); //function with lstiter(lst, del) to free content, then while(lst) tmp = lst->next free (lst) lst = tmp to free list members. ugh.
-            return (-3);
-        }
-        else
-            return (-3);
-    }
+        return (-3);
     if (floodFill() == -1)
-    {
-        if (g_config.spriteList)
-            freeSprtList(&g_config.spriteList);
-        freeList(&g_config.Map);
         return (-1);
-    }
     return (1);
 }

@@ -14,6 +14,43 @@
 
 extern error_t	g_iamerror;
 
+/*
+** Y + 1 (In text editor lines start with 1, not 0), + lines counted before the
+** gives the line number of the error. X, saved as array value 0, gives the
+** position before the error and can be passed to ft_printf as precision via the
+** * flag to print up to the error. Then map retrieval functions can be used to
+** print the rest of the bad line for the user.
+*/
+void	maperrors(void)
+{
+	unsigned int o;
+	unsigned int x;
+	unsigned int y;
+
+	o = g_iamerror.premaplines;
+	ft_printf("%s", REDERROR);
+	if (g_iamerror.noplayer)
+		ft_putstr(noPlayer, strlen(noPlayer));
+	else
+		*((char *)mapListDir(g_player.posX, g_player.posY)) = 'P';
+	if (g_iamerror.badmap3line)
+		ft_putstr(badMap3line, strlen(badMap3line));
+	x = g_iamerror.outofbounds[0];
+	y = g_iamerror.outofbounds[1];
+	if (g_iamerror.outofbounds[2])
+		ft_printf("Line: %u: %.*s"RED"%c"RESET"%s\n%s\n", y + 1 + o, x, \
+		mapListDir(0, y), mapList(x, y), mapListDir(x + 1, y), outOfBounds);
+	x = g_iamerror.toomanyplayers[0];
+	y = g_iamerror.toomanyplayers[1];
+	if (g_iamerror.toomanyplayers[2])
+		ft_printf("Line: %u: %.*s"RED"%c"RESET"%s\n%s\n", y + 1 + o, x, \
+		mapListDir(0, y), mapList(x, y), mapListDir(x + 1, y), tooManyPlayers);
+	if (g_config.spriteList)
+		freeSprtList(&g_config.spriteList);
+	if (g_config.Map)
+		freeList(&g_config.Map);
+}
+
 void	reserrors(void)
 {
 	setdisplayresolution();
@@ -91,16 +128,10 @@ void	printerrors(void)
 		texerrors();
 	if (g_iamerror.fcolorinvalid || g_iamerror.ccolorinvalid)
 		ceilingfloorerrors();
+	if (g_iamerror.outofbounds[2] || g_iamerror.noplayer || g_iamerror.badmap3line || g_iamerror.toomanyplayers[2])
+		maperrors();
 	if (g_iamerror.mapchecked && g_iamerror.nomapfound)
 		ft_putstr(noMapFound, ft_strlen(noMapFound));
-	if (g_iamerror.outofbounds)
-		ft_putstr(outOfBounds, strlen(outOfBounds));
-	if (g_iamerror.badmap3line)
-		ft_putstr(badMap3line, strlen(badMap3line));
-	if (g_iamerror.toomanyplayers)
-		ft_putstr(tooManyPlayers, strlen(tooManyPlayers));
-	if (g_iamerror.noplayer)
-		ft_putstr(noPlayer, strlen(noPlayer));
 	if (g_iamerror.couldnotclose)
 		ft_putstr(couldNotClose, ft_strlen(couldNotClose));
 	write(1, "\n", 1);
