@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/07 20:24:05 by mrosario          #+#    #+#             */
-/*   Updated: 2020/07/24 19:58:23 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/07/28 19:36:23 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,7 +205,7 @@ while (g_config.spriteNum > 1 && ++i < g_config.spriteNum - 1)
 
 }
 //Mac
-  /*int   ft_stop(int key, void *param)
+int   ft_stop(int key, void *param)
   {
     (void)param;
     if (key == 0x35 || key == 0x00)
@@ -231,10 +231,10 @@ while (g_config.spriteNum > 1 && ++i < g_config.spriteNum - 1)
         exit(EXIT_SUCCESS);
     }
     return (0);
-  }*/
+  }
 
 //Linux
-    int   ft_stop(int key, void *param)
+/*int   ft_stop(int key, void *param)
   {
     (void)param;
     if (key == 0xff1b || key == 0)
@@ -258,7 +258,7 @@ while (g_config.spriteNum > 1 && ++i < g_config.spriteNum - 1)
         exit(EXIT_SUCCESS);
     }
     return (0);
-  }
+  }*/
 
 int   ft_rayCaster(int key, void *param)
 {
@@ -714,7 +714,7 @@ int   ft_rayCaster(int key, void *param)
 }
 
 //Mac
-/*int ft_keyPress(int key, void *param)
+int ft_keyPress(int key, void *param)
 {
     (void)param;
     if (key == 0x35)
@@ -770,10 +770,10 @@ int ft_keyRelease(int key, void *param)
     if (key == 0x7B)
         g_keyData.l = 0;
     return (0);
-}*/
+}
 
 //Linux
-int ft_keyPress(int key, void *param)
+/*int ft_keyPress(int key, void *param)
 {
     (void)param;
     if (key == 0xff1b)
@@ -829,7 +829,7 @@ int ft_keyRelease(int key, void *param)
     if (key == 0xff51)
         g_keyData.l = 0;
     return (0);
-}
+}*/
 
 /*
 ** Initial variable values.
@@ -1036,7 +1036,7 @@ int     floodRight(int x, int y)
                 else if (!lstPtr->next || mapChar == ' ' || !mapChar)
                 {
                     g_iamerror.outofbounds[0] = x;
-                    g_iamerror.outofbounds[1] = y;
+                    g_iamerror.outofbounds[1] = y + 1;
                     return (0);
                 }
                 if (lstPtr != g_config.Map && ((mapListMem(y - 1))->len) >= (size_t)x && (mapChar = mapList(x, y -1)) && (mapChar == '0' || mapChar == '2'))//mira char de encima, primero strlen para asegurarnos de que la fila abarca lo suficiente para evitar segfault.
@@ -1044,7 +1044,7 @@ int     floodRight(int x, int y)
                 else if (lstPtr == g_config.Map || mapChar == ' ' || !mapChar)
                 {
                     g_iamerror.outofbounds[0] = x;
-                    g_iamerror.outofbounds[1] = y;
+                    g_iamerror.outofbounds[1] = y - 1;
                     return (0);
                 }
                 (*(mapListDir(x, y)) = 'T'); //marca como transitable con todos los ejes comprobados.
@@ -1146,7 +1146,7 @@ int     floodFill(void)
         else if (mapChar == ' ' || !mapChar)
         {
             g_iamerror.outofbounds[0] = x;
-            g_iamerror.outofbounds[1] = y;
+            g_iamerror.outofbounds[1] = y + 1;
             return (-1);
         }
         if (((mapListMem(y - 1))->len) >= (size_t)x && (mapChar = mapList(x, y -1)) && (mapChar == '0' || mapChar == '2'))
@@ -1154,7 +1154,7 @@ int     floodFill(void)
         else if (mapChar == ' ' || !mapChar)
         {
             g_iamerror.outofbounds[0] = x;
-            g_iamerror.outofbounds[1] = y;
+            g_iamerror.outofbounds[1] = y - 1;
             return (-1);
         }
     }
@@ -1292,7 +1292,7 @@ void    makeTexImg(void)
 }
 
 //Mac
-/*int   main(int argc, char **argv)
+int   main(int argc, char **argv)
   {
       int 	r;
 
@@ -1326,11 +1326,11 @@ void    makeTexImg(void)
     mlx_loop_hook(g_screenData.mlx_ptr, ft_rayCaster, (void *)0);    
     mlx_loop(g_screenData.mlx_ptr);
     return(EXIT_SUCCESS);
-  }*/
+  }
 
 
 //Linux
-  int   main(int argc, char **argv)
+/*  int   main(int argc, char **argv)
   {
       int 	r;
 
@@ -1358,15 +1358,12 @@ void    makeTexImg(void)
 	printf("\nSizeOf error_s: %zu\n", sizeof(g_iamerror));
 	printf("\nValor: %d\n", g_iamerror.getresfail);
     mlx_do_key_autorepeatoff(g_screenData.mlx_ptr);
-    /*mlx_hook(g_screenData.mlx_win, 17, 0, ft_stop, (void*)0);
-    mlx_hook(g_screenData.mlx_win, 2, 0, ft_keyPress, (void*)0);
-    mlx_hook(g_screenData.mlx_win, 3, 0, ft_keyRelease, (void *)0);*/
     mlx_hook(g_screenData.mlx_win, 17, 1L << 17, ft_stop, (void*)0);
     mlx_hook(g_screenData.mlx_win, 2, 1L << 0, ft_keyPress, (void*)0);
     mlx_hook(g_screenData.mlx_win, 3, 1L << 1, ft_keyRelease, (void *)0);
     mlx_loop_hook(g_screenData.mlx_ptr, ft_rayCaster, (void *)0);    
     mlx_loop(g_screenData.mlx_ptr);
     return(EXIT_SUCCESS);
-  }
+  }*/
 
   

@@ -6,14 +6,14 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/07/24 19:28:33 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/07/28 16:28:18 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-//#include <CoreGraphics/CGDisplayConfiguration.h> //need this to retrieve resolution
+#include <CoreGraphics/CGDisplayConfiguration.h> //need this to retrieve resolution
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>

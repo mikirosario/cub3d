@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/21 19:17:09 by mrosario          #+#    #+#             */
-/*   Updated: 2020/07/27 17:42:43 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/07/28 20:36:11 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,9 @@ void	maperrors(void)
 	unsigned int x;
 	unsigned int y;
 
+	//guarreo
+	t_list *map = g_config.Map;
+
 	o = g_iamerror.premaplines;
 	ft_printf("%s", REDERROR);
 	if (g_iamerror.noplayer)
@@ -37,9 +40,23 @@ void	maperrors(void)
 		ft_putstr(badMap3line, strlen(badMap3line));
 	x = g_iamerror.outofbounds[0];
 	y = g_iamerror.outofbounds[1];
+
+	//guarreo general
+	*((char *)mapListDir(x, y)) = 'K';
+	
 	if (g_iamerror.outofbounds[2])
 		ft_printf("Line: %u: %.*s"RED"%c"RESET"%s\n%s\n", y + 1 + o, x, \
 		mapListDir(0, y), mapList(x, y), mapListDir(x + 1, y), outOfBounds);
+	
+	//más guarreo
+	while (map)
+	{
+		printf("%s\n", (char *)map->content);
+		map = map->next;
+	}
+
+	//ft_printf("\n%s", mapListDir(0, y));
+	
 	x = g_iamerror.toomanyplayers[0];
 	y = g_iamerror.toomanyplayers[1];
 	if (g_iamerror.toomanyplayers[2])

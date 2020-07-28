@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 16:26:34 by mrosario          #+#    #+#             */
-/*   Updated: 2020/07/24 17:23:50 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/07/28 16:26:51 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ extern error_t	g_iamerror;
 */
 
 //Mac
-/*int		setres(const char *line, int res, unsigned int linenum)
+int		setres(const char *line, int res, unsigned int linenum)
 {
 	CGDirectDisplayID	displayid;
 
@@ -53,10 +53,10 @@ extern error_t	g_iamerror;
 	}
 	g_iamerror.badresSize = linenum;
 	return (0);
-}*/
+}
 
 //Linux
-int		setres(const char *line, int res, unsigned int linenum)
+/*int		setres(const char *line, int res, unsigned int linenum)
 {
 	//CGDirectDisplayID	displayid;
 
@@ -79,7 +79,7 @@ int		setres(const char *line, int res, unsigned int linenum)
 	}
 	g_iamerror.badresSize = linenum;
 	return (0);
-}
+}*/
 
 /*
 ** This function will attempt to determine if a line is meant to specify a

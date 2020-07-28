@@ -6,7 +6,7 @@
 #    By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/07/15 20:32:43 by mrosario          #+#    #+#              #
-#    Updated: 2020/07/28 16:34:09 by mrosario         ###   ########.fr        #
+#    Updated: 2020/07/24 20:00:09 by mrosario         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,17 +24,15 @@ LIBFT = ./libft/libft.a
 
 CFLAG = -Wall -Werror -Wextra
 
-FRMWRK = -framework OpenGL -framework AppKit
-
-LIBS = -I /usr/local/include/mlx.h -I ./libft/libft.h cub3d.h -L./libft/ -lft -L /usr/local/lib/ -lmlx
+LIBS =  mlx.h ./libft/libft.h -L. -lmlx_Linux -lm -lXext -lX11 -lbsd -L ./libft -lft
 
 all: $(NAME)
 
 $(NAME): $(LIBFT)
-	gcc $(CFLAG) $(LIBS) $(FRMWRK) $(SRC)
+	gcc $(CFLAG) $(SRC) $(LIBS)
 
 debug: $(LIBFT)
-	gcc $(CFLAG) $(LIBS) $(FRMWRK) $(SRC) -g
+	gcc $(CFLAG) $(SRC) $(LIBS) -g
 
 $(LIBFT):
 	make -C ./libft

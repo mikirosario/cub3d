@@ -6,13 +6,90 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 18:31:22 by mrosario          #+#    #+#             */
-/*   Updated: 2020/07/27 20:32:06 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/07/28 19:22:59 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../cub3d.h"
 
 extern error_t  g_iamerror;
+
+
+void		configureplayer(int x, int y)
+{
+	char	*playerchar;
+
+	playerchar = mapListDir(x, y);
+	g_player.posX = (double)x + 0.5;//asignamos su posición en eje X a posX inicial del jugador, con un desplazamiento para estar en medio de la casilla
+	g_player.posY = (double)y + 0.5; // asignamos su posición en eje Y a posY del jugador. Y es Y - 1 porque y siempre es la posterior a midLine, donde analizamos presencia del jugador para poder mirar arriba y abajo, y nuevamente 0.5 es un offset para llevar al jugador al medio de su casilla.
+	//y aquí asignamos la orientación inicial del jugador en función de su letra N->Norte, S->Sur, E-Este, W-Oeste.
+	if (*playerchar == 'N' || *playerchar == 'n')
+	{
+		g_player.dirX = (double)-0;
+		g_player.dirY = (double)-1;
+		g_player.planeX = (double)0.66;
+		g_player.planeY = (double)-0;
+	}
+	else if (*playerchar == 'S' || *playerchar == 's')
+	{
+		g_player.dirX = (double)0;
+		g_player.dirY = (double)1;
+		g_player.planeX = (double)-0.66;
+		g_player.planeY = (double)0;
+	}
+	else if (*playerchar == 'E' || *playerchar == 'e')
+	{
+		g_player.dirX = (double)1;
+		g_player.dirY = (double)-0;
+		g_player.planeX = (double)0;
+		g_player.planeY = (double)0.66;
+	}
+	else if (*playerchar == 'W' || *playerchar == 'w')
+	{
+		g_player.dirX = (double)-1;
+		g_player.dirY = (double)0;
+		g_player.planeX = (double)-0;
+		g_player.planeY = (double)-0.66;
+	}
+	*playerchar = 'A'; //marcamos pos de jugador como transitable provisional (no se ha comprobado transitabilidad en todo el eje, solo en sus vecinos, lo primero se hace en floodFill)
+}
+
+char		playerandspritescheck(char foundPlayer)
+{
+	t_list *map;
+	int		x;
+	int		y;
+	char	*mapchrs;
+	char	c;
+
+	map = g_config.Map;
+	x = 0;
+	y = 0;
+	mapchrs = " 012NnSsEeWw";
+	while ((map = mapListMem(y)))
+	{
+		x = 0;
+		while ((c = (*(char *)(map->content + x))))
+		{
+			if (c == '2')
+				spriteCounter((double)x, (double)y, c);
+			else if ((ft_strchr(mapchrs, c)) >= mapchrs + 4)
+			{
+				if ((foundPlayer += 1) > 1)
+				{
+					g_iamerror.toomanyplayers[0] = x;
+					g_iamerror.toomanyplayers[1] = y;
+					return (foundPlayer);
+				}
+				else
+					configureplayer(x, y);			
+			}
+			x++;
+		}
+		y++;
+	}
+	return (foundPlayer);
+}
 
 /*
 ** This is the function that checks a map line for validity. A line is invalid
@@ -33,7 +110,7 @@ extern error_t  g_iamerror;
 ** that has been reserved, the function will order the calling function to abort.
 */
 
-int		linecheck(char *line, int y, char endmap)
+int		linecheck(char *line, int y)
 {
 	int		x;
 	char	*match;
@@ -43,7 +120,19 @@ int		linecheck(char *line, int y, char endmap)
 
 	mapchrs = " 012NnSsEeWw";
 	x = 0;
-	while (line[x] && (match = ft_strchr(mapchrs, line[x]))) //mientras exista un char y sea un mapchar queremos estar dentro de este while y subir i para recorrer la línea. hay que analizar no-mapchr después en su caso
+	while (line[x] && (match = ft_strchr(mapchrs, line[x])))
+		x++;
+	if (x > 0 && !line[x])
+	{
+		listPtr = ft_lstnew(((char *)ft_strdup(line)));
+		listPtr->len = ft_strlen((const char *)line);
+		!y ? g_config.Map = listPtr : ft_lstadd_back(&g_config.Map, listPtr);
+	}
+	else
+		return (0);
+	return (1);
+
+	/*while (line[x] && (match = ft_strchr(mapchrs, line[x]))) //mientras exista un char y sea un mapchar queremos estar dentro de este while y subir i para recorrer la línea. hay que analizar no-mapchr después en su caso
 	{
 		if (line[x] == '2')
 			spriteCounter((double)x, (double)y, line[x]); //si encuentras un sprite, metelo en spriteList y cuentalo          
@@ -70,29 +159,45 @@ int		linecheck(char *line, int y, char endmap)
         }
 	else
 		return (0);
-	return (x);
+	return (x);*/
 }
 
 int     makeMapList(int fd, char *firstLine)
 {
-	int		x;
+	//int		x;
 	int		y;
 	char	*line;
-	char	endmap;
+	char	endfile;
 	
-    int     f;
+    //int     f;
     char    foundPlayer;
     char    *mapchrs;
     t_list  *listPtr;
     spriteData_t *sprtListPtr;
-    char    *tmp;
-    t_list  *midLine = NULL;
+    //char    *tmp;
+    //t_list  *midLine = NULL;
 
     y = 0;
     mapchrs = " 012NnSsEeWw";
-    endmap = 0;
+    endfile = 0;
     foundPlayer = 0;
-    while (!endmap)
+	line = firstLine;
+	while (linecheck(line, y) && !endfile)
+	{
+		free(line);
+		line = NULL;
+		if (!(ft_get_next_line(fd, &line))) //ver si reserva con memoria hacer free(line) aquí también
+			endfile = 49;
+		y++;
+	}
+	g_config.mapH = --y;
+	if (y < 2)
+		return (-2);
+	if ((foundPlayer = playerandspritescheck(foundPlayer)) > 1)
+		return (-4);
+	else if (!foundPlayer)
+		return (-3);
+    /*while (!endmap)
     {
         if (!y)
             line = firstLine;
@@ -123,7 +228,7 @@ int     makeMapList(int fd, char *firstLine)
                             g_iamerror.toomanyplayers[1] = y - 1;
                             return (-4);
                         }
-                        else if (f == 0 /*si f es NULL no entramos pero weno*/|| *((char *)(midLine->content + f + 1)) == '\0' || *((char *)(midLine->content + f + 1)) == ' ' || *((char *)(midLine->content + f - 1)) == ' ' || (int)(mapListMem(y - 2))->len < f || (int)(mapListMem(y))->len < f ||  mapList(f, y - 2) == ' ' || mapList(f, y) == ' ') //si el jugador está como primer char o último char de línea, o si es contiguo a un espacio, tira todo el mapa, hombre ya
+                        else if (f == 0 si f es NULL no entramos pero weno|| *((char *)(midLine->content + f + 1)) == '\0' || *((char *)(midLine->content + f + 1)) == ' ' || *((char *)(midLine->content + f - 1)) == ' ' || (int)(mapListMem(y - 2))->len < f || (int)(mapListMem(y))->len < f ||  mapList(f, y - 2) == ' ' || mapList(f, y) == ' ') //si el jugador está como primer char o último char de línea, o si es contiguo a un espacio, tira todo el mapa, hombre ya
                         {
                             g_iamerror.outofbounds[0] = f;
                             g_iamerror.outofbounds[1] = y - 1;
@@ -172,8 +277,9 @@ int     makeMapList(int fd, char *firstLine)
                 line = NULL;
             }
         y++;
-    }
-    g_config.mapH = --y; //Al salir, sea por EOF, pasando por el último y++, o por llegar a línea inválida que debe descontarse, y siempre acaba valiendo uno más que la posición de la última línea del mapa, por lo que debemos restarle uno
+    }*/
+     //Al salir, sea por EOF, pasando por el último y++, o por llegar a línea inválida que debe descontarse, y siempre acaba valiendo uno más que la posición de la última línea del mapa, por lo que debemos restarle uno
+	//g_config.mapH = endfile ? y : --y; //Si se terminó la copia por llegar a EOF (endfile), EOF se copia como última línea del mapa. Si se terminó por cualquier otro motivo (!endfile), la última línea leída no se copia, por lo que la última del mapa es una menos.
     printf("\nmapH Value: %d\n", g_config.mapH);
     listPtr = g_config.Map;
     while (listPtr)
@@ -191,10 +297,10 @@ int     makeMapList(int fd, char *firstLine)
         tonti++;
     }
     //freeList(&g_config.Map);
-    if (y < 2) //mapa debe tener al menos tres líneas para ser valido
+    /*if (y < 2) //mapa debe tener al menos tres líneas para ser valido
         return (-2);
     if (!foundPlayer) //mapa debe tener un jugador para ser válido
-        return (-3);
+        return (-3);*/
     if (floodFill() == -1)
         return (-1);
     return (1);
