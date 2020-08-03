@@ -6,32 +6,87 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/07 20:24:05 by mrosario          #+#    #+#             */
-/*   Updated: 2020/07/28 19:36:23 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/03 19:47:42 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-  #include "cub3d.h"
+#include "cub3d.h"
 
-error_t g_iamerror = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,{0,0,0},0,0,{0,0,0},0,0,0};
+error_t g_iamerror = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,{0,0,0},0,0,{0,0,0},0,0,0,0,0,0};
+
+
+void	printsprites(void)
+{
+	unsigned int	y;
+	spriteData_t	*sprtListPtr;
+
+	y = 0;
+	sprtListPtr = g_config.spriteList;
+	if (!sprtListPtr)
+		ft_printf(GREEN"NO SPRITES LOADED"RESET);
+    else
+	{
+		while (sprtListPtr)
+		{
+			ft_printf(GREEN"\nSprite %5d: X %5d Y %5d Sprite Type: %c"RESET, y + 1, (int)(round(sprtListPtr->posX)), (int)(round(sprtListPtr->posY)), sprtListPtr->spriteType);
+			sprtListPtr = sprtListPtr->next;
+			y++;
+		}
+		ft_printf(YELLOW"\nTotal Number of Sprites: %d\n"RESET, y + 1);
+	}
+		
+}
+
+void	printmap(void)
+{
+	unsigned int	y;
+	unsigned int	o;
+	unsigned int	bytes;
+	t_list			*listPtr;
+
+	listPtr = g_config.Map;
+	y = 0;
+	o = g_iamerror.premaplines;
+	bytes = 0;
+	if (!listPtr)
+		ft_printf(RED"\nNO MAP LOADED\n");
+	else
+	{
+		while (listPtr)
+		{
+			ft_printf(MAGENTA"\nBytes %10d "BLUE"Line # %10d "RESET"%s", (int)(listPtr->len + sizeof(t_list)), (int)(y + 1 + o), (char *)listPtr->content);
+			bytes += (listPtr->len + sizeof(t_list));
+			listPtr = listPtr->next;
+			y++;
+		}
+		ft_printf(GREEN"\nTotal Map Rows: %d"RESET, y);
+		if (bytes < 500000000)
+			ft_printf(GREEN"\nTotal Bytes Used by Map: %d (^_^)\n"RESET, (int)bytes);
+		else if (bytes < 1000000000)
+			ft_printf(YELLOW"\nTotal Bytes Used by Map: %d (´･_･｀)\n"RESET, (int)bytes);
+		else
+			ft_printf(RED"\nTotal Bytes Used by Map: %d (°o°)\n"RESET, (int)bytes);
+	}
+}
 
 // MacOS
-/*void	setdisplayresolution(void)
+void	setdisplayresolution(void)
 {
-	*CGDirectDisplayID	displayid;
+	CGDirectDisplayID	displayid;
 
 	displayid = CGMainDisplayID();
 	g_config.screenW = CGDisplayPixelsWide(displayid);
 	g_config.screenH = CGDisplayPixelsHigh(displayid);
 	return ;
-}*/
+}
 
 //Linux
-void	setdisplayresolution(void)
+/*void	setdisplayresolution(void)
 {
     g_config.screenW = 1920;
     g_config.screenH = 1080;
 	return ;
-}
+}*/
 
 spriteData_t	*ft_sprtlstnew(void const *content)
 {
@@ -122,10 +177,10 @@ spriteData_t    *spriteIter(int listMember)
     return (ptr);
 }
 
-char    mapList(int x, int y)
+char    mapList(unsigned int x, unsigned int y)
 {
     t_list  *ptr;
-    int     i;
+    unsigned int     i;
 (void)y;
     i = 0;
     ptr = g_config.Map;
@@ -134,10 +189,10 @@ char    mapList(int x, int y)
     return (*((char *)(ptr->content + x)));
 }
 //Como mapList, pero devuelve dirección de char
-char    *mapListDir(int x, int y)
+char    *mapListDir(unsigned int x, unsigned int y)
 {
     t_list  *ptr;
-    int     i;
+    unsigned int     i;
 (void)y;
     i = 0;
     ptr = g_config.Map;
@@ -149,10 +204,10 @@ char    *mapListDir(int x, int y)
 }
 
 //Como mapList, pero devuelve dirección del miembro asociado a y (línea)
-t_list  *mapListMem(int y)
+t_list  *mapListMem(unsigned int y)
 {
     t_list  *ptr;
-    int     i;
+    unsigned int     i;
 
     i = 0;
     ptr = g_config.Map;
@@ -226,7 +281,7 @@ int   ft_stop(int key, void *param)
         free(g_yellowMetalImg.texPath);
         free(g_greenMetalImg.texPath);
         free(g_pinkMetalImg.texPath);
-        free(g_config.spriteTexPath);
+        free(g_normiImg.texPath);
         free(g_player.newDirXY);
         exit(EXIT_SUCCESS);
     }
@@ -1036,7 +1091,7 @@ int     floodRight(int x, int y)
                 else if (!lstPtr->next || mapChar == ' ' || !mapChar)
                 {
                     g_iamerror.outofbounds[0] = x;
-                    g_iamerror.outofbounds[1] = y + 1;
+                    g_iamerror.outofbounds[1] = y;
                     return (0);
                 }
                 if (lstPtr != g_config.Map && ((mapListMem(y - 1))->len) >= (size_t)x && (mapChar = mapList(x, y -1)) && (mapChar == '0' || mapChar == '2'))//mira char de encima, primero strlen para asegurarnos de que la fila abarca lo suficiente para evitar segfault.
@@ -1044,7 +1099,7 @@ int     floodRight(int x, int y)
                 else if (lstPtr == g_config.Map || mapChar == ' ' || !mapChar)
                 {
                     g_iamerror.outofbounds[0] = x;
-                    g_iamerror.outofbounds[1] = y - 1;
+                    g_iamerror.outofbounds[1] = y;
                     return (0);
                 }
                 (*(mapListDir(x, y)) = 'T'); //marca como transitable con todos los ejes comprobados.
@@ -1098,110 +1153,38 @@ int     floodLeft(int x, int y)
     return (1);
 }
 
-void    unfloodMap(void)
+void    unfloodMap(char *flag)
 {
     t_list  *mapPtr;
     char    mapChar;
+	char	f;
     int     i;
 
     mapPtr = g_config.Map;
+	f = 'p';
+	if (!(ft_strncmp(flag, "error", 5)))
+		f = 'e';
     while (mapPtr)
     {
         i = 0;
         while ((mapChar = *(char *)(mapPtr->content + i)))
         {
-            if (mapChar == 'T')
-                (*(char *)(mapPtr->content + i)) = '0';
+            if (mapChar == 'T' || mapChar == 'A')
+                (*(char *)(mapPtr->content + i)) = f == 'p' ? '0' : '.';
             i++;
         }
         mapPtr = mapPtr->next;
     }
-    
+    //SUSTITUYE POR FUNC
     mapPtr = g_config.Map;
-    write(1, "\n", 1);
         while (mapPtr)
     {
-        printf("\n # %s", (char *)mapPtr->content);
+        ft_printf("\n # %s", (char *)mapPtr->content);
         mapPtr = mapPtr->next;
     }
 }
 
-int     floodFill(void)
-{
-    char    mapChar;
-    char    foundA;
-    t_list  *listPtr;
-    int     c = 0;
-    int     x;
-    int     y;
 
-
-    x = g_player.posX;
-    y = g_player.posY;
-    foundA = '1';
-    if ((mapChar = mapList(x, y)) && mapChar != '1' && mapChar != 'T') //transitables contiguas
-    {
-        if (((mapListMem(y + 1))->len) >= (size_t)x && (mapChar = mapList(x, y + 1)) && (mapChar == '0' || mapChar == '2')) //primero strlen para asegurarnos de que la fila de arriba abarca lo suficiente para evitar segfault...
-            (*(mapListDir(x, y + 1)) = 'A'); //marca como transitable provisional, pdte de comprobar verticales
-        else if (mapChar == ' ' || !mapChar)
-        {
-            g_iamerror.outofbounds[0] = x;
-            g_iamerror.outofbounds[1] = y + 1;
-            return (-1);
-        }
-        if (((mapListMem(y - 1))->len) >= (size_t)x && (mapChar = mapList(x, y -1)) && (mapChar == '0' || mapChar == '2'))
-            (*(mapListDir(x, y - 1)) = 'A'); //marca como transitable, pdte de comprobar verticales
-        else if (mapChar == ' ' || !mapChar)
-        {
-            g_iamerror.outofbounds[0] = x;
-            g_iamerror.outofbounds[1] = y - 1;
-            return (-1);
-        }
-    }
-    while (foundA) //mientras siga encontrando As (es decir, transitables provisionales), sigue haciendo barridos de inundación, hasta dejar de encontrarlas.
-    {    
-        y = 0;
-        foundA = 0;
-        while (y <= g_config.mapH)
-        {
-            c++;
-            x = 0;
-            while ((mapChar = mapList(x, y)))
-            {
-                if (mapChar == 'A')
-                {
-                    if (!foundA)
-                        foundA = '1';
-                    if (!(floodRight(x, y)))
-                    {
-                        printf("\nX = %d Y = %d Barridos = %d", x, y, c);
-                        return (-1);
-                    }
-                    if (!(floodLeft(x, y)))
-                        return (-1);
-                }
-                x++;
-            }
-            y++;
-        }
-    }
-
-    /*    if (!(floodRight(x, y)))
-            return (-1);
-        if (!(floodLeft(x, y)))
-            return (-1);
-    */
-    listPtr = g_config.Map;
-    while (listPtr)
-    {
-        printf("# %s\n", (char *)listPtr->content);
-        listPtr = listPtr->next;
-    }
-    write(1, "\n", 1);
-
-    unfloodMap();
-    return (1);
-}
 
 //NUEVO PLAN Algoritmo floodfill
 
@@ -1238,7 +1221,7 @@ void makeClsImg(void)
     g_clsImg.mlx_img = mlx_new_image(g_screenData.mlx_ptr, g_config.screenW, g_config.screenH);
 }
 
-void    makeTexImg(void)
+int    makeTexImg(void)
 {
     int *wallSize;
     int *sprSize;
@@ -1251,21 +1234,10 @@ void    makeTexImg(void)
         g_yellowMetalImg.mlx_img = mlx_xpm_file_to_image(g_screenData.mlx_ptr, g_yellowMetalImg.texPath, &g_config.texW, &g_config.texH);
         g_greenMetalImg.mlx_img = mlx_xpm_file_to_image(g_screenData.mlx_ptr, g_greenMetalImg.texPath, &g_config.texW, &g_config.texH);
         g_pinkMetalImg.mlx_img = mlx_xpm_file_to_image(g_screenData.mlx_ptr, g_pinkMetalImg.texPath, &g_config.texW, &g_config.texH);
-        g_normiImg.mlx_img = mlx_xpm_file_to_image(g_screenData.mlx_ptr, g_config.spriteTexPath, &g_config.spriteW, &g_config.spriteH);
-        if (!g_blueMetalImg.mlx_img || !g_yellowMetalImg.mlx_img || !g_greenMetalImg.mlx_img || !g_pinkMetalImg.mlx_img || !g_normiImg.mlx_img)
-        {
-            if (!g_blueMetalImg.mlx_img)
-                ft_putstr(pathNOFail, ft_strlen(pathNOFail));
-            if (!g_yellowMetalImg.mlx_img)
-                ft_putstr(pathSOFail, ft_strlen(pathSOFail));
-            if (!g_greenMetalImg.mlx_img)
-                ft_putstr(pathWEFail, ft_strlen(pathWEFail));
-            if (!g_pinkMetalImg.mlx_img)
-                ft_putstr(pathEAFail, ft_strlen(pathEAFail));
-            if (!g_normiImg.mlx_img)
-                ft_putstr(pathSprFail, ft_strlen(pathSprFail));
-            exit(EXIT_FAILURE); //Fugoso?
-        }
+        if (g_config.spriteNum)
+			g_normiImg.mlx_img = mlx_xpm_file_to_image(g_screenData.mlx_ptr, g_normiImg.texPath, &g_config.spriteW, &g_config.spriteH);
+        if (!g_blueMetalImg.mlx_img || !g_yellowMetalImg.mlx_img || !g_greenMetalImg.mlx_img || !g_pinkMetalImg.mlx_img || (!g_normiImg.mlx_img && g_config.spriteNum))
+            return(0); //Fugoso?
         if ((getTexRes(wallSize, g_blueMetalImg.texPath)) < 0)
             ft_putstr(wallTexSizeFail, ft_strlen(wallTexSizeFail));
         else
@@ -1274,7 +1246,7 @@ void    makeTexImg(void)
             g_config.texH = wallSize[1];
         }
         compTexRes();
-        if ((getTexRes(sprSize, g_config.spriteTexPath)) < 0)
+        if ((getTexRes(sprSize, g_normiImg.texPath)) < 0)
             ft_putstr(sprTexSizeFail, ft_strlen(sprTexSizeFail));
         else
         {
@@ -1289,34 +1261,40 @@ void    makeTexImg(void)
         free(wallSize);
     if (sprSize)
         free(sprSize);
+	return (1);
 }
 
 //Mac
 int   main(int argc, char **argv)
   {
-      int 	r;
+      int 	success;
 
 	  (void)argc;
       initialize();
       initializeKeys();
-	  r = cubhandler(argv[1]);
-	  printnotifications();
-	  printerrors();
-	  if (!r)
-	  	return (EXIT_FAILURE);
+	  success = cubhandler(argv[1]);
       //printf("\n%s", argv[1]);
       g_player.newDirXY = malloc(2 * sizeof(double));
 //Create screen
    //if (getMap fails, do not start)
    
    
-   
-    if (!(g_screenData.mlx_ptr = mlx_init()))
-        return (EXIT_FAILURE);
-    if (!(g_screenData.mlx_win = mlx_new_window(g_screenData.mlx_ptr, g_config.screenW, g_config.screenH, "Norminator 3D")))
-        return (EXIT_FAILURE);
-    makeClsImg();
-    makeTexImg();
+   if (success)
+   {
+	if (!(g_screenData.mlx_ptr = mlx_init()))
+		success = 0;
+	if (!(g_screenData.mlx_win = mlx_new_window(g_screenData.mlx_ptr, g_config.screenW, g_config.screenH, "Norminator 3D")))
+		success = 0;
+   }
+   if (success)
+   {
+	makeClsImg();
+	success = makeTexImg();
+   }
+   	printnotifications();
+	printerrors();
+	if (!success)
+	  	return (EXIT_FAILURE);
 	printf("\nSizeOf error_s: %zu\n", sizeof(g_iamerror));
 	printf("\nValor: %d\n", g_iamerror.getresfail);
     mlx_do_key_autorepeatoff(g_screenData.mlx_ptr);

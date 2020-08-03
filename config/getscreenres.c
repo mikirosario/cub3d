@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 16:26:34 by mrosario          #+#    #+#             */
-/*   Updated: 2020/07/28 16:26:51 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/03 16:46:40 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,10 @@ extern error_t	g_iamerror;
 **
 ** To check the default display resolution on MacOS, part of the CoreGraphics
 ** library will be used. To check the number values, ft_atoi will be used.
+**
+** Mac, using CoreGraphics library.
 */
 
-//Mac
 int		setres(const char *line, int res, unsigned int linenum)
 {
 	CGDirectDisplayID	displayid;

@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/07/28 16:28:18 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/03 20:34:00 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define CUB3D_H
 
 #include <CoreGraphics/CGDisplayConfiguration.h> //need this to retrieve resolution
+#include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -26,6 +27,7 @@
 #include <unistd.h>
 #include <time.h> //BONUS
 
+#define	BLUE "\033[1;34m"
 #define	GREEN "\033[0;32m"
 #define MAGENTA "\033[1;35m"
 #define RED "\033[22;31m"
@@ -70,11 +72,14 @@ typedef		struct error_s
 	unsigned int	outofbounds[3];
 	unsigned char	badmap3line : 1;
 	unsigned char	noplayer : 1;
-	unsigned char	toomanyplayers[3];
+	unsigned int	toomanyplayers[3];
 	unsigned char	getnextlinefail : 1;
 	unsigned char	mapchecked : 1;
-  unsigned int  premaplines;
-	}					error_t;
+  	unsigned int 	premaplines;
+	unsigned char	uintxmax : 1;
+	unsigned char	uintymax : 1;
+	unsigned int	mapsweeps;
+}				error_t;
 
 typedef     struct spriteData_s
 {
@@ -89,8 +94,8 @@ typedef     struct  configData_s
 {
   t_list *Map;
   spriteData_t *spriteList;
-  int mapW;
-  int mapH;
+  unsigned int mapW;
+  unsigned int mapH;
   int screenW;
   int screenH;
   int texW;
@@ -225,9 +230,9 @@ void			ft_sprtlstadd_back(spriteData_t **alst, spriteData_t *new);
 void			freeSprtList(spriteData_t **alst);
 spriteData_t	*spriteIter(int listMember);
 void			freeList(t_list **alst);
-char			mapList(int x, int y);
-char			*mapListDir(int x, int y);
-t_list			*mapListMem(int y);
+char			mapList(unsigned int x, unsigned int y);
+char			*mapListDir(unsigned int x, unsigned int y);
+t_list			*mapListMem(unsigned int y);
 void			cls();
 void			ft_sortSprites(int *spriteOrder);
 int				ft_stop(int key, void *param);
@@ -250,17 +255,25 @@ int				getccolor(const char *line, unsigned int linenum);
 void			spriteCounter(double x, double y, char c);
 int				isMap(char *line);
 int				cubhandler(const char *ptr);
-void			cubread(int *result, char **line, int fd);
+void			cubread(int *result, char **line, int fd, int linenum);
 void			setdisplayresolution(void);
+void			printmap(void);
+void			printsprites();
 void			printerrors(void);
 void			printnotifications(void);
-int				floodFill(void);
+char			toomanyplayers(unsigned int x, unsigned y, char foundplayer);
+void			recorderrorlocation(unsigned int *errorarray, unsigned int x, unsigned int y);
+void			geterrorlocation(unsigned int *errorarray, unsigned int *x, unsigned int *y);
+void			localizedmaperrors(void);
+void			generalmaperrors(void);
+void			texpatherrors(void);
+int				floodfill(void);
 int				floodRight(int x, int y);
 int				floodLeft(int x, int y);
-void			unfloodMap(void);
-int				makeMapList(int fd, char *firstLine);
+void			unfloodMap(char *flag);
+int				makemaplist(int fd, char *firstline);
 void			makeClsImg(void);
-void			makeTexImg(void);
+int				makeTexImg(void);
 int				main(int argc, char **argv);
 
 

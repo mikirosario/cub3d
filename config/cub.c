@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/16 18:38:05 by mrosario          #+#    #+#             */
-/*   Updated: 2020/07/24 19:42:13 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/03 18:06:17 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,12 @@ int		findfirstmapline(char **line, int *result, unsigned int linenum)
 ** by the map handler.
 */
 
-void	cubread(int *result, char **line, int fd)
+void	cubread(int *result, char **line, int fd, int linenum)
 {
-	unsigned int	linenum;
-
-	linenum = 0;
 	while ((ft_get_next_line(fd, line)) > 0 && ++linenum)
 	{
+		if (!(*line))
+			g_iamerror.mallocfail = 1;
 		if (result[0] < 1)
 			result[0] = getres(*line, linenum);
 		if (result[1] < 1)
@@ -168,7 +167,7 @@ int		maphandler(int fd, char *line)
 	int i;
 
 	g_iamerror.mapchecked = 1;
-	i = makeMapList(fd, line);
+	i = makemaplist(fd, line);
 	if (i < 0)
 	{
 		if (i == -1)
@@ -220,6 +219,47 @@ int		maphandler(int fd, char *line)
 ** could not be found in the cub file, the program will
 ** abort and throw an invalid sprite path error. If sprites
 ** were not found, any sprite path error will be ignored.
+**
+** The original function was written with inverse logic to
+** the current one. I inverted the logic to shorten the
+** code (Norminette strikes again). I'm leaving a copy of
+** the old code, though, for reference, as I find it
+** easier to follow. ;) (It's functionally identical).
+**
+** Please excuse the needless ternaries in the else, again,
+** Norminette made me do it. :_( :_(
+**
+** int		cubhandler(const char *ptr)
+** {
+**	char	*line;
+**	int		fd;
+**	int		*result;
+**	char	success;
+**
+**	fd = open(ptr, O_RDONLY, S_IRUSR);
+**	success = 1;
+**	if (!(result = ft_calloc(9, sizeof(int))) || fd < 3)
+**	{
+**		if (fd < 0)
+**			g_iamerror.cubfilenotfound = 1;
+**		else if (fd >= 0)
+**			g_iamerror.weirdfd = 1;
+**		if (!result)
+**			g_iamerror.mallocfail = 1;
+**		success = 0;
+**	}
+**	else
+**	{
+**		line = NULL;
+**		cubread(result, &line, fd);
+**		if (!(cuberrorhandler(result)) || !(maphandler(fd, line)) || \
+**		(g_config.spriteNum && g_iamerror.getsprfail))
+**			success = 0;
+**	}
+**	if (close(fd) < 0)
+**		g_iamerror.couldnotclose = 1;
+**	return (success ? 1 : 0);
+** }
 */
 
 int		cubhandler(const char *ptr)
@@ -227,27 +267,26 @@ int		cubhandler(const char *ptr)
 	char	*line;
 	int		fd;
 	int		*result;
+	int		linenum;
+	char	success;
 
 	fd = open(ptr, O_RDONLY, S_IRUSR);
-	if (!(result = ft_calloc(9, sizeof(int))) || fd < 3)
+	success = 0;
+	if ((result = ft_calloc(9, sizeof(int))) && fd >= 3)
 	{
-		if (fd < 0)
-			g_iamerror.cubfilenotfound = 1;
-		else if (fd >= 0)
-			g_iamerror.weirdfd = 1;
-		if (!result)
-			g_iamerror.mallocfail = 1;
-		return (0);
+		line = NULL;
+		cubread(result, &line, fd, (linenum = 0));
+		if ((cuberrorhandler(result)) && (maphandler(fd, line)) && \
+		(!g_config.spriteNum || !g_iamerror.getsprfail))
+			success = 1;
 	}
 	else
 	{
-		line = NULL;
-		cubread(result, &line, fd);
-		if (!(cuberrorhandler(result)) || !(maphandler(fd, line)) || \
-		(!g_config.spriteNum && g_iamerror.getsprfail))
-			return (0);
+		g_iamerror.cubfilenotfound = fd < 0 ? 1 : g_iamerror.cubfilenotfound;
+		g_iamerror.weirdfd = fd >= 0 ? 1 : g_iamerror.weirdfd;
+		g_iamerror.mallocfail = !result ? 1 : g_iamerror.mallocfail;
 	}
 	if (close(fd) < 0)
 		g_iamerror.couldnotclose = 1;
-	return (1);
+	return (success ? 1 : 0);
 }

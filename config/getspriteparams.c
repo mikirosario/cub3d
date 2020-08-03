@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 18:08:49 by mrosario          #+#    #+#             */
-/*   Updated: 2020/07/24 18:32:57 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/03 19:04:09 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,12 @@ int		getsprite(const char *line, unsigned int linenum)
 	i = 0;
 	while (line[i] && ft_isprint(line[i]))
 		i++;
-	if (!(g_config.spriteTexPath = ft_calloc(i + 1, 1)))
+	if (!(g_normiImg.texPath = ft_calloc(i + 1, 1)))
 	{
 		g_iamerror.mallocfail = 1;
 		return (0);
 	}
-	ft_memcpy(g_config.spriteTexPath, line, i);
+	ft_memcpy(g_normiImg.texPath, line, i);
 	ft_printf("Quantum Path Info E Wall: \n%s\n", g_config.spriteTexPath);
 	return (1);
 }

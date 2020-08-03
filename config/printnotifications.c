@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/24 19:08:46 by mrosario          #+#    #+#             */
-/*   Updated: 2020/07/24 19:40:05 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/07/29 19:16:08 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,10 @@ void	printnotifications(void)
 		}
 		else
 			ft_printf(defaultC);
+	}
+	if (g_iamerror.mapchecked)
+	{
+		ft_printf("\nMap Height: %d\n", g_config.mapH);
 	}
 	return ;
 }

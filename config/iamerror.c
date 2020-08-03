@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/21 19:17:09 by mrosario          #+#    #+#             */
-/*   Updated: 2020/07/28 20:36:11 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/03 18:40:42 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,58 +15,34 @@
 extern error_t	g_iamerror;
 
 /*
-** Y + 1 (In text editor lines start with 1, not 0), + lines counted before the
-** gives the line number of the error. X, saved as array value 0, gives the
-** position before the error and can be passed to ft_printf as precision via the
-** * flag to print up to the error. Then map retrieval functions can be used to
-** print the rest of the bad line for the user.
+** This function prints the RED ERROR message and then calls the functions
+** generalmaperrors and localizedmaperrors to handle and print the associated
+** error routines and messages. These functions are defined in the maperrors.c
+** file.
 */
+
 void	maperrors(void)
 {
-	unsigned int o;
-	unsigned int x;
-	unsigned int y;
-
-	//guarreo
-	t_list *map = g_config.Map;
-
-	o = g_iamerror.premaplines;
 	ft_printf("%s", REDERROR);
-	if (g_iamerror.noplayer)
-		ft_putstr(noPlayer, strlen(noPlayer));
-	else
-		*((char *)mapListDir(g_player.posX, g_player.posY)) = 'P';
-	if (g_iamerror.badmap3line)
-		ft_putstr(badMap3line, strlen(badMap3line));
-	x = g_iamerror.outofbounds[0];
-	y = g_iamerror.outofbounds[1];
-
-	//guarreo general
-	*((char *)mapListDir(x, y)) = 'K';
-	
-	if (g_iamerror.outofbounds[2])
-		ft_printf("Line: %u: %.*s"RED"%c"RESET"%s\n%s\n", y + 1 + o, x, \
-		mapListDir(0, y), mapList(x, y), mapListDir(x + 1, y), outOfBounds);
-	
-	//más guarreo
-	while (map)
-	{
-		printf("%s\n", (char *)map->content);
-		map = map->next;
-	}
-
-	//ft_printf("\n%s", mapListDir(0, y));
-	
-	x = g_iamerror.toomanyplayers[0];
-	y = g_iamerror.toomanyplayers[1];
-	if (g_iamerror.toomanyplayers[2])
-		ft_printf("Line: %u: %.*s"RED"%c"RESET"%s\n%s\n", y + 1 + o, x, \
-		mapListDir(0, y), mapList(x, y), mapListDir(x + 1, y), tooManyPlayers);
-	if (g_config.spriteList)
-		freeSprtList(&g_config.spriteList);
-	if (g_config.Map)
-		freeList(&g_config.Map);
+	generalmaperrors();
+	localizedmaperrors();
 }
+
+/*
+** This function will be triggered if for any reason any part of the
+** user-declared resolution could not be retrieved, or if no resolution was
+** declared by the user, or if the user-declared resolution was too small, or
+** greater than the supported display resolution.
+**
+** First it will call the setdisplayresolution function to set the resolution
+** to the default resolution. Since these errors do not impede the program
+** from launching, the YELLOW ERROR message will be printed, followed by the
+** failed resolution retrieval message, and any specific errors along with the
+** cub file line where they were detected.
+**
+** Possible specific errors are the syntax error and the bad resolution size
+** error.
+*/
 
 void	reserrors(void)
 {
@@ -79,6 +55,16 @@ void	reserrors(void)
 		ft_printf("Line %u: %s", g_iamerror.badresSize, badResSize);
 	return ;
 }
+
+/*
+** This function will be triggered if for any reason the program was unable
+** to retrieve the user-supplied textures.
+**
+** Depending on the errors present, the associated error messages will be
+** printed. For syntax errors, the line where the error was detected will be
+** reported to the user. Possible errors are retrieval errors and syntax
+** errors.
+*/
 
 void	texerrors(void)
 {
@@ -103,7 +89,23 @@ void	texerrors(void)
 		ft_putstr(getSprFail, ft_strlen(getSprFail));
 	if (g_config.spriteNum && g_iamerror.badsprsyn)
 		ft_printf("Line %u: %s", g_iamerror.badsprsyn, badSprSyn);
+	texpatherrors();
+
 }
+
+/*
+** This function handles retrieval errors for the color values supplied
+** by the user to define ceiling and floor colors.
+**
+** Since these errors do not impede the program from launching, the YELLOW
+** ERROR message will be printed, followed by the failed color value retrieval
+** message.
+**
+** Depending on the errors present, the associated error messages will be
+** printed. For syntax errors, the line where the error was detected will be
+** reported to the user. Possible errors are retrieval errors and syntax
+** errors.
+*/
 
 void	ceilingfloorerrors(void)
 {
@@ -119,17 +121,18 @@ void	ceilingfloorerrors(void)
 }
 
 /*
-** printerrors refers to a global struct called iamerror to check
-** whether flags are set signalling certain errors. The flags are set by
-** the program as they occur. If set, the corresponding error message will
-** be printed on screen. Map errors will not be printed if preceding errors
-** caused the program to abort. In the case of the nomapfound error this is
-** controlled with the mapchecked flag; subsequently, because the errors will
-** only be set programatically if a map has been found first.
+** The printerrors function refers to a global struct called iamerror to check
+** whether flags have been set signalling certain errors. The flags are set by
+** the program as they occur. If set, the corresponding error messages will
+** be printed on screen.
 **
-** I might change this to have the flags and strings arrays with
-** with corresponding memory positions (error[x] prints message[x]), so that
-** the function can be reduced to a while loop... Maybe...
+** Map errors will not be printed unless a map has been found and checked.
+**
+** If no map was found, a no map found error will be displayed. However, if
+** errors before the map could be checked cause the program to abort, no map
+** error will be displayed, even if the nomapfound error is flagged. This is
+** controlled with the mapchecked flag, which indicates whether the map was
+** checked.
 */
 
 void	printerrors(void)
@@ -141,17 +144,17 @@ void	printerrors(void)
 	if (g_iamerror.getresfail)
 		reserrors();
 	if (g_iamerror.getnofail || g_iamerror.getsofail || g_iamerror.getwefail \
-	|| g_iamerror.geteafail || (g_config.spriteNum && g_iamerror.getsprfail))
+	|| g_iamerror.geteafail || (g_config.spriteNum && (g_iamerror.getsprfail || !g_normiImg.mlx_img)))
 		texerrors();
 	if (g_iamerror.fcolorinvalid || g_iamerror.ccolorinvalid)
 		ceilingfloorerrors();
-	if (g_iamerror.outofbounds[2] || g_iamerror.noplayer || g_iamerror.badmap3line || g_iamerror.toomanyplayers[2])
+	if (g_iamerror.outofbounds[2] || g_iamerror.noplayer || \
+	g_iamerror.badmap3line || g_iamerror.toomanyplayers[2])
 		maperrors();
 	if (g_iamerror.mapchecked && g_iamerror.nomapfound)
 		ft_putstr(noMapFound, ft_strlen(noMapFound));
 	if (g_iamerror.couldnotclose)
 		ft_putstr(couldNotClose, ft_strlen(couldNotClose));
 	write(1, "\n", 1);
-	printf("\nReal Resolution: %d, %d\n", g_config.screenW, g_config.screenH);
 	return ;
 }
