@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/16 18:38:05 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/03 18:06:17 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/07 18:27:52 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int		findfirstmapline(char **line, int *result, unsigned int linenum)
 	while (i < 5 && result[i] == 1)
 		i++;
 	if (i == 5)
-		if (isMap(*line))
+		if (ismap(*line))
 		{
 			result[8] = 1;
 			g_iamerror.premaplines = linenum - 1;
@@ -101,9 +101,6 @@ void	cubread(int *result, char **line, int fd, int linenum)
 ** only fatal if sprites are found, but this is determined after
 ** the maphandler function is run. The rest are non-fatal.
 **
-** The result array will be freed just before function end, as it
-** will no longer be used.
-**
 ** If any fatal errors are found, this function will return 0.
 ** Otherwise, it will return 1.
 */
@@ -133,7 +130,6 @@ int		cuberrorhandler(int *result)
 	i = 1;
 	while (result[i] && i < 5)
 		i++;
-	free(result);
 	return (i < 5 || !result[8] ? 0 : 1);
 }
 
@@ -247,6 +243,7 @@ int		maphandler(int fd, char *line)
 **		if (!result)
 **			g_iamerror.mallocfail = 1;
 **		success = 0;
+**		free(result);
 **	}
 **	else
 **	{
@@ -279,6 +276,7 @@ int		cubhandler(const char *ptr)
 		if ((cuberrorhandler(result)) && (maphandler(fd, line)) && \
 		(!g_config.spriteNum || !g_iamerror.getsprfail))
 			success = 1;
+		free(result);
 	}
 	else
 	{

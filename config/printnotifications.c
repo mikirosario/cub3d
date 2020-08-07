@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/24 19:08:46 by mrosario          #+#    #+#             */
-/*   Updated: 2020/07/29 19:16:08 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/07 20:31:09 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,12 @@ void	printnotifications(void)
 			ft_printf(defaultC);
 	}
 	if (g_iamerror.mapchecked)
+		ft_printf(mapHeight, g_config.mapH);
+	if (!g_iamerror.texpathfail)
 	{
-		ft_printf("\nMap Height: %d\n", g_config.mapH);
+		ft_printf(wallTexSize, g_config.texW, g_config.texH);
+		if (g_normiImg.mlx_img)
+			ft_printf(spriteTexSize, g_config.spriteW, g_config.spriteH);
 	}
 	return ;
 }

@@ -6,133 +6,18 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/07 20:24:05 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/03 19:47:42 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/07 20:39:56 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-error_t g_iamerror = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,{0,0,0},0,0,{0,0,0},0,0,0,0,0,0};
+error_t g_iamerror = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,{0,0,0},0,0,{0,0,0},0,0,0,0,0,0,NULL};
 
-
-void	printsprites(void)
-{
-	unsigned int	y;
-	spriteData_t	*sprtListPtr;
-
-	y = 0;
-	sprtListPtr = g_config.spriteList;
-	if (!sprtListPtr)
-		ft_printf(GREEN"NO SPRITES LOADED"RESET);
-    else
-	{
-		while (sprtListPtr)
-		{
-			ft_printf(GREEN"\nSprite %5d: X %5d Y %5d Sprite Type: %c"RESET, y + 1, (int)(round(sprtListPtr->posX)), (int)(round(sprtListPtr->posY)), sprtListPtr->spriteType);
-			sprtListPtr = sprtListPtr->next;
-			y++;
-		}
-		ft_printf(YELLOW"\nTotal Number of Sprites: %d\n"RESET, y + 1);
-	}
-		
-}
-
-void	printmap(void)
-{
-	unsigned int	y;
-	unsigned int	o;
-	unsigned int	bytes;
-	t_list			*listPtr;
-
-	listPtr = g_config.Map;
-	y = 0;
-	o = g_iamerror.premaplines;
-	bytes = 0;
-	if (!listPtr)
-		ft_printf(RED"\nNO MAP LOADED\n");
-	else
-	{
-		while (listPtr)
-		{
-			ft_printf(MAGENTA"\nBytes %10d "BLUE"Line # %10d "RESET"%s", (int)(listPtr->len + sizeof(t_list)), (int)(y + 1 + o), (char *)listPtr->content);
-			bytes += (listPtr->len + sizeof(t_list));
-			listPtr = listPtr->next;
-			y++;
-		}
-		ft_printf(GREEN"\nTotal Map Rows: %d"RESET, y);
-		if (bytes < 500000000)
-			ft_printf(GREEN"\nTotal Bytes Used by Map: %d (^_^)\n"RESET, (int)bytes);
-		else if (bytes < 1000000000)
-			ft_printf(YELLOW"\nTotal Bytes Used by Map: %d (´･_･｀)\n"RESET, (int)bytes);
-		else
-			ft_printf(RED"\nTotal Bytes Used by Map: %d (°o°)\n"RESET, (int)bytes);
-	}
-}
-
-// MacOS
-void	setdisplayresolution(void)
-{
-	CGDirectDisplayID	displayid;
-
-	displayid = CGMainDisplayID();
-	g_config.screenW = CGDisplayPixelsWide(displayid);
-	g_config.screenH = CGDisplayPixelsHigh(displayid);
-	return ;
-}
-
-//Linux
-/*void	setdisplayresolution(void)
-{
-    g_config.screenW = 1920;
-    g_config.screenH = 1080;
-	return ;
-}*/
-
-spriteData_t	*ft_sprtlstnew(void const *content)
-{
-	spriteData_t *tmp;
-
-	tmp = malloc(sizeof(spriteData_t));
-	if (tmp)
-	{
-		tmp->posX = 0;
-        tmp->posY = 0;
-        if (content)
-            tmp->texture = (void *)content;
-        else
-            tmp->texture = NULL;
-		tmp->next = NULL;
-	}
-	return (tmp);
-}
-
-spriteData_t	*ft_sprtlstlast(spriteData_t *lst)
-{
-	spriteData_t	*tmp;
-
-	tmp = lst;
-	if (!lst)
-		return (0);
-	while (tmp->next)
-		tmp = tmp->next;
-	return (tmp);
-}
-
-void	ft_sprtlstadd_back(spriteData_t **alst, spriteData_t *new)
-{
-	if (!new)
-		return ;
-	if (alst && *alst)
-	{
-		new->next = (ft_sprtlstlast(*alst))->next;
-		(ft_sprtlstlast(*alst))->next = new;
-	}
-	else
-	{
-		*alst = new;
-		new->next = NULL;
-	}
-}
+/*
+** This function is a generic, run-of-the-mill "free this memory and set the
+** pointer to NULL" function that should really be in my libft by now. :p
+*/
 
 void    del(void *freeThis)
 {
@@ -140,85 +25,45 @@ void    del(void *freeThis)
     freeThis = NULL;
 }
 
-void    freeSprtList(spriteData_t **alst)
-{
-    spriteData_t *tmp;
+/*
+** This is a little function I've found very useful. It finds the next number
+** from thhe position in a string passed as an argument.
 
-    while (*alst)
-    {
-        tmp = (&(**alst))->next;
-        free(*alst);
-        *alst = tmp;
-    }
+** If your pointer is pointing to a number in a string, it will go through the
+** number until the end and then go through any non-numerical characters after
+** the number until it finds the next number or a NULL. If you're pointing to a
+** part of the string that isn't a number, it will of course ignore the first
+** while and directly go to the second one to find the next number.
+
+** If it finds another number, it returns a pointer to it, otherwise it returns
+** a NULL pointer. Great line saver. ^_^
+**
+** This is going in my libft.
+*/
+
+char	*getnextnum(char *num)
+{
+	while (*num && ft_isdigit(*num))
+		num++;
+	while (*num && !(ft_isdigit(*num)))
+		num++;
+	return (*num ? num : NULL);
 }
 
-void    freeList(t_list **alst)
-{
-    t_list *tmp;
+/*
+** These functions will respectively create and put the g_clsImg.mlx_img image
+** to window. It was originally meant to be clear screen function, until I
+** realized I don't really need a clear screen function. I might find another
+** use for it, though, so I'm leaving it here. ;)
+**
+** I might repurpose it for overlays or something in the bonus. :)
+*/
 
-    ft_lstiter(*alst, del);
-    while (*alst)
-    {
-        tmp = (&(**alst))->next;
-        free(*alst);
-        *alst = tmp;
-    }
+void makeClsImg(void)
+{
+    g_clsImg.mlx_img = mlx_new_image(g_screenData.mlx_ptr, g_config.screenW, g_config.screenH);
 }
 
-spriteData_t    *spriteIter(int listMember)
-{
-    spriteData_t    *ptr;
-    int             i;
-
-    i = 0;
-    ptr = g_config.spriteList;
-    while (i++ < listMember)
-        ptr = ptr->next;
-    return (ptr);
-}
-
-char    mapList(unsigned int x, unsigned int y)
-{
-    t_list  *ptr;
-    unsigned int     i;
-(void)y;
-    i = 0;
-    ptr = g_config.Map;
-    while (i++ < y)
-        ptr = ptr->next;
-    return (*((char *)(ptr->content + x)));
-}
-//Como mapList, pero devuelve dirección de char
-char    *mapListDir(unsigned int x, unsigned int y)
-{
-    t_list  *ptr;
-    unsigned int     i;
-(void)y;
-    i = 0;
-    ptr = g_config.Map;
-    while (ptr && i++ < y)
-        ptr = ptr->next;
-    if (!ptr)
-        return (0);
-    return (((char *)(ptr->content + x)));
-}
-
-//Como mapList, pero devuelve dirección del miembro asociado a y (línea)
-t_list  *mapListMem(unsigned int y)
-{
-    t_list  *ptr;
-    unsigned int     i;
-
-    i = 0;
-    ptr = g_config.Map;
-    while (ptr && i++ < y)
-        ptr = ptr->next;
-    if (!ptr)
-        return (0);
-    return (ptr);
-}
-
-//image dump cls
 void    cls()
 {
    mlx_put_image_to_window(g_screenData.mlx_ptr, g_screenData.mlx_win, g_clsImg.mlx_img, 0, 0);
@@ -237,7 +82,7 @@ while (i < g_config.spriteNum)
     //g_frameData.spriteOrder[i] = i;
     spriteOrder[i] = i;
     //distance[i] = ((g_player.posX - g_sprite[i].posX) * (g_player.posX - g_sprite[i].posX) + (g_player.posY - g_sprite[i].posY) * (g_player.posY - g_sprite[i].posY));
-    distance[i] = ((g_player.posX - (spriteIter(i))->posX) * (g_player.posX - (spriteIter(i))->posX) + (g_player.posY - (spriteIter(i))->posY) * (g_player.posY - (spriteIter(i))->posY));
+    distance[i] = ((g_player.posX - (spriteiter(i))->posX) * (g_player.posX - (spriteiter(i))->posX) + (g_player.posY - (spriteiter(i))->posY) * (g_player.posY - (spriteiter(i))->posY));
     i++;
 }
 i = -1;
@@ -259,7 +104,7 @@ while (g_config.spriteNum > 1 && ++i < g_config.spriteNum - 1)
 }
 
 }
-//Mac
+//Mac FREEME FUNCTION
 int   ft_stop(int key, void *param)
   {
     (void)param;
@@ -272,17 +117,17 @@ int   ft_stop(int key, void *param)
         if (g_blueMetalImg.mlx_img)
             mlx_destroy_image(g_screenData.mlx_ptr, g_blueMetalImg.mlx_img);
         if (g_normiImg.mlx_img)
-            mlx_destroy_image(g_screenData.mlx_ptr, g_normiImg.mlx_img); //Nota: Esta función libera la memoria ocupada por la imágen; no intentar liberarla desde freeSprtlist o será doble-free. ;)
+            mlx_destroy_image(g_screenData.mlx_ptr, g_normiImg.mlx_img); //Nota: Esta función libera la memoria ocupada por la imágen; no intentar liberarla desde freesprtlist o será doble-free. ;)
         if (g_config.Map)
-            freeList(&g_config.Map);
+            freelist(&g_config.Map);
         if (g_config.spriteList)
-            freeSprtList(&g_config.spriteList);
+            freesprtlist(&g_config.spriteList);
         free(g_blueMetalImg.texPath);
         free(g_yellowMetalImg.texPath);
         free(g_greenMetalImg.texPath);
         free(g_pinkMetalImg.texPath);
         free(g_normiImg.texPath);
-        free(g_player.newDirXY);
+        //free(g_player.newDirXY);
         exit(EXIT_SUCCESS);
     }
     return (0);
@@ -336,7 +181,7 @@ int   ft_rayCaster(int key, void *param)
     if (!seconds)
         seconds = time(NULL);
     x = 0;
-
+	g_config.vMove = g_config.spriteH * g_config.vDiv;
     g_screenData.mlx_img_buffer = mlx_new_image(g_screenData.mlx_ptr, g_config.screenW, g_config.screenH);
     buf = (unsigned int *)mlx_get_data_addr(g_screenData.mlx_img_buffer, &g_screenData.bpp, &g_screenData.size_line, &g_screenData.endian);
     if (stayOut == 'n')
@@ -433,7 +278,7 @@ int   ft_rayCaster(int key, void *param)
             }
             //check if ray has hit a wall
             //if (g_worldMap[g_rayData.mapX][g_rayData.mapY] > 0)
-            if (mapList(g_rayData.mapX, g_rayData.mapY) == '1')
+            if (maplist(g_rayData.mapX, g_rayData.mapY) == '1')
                 g_rayData.hit = 1;
         }
         //calculate distance projected on camera direction
@@ -584,10 +429,10 @@ int   ft_rayCaster(int key, void *param)
         //translate sprite position to relative to camera, taking most distant sprite first with order mask
         //spriteX = g_sprite[g_frameData.spriteOrder[i]].posX - g_player.posX;
         //spriteX = g_sprite[spriteOrder[i]].posX - g_player.posX;
-        spriteX = (spriteIter(spriteOrder[i]))->posX - g_player.posX;
+        spriteX = (spriteiter(spriteOrder[i]))->posX - g_player.posX;
         //spriteY = g_sprite[g_frameData.spriteOrder[i]].posY - g_player.posY;
         //spriteY = g_sprite[spriteOrder[i]].posY - g_player.posY;
-        spriteY = (spriteIter(spriteOrder[i]))->posY - g_player.posY;
+        spriteY = (spriteiter(spriteOrder[i]))->posY - g_player.posY;
         //transform sprite with the inverse camera matrix O_O
         invDet = 1.0 / (g_player.planeX * g_player.dirY - g_player.dirX * g_player.planeY); //required for correct matrix multiplication porque Lode lo dice
         transformX = invDet * (g_player.dirY * spriteX - g_player.dirX * spriteY);
@@ -635,7 +480,7 @@ int   ft_rayCaster(int key, void *param)
                     spriteTexY = ((d * g_config.spriteH) / spriteHeight) / 256;
                     //g_frameData.ocolor = g_sprite[g_frameData.spriteOrder[i]].texture[g_config.spriteW * spriteTexY + spriteTexX]; //get current color from the texture
                     //g_frameData.ocolor = g_sprite[spriteOrder[i]].texture[g_config.spriteW * spriteTexY + spriteTexX]; //get current color from the texture
-                    g_frameData.ocolor = (spriteIter(spriteOrder[i]))->texture[g_config.spriteW * spriteTexY + spriteTexX]; //get current color from the texture
+                    g_frameData.ocolor = (spriteiter(spriteOrder[i]))->texture[g_config.spriteW * spriteTexY + spriteTexX]; //get current color from the texture
                     if (g_frameData.ocolor != 0x0000ff00)
                         buf[stripe + (g_config.screenW * y)] = g_frameData.ocolor;
                     y++;
@@ -656,10 +501,10 @@ int   ft_rayCaster(int key, void *param)
     {
     mlx_string_put(g_screenData.mlx_ptr, g_screenData.mlx_win, 0, 0, 0xFF00000, "UP"); //CHIVATO
     //if (g_worldMap[(int)(g_player.posX + g_player.dirX * g_player.moveSpeed)][(int)g_player.posY] == 0)
-    if ((mapList((int)(g_player.posX + g_player.dirX * g_player.moveSpeed), (int)g_player.posY)) == '0')
+    if ((maplist((int)(g_player.posX + g_player.dirX * g_player.moveSpeed), (int)g_player.posY)) == '0')
         g_player.posX += g_player.dirX * g_player.moveSpeed;
     //if (g_worldMap[(int)g_player.posX][(int)(g_player.posY + g_player.dirY * g_player.moveSpeed)] == 0)
-    if ((mapList((int)g_player.posX, (int)(g_player.posY + g_player.dirY * g_player.moveSpeed))) == '0')
+    if ((maplist((int)g_player.posX, (int)(g_player.posY + g_player.dirY * g_player.moveSpeed))) == '0')
         g_player.posY += g_player.dirY * g_player.moveSpeed;
     }
       //move backwards if no wall in front
@@ -667,34 +512,34 @@ int   ft_rayCaster(int key, void *param)
     {
         mlx_string_put(g_screenData.mlx_ptr, g_screenData.mlx_win, 0, 0, 0xFF00000, "DOWN"); //CHIVATO
         //if (g_worldMap[(int)(g_player.posX - g_player.dirX * g_player.moveSpeed)][(int)(g_player.posY)] == 0)
-        if ((mapList((int)(g_player.posX - g_player.dirX * g_player.moveSpeed), (int)(g_player.posY)) == '0'))
+        if ((maplist((int)(g_player.posX - g_player.dirX * g_player.moveSpeed), (int)(g_player.posY)) == '0'))
             g_player.posX -= g_player.dirX * g_player.moveSpeed;
         //if (g_worldMap[(int)g_player.posX][(int)(g_player.posY - g_player.dirY * g_player.moveSpeed)] == 0)
-        if ((mapList((int)g_player.posX, (int)(g_player.posY - g_player.dirY * g_player.moveSpeed))) == '0')
+        if ((maplist((int)g_player.posX, (int)(g_player.posY - g_player.dirY * g_player.moveSpeed))) == '0')
             g_player.posY -= g_player.dirY * g_player.moveSpeed;
     }
     //strafe left if no wall to left
     if (g_keyData.a)
     {
-        ft_rotate_2D(g_player.dirX, g_player.dirY, 90, 6, &g_player.newDirXY);
+        ft_rotate_2D(g_player.dirX, g_player.dirY, 90, 6, (double *)(&g_player.newDirXY));
         mlx_string_put(g_screenData.mlx_ptr, g_screenData.mlx_win, 0, 0, 0xFF00000, "RIGHT"); //CHIVATO
     //if (g_worldMap[(int)(g_player.posX + g_player.newDirXY[0] * g_player.moveSpeed)][(int)g_player.posY] == 0)
-    if (mapList((int)(g_player.posX + g_player.newDirXY[0] * g_player.moveSpeed), (int)g_player.posY) == '0')
+    if (maplist((int)(g_player.posX + g_player.newDirXY[0] * g_player.moveSpeed), (int)g_player.posY) == '0')
         g_player.posX += g_player.newDirXY[0] * g_player.moveSpeed;
     //if (g_worldMap[(int)g_player.posX][(int)(g_player.posY + g_player.newDirXY[1] * g_player.moveSpeed)] == 0)
-    if (mapList((int)g_player.posX, (int)(g_player.posY + g_player.newDirXY[1] * g_player.moveSpeed)) == '0')
+    if (maplist((int)g_player.posX, (int)(g_player.posY + g_player.newDirXY[1] * g_player.moveSpeed)) == '0')
         g_player.posY += g_player.newDirXY[1] * g_player.moveSpeed;
     }
     //strafe right if no wall to right
     if (g_keyData.d)
     {
-        ft_rotate_2D(g_player.dirX, g_player.dirY, 90, 6, &g_player.newDirXY);
+        ft_rotate_2D(g_player.dirX, g_player.dirY, 90, 6, (double *)(&g_player.newDirXY));
         mlx_string_put(g_screenData.mlx_ptr, g_screenData.mlx_win, 0, 0, 0xFF00000, "LEFT"); //CHIVATO
     //if (g_worldMap[(int)(g_player.posX - g_player.newDirXY[0] * g_player.moveSpeed)][(int)g_player.posY] == 0)
-    if (mapList((int)(g_player.posX - g_player.newDirXY[0] * g_player.moveSpeed), (int)g_player.posY) == '0')
+    if (maplist((int)(g_player.posX - g_player.newDirXY[0] * g_player.moveSpeed), (int)g_player.posY) == '0')
         g_player.posX -= g_player.newDirXY[0] * g_player.moveSpeed;
     //if (g_worldMap[(int)g_player.posX][(int)(g_player.posY - g_player.newDirXY[1] * g_player.moveSpeed)] == 0)
-    if (mapList((int)g_player.posX, (int)(g_player.posY - g_player.newDirXY[1] * g_player.moveSpeed)) == '0')
+    if (maplist((int)g_player.posX, (int)(g_player.posY - g_player.newDirXY[1] * g_player.moveSpeed)) == '0')
         g_player.posY -= g_player.newDirXY[1] * g_player.moveSpeed;
     }
 
@@ -704,10 +549,10 @@ int   ft_rayCaster(int key, void *param)
         mlx_string_put(g_screenData.mlx_ptr, g_screenData.mlx_win, 0, 0, 0xFF00000, "CLOCKWISE"); //CHIVATO
 
         //mi método
-        ft_rotate_2D(g_player.dirX, g_player.dirY, -3, 6, &g_player.newDirXY);
+        ft_rotate_2D(g_player.dirX, g_player.dirY, -3, 6, (double *)(&g_player.newDirXY));
         g_player.dirX = g_player.newDirXY[0];
         g_player.dirY = g_player.newDirXY[1];
-        ft_rotate_2D(g_player.planeX, g_player.planeY, -3, 6, &g_player.newDirXY);
+        ft_rotate_2D(g_player.planeX, g_player.planeY, -3, 6, (double *)(&g_player.newDirXY));
         g_player.planeX = g_player.newDirXY[0];
         g_player.planeY = g_player.newDirXY[1];
         
@@ -725,10 +570,10 @@ int   ft_rayCaster(int key, void *param)
         mlx_string_put(g_screenData.mlx_ptr, g_screenData.mlx_win, 0, 0, 0xFF00000, "COUNTERCLOCKWISE"); //CHIVATO
 
         //mi método
-        ft_rotate_2D(g_player.dirX, g_player.dirY, 3, 6, &g_player.newDirXY);
+        ft_rotate_2D(g_player.dirX, g_player.dirY, 3, 6, (double *)(&g_player.newDirXY));
         g_player.dirX = g_player.newDirXY[0];
         g_player.dirY = g_player.newDirXY[1];
-        ft_rotate_2D(g_player.planeX, g_player.planeY, 3, 6, &g_player.newDirXY);
+        ft_rotate_2D(g_player.planeX, g_player.planeY, 3, 6, (double *)(&g_player.newDirXY));
         g_player.planeX = g_player.newDirXY[0];
         g_player.planeY = g_player.newDirXY[1];
         
@@ -886,52 +731,8 @@ int ft_keyRelease(int key, void *param)
     return (0);
 }*/
 
-/*
-** Initial variable values.
-*/
-void initialize(void)
-{
-    //CGDirectDisplayID disID; BONUS
-    g_player.posX = 0;
-    g_player.posY = 0;
-    g_player.dirX = 0;
-    g_player.dirY = 0;
-    g_player.planeX = 0;
-    g_player.planeY = 0;
-    g_player.rotSpeed = 0.1;
-    g_player.moveSpeed = 0.25;
-    g_frameData.time = 0;
-    g_frameData.oldTime = 0;
-    g_frameData.ofloorColor = 0x00669999;
-    g_frameData.oceilingColor = 0x0066004b;
-    //disID = CGMainDisplayID(); BONUS
-    //g_config.screenW = CGDisplayPixelsWide(disID); BONUS
-    //((g_config.screenH = CGDisplayPixelsHigh(disID); BONUS
-    g_config.spriteNum = 0;
-    g_config.spriteList = NULL;
-    g_config.screenW = 0;
-    g_config.screenH = 0;
-    g_config.texW = 64;
-    g_config.texH = 64;
-    g_config.spriteW = 64;
-    g_config.spriteH = 64;
-    g_config.wallMultiplier = 1;
-    g_config.uDiv = 1;
-    g_config.vDiv = 1;
-    g_config.vMove = (double)g_config.spriteH;
-    printf("Maximum Resolution: %d, %d\n", g_config.screenW, g_config.screenH);
-}
 
-void    initializeKeys(void)
-{
-    g_keyData.w = 0;
-    g_keyData.a = 0;
-    g_keyData.s = 0;
-    g_keyData.d = 0;
-    g_keyData.r = 0;
-    g_keyData.l = 0;
-    g_keyData.m = 1;
-}
+
 //move when global variable definitions removed from cub3d.h (g_worldMap y g_sprite)
 /*
 ** Checks first two integers after the 'R' or 'r' specifier in the line passed
@@ -946,323 +747,17 @@ void    initializeKeys(void)
 */
 
 //meter que todos los muros deban tener el mismo texsize
-int     getTexRes(int *texRes, char *xmpPath)
-{
-    int     fd;
-    char    *subline;
-    char    **line;
-    int     i;
-    int     resCount;
 
-    line = &subline;
-    fd = open(xmpPath, O_RDONLY, S_IRUSR);
-    resCount = 0;
-    i = 0;
-    if (fd >= 0 && fd < 3)
-        ft_putstr(weirdFD, ft_strlen(weirdFD));
-    else if (fd >= 3)
-    {
-        while (resCount < 1 && (ft_get_next_line(fd, line)) > 0)
-        {
-            i = 0;
-            while (subline[i] != '"' && subline[i])
-                i++;
-            while (resCount < 2 && subline[i])
-            {
-                while (!(ft_isdigit(subline[i]) && subline[i]))
-                    i++;
-                if (resCount == 0)
-                    texRes[0] = (ft_atoi(&subline[i]));
-                else
-                    texRes[1] = (ft_atoi(&subline[i]));
-                while (ft_isdigit(subline[i]) && subline[i])
-                    i++;
-                resCount++;
-            }
-            free(*line);
-            *line = NULL;
-        }
-    }
-    //printf("\nTex Sizes: %d, %d", texRes[0], texRes[1]);
-    close(fd);
-    return (resCount == 2 ? 1 : 0);
-}
-/*
-** Compares initially retrieved wall texture resolution with all
-** subsequent wall texture resolutions. If any of them are
-** different, program aborts.
-*/
+
 //Habrá que hacerlo más pequeño o partirlo:p
-int     compTexRes(void)
-{
-    int     fd[3];
-    int     results[6];
-    char    *subline;
-    char    **line;
-    int     i;
-    int     j;
-    int     resCount;
 
-    line = &subline;
-    fd[0] = open(g_yellowMetalImg.texPath, O_RDONLY, S_IRUSR);
-    fd[1] = open(g_greenMetalImg.texPath, O_RDONLY, S_IRUSR);
-    fd[2] = open(g_pinkMetalImg.texPath, O_RDONLY, S_IRUSR);
-    i = 0;
-    j = 0;
-    while (j < 3 && fd[j] >= 3 && (ft_get_next_line(fd[j], line)) > 0)
-    {
-        i = 0;
-        while (subline[i] != '"' && subline[i])
-            i++;
-        resCount = 0;
-        while (resCount < 2 && subline[i])
-        {
-            while (!(ft_isdigit(subline[i]) && subline[i]))
-                i++;
-            results[j * 2 + resCount]= (ft_atoi(&subline[i]));
-            if (resCount)
-                j++;
-            else
-                while (ft_isdigit(subline[i]) && subline[i])
-                    i++;
-            resCount++;
-        }
-        free(*line);
-        *line = NULL;
-    }
-    j = 0;
-    while (j < 3)
-        close(fd[j++]);
-    i = 0;
-    while (i < 6)
-        {
-            if (results[i] != g_config.texW || results[i + 1] != g_config.texH)
-            {
-                ft_putstr(wallTexSizeDif, ft_strlen(wallTexSizeDif));
-                ft_stop(0x35, (void*)0);
-            }
-            i += 2;
-        }
-    //printf("\nALL CLEAR!\n");
-    return (1);
-}
 
 unsigned int     create_trgb(int t, int r, int g, int b)
 {
     return(t << 24 | r << 16 | g << 8 | b);
 }
 
-void    spriteCounter(double x, double y, char c)
-{
-static spriteData_t *lstPtr = NULL;
 
-    g_config.spriteNum++;
-
-    if (!g_config.spriteList)
-    {
-        g_config.spriteList = ft_sprtlstnew((void *)0);
-        lstPtr = g_config.spriteList;
-    }
-    else
-    {
-        ft_sprtlstadd_back(&g_config.spriteList, (ft_sprtlstnew((void *)0)));
-        lstPtr = lstPtr->next;
-    }
-    lstPtr->posX = x;
-    lstPtr->posY = y;
-    if (c == '2') //aquí podemos asignar la textura en función del número en el mapa :)
-        lstPtr->spriteType = '2';
-}
-
-//Floodfill algorithm
-
-int     floodRight(int x, int y)
-{
-    t_list  *lstPtr;
-    char    mapChar;
-
-    while ((mapChar = mapList(++x, y)) != '1' && mapChar != 'T') //izq. a der. transitables contiguas; dado que NULL es a la vez condición de invalidez del mapa, salida del while y cierre de función, se gestiona dentro del while.
-        {
-            if (mapChar == '0' || mapChar == '2' || mapChar == 'A')
-            {
-                //mapChar == '2' ? spriteReg : mapChar; //no implementado: si es '2', registra sprite en spriteList con función spriteReg
-                if ((lstPtr = mapListMem(y))->next && ((mapListMem(y + 1))->len) >= (size_t)x && (mapChar = mapList(x, y + 1)) && (mapChar == '0' || mapChar == '2')) //mira char de debajo, primero strlen para asegurarnos de que la fila abarca lo suficiente para evitar segfault...
-                    (*(mapListDir(x, y + 1)) = 'A'); //marca como transitable provisional (pdte de comprobar sus verticales)
-                else if (!lstPtr->next || mapChar == ' ' || !mapChar)
-                {
-                    g_iamerror.outofbounds[0] = x;
-                    g_iamerror.outofbounds[1] = y;
-                    return (0);
-                }
-                if (lstPtr != g_config.Map && ((mapListMem(y - 1))->len) >= (size_t)x && (mapChar = mapList(x, y -1)) && (mapChar == '0' || mapChar == '2'))//mira char de encima, primero strlen para asegurarnos de que la fila abarca lo suficiente para evitar segfault.
-                    (*(mapListDir(x, y - 1)) = 'A'); //marca como transitable (pdte de comprobar sus verticales)
-                else if (lstPtr == g_config.Map || mapChar == ' ' || !mapChar)
-                {
-                    g_iamerror.outofbounds[0] = x;
-                    g_iamerror.outofbounds[1] = y;
-                    return (0);
-                }
-                (*(mapListDir(x, y)) = 'T'); //marca como transitable con todos los ejes comprobados.
-            }
-            else if (mapChar == ' ' || !mapChar) //nótese que en floodRight, llegar al NULL en un barrido es condición de invalidez del mapa, por lo que su comprobación es a la vez condición de salida del while y de la función.
-                {
-                    g_iamerror.outofbounds[0] = x;
-                    g_iamerror.outofbounds[1] = y;
-                    return (0);
-                }
-        }
-    return (1);
-}
-
-int     floodLeft(int x, int y)
-{
-    t_list  *lstPtr;
-    char    mapChar;
-
-    while (x > -1 && (mapChar = mapList(x, y)) && mapChar != '1' && mapChar != 'T') //der. a izq. transitables contiguas; en floodLeft ni de coña queremos entrar si x == -1, sería segfault al canto, sino que significa que todo el barrido bien hasta el final y es condición de salida.
-    {
-        if (x > 0 && (mapChar == '0' || mapChar == '2' || mapChar == 'A'))//si encontramos un transitable en cualquier casilla menos la de pos0, bien
-        {
-            //mapChar == '2' ? spriteReg : mapChar; //no implementado: si es '2', registra sprite en spriteList con función spriteReg
-            if ((lstPtr = mapListMem(y))->next && ((mapListMem(y + 1))->len) >= (size_t)x && (mapChar = mapList(x, y + 1)) && (mapChar == '0' || mapChar == '2')) //primero strlen para asegurarnos de que la fila abarca lo suficiente para evitar segfault...
-                (*(mapListDir(x, y + 1)) = 'A'); //marca como transitable, pdte de comprobar verticales
-            else if (!lstPtr->next || mapChar == ' ' || !mapChar)
-            {
-                g_iamerror.outofbounds[0] = x;
-                g_iamerror.outofbounds[1] = y;
-                return (0);
-            }
-            if (lstPtr != g_config.Map && ((mapListMem(y - 1))->len) >= (size_t)x && (mapChar = mapList(x, y -1)) && (mapChar == '0' || mapChar == '2'))
-                (*(mapListDir(x, y - 1)) = 'A'); //marca como transitable, pdte de comprobar verticales
-            else if (lstPtr == g_config.Map || mapChar == ' ' || !mapChar)
-            {
-                g_iamerror.outofbounds[0] = x;
-                g_iamerror.outofbounds[1] = y;
-                return (0);
-            }
-            (*(mapListDir(x, y)) = 'T'); //marca como transitable
-        }
-        else if (mapChar == ' ' || !x)//si encontramos un espacio o hemos encontrado un transitable en pos0, mapa inválido
-            {
-                g_iamerror.outofbounds[0] = x;
-                g_iamerror.outofbounds[1] = y;
-                return (0);
-            }
-        x--;
-    }
-    return (1);
-}
-
-void    unfloodMap(char *flag)
-{
-    t_list  *mapPtr;
-    char    mapChar;
-	char	f;
-    int     i;
-
-    mapPtr = g_config.Map;
-	f = 'p';
-	if (!(ft_strncmp(flag, "error", 5)))
-		f = 'e';
-    while (mapPtr)
-    {
-        i = 0;
-        while ((mapChar = *(char *)(mapPtr->content + i)))
-        {
-            if (mapChar == 'T' || mapChar == 'A')
-                (*(char *)(mapPtr->content + i)) = f == 'p' ? '0' : '.';
-            i++;
-        }
-        mapPtr = mapPtr->next;
-    }
-    //SUSTITUYE POR FUNC
-    mapPtr = g_config.Map;
-        while (mapPtr)
-    {
-        ft_printf("\n # %s", (char *)mapPtr->content);
-        mapPtr = mapPtr->next;
-    }
-}
-
-
-
-//NUEVO PLAN Algoritmo floodfill
-
-//IF NSEW --->> g_player.posX, g_player.posY, if 2x o más NSEW, tira mapa
-//IF S ---->>spriteData[index].x, spriteData[index].y (al igual que el mapa, hay que mallocear y crear un array o t_list de sprites, igual un puntero desde un struct global para tener siempre a mano... hay que sabe total de sprites antes de mallocear y pasarlos... igual al encontrar un sprite, guardar su posición y subir un contador, o hacer otra lista enlazada ;))
-//a partir de NSEW, analiza mapa para asegurar que zona del jugador está rodeada por 1
-
-
-
-
-/*
-** This function analyses a line. If the entire line consists of mapchars,
-** it returns 1 to validate it as a mapline. If it finds a non-mapchar in
-** the line or the line is empty, it returns 0 to reject it.
-*/
-int     isMap(char *line)
-{
-    int     i;
-    char    *tmp;
-    char    *mapchrs;
-
-    i = 0;
-    mapchrs = " 012NnSsEeWw";
-    while (line[i] && (tmp = ft_strchr(mapchrs, line[i])))
-        i++;
-    if (i > 0 && !line[i])
-        return (1);
-    else
-        return (0);  
-}
-
-void makeClsImg(void)
-{
-    g_clsImg.mlx_img = mlx_new_image(g_screenData.mlx_ptr, g_config.screenW, g_config.screenH);
-}
-
-int    makeTexImg(void)
-{
-    int *wallSize;
-    int *sprSize;
-
-    if (!(wallSize = malloc(2 * sizeof(int))) | (!(sprSize = malloc(2 * sizeof(int)))))
-        ft_putstr(mallocFail, ft_strlen(mallocFail));
-    else
-    {   
-        g_blueMetalImg.mlx_img = mlx_xpm_file_to_image(g_screenData.mlx_ptr, g_blueMetalImg.texPath, &g_config.texW, &g_config.texH);
-        g_yellowMetalImg.mlx_img = mlx_xpm_file_to_image(g_screenData.mlx_ptr, g_yellowMetalImg.texPath, &g_config.texW, &g_config.texH);
-        g_greenMetalImg.mlx_img = mlx_xpm_file_to_image(g_screenData.mlx_ptr, g_greenMetalImg.texPath, &g_config.texW, &g_config.texH);
-        g_pinkMetalImg.mlx_img = mlx_xpm_file_to_image(g_screenData.mlx_ptr, g_pinkMetalImg.texPath, &g_config.texW, &g_config.texH);
-        if (g_config.spriteNum)
-			g_normiImg.mlx_img = mlx_xpm_file_to_image(g_screenData.mlx_ptr, g_normiImg.texPath, &g_config.spriteW, &g_config.spriteH);
-        if (!g_blueMetalImg.mlx_img || !g_yellowMetalImg.mlx_img || !g_greenMetalImg.mlx_img || !g_pinkMetalImg.mlx_img || (!g_normiImg.mlx_img && g_config.spriteNum))
-            return(0); //Fugoso?
-        if ((getTexRes(wallSize, g_blueMetalImg.texPath)) < 0)
-            ft_putstr(wallTexSizeFail, ft_strlen(wallTexSizeFail));
-        else
-        {
-            g_config.texW = wallSize[0];
-            g_config.texH = wallSize[1];
-        }
-        compTexRes();
-        if ((getTexRes(sprSize, g_normiImg.texPath)) < 0)
-            ft_putstr(sprTexSizeFail, ft_strlen(sprTexSizeFail));
-        else
-        {
-            g_config.spriteW = sprSize[0];
-            g_config.spriteH = sprSize[1];
-        }
-        
-        printf("\nRetrieved Tex Sizes: %d, %d\n", g_config.spriteW, g_config.spriteH);
-        
-    }
-    if (wallSize)
-        free(wallSize);
-    if (sprSize)
-        free(sprSize);
-	return (1);
-}
 
 //Mac
 int   main(int argc, char **argv)
@@ -1271,10 +766,9 @@ int   main(int argc, char **argv)
 
 	  (void)argc;
       initialize();
-      initializeKeys();
 	  success = cubhandler(argv[1]);
       //printf("\n%s", argv[1]);
-      g_player.newDirXY = malloc(2 * sizeof(double));
+
 //Create screen
    //if (getMap fails, do not start)
    
@@ -1289,7 +783,7 @@ int   main(int argc, char **argv)
    if (success)
    {
 	makeClsImg();
-	success = makeTexImg();
+	success = maketeximg();
    }
    	printnotifications();
 	printerrors();

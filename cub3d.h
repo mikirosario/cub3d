@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/03 20:34:00 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/07 20:19:57 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,13 @@ typedef		struct error_s
 	unsigned char	getsofail : 1;
 	unsigned int	badsosyn;
 	unsigned char	getwefail : 1;
-	unsigned int	badwesyn;	
+	unsigned int	badwesyn;
 	unsigned char	geteafail : 1;
 	unsigned int	badeasyn;
 	unsigned char	getsprfail : 1;
 	unsigned int	badsprsyn;
-	unsigned char	pathsprfail : 1;
-	unsigned char	walltexsizefail : 1;
+	unsigned char	texpathfail : 1;
+	char			*texsizefail;
 	unsigned char	walltexsizedif : 1;
 	unsigned char	sprtexsizefail : 1;
 	unsigned char	fcolorinvalid : 1;
@@ -79,6 +79,7 @@ typedef		struct error_s
 	unsigned char	uintxmax : 1;
 	unsigned char	uintymax : 1;
 	unsigned int	mapsweeps;
+	char			*couldnotopenxpm;
 }				error_t;
 
 typedef     struct spriteData_s
@@ -130,7 +131,7 @@ typedef     struct  player_s
     double  dirY;
     double  oldDirX;
     double  oldDirY;
-    double  *newDirXY;
+    double  newDirXY[2];
     double  planeX;
     double  planeY;
     double  oldPlaneX;
@@ -167,9 +168,9 @@ typedef     struct  rayData_s
 
 typedef     struct frameData_s
 {
-  clock_t       time;
-  clock_t       oldTime;
-  clock_t       frameTime;
+  //clock_t       time;
+  //clock_t       oldTime;
+  //clock_t       frameTime;
   int           lineHeight;
   int           drawStart;
   int           drawEnd;
@@ -227,12 +228,12 @@ void			del(void *freeThis);
 spriteData_t	*ft_sprtlstnew(void const *content);
 spriteData_t	*ft_sprtlstlast(spriteData_t *lst);
 void			ft_sprtlstadd_back(spriteData_t **alst, spriteData_t *new);
-void			freeSprtList(spriteData_t **alst);
-spriteData_t	*spriteIter(int listMember);
-void			freeList(t_list **alst);
-char			mapList(unsigned int x, unsigned int y);
-char			*mapListDir(unsigned int x, unsigned int y);
-t_list			*mapListMem(unsigned int y);
+void			freesprtlist(spriteData_t **alst);
+spriteData_t	*spriteiter(int listmember);
+void			freelist(t_list **alst);
+char			maplist(unsigned int x, unsigned int y);
+char			*maplistdir(unsigned int x, unsigned int y);
+t_list			*maplistmem(unsigned int y);
 void			cls();
 void			ft_sortSprites(int *spriteOrder);
 int				ft_stop(int key, void *param);
@@ -240,40 +241,37 @@ int				ft_rayCaster(int key, void *param);
 int				ft_keyPress(int key, void *param);
 int				ft_keyRelease(int key, void *param);
 void			initialize(void);
-void			initializeKeys(void);
 int				getres(const char *line, unsigned int linenum);
 int				getno(const char *line, unsigned int linenum);
 int				getso(const char *line, unsigned int linenum);
 int				getwe(const char *line, unsigned int linenum);
 int				getea(const char *line, unsigned int linenum);
 int				getsprite(const char *line, unsigned int linenum);
-int				getTexRes(int *texRes, char *xmpPath);
-int				compTexRes(void);
 unsigned int	create_trgb(int t, int r, int g, int b);
 int				getfcolor(const char *line, unsigned int linenum);
 int				getccolor(const char *line, unsigned int linenum);
-void			spriteCounter(double x, double y, char c);
-int				isMap(char *line);
+void			spritecounter(double x, double y, char c);
+int				ismap(char *line);
 int				cubhandler(const char *ptr);
 void			cubread(int *result, char **line, int fd, int linenum);
 void			setdisplayresolution(void);
 void			printmap(void);
+void			printmapbytes(void);
 void			printsprites();
 void			printerrors(void);
 void			printnotifications(void);
 char			toomanyplayers(unsigned int x, unsigned y, char foundplayer);
-void			recorderrorlocation(unsigned int *errorarray, unsigned int x, unsigned int y);
+int				recorderrorlocation(unsigned int *errorarray, unsigned int x, unsigned int y, int returnvalue);
 void			geterrorlocation(unsigned int *errorarray, unsigned int *x, unsigned int *y);
 void			localizedmaperrors(void);
 void			generalmaperrors(void);
 void			texpatherrors(void);
+int				texerrorconditions(void);
 int				floodfill(void);
-int				floodRight(int x, int y);
-int				floodLeft(int x, int y);
-void			unfloodMap(char *flag);
+void			unfloodmap(char *flag);
 int				makemaplist(int fd, char *firstline);
 void			makeClsImg(void);
-int				makeTexImg(void);
+int				maketeximg(void);
 int				main(int argc, char **argv);
 
 
@@ -291,8 +289,9 @@ int				main(int argc, char **argv);
 double  ft_degtorad(double a);
 double  ft_radtodeg(double a);
 double  ft_round(double n, int prec);
-int     ft_rotate_2D(double x, double y, double adeg, double prec, double **ptr);
+int     ft_rotate_2D(double x, double y, double adeg, double prec, double *ptr);
 int     getRes(const char *line);
 void    cls(void);
+char	*getnextnum(char *num);
 
 #endif

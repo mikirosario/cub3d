@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/04 17:17:25 by mrosario          #+#    #+#             */
-/*   Updated: 2020/03/04 15:07:55 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/06 16:03:34 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ double ft_round(double n, int prec)
 ** valid double pointer to two contiguous reserved memory spaces
 ** of the double type.
 */
-int ft_rotate_2D(double x, double y, double adeg, double prec, double **ptr)
+int ft_rotate_2D(double x, double y, double adeg, double prec, double *ptr)
 {
     double arad;
     
@@ -91,8 +91,8 @@ int ft_rotate_2D(double x, double y, double adeg, double prec, double **ptr)
         prec = 15;
     arad = ft_degtorad(adeg);
     //o ptr[0][0], ptr[0][1]
-    (*(*ptr + 0)) = ft_round((x*(cos(arad))) + (y*(sin(arad))), prec);
-    (*(*ptr + 1)) = ft_round((y*(cos(arad))) - (x*(sin(arad))), prec);
+    (*(ptr + 0)) = ft_round((x*(cos(arad))) + (y*(sin(arad))), prec);
+    (*(ptr + 1)) = ft_round((y*(cos(arad))) - (x*(sin(arad))), prec);
     return (0);
 }
 

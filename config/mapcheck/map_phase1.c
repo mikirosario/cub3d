@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 18:31:22 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/03 20:27:21 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/05 20:10:31 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ void	configureplayer(unsigned int x, unsigned int y, char *playerchar)
 **	char			c;
 **
 **	y = 0;
-**	while ((map = mapListMem(y)))
+**	while ((map = maplistmem(y)))
 **	{
 **		x = 0;
 **		while ((c = (*(char *)(map->content + x))))
@@ -137,7 +137,7 @@ void	configureplayer(unsigned int x, unsigned int y, char *playerchar)
 **					return (foundplayer);
 **				}
 **				else
-**					configureplayer(x, y, mapListDir(x, y));
+**					configureplayer(x, y, maplistdir(x, y));
 **			}
 **			x++;
 **		}
@@ -155,19 +155,19 @@ char	playerandspritescheck(char foundplayer, char *mapchrs)
 	char			c;
 
 	y = 0;
-	while ((map = mapListMem(y)))
+	while ((map = maplistmem(y)))
 	{
 		x = 0;
 		while ((c = (*(char *)(map->content + x))))
 		{
 			if (c == '2')
-				spriteCounter((double)x, (double)y, c);
+				spritecounter((double)x, (double)y, c);
 			else if ((ft_strchr(mapchrs, c)) >= mapchrs + 4)
 			{
 				if ((foundplayer += 1) > 1)
 					return (toomanyplayers(x, y, foundplayer));
 				else
-					configureplayer(x, y, mapListDir(x, y));
+					configureplayer(x, y, maplistdir(x, y));
 			}
 			x++;
 		}
@@ -230,9 +230,9 @@ int		checkmap(unsigned int y, char *mapchrs)
 		return (-4);
 	else if (!foundplayer)
 		return (-3);
-	ft_printf("\n**** MAP RETRIEVED ****\n");
-	printmap();
-	ft_printf("\n**** SPRITES RETRIEVED ****\n");
+	ft_printf(MAGENTA"\n**** MAP RETRIEVED ****\n"RESET);
+	printmapbytes();
+	ft_printf(MAGENTA"\n**** SPRITES RETRIEVED ****\n"RESET);
 	printsprites();
 	if (!(floodfill()))
 		return (-1);

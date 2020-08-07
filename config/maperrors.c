@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/31 17:47:38 by mrosario          #+#    #+#             */
-/*   Updated: 2020/07/31 20:44:39 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/05 20:34:14 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,18 +31,18 @@ unsigned int *y)
 ** error flag arrays that save the coordinates of map errors.
 */
 
-void	recorderrorlocation(unsigned int *errorarray, unsigned int x, \
-unsigned int y)
+int		recorderrorlocation(unsigned int *errorarray, unsigned int x, \
+unsigned int y, int returnvalue)
 {
 	errorarray[0] = x;
 	errorarray[1] = y;
+	return (returnvalue);
 }
 
 /*
 ** This function is a line-saver. It is used to record error locations to
-** error flag arrays that save the coordinates of map errors.
-**
-** Can this be replaced with recorderror????
+** the toomanyplayers flag array that because using recorderrorlocation to
+** do this put me over norminette's line limit by ONE BEEPING LINE.
 */
 
 char	toomanyplayers(unsigned int x, unsigned int y, char foundplayer)
@@ -73,7 +73,7 @@ void	generalmaperrors(void)
 	if (g_iamerror.noplayer)
 		ft_putstr(noPlayer, strlen(noPlayer));
 	else
-		*((char *)mapListDir(g_player.posX, g_player.posY)) = 'P';
+		*((char *)maplistdir(g_player.posX, g_player.posY)) = 'P';
 	if (g_iamerror.badmap3line)
 		ft_putstr(badMap3line, strlen(badMap3line));
 	if (g_iamerror.uintxmax)
@@ -93,16 +93,15 @@ void	generalmaperrors(void)
 ** found an out of bounds error with '.'.
 **
 ** Then we retrieve the location of character in the map that caused floodfill
-** to return an out of bounds error. Note that this location might be a NULL
-** marking the end of a string. If the out of bounds was caused by the player
-** being able to reach the outer bounds of the right side of the map, where
-** lines end in NULL terminators, then error location will be the NULL itself.
-** Since we don't want to print the NULL, if the error location points to a
-** NULL we subtract 1 from the value of x to make the error location refer to
-** the character before the NULL. ^_^
+** to return an out of bounds error. Note that this location should never be a
+** NULL terminator marking the end of a string, as the floodfill function is
+** programmed to record only the position FROM WHICH the out of bounds was
+** detected, not the out of bounds position itself (even if the out of bounds
+** is addressable), so it should always be safe to print x + 1. ^_^
 **
 ** Then we'll replace the error character with an X, to help the user see it
-** better when we print it.
+** better when we print it, unless it was a 'P' (standing for player starting
+** location), in which case we will leave the 'P'.
 **
 ** We'll then use ft_printf to print the line number where the error was found
 ** in the file. Since we start counting lines at 0 and the file starts at 1,
@@ -125,23 +124,22 @@ void	localizedmaperrors(void)
 	unsigned int	o;
 	unsigned int	x;
 	unsigned int	y;
-	char			c;
+	char			*c;
 
 	o = g_iamerror.premaplines;
-	unfloodMap("error");
+	unfloodmap("error");
 	geterrorlocation(g_iamerror.outofbounds, &x, &y);
-	if (!(c = mapList(x, y)))
-		x -= 1;
-	(*(mapListDir(x, y))) = 'X';
+	if (*(c = maplistdir(x, y)) != 'P')
+		*c = 'X';
 	if (g_iamerror.outofbounds[2])
 		ft_printf("\nLine: %u: %.*s"RED"%c"RESET"%s\n%s\n", y + 1 + o, x, \
-		mapListDir(0, y), mapList(x, y), mapListDir(x + 1, y), outOfBounds);
+		maplistdir(0, y), maplist(x, y), maplistdir(x + 1, y), outOfBounds);
 	geterrorlocation(g_iamerror.toomanyplayers, &x, &y);
 	if (g_iamerror.toomanyplayers[2])
 		ft_printf("\nLine: %u: %.*s"RED"%c"RESET"%s\n%s\n", y + 1 + o, x, \
-		mapListDir(0, y), mapList(x, y), mapListDir(x + 1, y), tooManyPlayers);
+		maplistdir(0, y), maplist(x, y), maplistdir(x + 1, y), tooManyPlayers);
 	if (g_config.spriteList)
-		freeSprtList(&g_config.spriteList);
+		freesprtlist(&g_config.spriteList);
 	if (g_config.Map)
-		freeList(&g_config.Map);
+		freelist(&g_config.Map);
 }

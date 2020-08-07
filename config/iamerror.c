@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/21 19:17:09 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/03 18:40:42 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/06 19:07:01 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ void	texerrors(void)
 	if (g_config.spriteNum && g_iamerror.badsprsyn)
 		ft_printf("Line %u: %s", g_iamerror.badsprsyn, badSprSyn);
 	texpatherrors();
-
 }
 
 /*
@@ -143,8 +142,7 @@ void	printerrors(void)
 		ft_putstr(weirdFD, ft_strlen(weirdFD));
 	if (g_iamerror.getresfail)
 		reserrors();
-	if (g_iamerror.getnofail || g_iamerror.getsofail || g_iamerror.getwefail \
-	|| g_iamerror.geteafail || (g_config.spriteNum && (g_iamerror.getsprfail || !g_normiImg.mlx_img)))
+	if (texerrorconditions())
 		texerrors();
 	if (g_iamerror.fcolorinvalid || g_iamerror.ccolorinvalid)
 		ceilingfloorerrors();

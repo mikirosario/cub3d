@@ -6,13 +6,13 @@
 #    By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/07/15 20:32:43 by mrosario          #+#    #+#              #
-#    Updated: 2020/08/03 19:48:52 by mrosario         ###   ########.fr        #
+#    Updated: 2020/08/06 18:37:52 by mrosario         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = a.out
+NAME = cub3d
 
-SRC = rotation.c ./config/cub.c ./config/getscreenres.c ./config/getwallparams.c ./config/getspriteparams.c ./config/getceilingfloorparams.c cub3d.c ./config/iamerror.c ./config/printnotifications.c ./config/mapcheck/map_phase1.c ./config/maperrors.c ./config/texerrors.c ./config/mapcheck/map_phase2.c
+SRC = rotation.c ./config/cub.c ./config/getscreenres.c ./config/getwallparams.c ./config/getspriteparams.c ./config/getceilingfloorparams.c cub3d.c ./config/iamerror.c ./config/printnotifications.c ./config/mapcheck/map_phase1.c ./config/maperrors.c ./config/texerrors.c ./config/mapcheck/map_phase2.c ./config/maplistfunctions.c ./config/spritelistfunctions.c ./config/spritecounter.c ./config/printlinkedlists.c ./config/initialize.c ./config/makeimages.c
 
 BSRC =
 
@@ -26,15 +26,15 @@ CFLAG = -Wall -Werror -Wextra
 
 FRMWRK = -framework OpenGL -framework AppKit
 
-LIBS = -I /usr/local/include/mlx.h -I ./libft/libft.h cub3d.h -L./libft/ -lft -L /usr/local/lib/ -lmlx
+LIBS = -I /usr/local/include/ -I ./libft/ -L./libft/ -lft -L /usr/local/lib/ -lmlx
 
 all: $(NAME)
 
 $(NAME): $(LIBFT)
-	gcc $(CFLAG) $(LIBS) $(FRMWRK) $(SRC)
+	gcc $(CFLAG) $(LIBS) $(FRMWRK) $(SRC) -o cub3d
 
 debug: $(LIBFT)
-	gcc $(CFLAG) $(LIBS) $(FRMWRK) $(SRC) -g
+	gcc $(CFLAG) $(LIBS) $(FRMWRK) $(SRC) -g -o cub3d
 
 $(LIBFT):
 	make -C ./libft
@@ -55,6 +55,4 @@ cleanexe:
 
 re: fclean all
 
-recub: clean cleanexe all
-
-.PHONY: all clean fclean re bonus debug ./libft/libft.a recub cleanexe
+.PHONY: all clean fclean re bonus debug cleanexe

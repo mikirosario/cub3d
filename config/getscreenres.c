@@ -6,13 +6,43 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 16:26:34 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/03 16:46:40 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/05 20:20:01 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
 extern error_t	g_iamerror;
+
+/*
+** This function uses the Core Graphics Library on MacOS X to set the window
+** resolution to the current display resolution if the user has entered an
+** invalid resolution or the user-defined resolution could not be retrieved.
+**
+** Saved in the comment is a version of the same function that sets the
+** resolution to a developer-defined default, which I am currently using
+** for Linux.
+**
+** Linux
+** void	setdisplayresolution(void)
+** {
+**    g_config.screenW = 1920;
+**    g_config.screenH = 1080;
+**	return ;
+** }
+**
+** MacOS
+*/
+
+void	setdisplayresolution(void)
+{
+	CGDirectDisplayID	displayid;
+
+	displayid = CGMainDisplayID();
+	g_config.screenW = CGDisplayPixelsWide(displayid);
+	g_config.screenH = CGDisplayPixelsHigh(displayid);
+	return ;
+}
 
 /*
 ** This function will attempt to set game screen resolution with the number
@@ -30,6 +60,30 @@ extern error_t	g_iamerror;
 **
 ** To check the default display resolution on MacOS, part of the CoreGraphics
 ** library will be used. To check the number values, ft_atoi will be used.
+**
+** Linux / Manual default resolution version.
+**
+** int		setres(const char *line, int res, unsigned int linenum)
+** {
+**	unsigned int maxW = 1920;
+**	unsigned int maxH = 1080;
+**
+**	ft_printf(RED"\nRES: %d\n"RESET, res);
+**	if (!res && (res = ft_atoi(line)) > 239 && \
+**	(size_t)res <= maxW)
+**	{
+**		g_config.screenW = res;
+**		return (1);
+**	}
+**	else if (res && (res = ft_atoi(line)) > 239 && \
+**	(size_t)res <= maxH)
+**	{
+**		g_config.screenH = res;
+**		return (2);
+**	}
+**	g_iamerror.badresSize = linenum;
+**	return (0);
+** }
 **
 ** Mac, using CoreGraphics library.
 */
@@ -55,32 +109,6 @@ int		setres(const char *line, int res, unsigned int linenum)
 	g_iamerror.badresSize = linenum;
 	return (0);
 }
-
-//Linux
-/*int		setres(const char *line, int res, unsigned int linenum)
-{
-	//CGDirectDisplayID	displayid;
-
-	//displayid = CGMainDisplayID();
-	unsigned int maxW = 1920;
-	unsigned int maxH = 1080;
-	
-	ft_printf(RED"\nRES: %d\n"RESET, res);
-	if (!res && (res = ft_atoi(line)) > 239 && \
-	(size_t)res <= maxW)
-	{
-		g_config.screenW = res;
-		return (1);
-	}
-	else if (res && (res = ft_atoi(line)) > 239 && \
-	(size_t)res <= maxH)
-	{
-		g_config.screenH = res;
-		return (2);
-	}
-	g_iamerror.badresSize = linenum;
-	return (0);
-}*/
 
 /*
 ** This function will attempt to determine if a line is meant to specify a
