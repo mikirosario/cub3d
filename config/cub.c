@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/16 18:38:05 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/07 18:27:52 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/10 17:32:28 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -284,7 +284,6 @@ int		cubhandler(const char *ptr)
 		g_iamerror.weirdfd = fd >= 0 ? 1 : g_iamerror.weirdfd;
 		g_iamerror.mallocfail = !result ? 1 : g_iamerror.mallocfail;
 	}
-	if (close(fd) < 0)
-		g_iamerror.couldnotclose = 1;
+	g_iamerror.couldnotclose = close(fd) < 0 ? 1 : g_iamerror.couldnotclose;
 	return (success ? 1 : 0);
 }

@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/05 18:32:52 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/05 19:45:57 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/10 20:36:53 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	printsprites(void)
 	y = 0;
 	sprtlistptr = g_config.spriteList;
 	if (!sprtlistptr)
-		ft_printf(GREEN"NO SPRITES LOADED"RESET);
+		ft_printf(GREEN"NO SPRITES LOADED\n"RESET);
 	else
 	{
 		while (sprtlistptr)

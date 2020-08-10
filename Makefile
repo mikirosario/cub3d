@@ -6,13 +6,13 @@
 #    By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/07/15 20:32:43 by mrosario          #+#    #+#              #
-#    Updated: 2020/08/06 18:37:52 by mrosario         ###   ########.fr        #
+#    Updated: 2020/08/10 17:22:57 by mrosario         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = cub3d
 
-SRC = rotation.c ./config/cub.c ./config/getscreenres.c ./config/getwallparams.c ./config/getspriteparams.c ./config/getceilingfloorparams.c cub3d.c ./config/iamerror.c ./config/printnotifications.c ./config/mapcheck/map_phase1.c ./config/maperrors.c ./config/texerrors.c ./config/mapcheck/map_phase2.c ./config/maplistfunctions.c ./config/spritelistfunctions.c ./config/spritecounter.c ./config/printlinkedlists.c ./config/initialize.c ./config/makeimages.c
+SRC = rotation.c freeme.c ./config/cub.c ./config/getscreenres.c ./config/getwallparams.c ./config/getspriteparams.c ./config/getceilingfloorparams.c cub3d.c ./config/iamerror.c ./config/printnotifications.c ./config/mapcheck/map_phase1.c ./config/maperrors.c ./config/texerrors.c ./config/mapcheck/map_phase2.c ./config/maplistfunctions.c ./config/spritelistfunctions.c ./config/spritecounter.c ./config/printlinkedlists.c ./config/initialize.c ./config/makeimages.c
 
 BSRC =
 

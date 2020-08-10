@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/07 20:24:05 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/07 20:39:56 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/10 17:25:07 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,24 +110,7 @@ int   ft_stop(int key, void *param)
     (void)param;
     if (key == 0x35 || key == 0x00)
     {
-        mlx_destroy_window(g_screenData.mlx_ptr, g_screenData.mlx_win);
-        mlx_destroy_image(g_screenData.mlx_ptr, g_clsImg.mlx_img);
-        if (g_screenData.mlx_img_buffer)
-            mlx_destroy_image(g_screenData.mlx_ptr, g_screenData.mlx_img_buffer);
-        if (g_blueMetalImg.mlx_img)
-            mlx_destroy_image(g_screenData.mlx_ptr, g_blueMetalImg.mlx_img);
-        if (g_normiImg.mlx_img)
-            mlx_destroy_image(g_screenData.mlx_ptr, g_normiImg.mlx_img); //Nota: Esta función libera la memoria ocupada por la imágen; no intentar liberarla desde freesprtlist o será doble-free. ;)
-        if (g_config.Map)
-            freelist(&g_config.Map);
-        if (g_config.spriteList)
-            freesprtlist(&g_config.spriteList);
-        free(g_blueMetalImg.texPath);
-        free(g_yellowMetalImg.texPath);
-        free(g_greenMetalImg.texPath);
-        free(g_pinkMetalImg.texPath);
-        free(g_normiImg.texPath);
-        //free(g_player.newDirXY);
+		freeme();
         exit(EXIT_SUCCESS);
     }
     return (0);
@@ -788,7 +771,10 @@ int   main(int argc, char **argv)
    	printnotifications();
 	printerrors();
 	if (!success)
+	{
+		freeme();
 	  	return (EXIT_FAILURE);
+	}
 	printf("\nSizeOf error_s: %zu\n", sizeof(g_iamerror));
 	printf("\nValor: %d\n", g_iamerror.getresfail);
     mlx_do_key_autorepeatoff(g_screenData.mlx_ptr);

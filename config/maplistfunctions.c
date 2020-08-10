@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/05 16:42:19 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/06 15:52:10 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/10 17:34:19 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,20 +23,20 @@
 ** defined once. But... Norminette. WE'LL SEE!
 */
 
-int     ismap(char *line)
+int		ismap(char *line)
 {
-    int     i;
-    char    *tmp;
-    char    *mapchrs;
+	int		i;
+	char	*tmp;
+	char	*mapchrs;
 
-    i = 0;
-    mapchrs = " 012NnSsEeWw";
-    while (line[i] && (tmp = ft_strchr(mapchrs, line[i])))
-        i++;
-    if (i > 0 && !line[i])
-        return (1);
-    else
-        return (0);  
+	i = 0;
+	mapchrs = " 012NnSsEeWw";
+	while (line[i] && (tmp = ft_strchr(mapchrs, line[i])))
+		i++;
+	if (i > 0 && !line[i])
+		return (1);
+	else
+		return (0);
 }
 
 /*

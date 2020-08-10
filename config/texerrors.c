@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/03 18:36:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/07 20:27:09 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/10 20:20:43 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,21 @@ int		texerrorconditions(void)
 {
 	if (g_iamerror.getnofail || g_iamerror.getsofail || g_iamerror.getwefail \
 	|| g_iamerror.geteafail || (g_config.spriteNum && (g_iamerror.getsprfail \
-	|| !g_normiImg.mlx_img)) || g_iamerror.texpathfail || g_iamerror.texsizefail \
-	|| g_iamerror.couldnotopenxpm || g_iamerror.walltexsizedif)
+	|| !g_normiImg.mlx_img)) || g_iamerror.texpathfail \
+	|| g_iamerror.texsizefail || g_iamerror.couldnotopenxpm \
+	|| g_iamerror.walltexsizedif)
 		return (1);
 	return (0);
+}
+
+void	texreaderror(void)
+{
+	if (g_iamerror.texsizefail)
+		ft_printf("%s%s\n", texSizeFail, g_iamerror.texsizefail);
+	if (g_iamerror.walltexsizedif)
+		ft_printf("%s\n", wallTexSizeDif);
+	if (g_iamerror.couldnotopenxpm)
+		ft_printf("%s%s\n", couldNotOpenXPM, g_iamerror.couldnotopenxpm);
 }
 
 void	texpatherrors(void)
@@ -47,10 +58,4 @@ void	texpatherrors(void)
 		ft_printf("%s%s\n", pathEAFail, g_pinkMetalImg.texPath);
 	if (g_config.spriteNum && !g_normiImg.mlx_img)
 		ft_printf("%s%s\n", pathSprFail, g_normiImg.texPath);
-	if (g_iamerror.texsizefail)
-		ft_printf("%s%s\n", texSizeFail, g_iamerror.texsizefail);
-	if (g_iamerror.walltexsizedif)
-		ft_printf("%s\n", wallTexSizeDif);
-	if (g_iamerror.couldnotopenxpm)
-		ft_printf("%s%s\n", couldNotOpenXPM, g_iamerror.couldnotopenxpm);
 }

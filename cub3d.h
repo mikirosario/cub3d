@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/07 20:19:57 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/10 20:20:35 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -266,12 +266,14 @@ void			geterrorlocation(unsigned int *errorarray, unsigned int *x, unsigned int 
 void			localizedmaperrors(void);
 void			generalmaperrors(void);
 void			texpatherrors(void);
+void			texreaderror(void);
 int				texerrorconditions(void);
 int				floodfill(void);
 void			unfloodmap(char *flag);
 int				makemaplist(int fd, char *firstline);
 void			makeClsImg(void);
 int				maketeximg(void);
+void			freeme(void);
 int				main(int argc, char **argv);
 
 

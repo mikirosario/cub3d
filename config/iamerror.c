@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/21 19:17:09 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/06 19:07:01 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/10 20:20:55 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,36 @@ extern error_t	g_iamerror;
 ** generalmaperrors and localizedmaperrors to handle and print the associated
 ** error routines and messages. These functions are defined in the maperrors.c
 ** file.
+**
+** The mapsweeps variable registers how many times floodfill has scanned the
+** map. If floodfill is called, this will be at least 1. If mapsweeps is 0,
+** it means floodfill has not been called. Thereefore, we can use this datum
+** to know if floodfill has or hasn't been called. Noplayer is a variable that
+** is true when NO PLAYER has been found, but it is also false by default.
+**
+** If noplayer is false *and* floodfill was called, it means we made it past
+** the first battery of tests where we finish looking for a player, so the
+** noplayer variable cannot be false just because it was left that way by
+** default and the program aborted for an unrelated reason (like finding only
+** 3 lines in the map) before it could finish looking for players. Rather,
+** we know if noplayer is false by the time we reach floodfill, it is because
+** we DID find a player somewhere in the map, so even if the player location
+** coordinates are 0,0, we know there is an actual player found there.
+**
+** We do this test just to print out the player's location for the user to make
+** it easier to see where an out of bounds problem might be in the map. We
+** will signal the player's location with a 'P', unflood the map with the
+** error flag to replace any spaces checked by floodfill with '.' in the event
+** of an out of bounds error, print the map, and then print any errors that
+** were found below it.
 */
 
 void	maperrors(void)
 {
+	if (!g_iamerror.noplayer && g_iamerror.mapsweeps)
+		*((char *)maplistdir(g_player.posX, g_player.posY)) = 'P';
+	unfloodmap("error");
+	printmap();
 	ft_printf("%s", REDERROR);
 	generalmaperrors();
 	localizedmaperrors();
@@ -89,7 +115,11 @@ void	texerrors(void)
 		ft_putstr(getSprFail, ft_strlen(getSprFail));
 	if (g_config.spriteNum && g_iamerror.badsprsyn)
 		ft_printf("Line %u: %s", g_iamerror.badsprsyn, badSprSyn);
-	texpatherrors();
+	if (g_iamerror.texsizefail || g_iamerror.walltexsizedif || \
+	g_iamerror.couldnotopenxpm)
+		texreaderror();
+	if (g_iamerror.texpathfail)
+		texpatherrors();
 }
 
 /*
@@ -142,13 +172,13 @@ void	printerrors(void)
 		ft_putstr(weirdFD, ft_strlen(weirdFD));
 	if (g_iamerror.getresfail)
 		reserrors();
-	if (texerrorconditions())
-		texerrors();
 	if (g_iamerror.fcolorinvalid || g_iamerror.ccolorinvalid)
 		ceilingfloorerrors();
 	if (g_iamerror.outofbounds[2] || g_iamerror.noplayer || \
 	g_iamerror.badmap3line || g_iamerror.toomanyplayers[2])
 		maperrors();
+	else if (texerrorconditions())
+		texerrors();
 	if (g_iamerror.mapchecked && g_iamerror.nomapfound)
 		ft_putstr(noMapFound, ft_strlen(noMapFound));
 	if (g_iamerror.couldnotclose)

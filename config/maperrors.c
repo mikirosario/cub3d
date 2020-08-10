@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/31 17:47:38 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/05 20:34:14 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/10 19:11:18 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,6 @@ void	generalmaperrors(void)
 {
 	if (g_iamerror.noplayer)
 		ft_putstr(noPlayer, strlen(noPlayer));
-	else
-		*((char *)maplistdir(g_player.posX, g_player.posY)) = 'P';
 	if (g_iamerror.badmap3line)
 		ft_putstr(badMap3line, strlen(badMap3line));
 	if (g_iamerror.uintxmax)
@@ -127,19 +125,18 @@ void	localizedmaperrors(void)
 	char			*c;
 
 	o = g_iamerror.premaplines;
-	unfloodmap("error");
-	geterrorlocation(g_iamerror.outofbounds, &x, &y);
-	if (*(c = maplistdir(x, y)) != 'P')
-		*c = 'X';
 	if (g_iamerror.outofbounds[2])
-		ft_printf("\nLine: %u: %.*s"RED"%c"RESET"%s\n%s\n", y + 1 + o, x, \
+	{
+		geterrorlocation(g_iamerror.outofbounds, &x, &y);
+		if (*(c = maplistdir(x, y)) != 'P')
+			*c = 'X';
+		ft_printf("Line: %u: %.*s"RED"%c"RESET"%s\n%s\n", y + 1 + o, x, \
 		maplistdir(0, y), maplist(x, y), maplistdir(x + 1, y), outOfBounds);
-	geterrorlocation(g_iamerror.toomanyplayers, &x, &y);
+	}
 	if (g_iamerror.toomanyplayers[2])
-		ft_printf("\nLine: %u: %.*s"RED"%c"RESET"%s\n%s\n", y + 1 + o, x, \
+	{
+		geterrorlocation(g_iamerror.toomanyplayers, &x, &y);
+		ft_printf("Line: %u: %.*s"RED"%c"RESET"%s\n%s\n", y + 1 + o, x, \
 		maplistdir(0, y), maplist(x, y), maplistdir(x + 1, y), tooManyPlayers);
-	if (g_config.spriteList)
-		freesprtlist(&g_config.spriteList);
-	if (g_config.Map)
-		freelist(&g_config.Map);
+	}
 }
