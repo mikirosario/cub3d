@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 16:44:15 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/10 17:26:49 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/11 18:01:20 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,4 +86,8 @@ void	freeme(void)
 	}
 	freelists();
 	freestrings();
+	if (g_config.spriteorder)
+		del(g_config.spriteorder);
+	if (g_config.zbuffer)
+		del(g_config.zbuffer);
 }

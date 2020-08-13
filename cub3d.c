@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/07 20:24:05 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/10 17:25:07 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/11 15:47:13 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -504,7 +504,7 @@ int   ft_rayCaster(int key, void *param)
     //strafe left if no wall to left
     if (g_keyData.a)
     {
-        ft_rotate_2D(g_player.dirX, g_player.dirY, 90, 6, (double *)(&g_player.newDirXY));
+        ft_rotate_2d(g_player.dirX, g_player.dirY, 90, 6, (double *)(&g_player.newDirXY));
         mlx_string_put(g_screenData.mlx_ptr, g_screenData.mlx_win, 0, 0, 0xFF00000, "RIGHT"); //CHIVATO
     //if (g_worldMap[(int)(g_player.posX + g_player.newDirXY[0] * g_player.moveSpeed)][(int)g_player.posY] == 0)
     if (maplist((int)(g_player.posX + g_player.newDirXY[0] * g_player.moveSpeed), (int)g_player.posY) == '0')
@@ -516,7 +516,7 @@ int   ft_rayCaster(int key, void *param)
     //strafe right if no wall to right
     if (g_keyData.d)
     {
-        ft_rotate_2D(g_player.dirX, g_player.dirY, 90, 6, (double *)(&g_player.newDirXY));
+        ft_rotate_2d(g_player.dirX, g_player.dirY, 90, 6, (double *)(&g_player.newDirXY));
         mlx_string_put(g_screenData.mlx_ptr, g_screenData.mlx_win, 0, 0, 0xFF00000, "LEFT"); //CHIVATO
     //if (g_worldMap[(int)(g_player.posX - g_player.newDirXY[0] * g_player.moveSpeed)][(int)g_player.posY] == 0)
     if (maplist((int)(g_player.posX - g_player.newDirXY[0] * g_player.moveSpeed), (int)g_player.posY) == '0')
@@ -532,10 +532,10 @@ int   ft_rayCaster(int key, void *param)
         mlx_string_put(g_screenData.mlx_ptr, g_screenData.mlx_win, 0, 0, 0xFF00000, "CLOCKWISE"); //CHIVATO
 
         //mi método
-        ft_rotate_2D(g_player.dirX, g_player.dirY, -3, 6, (double *)(&g_player.newDirXY));
+        ft_rotate_2d(g_player.dirX, g_player.dirY, -3, 6, (double *)(&g_player.newDirXY));
         g_player.dirX = g_player.newDirXY[0];
         g_player.dirY = g_player.newDirXY[1];
-        ft_rotate_2D(g_player.planeX, g_player.planeY, -3, 6, (double *)(&g_player.newDirXY));
+        ft_rotate_2d(g_player.planeX, g_player.planeY, -3, 6, (double *)(&g_player.newDirXY));
         g_player.planeX = g_player.newDirXY[0];
         g_player.planeY = g_player.newDirXY[1];
         
@@ -553,10 +553,10 @@ int   ft_rayCaster(int key, void *param)
         mlx_string_put(g_screenData.mlx_ptr, g_screenData.mlx_win, 0, 0, 0xFF00000, "COUNTERCLOCKWISE"); //CHIVATO
 
         //mi método
-        ft_rotate_2D(g_player.dirX, g_player.dirY, 3, 6, (double *)(&g_player.newDirXY));
+        ft_rotate_2d(g_player.dirX, g_player.dirY, 3, 6, (double *)(&g_player.newDirXY));
         g_player.dirX = g_player.newDirXY[0];
         g_player.dirY = g_player.newDirXY[1];
-        ft_rotate_2D(g_player.planeX, g_player.planeY, 3, 6, (double *)(&g_player.newDirXY));
+        ft_rotate_2d(g_player.planeX, g_player.planeY, 3, 6, (double *)(&g_player.newDirXY));
         g_player.planeX = g_player.newDirXY[0];
         g_player.planeY = g_player.newDirXY[1];
         
@@ -781,7 +781,7 @@ int   main(int argc, char **argv)
     mlx_hook(g_screenData.mlx_win, 17, 0, ft_stop, (void*)0);
     mlx_hook(g_screenData.mlx_win, 2, 0, ft_keyPress, (void*)0);
     mlx_hook(g_screenData.mlx_win, 3, 0, ft_keyRelease, (void *)0);
-    mlx_loop_hook(g_screenData.mlx_ptr, ft_rayCaster, (void *)0);    
+    mlx_loop_hook(g_screenData.mlx_ptr, ft_raycaster, (void *)0);    
     mlx_loop(g_screenData.mlx_ptr);
     return(EXIT_SUCCESS);
   }

@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/21 19:17:09 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/10 20:20:55 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/11 15:13:04 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,9 +115,7 @@ void	texerrors(void)
 		ft_putstr(getSprFail, ft_strlen(getSprFail));
 	if (g_config.spriteNum && g_iamerror.badsprsyn)
 		ft_printf("Line %u: %s", g_iamerror.badsprsyn, badSprSyn);
-	if (g_iamerror.texsizefail || g_iamerror.walltexsizedif || \
-	g_iamerror.couldnotopenxpm)
-		texreaderror();
+	texreaderror();
 	if (g_iamerror.texpathfail)
 		texpatherrors();
 }

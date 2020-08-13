@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/10 20:20:35 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/13 20:02:51 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,19 @@ typedef     struct spriteData_s
   struct spriteData_s *next;
 }                   spriteData_t;
 
+typedef	struct	spriteparams_s
+{
+	double	transformy;
+	double	transformx;
+	double	invdet;
+	int		vmovescreen;
+	int		scrnx;
+	int		scrny;
+	int		texx;
+	int		texy;
+	int		d;	
+}				spriteparams_t;
+
 typedef     struct  configData_s
 {
   t_list *Map;
@@ -110,6 +123,8 @@ typedef     struct  configData_s
   int uDiv; //no recuerdo qué hacía
   int vDiv; //no recuerdo qué hacía
   int vMove; //raise to lower sprite
+  double *zbuffer;
+  int *spriteorder;
   char *spriteTexPath;
 }           configData_t;
 
@@ -185,6 +200,17 @@ typedef     struct frameData_s
   int           texY; //texture Y coordinate;
   double        step;
   double        texPos;
+  double		spriteX;
+  double		spriteY;
+  double		transformX;
+  double		transformY;
+  int			spriteDrawStartX;
+  int			spriteDrawEndX;
+  int			spriteDrawStartY;
+  int			spriteDrawEndY;
+  int			spriteHeight;
+  int			spriteWidth;
+  int			spriteScreenX;
 }                  frameData_t;
 
 typedef     struct imageData_s
@@ -238,6 +264,7 @@ void			cls();
 void			ft_sortSprites(int *spriteOrder);
 int				ft_stop(int key, void *param);
 int				ft_rayCaster(int key, void *param);
+int				ft_raycaster(int key, void *param);
 int				ft_keyPress(int key, void *param);
 int				ft_keyRelease(int key, void *param);
 void			initialize(void);
@@ -280,7 +307,12 @@ int				main(int argc, char **argv);
 
 
 
+//Raycaster
 
+void	castray(int x);
+void	calculateframeline(void);
+void	drawframeline(int x, unsigned int *buf);
+void	castsprites(unsigned int *buf);
 
 
 
@@ -291,7 +323,7 @@ int				main(int argc, char **argv);
 double  ft_degtorad(double a);
 double  ft_radtodeg(double a);
 double  ft_round(double n, int prec);
-int     ft_rotate_2D(double x, double y, double adeg, double prec, double *ptr);
+int     ft_rotate_2d(double x, double y, double adeg, double prec, double *ptr);
 int     getRes(const char *line);
 void    cls(void);
 char	*getnextnum(char *num);
