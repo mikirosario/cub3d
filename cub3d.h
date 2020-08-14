@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/13 20:02:51 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/14 20:07:21 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 #define RED "\033[22;31m"
 #define YELLOW "\x1b[33m"
 #define RESET "\033[0m"
+#define MAPMEMCAP 1440000
 
 /*
 ** posX and posY determine position. dirX and dirY determine direction.
@@ -76,10 +77,10 @@ typedef		struct error_s
 	unsigned char	getnextlinefail : 1;
 	unsigned char	mapchecked : 1;
   	unsigned int 	premaplines;
-	unsigned char	uintxmax : 1;
-	unsigned char	uintymax : 1;
 	unsigned int	mapsweeps;
 	char			*couldnotopenxpm;
+	unsigned char	maptoobig : 1;
+	unsigned int	memusage;
 }				error_t;
 
 typedef     struct spriteData_s
@@ -313,6 +314,7 @@ void	castray(int x);
 void	calculateframeline(void);
 void	drawframeline(int x, unsigned int *buf);
 void	castsprites(unsigned int *buf);
+void	readmovementkeys(void);
 
 
 

@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/31 17:47:38 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/10 19:11:18 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/14 20:00:03 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,8 @@ char	toomanyplayers(unsigned int x, unsigned int y, char foundplayer)
 ** or the line with the player is printed for the user.
 **
 ** If the map was rejected because it had less than 3 lines, the associated
-** error will be printed. If part of the map, or part of a map line, was
-** truncated because there were more characters or lines than the unsigned
-** int max, the associated error messages will be printed, although this
-** will not stop the rest of the map from being copied, nor the program
-** from executing as long as no out of bounds errors result from the
-** truncated map.
+** error will be printed. If the map occupies more than the MAPMEMCAP, which
+** is set in the cub3d.h, we'll print the mapTooBig error.
 */
 
 void	generalmaperrors(void)
@@ -74,10 +70,8 @@ void	generalmaperrors(void)
 		ft_putstr(noPlayer, strlen(noPlayer));
 	if (g_iamerror.badmap3line)
 		ft_putstr(badMap3line, strlen(badMap3line));
-	if (g_iamerror.uintxmax)
-		ft_printf("%s\n", uintXMax);
-	if (g_iamerror.uintymax)
-		ft_printf("%s\n", uintYMax);
+	if (g_iamerror.maptoobig)
+		ft_printf("%s\n", mapTooBig);
 }
 
 /*

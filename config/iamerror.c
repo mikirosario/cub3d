@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/21 19:17:09 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/11 15:13:04 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/14 19:04:36 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,7 +173,8 @@ void	printerrors(void)
 	if (g_iamerror.fcolorinvalid || g_iamerror.ccolorinvalid)
 		ceilingfloorerrors();
 	if (g_iamerror.outofbounds[2] || g_iamerror.noplayer || \
-	g_iamerror.badmap3line || g_iamerror.toomanyplayers[2])
+	g_iamerror.badmap3line || g_iamerror.toomanyplayers[2] || \
+	g_iamerror.maptoobig)
 		maperrors();
 	else if (texerrorconditions())
 		texerrors();

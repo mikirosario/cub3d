@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/05 18:32:52 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/10 20:36:53 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/14 17:51:54 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,9 +89,9 @@ void	printmapbytes(void)
 		while (lstptr)
 		{
 			ft_printf(MAGENTA"\nBytes %10u "BLUE"Line # %10u "RESET"%s", \
-			(lstptr->len + sizeof(t_list)), (y + 1 + g_iamerror.premaplines), \
+			(lstptr->len + 1 + sizeof(t_list)), (y + 1 + g_iamerror.premaplines), \
 			(char *)lstptr->content);
-			bytes += (lstptr->len + sizeof(t_list));
+			bytes += (lstptr->len + 1 + sizeof(t_list));
 			lstptr = lstptr->next;
 			y++;
 		}

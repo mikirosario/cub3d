@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 18:31:22 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/05 20:10:31 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/14 19:59:02 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,9 +194,57 @@ char	playerandspritescheck(char foundplayer, char *mapchrs)
 ** (NnSsEeWw) then the whole map will be considered invalid and, after freeing
 ** any memory that has been reserved, the function will order the calling
 ** function to abort.
+**
+** And there is one more little trick up this little function's sleeve. What
+** happens if a mean or thoughtless user takes advantage of this program to
+** reserve endless amounts of memory by passing a gigantic map to the program?
+** Fret not, for every map line reserved and assigned we record its memory
+** usage in the memusage variable, expressed in bytes. This will be strlen + 1
+** (for the null terminator), plus the size of the t_list member linking it.
+**
+** Now, knowing that 42 Madrid Macs have 8GB of RAM, we can go pretty high.
+** I use uints to iterate through strings, so we also don't want to go above
+** the UINTMAX on any map axis, no matter how much memory we reserve.
+** Originally I controlled for that, but then I did the calculations.
+**
+** Any given map line must be at *least* three characters long to enclose the
+** player by walls (a hallway), which weighs four bytes when we account for the
+** NULL terminator, plus the size of the t_list struct that links it and stores
+** information about it (24 bytes). Yeah, vertical maps weigh more than
+** horizontal maps... just deal with it. ;p
+**
+** So, at minimum, every line will weigh at *least* 28 bytes. C UINTMAX is
+** 4,294,967,295, which, multiplied by 28, gives us a staggering
+** 120,259,084,260 bytes for a map that is just one long vertical hallway
+** before reaching the UINTMAX. That is about 120 gigabytes. O_O Now, for a map
+** that is one long horizontal hallway, it would weigh less, "only" about 12.8
+** gigabytes, because most of the memory would be taken up by the strings
+** instead of the structs. But... it still just seems a bit *excessive*
+** somehow. xD
+**
+** 1.44 megabytes seems like a nice, safe number to settle on, and should be
+** MORE than enough for anyone serious. ;p Maps of this weight or less will
+** also always be well within the UINTMAX, so no worries there. 1.44 megabytes
+** gives us a vertical hallway map of about 51438 lines (28 bytes per
+** line), and a horizontal hallway map of about 4,319,916 characters (
+** that's 100000000 - size of t_list, 24, - 1, the NULL terminator, times 3
+** lines). So we get a waaaaay longer potential horizontal map than vertical
+** because I went with linked lists. ;) No matter, just one of those quirks.
+**
+** Therefore, I will cap the amount of memory I'll allow the user to occupy
+** with their map design to 1,440,000 bytes, the size of a 90s era floppy disk.
+** If the map needs more than that, I will abort and scold the user with an
+** unfriendly maptoobig error. :p Since this will always keep me well below
+** UINTMAX on both axes, I will do away with the uintmax errors and define the
+** MAPMEMCAP in cub3d.h so it can be easily changed in the future.
+**
+** Admittedly, my highly optimized program takes a some seconds even to parse a
+** 1.44MB map, so this may also have something to do that being the limit. xD
+** You should keep the map less than half this size if you want something
+** playable, at least on our school Macs.
 */
 
-int		linecheck(char *line, int y, char *mapchrs)
+int		linecheck(char *line, unsigned int y, char *mapchrs)
 {
 	unsigned int	x;
 	char			*match;
@@ -205,13 +253,13 @@ int		linecheck(char *line, int y, char *mapchrs)
 	x = 0;
 	if (!line)
 		return (0);
-	while (x < UINT_MAX && line[x] && (match = ft_strchr(mapchrs, line[x])))
+	while (line[x] && (match = ft_strchr(mapchrs, line[x])))
 		x++;
-	g_iamerror.uintxmax = x == UINT_MAX ? 1 : 0;
-	if (!g_iamerror.uintxmax && x > 0 && !line[x])
+	if (g_iamerror.memusage <= MAPMEMCAP && x > 0 && !line[x])
 	{
 		listptr = ft_lstnew(((char *)ft_strdup(line)));
 		listptr->len = ft_strlen((const char *)line);
+		g_iamerror.memusage += (unsigned int)listptr->len + 1 + (unsigned int)sizeof(t_list);
 		!y ? g_config.Map = listptr : ft_lstadd_back(&g_config.Map, listptr);
 	}
 	else
@@ -224,6 +272,8 @@ int		checkmap(unsigned int y, char *mapchrs)
 	char foundplayer;
 
 	foundplayer = 0;
+	if (g_iamerror.memusage > MAPMEMCAP)
+		return (-5);
 	if (y < 2)
 		return (-2);
 	if ((foundplayer = playerandspritescheck(foundplayer, mapchrs)) > 1)
@@ -250,7 +300,7 @@ int		makemaplist(int fd, char *firstline)
 	endfile = 0;
 	line = firstline;
 	mapchrs = " 012NnSsEeWw";
-	while (y < UINT_MAX && linecheck(line, y, mapchrs) && !endfile)
+	while (linecheck(line, y, mapchrs) && !endfile)
 	{
 		del(line);
 		if (!(ft_get_next_line(fd, &line)))
@@ -260,9 +310,7 @@ int		makemaplist(int fd, char *firstline)
 		y++;
 	}
 	line ? del(line) : line;
-	if (y == UINT_MAX)
-		g_iamerror.uintymax = 1;
-	g_config.mapH = !endfile || !line || y == g_iamerror.uintymax || \
-	g_iamerror.uintxmax ? --y : y;
+	g_config.mapH = !endfile || !line || \
+	g_iamerror.memusage > MAPMEMCAP ? --y : y;
 	return (checkmap(y, mapchrs));
 }

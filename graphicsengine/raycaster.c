@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/11 15:32:45 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/13 20:37:01 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/14 20:07:40 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,95 +138,7 @@ int   ft_raycaster(int key, void *param)
 	//print image
 	mlx_put_image_to_window(g_screenData.mlx_ptr, g_screenData.mlx_win, g_screenData.mlx_img_buffer, 0, 0);
 	
-	//move forwards if no wall in front
-	if (g_keyData.w)
-	{
-	mlx_string_put(g_screenData.mlx_ptr, g_screenData.mlx_win, 0, 0, 0xFF00000, "UP"); //CHIVATO
-	//if (g_worldMap[(int)(g_player.posX + g_player.dirX * g_player.moveSpeed)][(int)g_player.posY] == 0)
-	if ((maplist((int)(g_player.posX + g_player.dirX * g_player.moveSpeed), (int)g_player.posY)) == '0')
-		g_player.posX += g_player.dirX * g_player.moveSpeed;
-	//if (g_worldMap[(int)g_player.posX][(int)(g_player.posY + g_player.dirY * g_player.moveSpeed)] == 0)
-	if ((maplist((int)g_player.posX, (int)(g_player.posY + g_player.dirY * g_player.moveSpeed))) == '0')
-		g_player.posY += g_player.dirY * g_player.moveSpeed;
-	}
-		//move backwards if no wall in front
-	if (g_keyData.s)
-	{
-		mlx_string_put(g_screenData.mlx_ptr, g_screenData.mlx_win, 0, 0, 0xFF00000, "DOWN"); //CHIVATO
-		//if (g_worldMap[(int)(g_player.posX - g_player.dirX * g_player.moveSpeed)][(int)(g_player.posY)] == 0)
-		if ((maplist((int)(g_player.posX - g_player.dirX * g_player.moveSpeed), (int)(g_player.posY)) == '0'))
-			g_player.posX -= g_player.dirX * g_player.moveSpeed;
-		//if (g_worldMap[(int)g_player.posX][(int)(g_player.posY - g_player.dirY * g_player.moveSpeed)] == 0)
-		if ((maplist((int)g_player.posX, (int)(g_player.posY - g_player.dirY * g_player.moveSpeed))) == '0')
-			g_player.posY -= g_player.dirY * g_player.moveSpeed;
-	}
-	//strafe left if no wall to left
-	if (g_keyData.a)
-	{
-		ft_rotate_2d(g_player.dirX, g_player.dirY, 90, 6, (double *)(&g_player.newDirXY));
-		mlx_string_put(g_screenData.mlx_ptr, g_screenData.mlx_win, 0, 0, 0xFF00000, "RIGHT"); //CHIVATO
-	//if (g_worldMap[(int)(g_player.posX + g_player.newDirXY[0] * g_player.moveSpeed)][(int)g_player.posY] == 0)
-	if (maplist((int)(g_player.posX + g_player.newDirXY[0] * g_player.moveSpeed), (int)g_player.posY) == '0')
-		g_player.posX += g_player.newDirXY[0] * g_player.moveSpeed;
-	//if (g_worldMap[(int)g_player.posX][(int)(g_player.posY + g_player.newDirXY[1] * g_player.moveSpeed)] == 0)
-	if (maplist((int)g_player.posX, (int)(g_player.posY + g_player.newDirXY[1] * g_player.moveSpeed)) == '0')
-		g_player.posY += g_player.newDirXY[1] * g_player.moveSpeed;
-	}
-	//strafe right if no wall to right
-	if (g_keyData.d)
-	{
-		ft_rotate_2d(g_player.dirX, g_player.dirY, 90, 6, (double *)(&g_player.newDirXY));
-		mlx_string_put(g_screenData.mlx_ptr, g_screenData.mlx_win, 0, 0, 0xFF00000, "LEFT"); //CHIVATO
-	//if (g_worldMap[(int)(g_player.posX - g_player.newDirXY[0] * g_player.moveSpeed)][(int)g_player.posY] == 0)
-	if (maplist((int)(g_player.posX - g_player.newDirXY[0] * g_player.moveSpeed), (int)g_player.posY) == '0')
-		g_player.posX -= g_player.newDirXY[0] * g_player.moveSpeed;
-	//if (g_worldMap[(int)g_player.posX][(int)(g_player.posY - g_player.newDirXY[1] * g_player.moveSpeed)] == 0)
-	if (maplist((int)g_player.posX, (int)(g_player.posY - g_player.newDirXY[1] * g_player.moveSpeed)) == '0')
-		g_player.posY -= g_player.newDirXY[1] * g_player.moveSpeed;
-	}
-
-		//clockwise rotation
-	if (g_keyData.r)
-	{
-		mlx_string_put(g_screenData.mlx_ptr, g_screenData.mlx_win, 0, 0, 0xFF00000, "CLOCKWISE"); //CHIVATO
-
-		//mi método
-		ft_rotate_2d(g_player.dirX, g_player.dirY, -3, 6, (double *)(&g_player.newDirXY));
-		g_player.dirX = g_player.newDirXY[0];
-		g_player.dirY = g_player.newDirXY[1];
-		ft_rotate_2d(g_player.planeX, g_player.planeY, -3, 6, (double *)(&g_player.newDirXY));
-		g_player.planeX = g_player.newDirXY[0];
-		g_player.planeY = g_player.newDirXY[1];
-		
-		//método Lode
-		/*g_player.oldDirX = g_player.dirX;
-		g_player.dirX = g_player.dirX * cos(-g_player.rotSpeed) - g_player.dirY * sin(-g_player.rotSpeed);
-		g_player.dirY = g_player.oldDirX * sin(-g_player.rotSpeed) + g_player.dirY * cos(-g_player.rotSpeed);
-		g_player.oldPlaneX = g_player.planeX;
-		g_player.planeX = g_player.planeX * cos(-g_player.rotSpeed) - g_player.planeY * sin(-g_player.rotSpeed);
-		g_player.planeY = g_player.oldPlaneX * sin(-g_player.rotSpeed) + g_player.planeY * cos(-g_player.rotSpeed);*/
-	}
-	//anticlockwise rotation
-	if (g_keyData.l)
-	{
-		mlx_string_put(g_screenData.mlx_ptr, g_screenData.mlx_win, 0, 0, 0xFF00000, "COUNTERCLOCKWISE"); //CHIVATO
-
-		//mi método
-		ft_rotate_2d(g_player.dirX, g_player.dirY, 3, 6, (double *)(&g_player.newDirXY));
-		g_player.dirX = g_player.newDirXY[0];
-		g_player.dirY = g_player.newDirXY[1];
-		ft_rotate_2d(g_player.planeX, g_player.planeY, 3, 6, (double *)(&g_player.newDirXY));
-		g_player.planeX = g_player.newDirXY[0];
-		g_player.planeY = g_player.newDirXY[1];
-		
-		//método Lode
-		/*g_player.oldDirX = g_player.dirX;
-		g_player.dirX = g_player.dirX * cos(g_player.rotSpeed) - g_player.dirY * sin(g_player.rotSpeed);
-		g_player.dirY = g_player.oldDirX * sin(g_player.rotSpeed) + g_player.dirY * cos(g_player.rotSpeed);
-		g_player.oldPlaneX = g_player.planeX;
-		g_player.planeX = g_player.planeX * cos(g_player.rotSpeed) - g_player.planeY * sin(g_player.rotSpeed);
-		g_player.planeY = g_player.oldPlaneX * sin(g_player.rotSpeed) + g_player.planeY * cos(g_player.rotSpeed);*/
-	}
+	readmovementkeys();
 
 	//framecounter
 	fps++;

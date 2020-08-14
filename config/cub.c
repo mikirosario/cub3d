@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/16 18:38:05 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/10 17:32:28 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/14 17:37:17 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,7 +166,9 @@ int		maphandler(int fd, char *line)
 	i = makemaplist(fd, line);
 	if (i < 0)
 	{
-		if (i == -1)
+		if (i == -5)
+			g_iamerror.maptoobig = 1;
+		else if (i == -1)
 			g_iamerror.outofbounds[2] = 1;
 		else if (i == -2)
 			g_iamerror.badmap3line = 1;

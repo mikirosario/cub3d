@@ -6,13 +6,13 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/07 20:24:05 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/11 15:47:13 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/14 17:42:41 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-error_t g_iamerror = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,{0,0,0},0,0,{0,0,0},0,0,0,0,0,0,NULL};
+error_t g_iamerror = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,{0,0,0},0,0,{0,0,0},0,0,0,0,NULL,0,0};
 
 /*
 ** This function is a generic, run-of-the-mill "free this memory and set the
