@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/14 20:07:21 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/17 19:54:09 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ typedef	struct	spriteparams_s
 typedef     struct  configData_s
 {
   t_list *Map;
+  char	**map;
   spriteData_t *spriteList;
   unsigned int mapW;
   unsigned int mapH;
@@ -220,18 +221,18 @@ typedef     struct imageData_s
   int           bpp;
   int           size_line;
   int           endian;
-  unsigned int  *tex_Ptr;
-  char          *texPath;
+  unsigned int  *tex_ptr;
+  char          *texpath;
 }                  imageData_t;
 
 typedef     struct keyData_s
 {
-  char  w;
-  char  a;
-  char  s;
-  char  d;
-  char  r;
-  char  l;
+  char  w : 1;
+  char  a : 1;
+  char  s : 1;
+  char  d : 1;
+  char  r : 1;
+  char  l : 1;
   char  m;
 }                   keyData_t;
 
@@ -241,10 +242,10 @@ world_t g_world;
 rayData_t g_rayData;
 screenData_t g_screenData;
 frameData_t  g_frameData;
-imageData_t g_blueMetalImg;
-imageData_t g_yellowMetalImg;
-imageData_t g_greenMetalImg;
-imageData_t g_pinkMetalImg;
+imageData_t sowallimg;
+imageData_t nowallimg;
+imageData_t wewallimg;
+imageData_t eawallimg;
 imageData_t g_clsImg;
 imageData_t g_ceilingImg;
 imageData_t g_floorImg;
@@ -265,9 +266,9 @@ void			cls();
 void			ft_sortSprites(int *spriteOrder);
 int				ft_stop(int key, void *param);
 int				ft_rayCaster(int key, void *param);
-int				ft_raycaster(int key, void *param);
-int				ft_keyPress(int key, void *param);
-int				ft_keyRelease(int key, void *param);
+int				raycaster(int key, void *param);
+int				keypress(int key, void *param);
+int				keyrelease(int key, void *param);
 void			initialize(void);
 int				getres(const char *line, unsigned int linenum);
 int				getno(const char *line, unsigned int linenum);
@@ -304,7 +305,7 @@ int				maketeximg(void);
 void			freeme(void);
 int				main(int argc, char **argv);
 
-
+void			maparray(void);
 
 
 
@@ -315,6 +316,10 @@ void	calculateframeline(void);
 void	drawframeline(int x, unsigned int *buf);
 void	castsprites(unsigned int *buf);
 void	readmovementkeys(void);
+
+//Bonus
+void	countframes(time_t *timestart);
+void	graphicsmodes(void);
 
 
 

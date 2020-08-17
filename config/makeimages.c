@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 18:36:40 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/10 20:04:08 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/17 18:19:48 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,9 @@ int		comptexres(int *firstwallsize)
 	int		texres[2];
 	int		i;
 
-	texpath[0] = g_yellowMetalImg.texPath;
-	texpath[1] = g_greenMetalImg.texPath;
-	texpath[2] = g_pinkMetalImg.texPath;
+	texpath[0] = sowallimg.texpath;
+	texpath[1] = wewallimg.texpath;
+	texpath[2] = eawallimg.texpath;
 	i = 0;
 	while (i < 3)
 	{
@@ -128,19 +128,19 @@ int		comptexres(int *firstwallsize)
 
 int		getteximg(void)
 {
-	g_blueMetalImg.mlx_img = mlx_xpm_file_to_image(g_screenData.mlx_ptr, \
-	g_blueMetalImg.texPath, &g_config.texW, &g_config.texH);
-	g_yellowMetalImg.mlx_img = mlx_xpm_file_to_image(g_screenData.mlx_ptr, \
-	g_yellowMetalImg.texPath, &g_config.texW, &g_config.texH);
-	g_greenMetalImg.mlx_img = mlx_xpm_file_to_image(g_screenData.mlx_ptr, \
-	g_greenMetalImg.texPath, &g_config.texW, &g_config.texH);
-	g_pinkMetalImg.mlx_img = mlx_xpm_file_to_image(g_screenData.mlx_ptr, \
-	g_pinkMetalImg.texPath, &g_config.texW, &g_config.texH);
+	nowallimg.mlx_img = mlx_xpm_file_to_image(g_screenData.mlx_ptr, \
+	nowallimg.texpath, &g_config.texW, &g_config.texH);
+	sowallimg.mlx_img = mlx_xpm_file_to_image(g_screenData.mlx_ptr, \
+	sowallimg.texpath, &g_config.texW, &g_config.texH);
+	wewallimg.mlx_img = mlx_xpm_file_to_image(g_screenData.mlx_ptr, \
+	wewallimg.texpath, &g_config.texW, &g_config.texH);
+	eawallimg.mlx_img = mlx_xpm_file_to_image(g_screenData.mlx_ptr, \
+	eawallimg.texpath, &g_config.texW, &g_config.texH);
 	if (g_config.spriteNum)
 		g_normiImg.mlx_img = mlx_xpm_file_to_image(g_screenData.mlx_ptr, \
-		g_normiImg.texPath, &g_config.spriteW, &g_config.spriteH);
-	if (!g_blueMetalImg.mlx_img || !g_yellowMetalImg.mlx_img || \
-	!g_greenMetalImg.mlx_img || !g_pinkMetalImg.mlx_img || \
+		g_normiImg.texpath, &g_config.spriteW, &g_config.spriteH);
+	if (!nowallimg.mlx_img || !sowallimg.mlx_img || \
+	!wewallimg.mlx_img || !eawallimg.mlx_img || \
 	(!g_normiImg.mlx_img && g_config.spriteNum))
 	{
 		g_iamerror.texpathfail = 1;
@@ -187,7 +187,7 @@ int		maketeximg(void)
 {
 	int	size[2];
 
-	if (!getteximg() || !getxpmres(size, g_blueMetalImg.texPath))
+	if (!getteximg() || !getxpmres(size, nowallimg.texpath))
 		return (0);
 	else
 	{
@@ -196,7 +196,7 @@ int		maketeximg(void)
 	}
 	if (!(comptexres(size)))
 		return (0);
-	if (g_normiImg.mlx_img && !getxpmres(size, g_normiImg.texPath))
+	if (g_normiImg.mlx_img && !getxpmres(size, g_normiImg.texpath))
 		return (0);
 	else
 	{

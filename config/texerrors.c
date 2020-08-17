@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/03 18:36:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/10 20:20:43 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/17 18:15:53 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,14 @@ void	texreaderror(void)
 
 void	texpatherrors(void)
 {
-	if (!g_blueMetalImg.mlx_img)
-		ft_printf("%s%s\n", pathNOFail, g_blueMetalImg.texPath);
-	if (!g_yellowMetalImg.mlx_img)
-		ft_printf("%s%s\n", pathSOFail, g_yellowMetalImg.texPath);
-	if (!g_greenMetalImg.mlx_img)
-		ft_printf("%s%s\n", pathWEFail, g_greenMetalImg.texPath);
-	if (!g_pinkMetalImg.mlx_img)
-		ft_printf("%s%s\n", pathEAFail, g_pinkMetalImg.texPath);
+	if (!nowallimg.mlx_img)
+		ft_printf("%s%s\n", pathNOFail, nowallimg.texpath);
+	if (!sowallimg.mlx_img)
+		ft_printf("%s%s\n", pathSOFail, sowallimg.texpath);
+	if (!wewallimg.mlx_img)
+		ft_printf("%s%s\n", pathWEFail, wewallimg.texpath);
+	if (!eawallimg.mlx_img)
+		ft_printf("%s%s\n", pathEAFail, eawallimg.texpath);
 	if (g_config.spriteNum && !g_normiImg.mlx_img)
-		ft_printf("%s%s\n", pathSprFail, g_normiImg.texPath);
+		ft_printf("%s%s\n", pathSprFail, g_normiImg.texpath);
 }

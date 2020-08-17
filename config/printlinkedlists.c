@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/05 18:32:52 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/14 17:51:54 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/17 15:14:06 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,10 @@ void	printsprites(void)
 
 void	printbyteuse(unsigned int bytes)
 {
-	if (bytes < 500000000)
+	if (bytes < 100000)
 		ft_printf(GREEN"%36cTotal Bytes Used By This Map: %d (^_^)\n"RESET, \
 		'\0', bytes);
-	else if (bytes < 1000000000)
+	else if (bytes < 500000)
 		ft_printf(YELLOW"%36cTotal Bytes Used By This Map: %d (´･_･｀)\n"RESET, \
 		'\0', bytes);
 	else

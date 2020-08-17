@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/07 20:24:05 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/14 17:42:41 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/17 19:54:21 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,16 +126,16 @@ int   ft_stop(int key, void *param)
         mlx_destroy_image(g_screenData.mlx_ptr, g_clsImg.mlx_img);
         if (g_screenData.mlx_img_buffer)
             mlx_destroy_image(g_screenData.mlx_ptr, g_screenData.mlx_img_buffer);
-        if (g_blueMetalImg.mlx_img)
-            mlx_destroy_image(g_screenData.mlx_ptr, g_blueMetalImg.mlx_img);
+        if (nowallimg.mlx_pmg)
+            mlx_destroy_image(g_screenData.mlx_ptr, nowallimg.mlx_pmg);
         if (g_normiImg.mlx_img)
             mlx_destroy_image(g_screenData.mlx_ptr, g_normiImg.mlx_img);
         if (g_config.Map)
             freeList(&g_config.Map);
-        free(g_blueMetalImg.texPath);
-        free(g_yellowMetalImg.texPath);
-        free(g_greenMetalImg.texPath);
-        free(g_pinkMetalImg.texPath);
+        free(nowallimg.texPpth);
+        free(sowallimg.texPpth);
+        free(wewallimg.texPpth);
+        free(eawallimg.texPath);
         free(g_config.spriteTexPath);
         free(g_player.newDirXY);
         exit(EXIT_SUCCESS);
@@ -169,10 +169,10 @@ int   ft_rayCaster(int key, void *param)
     buf = (unsigned int *)mlx_get_data_addr(g_screenData.mlx_img_buffer, &g_screenData.bpp, &g_screenData.size_line, &g_screenData.endian);
     if (stayOut == 'n')
     {
-        g_blueMetalImg.tex_Ptr = (unsigned int *)mlx_get_data_addr(g_blueMetalImg.mlx_img, &g_blueMetalImg.bpp, &g_blueMetalImg.size_line, &g_blueMetalImg.endian);
-        g_yellowMetalImg.tex_Ptr = (unsigned int *)mlx_get_data_addr(g_yellowMetalImg.mlx_img, &g_yellowMetalImg.bpp, &g_yellowMetalImg.size_line, &g_yellowMetalImg.endian);
-        g_greenMetalImg.tex_Ptr = (unsigned int *)mlx_get_data_addr(g_greenMetalImg.mlx_img, &g_greenMetalImg.bpp, &g_greenMetalImg.size_line, &g_greenMetalImg.endian);
-        g_pinkMetalImg.tex_Ptr = (unsigned int *)mlx_get_data_addr(g_pinkMetalImg.mlx_img, &g_pinkMetalImg.bpp, &g_pinkMetalImg.size_line, &g_pinkMetalImg.endian);
+        nowallimg.tex_ptr = (unsigned int *)mlx_get_data_addr(nowallimg.mlx_img, &nowallimg.bpp, &nowallimg.size_line, &nowallimg.endian);
+        sowallimg.tex_ptr = (unsigned int *)mlx_get_data_addr(sowallimg.mlx_img, &sowallimg.bpp, &sowallimg.size_line, &sowallimg.endian);
+        wewallimg.tex_ptr = (unsigned int *)mlx_get_data_addr(wewallimg.mlx_img, &wewallimg.bpp, &wewallimg.size_line, &wewallimg.endian);
+        eawallimg.tex_ptr = (unsigned int *)mlx_get_data_addr(eawallimg.mlx_img, &eawallimg.bpp, &eawallimg.size_line, &eawallimg.endian);
 
         if (g_config.spriteNum)
         {
@@ -313,13 +313,13 @@ int   ft_rayCaster(int key, void *param)
             //texY gets rounded texPos; the less texPos changes, the longer for texY to increment; amount of texPos change depends on lineHeight and thus distance, times step
             /* g_frameData.texY = (int)(g_frameData.texPos) & (g_config.texH - 1);
             if (g_worldMap[g_rayData.mapX][g_rayData.mapY] == 1)
-                texPtr = g_blueMetalImg.tex_Ptr;
+                texPtr = nowallimg.tex_ptr;
             else if (g_worldMap[g_rayData.mapX][g_rayData.mapY] == 2)
-                texPtr = g_yellowMetalImg.texPtr;
+                texPtr = sowallimg.texPpr;
             else if (g_worldMap[g_rayData.mapX][g_rayData.mapY] == 3)
-                texPtr = g_greenMetalImg.tex_Ptr;
+                texPtr = wewallimg.tex_ptr;
             else
-                texPtr = g_pinkMetalImg.tex_Ptr;
+                texPtr = eawallimg.tex_Ptr;
             //make color darker for y-sides
             buf[ibuf] = g_rayData.side == 1 ? (((texPtr[g_frameData.texX + g_frameData.texY * g_config.texW]) >> 1) & 8355711) : texPtr[g_frameData.texX + g_frameData.texY * g_config.texW];
             //increment texPos by step
@@ -332,13 +332,13 @@ int   ft_rayCaster(int key, void *param)
                 //texY gets rounded texPos; the less texPos changes, the longer for texY to increment; amount of texPos change depends on lineHeight and thus distance, times step
                 g_frameData.texY = (int)(g_frameData.texPos) & (g_config.texH - 1);
                 if (g_rayData.side == 1 && g_rayData.stepY > 0) //west facing wall
-                    texPtr = g_blueMetalImg.tex_Ptr;
+                    texPtr = nowallimg.tex_ptr;
                 else if (g_rayData.side == 1 && g_rayData.stepY < 0) //east facing wall
-                    texPtr = g_yellowMetalImg.tex_Ptr;
+                    texPtr = sowallimg.tex_ptr;
                 else if (g_rayData.side == 0 && g_rayData.stepX > 0) //south facing wall
-                    texPtr = g_greenMetalImg.tex_Ptr;
+                    texPtr = wewallimg.tex_ptr;
                 else if (g_rayData.side == 0 && g_rayData.stepX < 0) //north facing wall
-                    texPtr = g_pinkMetalImg.tex_Ptr;
+                    texPtr = eawallimg.tex_ptr;
                 //make color darker for y-sides and paint walls
                 if (g_keyData.m == 1)
                     buf[ibuf] = g_rayData.side == 1 ? (((texPtr[g_frameData.texX + g_frameData.texY * g_config.texW]) >> 1) & 8355711) : texPtr[g_frameData.texX + g_frameData.texY * g_config.texW];
@@ -597,63 +597,7 @@ int   ft_rayCaster(int key, void *param)
 }
 
 //Mac
-int ft_keyPress(int key, void *param)
-{
-    (void)param;
-    if (key == 0x35)
-        ft_stop(key, (void *)0);
-    //move forwards if no wall in front
-    if (key == 0xD)
-        g_keyData.w = 1;
-    //move backwards if no wall in front
-    if (key == 0x1)
-        g_keyData.s = 1;
-    //strafe right if no wall to right
-    if (key == 0x2)
-        g_keyData.d = 1;
-    //strafe left if no wall to left
-    if (key == 0x0)
-        g_keyData.a = 1;
-    //clockwise rotation
-    if (key == 0x7C)
-        g_keyData.r = 1;
-    //anticlockwise rotation
-    if (key == 0x7B)
-        g_keyData.l = 1;
-    if (key == 0x2E)
-    {
-        if (g_keyData.m == 2)
-            g_keyData.m = 0;
-        else
-        
-            g_keyData.m += 1;
-    }
-    return (0);
-}
-//Mac
-int ft_keyRelease(int key, void *param)
-{
-    (void)param;
-    //move forwards if no wall in front
-    if (key == 0xD)
-        g_keyData.w = 0;
-    //move backwards if no wall in front
-    if (key == 0x1)
-        g_keyData.s = 0;
-    //strafe right if no wall to right
-    if (key == 0x2)
-        g_keyData.d = 0;
-    //strafe left if no wall to left
-    if (key == 0x0)
-        g_keyData.a = 0;
-    //clockwise rotation
-    if (key == 0x7C)
-        g_keyData.r = 0;
-    //anticlockwise rotation
-    if (key == 0x7B)
-        g_keyData.l = 0;
-    return (0);
-}
+
 
 //Linux
 /*int ft_keyPress(int key, void *param)
@@ -775,13 +719,12 @@ int   main(int argc, char **argv)
 		freeme();
 	  	return (EXIT_FAILURE);
 	}
-	printf("\nSizeOf error_s: %zu\n", sizeof(g_iamerror));
-	printf("\nValor: %d\n", g_iamerror.getresfail);
+	maparray();
     mlx_do_key_autorepeatoff(g_screenData.mlx_ptr);
-    mlx_hook(g_screenData.mlx_win, 17, 0, ft_stop, (void*)0);
-    mlx_hook(g_screenData.mlx_win, 2, 0, ft_keyPress, (void*)0);
-    mlx_hook(g_screenData.mlx_win, 3, 0, ft_keyRelease, (void *)0);
-    mlx_loop_hook(g_screenData.mlx_ptr, ft_raycaster, (void *)0);    
+    mlx_hook(g_screenData.mlx_win, 17, 1l << 17, ft_stop, (void*)0);
+    mlx_hook(g_screenData.mlx_win, 2, 1L << 0, keypress, (void*)0);
+    mlx_hook(g_screenData.mlx_win, 3, 1L << 1, keyrelease, (void *)0);
+    mlx_loop_hook(g_screenData.mlx_ptr, raycaster, (void *)0);    
     mlx_loop(g_screenData.mlx_ptr);
     return(EXIT_SUCCESS);
   }
@@ -817,8 +760,8 @@ int   main(int argc, char **argv)
 	printf("\nValor: %d\n", g_iamerror.getresfail);
     mlx_do_key_autorepeatoff(g_screenData.mlx_ptr);
     mlx_hook(g_screenData.mlx_win, 17, 1L << 17, ft_stop, (void*)0);
-    mlx_hook(g_screenData.mlx_win, 2, 1L << 0, ft_keyPress, (void*)0);
-    mlx_hook(g_screenData.mlx_win, 3, 1L << 1, ft_keyRelease, (void *)0);
+    mlx_hook(g_screenData.mlx_win, 2, 1L << 0, keypress, (void*)0);
+    mlx_hook(g_screenData.mlx_win, 3, 1L << 1, keyrelease, (void *)0);
     mlx_loop_hook(g_screenData.mlx_ptr, ft_rayCaster, (void *)0);    
     mlx_loop(g_screenData.mlx_ptr);
     return(EXIT_SUCCESS);

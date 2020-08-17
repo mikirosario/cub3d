@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/11 19:45:47 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/12 17:41:14 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/17 19:27:47 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,13 +100,13 @@ int		texturedwalls(int x, int pixel, unsigned int *buf)
 	unsigned int	*texptr;
 
 	if (g_rayData.side == 1 && g_rayData.stepY > 0)
-		texptr = g_yellowMetalImg.tex_Ptr;
+		texptr = sowallimg.tex_ptr;
 	else if (g_rayData.side == 1 && g_rayData.stepY < 0)
-		texptr = g_blueMetalImg.tex_Ptr;
+		texptr = nowallimg.tex_ptr;
 	else if (g_rayData.side == 0 && g_rayData.stepX > 0)
-		texptr = g_pinkMetalImg.tex_Ptr;
+		texptr = eawallimg.tex_ptr;
 	else if (g_rayData.side == 0 && g_rayData.stepX < 0)
-		texptr = g_greenMetalImg.tex_Ptr;
+		texptr = wewallimg.tex_ptr;
 	while (pixel <= (x + g_frameData.drawEnd * g_config.screenW))
 	{
 		g_frameData.texY = (int)(g_frameData.texPos) & (g_config.texH - 1);

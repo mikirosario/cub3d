@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 16:44:15 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/11 18:01:20 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/17 18:12:28 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,16 @@
 
 void	freestrings(void)
 {
-	if (g_blueMetalImg.texPath)
-		del(g_blueMetalImg.texPath);
-	if (g_yellowMetalImg.texPath)
-		del(g_yellowMetalImg.texPath);
-	if (g_greenMetalImg.texPath)
-		del(g_greenMetalImg.texPath);
-	if (g_pinkMetalImg.texPath)
-		del(g_pinkMetalImg.texPath);
-	if (g_normiImg.texPath)
-		del(g_normiImg.texPath);
+	if (nowallimg.texpath)
+		del(nowallimg.texpath);
+	if (sowallimg.texpath)
+		del(sowallimg.texpath);
+	if (wewallimg.texpath)
+		del(wewallimg.texpath);
+	if (eawallimg.texpath)
+		del(eawallimg.texpath);
+	if (g_normiImg.texpath)
+		del(g_normiImg.texpath);
 }
 
 /*
@@ -52,14 +52,14 @@ void	freeimgs(void)
 {
 	if (g_screenData.mlx_img_buffer)
 		mlx_destroy_image(g_screenData.mlx_ptr, g_screenData.mlx_img_buffer);
-	if (g_blueMetalImg.mlx_img)
-		mlx_destroy_image(g_screenData.mlx_ptr, g_blueMetalImg.mlx_img);
-	if (g_yellowMetalImg.mlx_img)
-		mlx_destroy_image(g_screenData.mlx_ptr, g_yellowMetalImg.mlx_img);
-	if (g_greenMetalImg.mlx_img)
-		mlx_destroy_image(g_screenData.mlx_ptr, g_greenMetalImg.mlx_img);
-	if (g_pinkMetalImg.mlx_img)
-		mlx_destroy_image(g_screenData.mlx_ptr, g_pinkMetalImg.mlx_img);
+	if (nowallimg.mlx_img)
+		mlx_destroy_image(g_screenData.mlx_ptr, nowallimg.mlx_img);
+	if (sowallimg.mlx_img)
+		mlx_destroy_image(g_screenData.mlx_ptr, sowallimg.mlx_img);
+	if (wewallimg.mlx_img)
+		mlx_destroy_image(g_screenData.mlx_ptr, wewallimg.mlx_img);
+	if (eawallimg.mlx_img)
+		mlx_destroy_image(g_screenData.mlx_ptr, eawallimg.mlx_img);
 	if (g_normiImg.mlx_img)
 		mlx_destroy_image(g_screenData.mlx_ptr, g_normiImg.mlx_img);
 }

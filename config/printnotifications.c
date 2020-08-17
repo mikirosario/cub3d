@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/24 19:08:46 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/10 20:34:32 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/17 18:16:39 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,10 @@ void	printnotifications(void)
 	if (!g_iamerror.cubfilenotfound && !g_iamerror.weirdfd)
 	{
 		ft_printf(Res, g_config.screenW, g_config.screenH);
-		ft_printf(wallPaths, g_blueMetalImg.texPath, g_yellowMetalImg.texPath, \
-		g_greenMetalImg.texPath, g_pinkMetalImg.texPath);
+		ft_printf(wallPaths, nowallimg.texpath, sowallimg.texpath, \
+		wewallimg.texpath, eawallimg.texpath);
 		if (g_config.spriteNum)
-			ft_printf(GREEN"Sprite Path: "RESET"\n%s\n", g_normiImg.texPath);
+			ft_printf(GREEN"Sprite Path: "RESET"\n%s\n", g_normiImg.texpath);
 		if (!g_iamerror.texpathfail)
 			texturesizenotifications();
 		if (!g_iamerror.fcolorinvalid)

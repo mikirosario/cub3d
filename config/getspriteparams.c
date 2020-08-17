@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 18:08:49 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/10 19:46:28 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/17 18:24:01 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,11 @@ int		getsprite(const char *line, unsigned int linenum)
 	i = 0;
 	while (line[i] && ft_isprint(line[i]))
 		i++;
-	if (!(g_normiImg.texPath = ft_calloc(i + 1, 1)))
+	if (!(g_normiImg.texpath = ft_calloc(i + 1, 1)))
 	{
 		g_iamerror.mallocfail = 1;
 		return (0);
 	}
-	ft_memcpy(g_normiImg.texPath, line, i);
+	ft_memcpy(g_normiImg.texpath, line, i);
 	return (1);
 }
