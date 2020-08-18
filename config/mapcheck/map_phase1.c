@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 18:31:22 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/14 19:59:02 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/18 19:58:15 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,26 +222,26 @@ char	playerandspritescheck(char foundplayer, char *mapchrs)
 ** instead of the structs. But... it still just seems a bit *excessive*
 ** somehow. xD
 **
-** 1.44 megabytes seems like a nice, safe number to settle on, and should be
+** 0.2 megabytes seems like a nice, safe number to settle on, and should be
 ** MORE than enough for anyone serious. ;p Maps of this weight or less will
 ** also always be well within the UINTMAX, so no worries there. 1.44 megabytes
 ** gives us a vertical hallway map of about 51438 lines (28 bytes per
 ** line), and a horizontal hallway map of about 4,319,916 characters (
 ** that's 100000000 - size of t_list, 24, - 1, the NULL terminator, times 3
-** lines). So we get a waaaaay longer potential horizontal map than vertical
-** because I went with linked lists. ;) No matter, just one of those quirks.
+** lines). So we get a waaaaay bigger horizontal map than vertical map for the
+** same memory use because I went with linked lists. ;) D'oh! No matter, just
+** one of those newbie quirks.
 **
-** Therefore, I will cap the amount of memory I'll allow the user to occupy
-** with their map design to 1,440,000 bytes, the size of a 90s era floppy disk.
+** I will cap the amount of memory I'll allow the user to occupy
+** with their map design to 200,000 bytes.
+** 
 ** If the map needs more than that, I will abort and scold the user with an
 ** unfriendly maptoobig error. :p Since this will always keep me well below
 ** UINTMAX on both axes, I will do away with the uintmax errors and define the
-** MAPMEMCAP in cub3d.h so it can be easily changed in the future.
+** MAPMEMCAP in cub3d.h so it can be easily changed there in the future.
 **
-** Admittedly, my highly optimized program takes a some seconds even to parse a
-** 1.44MB map, so this may also have something to do that being the limit. xD
-** You should keep the map less than half this size if you want something
-** playable, at least on our school Macs.
+** Admittedly, my highly optimized program takes a second even to parse a
+** 0.2 MB map, so this may also have something to do that being the limit. xD
 */
 
 int		linecheck(char *line, unsigned int y, char *mapchrs)
@@ -253,13 +253,12 @@ int		linecheck(char *line, unsigned int y, char *mapchrs)
 	x = 0;
 	if (!line)
 		return (0);
-	while (line[x] && (match = ft_strchr(mapchrs, line[x])))
+	while (x <= MAPMEMCAP && line[x] && (match = ft_strchr(mapchrs, line[x])))
 		x++;
-	if (g_iamerror.memusage <= MAPMEMCAP && x > 0 && !line[x])
+	if (((g_iamerror.memusage += x + 1) <= MAPMEMCAP) && x > 0 && !line[x])
 	{
 		listptr = ft_lstnew(((char *)ft_strdup(line)));
 		listptr->len = ft_strlen((const char *)line);
-		g_iamerror.memusage += (unsigned int)listptr->len + 1 + (unsigned int)sizeof(t_list);
 		!y ? g_config.Map = listptr : ft_lstadd_back(&g_config.Map, listptr);
 	}
 	else
@@ -272,6 +271,8 @@ int		checkmap(unsigned int y, char *mapchrs)
 	char foundplayer;
 
 	foundplayer = 0;
+	if (g_iamerror.mallocfail)
+		return (-6);
 	if (g_iamerror.memusage > MAPMEMCAP)
 		return (-5);
 	if (y < 2)
@@ -284,8 +285,10 @@ int		checkmap(unsigned int y, char *mapchrs)
 	printmapbytes();
 	ft_printf(MAGENTA"\n**** SPRITES RETRIEVED ****\n"RESET);
 	printsprites();
+	ft_printf(GREEN"\n**** CHECKING MAP... ****\n"RESET);
 	if (!(floodfill()))
 		return (-1);
+	ft_printf(GREEN"\n**** LOADING MAP... ****\n");
 	return (1);
 }
 
@@ -312,5 +315,7 @@ int		makemaplist(int fd, char *firstline)
 	line ? del(line) : line;
 	g_config.mapH = !endfile || !line || \
 	g_iamerror.memusage > MAPMEMCAP ? --y : y;
+	if (!maparray())
+		g_iamerror.mallocfail = 1;
 	return (checkmap(y, mapchrs));
 }

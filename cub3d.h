@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/17 19:54:09 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/18 18:32:04 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 #define RED "\033[22;31m"
 #define YELLOW "\x1b[33m"
 #define RESET "\033[0m"
-#define MAPMEMCAP 1440000
+#define MAPMEMCAP 200000
 
 /*
 ** posX and posY determine position. dirX and dirY determine direction.
@@ -263,9 +263,8 @@ char			maplist(unsigned int x, unsigned int y);
 char			*maplistdir(unsigned int x, unsigned int y);
 t_list			*maplistmem(unsigned int y);
 void			cls();
-void			ft_sortSprites(int *spriteOrder);
+void			ft_sortsprites(int *spriteOrder);
 int				ft_stop(int key, void *param);
-int				ft_rayCaster(int key, void *param);
 int				raycaster(int key, void *param);
 int				keypress(int key, void *param);
 int				keyrelease(int key, void *param);
@@ -305,7 +304,7 @@ int				maketeximg(void);
 void			freeme(void);
 int				main(int argc, char **argv);
 
-void			maparray(void);
+int				maparray(void);
 
 
 

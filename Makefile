@@ -6,13 +6,13 @@
 #    By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/07/15 20:32:43 by mrosario          #+#    #+#              #
-#    Updated: 2020/08/17 19:54:54 by mrosario         ###   ########.fr        #
+#    Updated: 2020/08/18 18:49:13 by mrosario         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = cub3d
 
-SRC = rotation.c freeme.c ./config/cub.c ./config/getscreenres.c ./config/getwallparams.c ./config/getspriteparams.c ./config/getceilingfloorparams.c cub3d.c ./config/iamerror.c ./config/printnotifications.c ./config/mapcheck/map_phase1.c ./config/maperrors.c ./config/texerrors.c ./config/mapcheck/map_phase2.c ./config/maplistfunctions.c ./config/spritelistfunctions.c ./config/spritecounter.c ./config/printlinkedlists.c ./config/initialize.c ./config/makeimages.c ./graphicsengine/raycaster.c ./graphicsengine/dda.c ./graphicsengine/drawframeline.c ./graphicsengine/calculateframeline.c ./graphicsengine/drawsprites.c ./graphicsengine/playermovement.c ./graphicsengine/keychecks.c ./config/mapcopy.c ./graphicsengine/fpscounter_bonus.c ./graphicsengine/graphicsmodes_bonus.c
+SRC = rotation.c freeme.c ./toolkit.c ./config/cub.c ./config/getscreenres.c ./config/getwallparams.c ./config/getspriteparams.c ./config/getceilingfloorparams.c cub3d.c ./config/iamerror.c ./config/printnotifications.c ./config/mapcheck/map_phase1.c ./config/maperrors.c ./config/texerrors.c ./config/mapcheck/map_phase2.c ./config/maplistfunctions.c ./config/spritelistfunctions.c ./config/spritecounter.c ./config/printlinkedlists.c ./config/initialize.c ./config/makeimages.c ./graphicsengine/raycaster.c ./graphicsengine/dda.c ./graphicsengine/drawframeline.c ./graphicsengine/calculateframeline.c ./graphicsengine/drawsprites.c ./graphicsengine/playermovement.c ./graphicsengine/keychecks.c ./config/maparray.c ./graphicsengine/sortsprites.c ./graphicsengine/fpscounter_bonus.c ./graphicsengine/graphicsmodes_bonus.c
 
 BSRC =
 

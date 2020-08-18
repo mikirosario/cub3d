@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/11 15:32:45 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/17 18:42:47 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/18 15:56:40 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,12 +117,12 @@ int		raycaster(int key, void *param)
 {
 	int					x;
 	static unsigned int	*buf = NULL;
-	//static time_t timestart = 0; //BONUS!
+	static time_t timestart = 0; //BONUS!
 
 	(void)param;
 	(void)key;
-	//if (!timestart) //BONUS!
-	//	timestart = time(NULL); //BONUS!
+	if (!timestart) //BONUS!
+		timestart = time(NULL); //BONUS!
 	x = 0;
 	if (!buf)
 		start(&buf);
@@ -140,7 +140,7 @@ int		raycaster(int key, void *param)
 	g_screenData.mlx_img_buffer, 0, 0);
 	readmovementkeys();
 	//other key presses (inventory, menu, etc.) here
-	//	countframes(&timestart); //BONUS!
+		countframes(&timestart); //BONUS!
 	//displaygraphicsmodes(); //BONUS!
 	return (0);
 }

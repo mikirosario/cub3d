@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/31 17:47:38 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/14 20:00:03 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/18 17:52:40 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	generalmaperrors(void)
 	if (g_iamerror.badmap3line)
 		ft_putstr(badMap3line, strlen(badMap3line));
 	if (g_iamerror.maptoobig)
-		ft_printf("%s\n", mapTooBig);
+		ft_printf("%.63s""%u""%s\n", mapTooBig, MAPMEMCAP, (mapTooBig + 63));
 }
 
 /*

@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/11 18:13:54 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/17 19:34:55 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/18 15:51:23 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	sidetoside(void)
 			g_rayData.side = 1;
 		}
 		//if (maplist(g_rayData.mapX, g_rayData.mapY) == '1')
-		if(g_config.map[g_rayData.mapY][g_rayData.mapX])
+		if(g_config.map[g_rayData.mapY][g_rayData.mapX] == '1')
 			g_rayData.hit = 1;
 	}
 }

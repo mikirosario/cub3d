@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 16:26:34 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/05 20:20:01 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/18 17:21:15 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,6 @@ int		setres(const char *line, int res, unsigned int linenum)
 	CGDirectDisplayID	displayid;
 
 	displayid = CGMainDisplayID();
-	ft_printf(RED"\nRES: %d\n"RESET, res);
 	if (!res && (res = ft_atoi(line)) > 239 && \
 	(size_t)res <= CGDisplayPixelsWide(displayid))
 	{

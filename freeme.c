@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 16:44:15 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/17 18:12:28 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/18 19:50:02 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ void	freelists(void)
 {
 	if (g_config.Map)
 		freelist(&g_config.Map);
+	if (g_config.map)
+		del(g_config.map);
 	if (g_config.spriteList)
 		freesprtlist(&g_config.spriteList);
 }
@@ -67,8 +69,10 @@ void	freeimgs(void)
 /*
 ** This function will check for the existence of any memory the program would
 ** normally reserve during runtime and free it, including for windows, linked
-** lists and strings. As it checks before freeing it can be used before exit
-** at any point in the program.
+** lists and strings. As it checks before freeing it can be used at at any
+** point in the program. Not really needed before exit, but in future I might
+** want to do an exit to menu option or something from my stop function, so
+** I have my freeme ready for that. :)
 */
 
 void	freeme(void)

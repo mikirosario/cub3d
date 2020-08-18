@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 16:29:20 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/14 19:18:28 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/18 17:50:05 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,5 @@
 #define noPlayer RED"INVALID MAP: NO PLAYER FOUND; MAP MUST HAVE A PLAYER STARTING LOCATION\n"RESET
 #define tooManyPlayers RED"INVALID MAP: MULTIPLE PLAYERS FOUND; MAP MAY ONLY HAVE ONE PLAYER STARTING LOCATION\n"RESET
 #define getNextLineFail RED"GET NEXT LINE FAILED; BLAME YOUR DEVELOPER FOR THIS INDIGNITY\n"RESET
-#define	mapTooBig RED"REALLY? YOU REALLY NEED A MAP THAT GIGANTIC? IT'S OVER 1.44 MB! THAT WON'T EVEN FIT ON A FLOPPY DISK! I DON'T THINK SO. MAKE YOUR MAP SMALLER."RESET
+#define	mapTooBig RED"REALLY? YOU REALLY NEED A MAP THAT GIGANTIC? IT'S OVER  BYTES! I DON'T THINK SO. MAKE YOUR MAP SMALLER.\n"RESET
 #endif

@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/05 18:32:52 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/17 15:14:06 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/18 17:59:12 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,17 +37,22 @@ void	printsprites(void)
 	}
 }
 
-void	printbyteuse(unsigned int bytes)
+void	printbyteuse(unsigned int y)
 {
-	if (bytes < 100000)
+	unsigned int	bytes;
+
+	bytes = g_iamerror.memusage + ((sizeof(t_list) * y) + \
+	((sizeof(char *) * y) + 1));
+	if (g_iamerror.memusage < MAPMEMCAP * 0.5)
 		ft_printf(GREEN"%36cTotal Bytes Used By This Map: %d (^_^)\n"RESET, \
-		'\0', bytes);
-	else if (bytes < 500000)
+		'\0', g_iamerror.memusage);
+	else if (g_iamerror.memusage < MAPMEMCAP * 0.75)
 		ft_printf(YELLOW"%36cTotal Bytes Used By This Map: %d (´･_･｀)\n"RESET, \
-		'\0', bytes);
+		'\0', g_iamerror.memusage);
 	else
 		ft_printf(RED"%36cTotal Bytes Used By This Map: %d (°o°)\n"RESET, \
-		'\0', bytes);
+		'\0', g_iamerror.memusage);
+	ft_printf("%36cTotal Bytes Used by Map, Linked List and Map Array: %d\n", '\0', bytes);
 }
 
 void	printmap(void)
@@ -76,12 +81,10 @@ void	printmap(void)
 void	printmapbytes(void)
 {
 	unsigned int	y;
-	unsigned int	bytes;
 	t_list			*lstptr;
 
 	lstptr = g_config.Map;
 	y = 0;
-	bytes = 0;
 	if (!lstptr)
 		ft_printf(RED"\nNO MAP LOADED\n");
 	else
@@ -89,13 +92,12 @@ void	printmapbytes(void)
 		while (lstptr)
 		{
 			ft_printf(MAGENTA"\nBytes %10u "BLUE"Line # %10u "RESET"%s", \
-			(lstptr->len + 1 + sizeof(t_list)), (y + 1 + g_iamerror.premaplines), \
+			(lstptr->len + 1), (y + 1 + g_iamerror.premaplines), \
 			(char *)lstptr->content);
-			bytes += (lstptr->len + 1 + sizeof(t_list));
 			lstptr = lstptr->next;
 			y++;
 		}
 		ft_printf(GREEN"\n%36cTotal Map Rows: %d\n"RESET, '\0', y);
-		printbyteuse(bytes);
+		printbyteuse(y - 1);
 	}
 }

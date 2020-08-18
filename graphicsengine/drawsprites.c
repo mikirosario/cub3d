@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/12 18:46:59 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/17 19:27:49 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/18 18:32:28 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -288,7 +288,7 @@ void	castsprites(unsigned int *buf)
 	spriteparams_t	prms;
 
 	i = 0;
-	ft_sortSprites(g_config.spriteorder);
+	ft_sortsprites(g_config.spriteorder);
 	while (i < g_config.spriteNum)
 	{
 		sprite = spriteiter(g_config.spriteorder[i]);
