@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/18 18:32:04 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/19 19:51:56 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,7 @@ typedef     struct  configData_s
   double *zbuffer;
   int *spriteorder;
   char *spriteTexPath;
+  char screenshot : 1;
 }           configData_t;
 
 typedef     struct  screenData_s
@@ -321,7 +322,8 @@ void	countframes(time_t *timestart);
 void	graphicsmodes(void);
 
 
-
+//
+int		screenshot(unsigned int *buf);
 
 
 

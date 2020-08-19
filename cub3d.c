@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/07 20:24:05 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/18 19:53:51 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/19 19:11:04 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int   ft_stop(int key, void *param)
 int   main(int argc, char **argv)
   {
       int 	success;
-
+	  g_config.screenshot = 1;
       //printf("\n%s", argv[1]);
 	  ft_printf(GREEN"\nCHECKING .CUB FILE...\n"RESET);
 	  (void)argc;

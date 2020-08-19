@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/11 15:32:45 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/18 15:56:40 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/19 19:51:21 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,8 @@ int		raycaster(int key, void *param)
 	castsprites(buf);
 	mlx_put_image_to_window(g_screenData.mlx_ptr, g_screenData.mlx_win, \
 	g_screenData.mlx_img_buffer, 0, 0);
+	if (g_config.screenshot)
+		screenshot(buf);
 	readmovementkeys();
 	//other key presses (inventory, menu, etc.) here
 		countframes(&timestart); //BONUS!

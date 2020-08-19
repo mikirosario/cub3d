@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/07/15 19:19:27 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/19 18:05:52 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,26 @@ typedef     struct  screenData_s
   int       size_line;
   int       endian;
 }           screenData_t;
+
+typedef		struct bmpdata_s
+{
+	char			filetype[2];
+	unsigned int	filesize;
+	unsigned int	reserved[2];
+	unsigned int	pixeloffset;
+	unsigned int	headersize;
+	int				imagewidth;
+	int				imageheight;
+	unsigned int	planes : 16;
+	unsigned int	bpp : 16;
+	unsigned int	compression;
+	unsigned int	imagesize;
+	int				xpixelspermeter;
+	int				ypixelspermeter;
+	unsigned int	totalcolors;
+	unsigned int	importantcolors;
+}			bmpdata_t;
+
 
 typedef     struct  player_s
 {

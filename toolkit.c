@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 18:37:36 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/18 18:48:52 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/19 17:24:47 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,10 @@ char			*getnextnum(char *num)
 }
 
 /*
-** This function converts a trgb color value into a hexadecimal color value.
+** This function converts a trgb color value into a little-endian hexadecimal
+** color value. I'd give it the superpower of being able to choose the
+** endianness, but that would be FIVE ARGUMENTS... Norminette, the bane of my
+** existence. :p
 */
 
 unsigned int	create_trgb(int t, int r, int g, int b)
