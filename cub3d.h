@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/19 19:51:56 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/25 18:58:41 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ typedef		struct error_s
 	unsigned int	badfcolorsyn;
 	unsigned char	ccolorinvalid : 1;
 	unsigned int	badccolorsyn;
+	unsigned char	fcoloroutofrange : 1;
+	unsigned char	ccoloroutofrange : 1;
 	unsigned char	nomapfound : 1;
 	unsigned int	outofbounds[3];
 	unsigned char	badmap3line : 1;
@@ -324,6 +326,7 @@ void	graphicsmodes(void);
 
 //
 int		screenshot(unsigned int *buf);
+void	bmperror(int error);
 
 
 

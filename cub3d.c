@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/07 20:24:05 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/19 19:11:04 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/25 20:42:35 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,11 @@ int   ft_stop(int key, void *param)
 int   main(int argc, char **argv)
   {
       int 	success;
-	  g_config.screenshot = 1;
+	  if (argv[2] && !(ft_strncmp("--save", argv[2], ft_strlen(argv[2]))))
+	  	g_config.screenshot = 1;
       //printf("\n%s", argv[1]);
 	  ft_printf(GREEN"\nCHECKING .CUB FILE...\n"RESET);
-	  (void)argc;
+	  ft_printf("\n%d\n", argc); // si más de 3 args, abort?
       initialize();
 	  if ((success = cubhandler(argv[1])))
 	  {

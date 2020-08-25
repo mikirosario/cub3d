@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/24 19:13:30 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/18 18:18:41 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/25 18:39:16 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,6 @@
 #define hexC GREEN"\nHex: "RESET"%x\n"
 #define defaultC YELLOW"\nDefault Ceiling Color\n"RESET
 #define	mapHeight GREEN"\nMap Height: "RESET"\n%d\n"
+#define screenshotsaved GREEN"**** Screenshot saved to ./screenie.bmp *****\n"RESET
 
 #endif

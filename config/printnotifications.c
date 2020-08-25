@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/24 19:08:46 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/19 17:21:32 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/25 18:38:39 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ void	printnotifications(void)
 			ceilingcolornotifications();
 		else
 			ft_printf(defaultC);
-		ft_printf("\nEndianness: %d\n", g_screenData.endian);
 	}
 	return ;
 }

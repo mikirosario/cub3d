@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 16:50:30 by mrosario          #+#    #+#             */
-/*   Updated: 2020/07/24 19:01:31 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/25 19:08:58 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,15 @@ extern error_t g_iamerror;
 ** return 0.
 */
 
-const char	*getnumber(int *rgb, const char *line)
+const char	*getnumber(int *rgb, const char *line, char callfuncid)
 {
-	*rgb = ft_atoi(line);
+	if ((*rgb = ft_atoi(line)) > 255)
+	{
+		if (callfuncid == 'f')
+			g_iamerror.fcoloroutofrange = 1;
+		else
+			g_iamerror.ccoloroutofrange = 1;
+	}
 	line = ft_skipdigits(line);
 	return (line);
 }
@@ -64,13 +70,13 @@ int			getfcolor(const char *line, unsigned int linenum)
 	while (*line && color < 3)
 	{
 		if (ft_isdigit(*line))
-			line = getnumber(&(g_config.frgb[color++]), line);
+			line = getnumber(&(g_config.frgb[color++]), line, 'f');
 		else if (ft_isspace(*line) || (*line == ',' && color))
 			line++;
 		else
 			break ;
 	}
-	if (*line && !ft_isspace(*line))
+	if ((*line && !ft_isspace(*line)) || g_iamerror.fcoloroutofrange)
 		g_iamerror.badfcolorsyn = linenum;
 	else if (color == 3)
 		g_frameData.ofloorColor = \
@@ -92,13 +98,13 @@ int			getccolor(const char *line, unsigned int linenum)
 	while (*line && color < 3)
 	{
 		if (ft_isdigit(*line))
-			line = getnumber(&(g_config.crgb[color++]), line);
+			line = getnumber(&(g_config.crgb[color++]), line, 'c');
 		else if (ft_isspace(*line) || (*line == ',' && color))
 			line++;
 		else
 			break ;
 	}
-	if (*line && !ft_isspace(*line))
+	if ((*line && !ft_isspace(*line)) || g_iamerror.ccoloroutofrange)
 		g_iamerror.badccolorsyn = linenum;
 	else if (color == 3)
 		g_frameData.oceilingColor = \

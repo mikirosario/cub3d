@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/11 15:32:45 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/19 19:51:21 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/25 20:06:13 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,18 +29,37 @@ void	loadsprites(void)
 	}
 }
 
+/*
+** Upon starting the raycaster for the first time, we need to reserve memory
+** for the thing to work. Everything we need to reserve is reserved here.
+**
+** We need space for the image buffer (where we'll paint each frame before
+** dumping it to the screen).
+**
+** If there are sprites on the map we must also reserve a zbuffer array to
+** save the perpendicular distance from each pixel on the player camera plane
+** to the first wall in their line of sight (that is, the distance along the
+** z-axis or depth), because we will compare these to the distance to the next
+** sprite along the same axis to determine whether each line of sprite should
+** or should not be considered hidden behind the wall. We must also reserve
+** memory for an array of ints which we'll use to reorder the sprites depending
+** on their distances from the player each frame.
+**
+** If any of these *indispensable* memory allocations fail, we signal memerror
+** and abort the program. If they succeed, we merrily carry on.
+*/
+
 char	memreserve(void)
 {
 	char	memerror;
 
 	memerror = 0;
-	if (!(g_config.zbuffer = (ft_calloc(g_config.screenW, sizeof(double)))))
-		memerror = 1;
 	if (!(g_screenData.mlx_img_buffer = mlx_new_image(g_screenData.mlx_ptr, \
 	g_config.screenW, g_config.screenH)))
 		memerror = 1;
 	if (g_config.spriteNum && \
-	!(g_config.spriteorder = (ft_calloc(g_config.spriteNum, sizeof(int)))))
+	(!(g_config.zbuffer = (ft_calloc(g_config.screenW, sizeof(double)))) ||
+	!(g_config.spriteorder = (ft_calloc(g_config.spriteNum, sizeof(int))))))
 		memerror = 1;
 	if (memerror)
 		return (0);
@@ -51,12 +70,9 @@ char	memreserve(void)
 ** This function is launched before the first frame is built, the first time
 ** raycaster is called.
 **
-** Depending on the configured screen width we will reserve the appropriate
-** amount of zbuffer space. If there are sprites, we will also reserve memory
-** in which to save the sprite order from the player's vantage point at any
-** given time/frame. The amount of memory will depend on the number of sprites.
-** If either memory reservation fails the program will throw a memory error and
-** abort.
+** We will reserve all the memory we need to run the raycaster using the
+** memreserve function, or die trying. If the memreserve fails... well, that0s
+** all she wrote. We throw a mallocfail error and abort. Otherwise...
 **
 ** g_config.vMove controls the vertical position of the sprite on
 ** screen. It is defined within the raycaster as being equal to the height of
@@ -115,14 +131,11 @@ void	start(unsigned int **buf)
 
 int		raycaster(int key, void *param)
 {
-	int					x;
 	static unsigned int	*buf = NULL;
-	static time_t timestart = 0; //BONUS!
+	int					x;
 
 	(void)param;
 	(void)key;
-	if (!timestart) //BONUS!
-		timestart = time(NULL); //BONUS!
 	x = 0;
 	if (!buf)
 		start(&buf);
@@ -131,8 +144,8 @@ int		raycaster(int key, void *param)
 		castray(x);
 		calculateframeline();
 		drawframeline(x, buf);
-		//set zBuffer for sprite casting
-		g_config.zbuffer[x] = g_rayData.perpWallDist; //perpendicular distances to walls from camera
+		if (g_config.spriteNum)
+			g_config.zbuffer[x] = g_rayData.perpWallDist;
 		x++;
 	}
 	castsprites(buf);
@@ -141,8 +154,5 @@ int		raycaster(int key, void *param)
 	if (g_config.screenshot)
 		screenshot(buf);
 	readmovementkeys();
-	//other key presses (inventory, menu, etc.) here
-		countframes(&timestart); //BONUS!
-	//displaygraphicsmodes(); //BONUS!
 	return (0);
 }

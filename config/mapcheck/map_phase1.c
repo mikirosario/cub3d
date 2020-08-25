@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 18:31:22 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/18 19:58:15 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/25 20:23:05 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -234,7 +234,7 @@ char	playerandspritescheck(char foundplayer, char *mapchrs)
 **
 ** I will cap the amount of memory I'll allow the user to occupy
 ** with their map design to 200,000 bytes.
-** 
+**
 ** If the map needs more than that, I will abort and scold the user with an
 ** unfriendly maptoobig error. :p Since this will always keep me well below
 ** UINTMAX on both axes, I will do away with the uintmax errors and define the

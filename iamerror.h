@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 16:29:20 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/18 17:50:05 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/25 19:12:44 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@
 #define badFColorSyn YELLOW"BAD FLOOR COLOR SYNTAX; FOLLOW THE INSTRUCTIONS IN README.TXT\n"RESET
 #define CColorInvalid YELLOW"INVALID CEILING COLOR; USING DEFAULT COLOR\n"RESET
 #define badCColorSyn YELLOW"BAD CEILING COLOR SYNTAX; FOLLOW THE INSTRUCTIONS IN README.TXT\n"RESET
+#define	badcolorrange YELLOW"EACH RGB COLOR VALUE MAY NOT BE HIGHER THAN 255\n"RESET
 #define outOfBounds RED"THE PLAYER CHARACTER (NSEW) MUST BE IN AN AREA BOUNDED BY WALLS; CHECK YOUR MAP FILE\n"RESET
 #define noMapFound RED"MAP NOT FOUND\n"RESET
 #define badMap3line RED"INVALID MAP: THE MAP MUST HAVE AT LEAST THREE LINES TO CREATE A BOUNDED AREA\n"RESET
@@ -52,4 +53,7 @@
 #define tooManyPlayers RED"INVALID MAP: MULTIPLE PLAYERS FOUND; MAP MAY ONLY HAVE ONE PLAYER STARTING LOCATION\n"RESET
 #define getNextLineFail RED"GET NEXT LINE FAILED; BLAME YOUR DEVELOPER FOR THIS INDIGNITY\n"RESET
 #define	mapTooBig RED"REALLY? YOU REALLY NEED A MAP THAT GIGANTIC? IT'S OVER  BYTES! I DON'T THINK SO. MAKE YOUR MAP SMALLER.\n"RESET
+#define bmpcreatefail YELLOW"COULD NOT CREATE SCREENSHOT FILE!\n"RESET
+#define bmpwritefail YELLOW"COULD NOT WRITE TO SCREENSHOT FILE!\n"RESET
+#define bmpclosefail YELLOW"UNABLE TO CLOSE SCREENSHOT FILE\n"RESET
 #endif

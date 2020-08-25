@@ -6,28 +6,38 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/19 18:11:02 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/19 20:42:09 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/25 18:41:15 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../cub3d.h"
 
-int	padding(void)
-{
-	int	pad;
+/*
+** This function is like int_to_uchar, but we take only the first three bytes
+** of an unsigned integer, instead of all four. We don't need the last one,
+** (the most significant byte), because it codes for transparency which we
+** don't use in the screenshot, which only has a color depth of 24 bits.
+*/
 
-	return (pad = ((3 * g_config.screenW) % 4));
-}
-
-unsigned char	*uint_to_uchar(unsigned char *threebytes, unsigned int integer)
+void		uint_to_uchar(unsigned char *threebytes, unsigned int integer)
 {
 	threebytes[0] = (unsigned char)(integer);
 	threebytes[1] = (unsigned char)(integer >> 8);
 	threebytes[2] = (unsigned char)(integer >> 16);
-	return (threebytes);
 }
 
-void	int_to_uchar(unsigned char *fourbytes, int integer)
+/*
+** This function will take an array of four bytes (unsigned char) and an
+** integer (int) as arguments. It passes the int to the array by segmenting
+** it byte by byte. Both the original integer and the destination array are
+** in little-endian format, so no juggling, we just pass each byte directly.
+**
+** We take the first byte of the integer and pass it too the first byte in the
+** array, right bitshift 8 bits to put the second byte at the integer address
+** and pass that, and so on until all four bytes are transferred.
+*/
+
+void		int_to_uchar(unsigned char *fourbytes, int integer)
 {
 	fourbytes[0] = (unsigned char)(integer);
 	fourbytes[1] = (unsigned char)(integer >> 8);
@@ -35,25 +45,44 @@ void	int_to_uchar(unsigned char *fourbytes, int integer)
 	fourbytes[3] = (unsigned char)(integer >> 24);
 }
 
-ssize_t		copyscreen(int fd, unsigned int *buf)
+/*
+** In this function we iterate through the entire image buffer, which is casted
+** to uint for ease of use. We retrieve each color, pass it into the threebytes
+** array (we only need the rgb values, not the transparency value stored in the
+** most significant byte, so we discard that one), write those bytes to the bmp
+** file, rinse, repeat for every image line (y). Note that in bmp format images
+** are read from the bottom to the top, so first we get the *last* line in the
+** buffer and write it *first* in the file, and then iterate upwards until we
+** get to the *first* line in the buffer, which is written *last* in the bmp
+** file.
+**
+** In bmp format all color lines must be divisible by four. We will always have
+** screenW * 3 bytes per line in the bmp file (one byte per rgb value per
+** color). If screenW % 4 is zero the line is divisible by 4 already and we
+** don't need any padding. Otherwise, we need to add screenW % 4 bytes of
+** padding per line at the end of each line. These bytes are filled with 0s.
+**
+** If, for whatever reason, we are unable to write to file, write will return
+** -1, which we'll treat as a screenshot write error. We should always write
+** at least 1 byte here every time write is called, so if write returns 0 this
+** will also be treated as a screenshot write error.
+*/
+
+ssize_t		copyscreen(int fd, int pad, unsigned int *buf)
 {
-	int	x;
-	int	y;
-	unsigned char threebytes[3];
-	int	i;
-	int pad;
-	//unsigned int color;
-	ssize_t res;
+	int				x;
+	int				y;
+	int				i;
+	unsigned char	threebytes[3];
+	ssize_t			res;
 
 	y = g_config.screenH - 1;
 	x = y * g_config.screenW;
 	res = 1;
-	pad = padding();
 	while (res && y >= 0)
 	{
 		while (res && x < ((y * g_config.screenW) + g_config.screenW))
 		{
-	//		color = (buf[x] & 0xFF0000) | (buf[x] & 0x00FF00) | (buf[x] & 0x0000FF);
 			uint_to_uchar(threebytes, (buf[x]));
 			res = write(fd, threebytes, 3);
 			x++;
@@ -63,58 +92,71 @@ ssize_t		copyscreen(int fd, unsigned int *buf)
 				res = write(fd, "\0", 1);
 		x = --y * g_config.screenW;
 	}
-	return (res);
+	return (res < 1 ? 0 : 1);
 }
 
 /*
-** So, since 54 fits into a single byte, and bmp uses little-endianness, we can
-** just cast 54 to unsigned char and plop it into position 10, leaving
-** positions 11 - 13 filled with zeros. Yay!
+** We calculate (as necessary) and fill in the necessary bmp header values
+** here. We fill our header with 0s to start (thanks ft_bzero :D).
+**
+** Since values below 255 (UCHAR_MAX) like 54 fit into a single byte, and bmp
+** uses little-endianness, we can just cast the first byte to unsigned char and
+** plop it into the first byte for its series, leaving the rest filled with
+** zeroes. For values that may use all four bytes of an integer, we use
+** int_to_uchar to pass the value.
+**
+** We MUST write 54 bytes exactly as the header of the bmp file, so if write
+** returns ANY other figure we will treat it as a screenshot write error.
 */
 
-ssize_t	writeinfoheader(int fd)
+ssize_t		writeheader(int fd, int pad)
 {
-	unsigned char	infoheader[40];
-	
-	ft_bzero(infoheader, 40);
-	infoheader[0] = (unsigned char)40; //0, 1, 2, 3
-	int_to_uchar(&infoheader[4], g_config.screenW); //4, 5, 6, 7
-	int_to_uchar(&infoheader[8], g_config.screenH); //8, 9, 10, 11
-	infoheader[12] = (unsigned char)1; //12, 13
-	infoheader[14] = (unsigned char)24;
-	return (write(fd, infoheader, 40));
-}
+	int				filesize;
+	unsigned char	header[54];
 
-ssize_t	writefileheader(int fd)
-{
-	int pad = padding();
-	int filesize = ((3 * g_config.screenW + pad) * g_config.screenH) + 54;
-	unsigned char	fileheader[14];
-	ft_bzero(fileheader, 14);
-	fileheader[0] = 'B';
-	fileheader[1] = 'M';
-	int_to_uchar(&fileheader[2], filesize);
-	//2, 3, 4, 5 -->Filesize
-	//6, 7, 8, 9 --> Reserved
-	fileheader[10] = (unsigned char)54;
-	return (write(fd, fileheader, 14));
+	filesize = ((3 * g_config.screenW + pad) * g_config.screenH) + 54;
+	ft_bzero(header, 54);
+	header[0] = 'B';
+	header[1] = 'M';
+	int_to_uchar(&header[2], filesize);
+	header[10] = (unsigned char)54;
+	header[14] = (unsigned char)40;
+	int_to_uchar(&header[18], g_config.screenW);
+	int_to_uchar(&header[22], g_config.screenH);
+	header[26] = (unsigned char)1;
+	header[28] = (unsigned char)24;
+	return (write(fd, header, 54) != 54 ? 0 : 1);
 }
 
 /*
 ** Your screenshot in BMP format, your highness... :P
+**
+** If open fails, as per usual, we report an open error. If either of the write
+** functions fail, we report a write error. If close fails, we report a close
+** error. I KNOW you wanted to see more error flags. Don't lie. To play around
+** with all the bitshifting I had to learn for this project, I decided to
+** encode and check for these errors bitwise in an error integer. Woot. ;p
 */
 
-int	screenshot(unsigned int *buf)
+int			screenshot(unsigned int *buf)
 {
-	int				fd;
+	int	pad;
+	int	fd;
+	int	error;
 
+	pad = g_config.screenW % 4;
 	g_config.screenshot = 0;
-	if (!(fd = open("screenie.bmp", O_RDWR | O_CREAT | O_TRUNC | O_APPEND, 0777)))
-		return (0); //aquí un mensaje de error
-	if (!(writefileheader(fd)) || !(writeinfoheader(fd)) || !(copyscreen(fd, buf)))
-		return (0);
+	error = 0;
+	if ((fd = open("screenie.bmp", O_RDWR | O_CREAT | O_TRUNC | \
+	O_APPEND, 0777)) < 3)
+		error = error | 00000001;
+	else if (!(writeheader(fd, pad)) || !(copyscreen(fd, pad, buf)))
+		error = error | 00000010;
+	if (fd && (close(fd)) < 0)
+		error = error | 00000100;
+	if (error)
+		bmperror(error);
 	else
-	ft_printf("\nSUCCESS! Your first step into a wider world.\n");
-	close (fd);
+		ft_printf(screenshotsaved);
 	return (1);
 }

@@ -6,13 +6,13 @@
 #    By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/07/15 20:32:43 by mrosario          #+#    #+#              #
-#    Updated: 2020/08/19 19:10:10 by mrosario         ###   ########.fr        #
+#    Updated: 2020/08/25 18:33:32 by mrosario         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = cub3d
 
-SRC = rotation.c freeme.c ./toolkit.c ./config/cub.c ./config/getscreenres.c ./config/getwallparams.c ./config/getspriteparams.c ./config/getceilingfloorparams.c cub3d.c ./config/iamerror.c ./config/printnotifications.c ./config/mapcheck/map_phase1.c ./config/maperrors.c ./config/texerrors.c ./config/mapcheck/map_phase2.c ./config/maplistfunctions.c ./config/spritelistfunctions.c ./config/spritecounter.c ./config/printlinkedlists.c ./config/initialize.c ./config/makeimages.c ./graphicsengine/raycaster.c ./graphicsengine/dda.c ./graphicsengine/drawframeline.c ./graphicsengine/calculateframeline.c ./graphicsengine/drawsprites.c ./graphicsengine/playermovement.c ./graphicsengine/keychecks.c ./config/maparray.c ./graphicsengine/sortsprites.c ./graphicsengine/screenshots/bmpgenerator.c ./graphicsengine/fpscounter_bonus.c ./graphicsengine/graphicsmodes_bonus.c
+SRC = rotation.c freeme.c ./toolkit.c ./config/cub.c ./config/getscreenres.c ./config/getwallparams.c ./config/getspriteparams.c ./config/getceilingfloorparams.c cub3d.c ./config/iamerror.c ./config/printnotifications.c ./config/mapcheck/map_phase1.c ./config/maperrors.c ./config/texerrors.c ./config/mapcheck/map_phase2.c ./config/maplistfunctions.c ./config/spritelistfunctions.c ./config/spritecounter.c ./config/printlinkedlists.c ./config/initialize.c ./config/makeimages.c ./graphicsengine/raycaster.c ./graphicsengine/dda.c ./graphicsengine/drawframeline.c ./graphicsengine/calculateframeline.c ./graphicsengine/drawsprites.c ./graphicsengine/playermovement.c ./graphicsengine/keychecks.c ./config/maparray.c ./graphicsengine/sortsprites.c ./graphicsengine/screenshots/bmpgenerator.c ./graphicsengine/screenshots/bmperror.c ./graphicsengine/fpscounter_bonus.c ./graphicsengine/graphicsmodes_bonus.c
 
 BSRC =
 

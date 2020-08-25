@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/05 16:53:56 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/05 17:28:51 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/25 19:22:59 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,8 @@ void			spritecounter(double x, double y, char c)
 		ft_sprtlstadd_back(&g_config.spriteList, (ft_sprtlstnew((void *)0)));
 		lstptr = lstptr->next;
 	}
-	lstptr->posX = x;
-	lstptr->posY = y;
+	lstptr->posX = (double)x + 0.5;
+	lstptr->posY = (double)y + 0.5;
 	if (c == '2')
 		lstptr->spriteType = '2';
 }

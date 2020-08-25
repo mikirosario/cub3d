@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/21 19:17:09 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/14 19:04:36 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/25 19:14:40 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,10 +141,14 @@ void	ceilingfloorerrors(void)
 		ft_putstr(FColorInvalid, ft_strlen(FColorInvalid));
 	if (g_iamerror.badfcolorsyn)
 		ft_printf("Line %u: %s", g_iamerror.badfcolorsyn, badFColorSyn);
+	if (g_iamerror.fcoloroutofrange)
+		ft_printf(badcolorrange);
 	if (g_iamerror.ccolorinvalid)
 		ft_putstr(CColorInvalid, ft_strlen(CColorInvalid));
 	if (g_iamerror.badccolorsyn)
 		ft_printf("Line %u: %s", g_iamerror.badccolorsyn, badCColorSyn);
+	if (g_iamerror.ccoloroutofrange)
+		ft_printf(badcolorrange);
 }
 
 /*

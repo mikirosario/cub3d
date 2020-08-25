@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/05 18:32:52 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/18 17:59:12 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/25 20:22:22 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ void	printbyteuse(unsigned int y)
 	else
 		ft_printf(RED"%36cTotal Bytes Used By This Map: %d (°o°)\n"RESET, \
 		'\0', g_iamerror.memusage);
-	ft_printf("%36cTotal Bytes Used by Map, Linked List and Map Array: %d\n", '\0', bytes);
+	ft_printf("%36cTotal Bytes Used by Map, Linked List and Map Array: %d\n", \
+	'\0', bytes);
 }
 
 void	printmap(void)
