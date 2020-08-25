@@ -19,6 +19,14 @@ int	padding(void)
 	return (pad = ((3 * g_config.screenW) % 4));
 }
 
+unsigned char	*uint_to_uchar(unsigned char *threebytes, unsigned int integer)
+{
+	threebytes[0] = (unsigned char)(integer);
+	threebytes[1] = (unsigned char)(integer >> 8);
+	threebytes[2] = (unsigned char)(integer >> 16);
+	return (threebytes);
+}
+
 void	int_to_uchar(unsigned char *fourbytes, int integer)
 {
 	fourbytes[0] = (unsigned char)(integer);
@@ -31,8 +39,10 @@ ssize_t		copyscreen(int fd, unsigned int *buf)
 {
 	int	x;
 	int	y;
+	unsigned char threebytes[3];
 	int	i;
 	int pad;
+	//unsigned int color;
 	ssize_t res;
 
 	y = g_config.screenH - 1;
@@ -41,10 +51,12 @@ ssize_t		copyscreen(int fd, unsigned int *buf)
 	pad = padding();
 	while (res && y >= 0)
 	{
-		while (res && x < g_config.screenW)
+		while (res && x < ((y * g_config.screenW) + g_config.screenW))
 		{
-			res = write(fd, &buf[x + 1], 3);
-			x += 4;
+	//		color = (buf[x] & 0xFF0000) | (buf[x] & 0x00FF00) | (buf[x] & 0x0000FF);
+			uint_to_uchar(threebytes, (buf[x]));
+			res = write(fd, threebytes, 3);
+			x++;
 		}
 		if ((i = pad))
 			while (res && i--)
@@ -97,7 +109,7 @@ int	screenshot(unsigned int *buf)
 	int				fd;
 
 	g_config.screenshot = 0;
-	if (!(fd = open("screenie.bmp", O_WRONLY | O_CREAT | O_TRUNC | O_APPEND)))
+	if (!(fd = open("screenie.bmp", O_RDWR | O_CREAT | O_TRUNC | O_APPEND, 0777)))
 		return (0); //aquí un mensaje de error
 	if (!(writefileheader(fd)) || !(writeinfoheader(fd)) || !(copyscreen(fd, buf)))
 		return (0);
