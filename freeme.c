@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 16:44:15 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/18 19:50:02 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/26 19:19:29 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,16 @@
 
 void	freestrings(void)
 {
-	if (nowallimg.texpath)
-		del(nowallimg.texpath);
-	if (sowallimg.texpath)
-		del(sowallimg.texpath);
-	if (wewallimg.texpath)
-		del(wewallimg.texpath);
-	if (eawallimg.texpath)
-		del(eawallimg.texpath);
-	if (g_normiImg.texpath)
-		del(g_normiImg.texpath);
+	if (g_nowallimg.texpath)
+		del(g_nowallimg.texpath);
+	if (g_sowallimg.texpath)
+		del(g_sowallimg.texpath);
+	if (g_wewallimg.texpath)
+		del(g_wewallimg.texpath);
+	if (g_eawallimg.texpath)
+		del(g_eawallimg.texpath);
+	if (g_sprt2img.texpath)
+		del(g_sprt2img.texpath);
 }
 
 /*
@@ -37,12 +37,12 @@ void	freestrings(void)
 
 void	freelists(void)
 {
-	if (g_config.Map)
-		freelist(&g_config.Map);
+	if (g_config.maplist)
+		freelist(&g_config.maplist);
 	if (g_config.map)
 		del(g_config.map);
-	if (g_config.spriteList)
-		freesprtlist(&g_config.spriteList);
+	if (g_config.spritelist)
+		freesprtlist(&g_config.spritelist);
 }
 
 /*
@@ -52,18 +52,18 @@ void	freelists(void)
 
 void	freeimgs(void)
 {
-	if (g_screenData.mlx_img_buffer)
-		mlx_destroy_image(g_screenData.mlx_ptr, g_screenData.mlx_img_buffer);
-	if (nowallimg.mlx_img)
-		mlx_destroy_image(g_screenData.mlx_ptr, nowallimg.mlx_img);
-	if (sowallimg.mlx_img)
-		mlx_destroy_image(g_screenData.mlx_ptr, sowallimg.mlx_img);
-	if (wewallimg.mlx_img)
-		mlx_destroy_image(g_screenData.mlx_ptr, wewallimg.mlx_img);
-	if (eawallimg.mlx_img)
-		mlx_destroy_image(g_screenData.mlx_ptr, eawallimg.mlx_img);
-	if (g_normiImg.mlx_img)
-		mlx_destroy_image(g_screenData.mlx_ptr, g_normiImg.mlx_img);
+	if (g_screendata.mlx_img_buffer)
+		mlx_destroy_image(g_screendata.mlx_ptr, g_screendata.mlx_img_buffer);
+	if (g_nowallimg.mlx_img)
+		mlx_destroy_image(g_screendata.mlx_ptr, g_nowallimg.mlx_img);
+	if (g_sowallimg.mlx_img)
+		mlx_destroy_image(g_screendata.mlx_ptr, g_sowallimg.mlx_img);
+	if (g_wewallimg.mlx_img)
+		mlx_destroy_image(g_screendata.mlx_ptr, g_wewallimg.mlx_img);
+	if (g_eawallimg.mlx_img)
+		mlx_destroy_image(g_screendata.mlx_ptr, g_eawallimg.mlx_img);
+	if (g_sprt2img.mlx_img)
+		mlx_destroy_image(g_screendata.mlx_ptr, g_sprt2img.mlx_img);
 }
 
 /*
@@ -77,15 +77,15 @@ void	freeimgs(void)
 
 void	freeme(void)
 {
-	if (g_screenData.mlx_ptr)
+	if (g_screendata.mlx_ptr)
 	{
-		if (!g_screenData.mlx_win)
-			del(g_screenData.mlx_ptr);
+		if (!g_screendata.mlx_win)
+			del(g_screendata.mlx_ptr);
 		else
 		{
-			mlx_destroy_window(g_screenData.mlx_ptr, g_screenData.mlx_win);
+			mlx_destroy_window(g_screendata.mlx_ptr, g_screendata.mlx_win);
 			freeimgs();
-			del(g_screenData.mlx_ptr);
+			del(g_screendata.mlx_ptr);
 		}
 	}
 	freelists();

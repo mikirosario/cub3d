@@ -6,13 +6,13 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/31 17:47:38 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/18 17:52:40 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/26 17:44:54 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-extern error_t g_iamerror;
+extern t_error g_iamerror;
 
 /*
 ** This function is a line-saver. It is used to retrieve error locations from

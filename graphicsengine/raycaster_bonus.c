@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/11 15:32:45 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/25 20:09:10 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/26 19:19:29 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,15 @@ extern error_t	g_iamerror;
 
 void	loadsprites(void)
 {
-	spriteData_t	*sprtptr;
+	t_spritedata	*sprtptr;
 
-	sprtptr = g_config.spriteList;
+	sprtptr = g_config.spritelist;
 	while (sprtptr)
 	{
-		if (sprtptr->spriteType == '2')
+		if (sprtptr->spritetype == '2')
 			sprtptr->texture = (unsigned int *)\
-			mlx_get_data_addr(g_normiImg.mlx_img, &g_normiImg.bpp, \
-			&g_normiImg.size_line, &g_normiImg.endian);
+			mlx_get_data_addr(g_sprt2img.mlx_img, &g_sprt2img.bpp, \
+			&g_sprt2img.size_line, &g_sprt2img.endian);
 		sprtptr = sprtptr->next;
 	}
 }
@@ -54,12 +54,12 @@ char	memreserve(void)
 	char	memerror;
 
 	memerror = 0;
-	if (!(g_screenData.mlx_img_buffer = mlx_new_image(g_screenData.mlx_ptr, \
-	g_config.screenW, g_config.screenH)))
+	if (!(g_screendata.mlx_img_buffer = mlx_new_image(g_screendata.mlx_ptr, \
+	g_config.screenw, g_config.screenh)))
 		memerror = 1;
-	if (g_config.spriteNum && \
-	(!(g_config.zbuffer = (ft_calloc(g_config.screenW, sizeof(double)))) ||
-	!(g_config.spriteorder = (ft_calloc(g_config.spriteNum, sizeof(int))))))
+	if (g_config.spritenum && \
+	(!(g_config.zbuffer = (ft_calloc(g_config.screenw, sizeof(double)))) ||
+	!(g_config.spriteorder = (ft_calloc(g_config.spritenum, sizeof(int))))))
 		memerror = 1;
 	if (memerror)
 		return (0);
@@ -74,9 +74,9 @@ char	memreserve(void)
 ** memreserve function, or die trying. If the memreserve fails... well, that0s
 ** all she wrote. We throw a mallocfail error and abort. Otherwise...
 **
-** g_config.vMove controls the vertical position of the sprite on
+** g_config.vmove controls the vertical position of the sprite on
 ** screen. It is defined within the raycaster as being equal to the height of
-** the sprite times vDiv (g_config.spriteH * g_config.vDiv). This will always
+** the sprite times vDiv (g_config.spriteh * g_config.vdiv). This will always
 ** keep the sprites appearing to remain on the ground, regardless of how they
 ** are resized here, so long as the wall multiplier is 1. It isn't refreshed,
 ** so you shouldn't fiddle with the values during game time - anyway, they're
@@ -100,17 +100,17 @@ void	start(unsigned int **buf)
 		ft_printf(RED"\nError\n"RESET mallocFail);
 		ft_stop(0x0, (void *)0);
 	}
-	*buf = (unsigned int *)mlx_get_data_addr(g_screenData.mlx_img_buffer, \
-	&g_screenData.bpp, &g_screenData.size_line, &g_screenData.endian);
-	g_config.vMove = g_config.spriteH * g_config.vDiv;
-	nowallimg.tex_ptr = (unsigned int *)mlx_get_data_addr(nowallimg.mlx_img, \
-	&nowallimg.bpp, &nowallimg.size_line, &nowallimg.endian);
-	sowallimg.tex_ptr = (unsigned int *)mlx_get_data_addr(sowallimg.mlx_img, \
-	&sowallimg.bpp, &sowallimg.size_line, &sowallimg.endian);
-	wewallimg.tex_ptr = (unsigned int *)mlx_get_data_addr(wewallimg.mlx_img, \
-	&wewallimg.bpp, &wewallimg.size_line, &wewallimg.endian);
-	eawallimg.tex_ptr = (unsigned int *)mlx_get_data_addr(eawallimg.mlx_img, \
-	&eawallimg.bpp, &eawallimg.size_line, &eawallimg.endian);
+	*buf = (unsigned int *)mlx_get_data_addr(g_screendata.mlx_img_buffer, \
+	&g_screendata.bpp, &g_screendata.size_line, &g_screendata.endian);
+	g_config.vmove = g_config.spriteh * g_config.vdiv;
+	g_nowallimg.tex_ptr = (unsigned int *)mlx_get_data_addr(g_nowallimg.mlx_img, \
+	&g_nowallimg.bpp, &g_nowallimg.size_line, &g_nowallimg.endian);
+	g_sowallimg.tex_ptr = (unsigned int *)mlx_get_data_addr(g_sowallimg.mlx_img, \
+	&g_sowallimg.bpp, &g_sowallimg.size_line, &g_sowallimg.endian);
+	g_wewallimg.tex_ptr = (unsigned int *)mlx_get_data_addr(g_wewallimg.mlx_img, \
+	&g_wewallimg.bpp, &g_wewallimg.size_line, &g_wewallimg.endian);
+	g_eawallimg.tex_ptr = (unsigned int *)mlx_get_data_addr(g_eawallimg.mlx_img, \
+	&g_eawallimg.bpp, &g_eawallimg.size_line, &g_eawallimg.endian);
 	loadsprites();
 }
 
@@ -142,19 +142,19 @@ int		raycaster(int key, void *param)
 	x = 0;
 	if (!buf)
 		start(&buf);
-	while (x < g_config.screenW)
+	while (x < g_config.screenw)
 	{
 		castray(x);
 		calculateframeline();
 		drawframeline(x, buf);
 		//set zBuffer for sprite casting
-		if (g_config.spriteNum)
-			g_config.zbuffer[x] = g_rayData.perpWallDist; //perpendicular distances to walls from camera
+		if (g_config.spritenum)
+			g_config.zbuffer[x] = g_raydata.perpwalldist; //perpendicular distances to walls from camera
 		x++;
 	}
 	castsprites(buf);
-	mlx_put_image_to_window(g_screenData.mlx_ptr, g_screenData.mlx_win, \
-	g_screenData.mlx_img_buffer, 0, 0);
+	mlx_put_image_to_window(g_screendata.mlx_ptr, g_screendata.mlx_win, \
+	g_screendata.mlx_img_buffer, 0, 0);
 	if (g_config.screenshot)
 		screenshot(buf);
 	readmovementkeys();

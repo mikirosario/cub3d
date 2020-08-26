@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/11 19:45:47 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/25 19:27:08 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/26 19:19:29 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,21 +21,21 @@
 **
 ** Needs to be modified to work with maplist.
 **
-**  g_frameData.texY = (int)(g_frameData.texPos) & (g_config.texH - 1);
-**	if (g_worldMap[g_rayData.mapX][g_rayData.mapY] == 1)
+**  g_framedata.texy = (int)(g_framedata.texpos) & (g_config.texh - 1);
+**	if (g_worldMap[g_raydata.mapx][g_raydata.mapy] == 1)
 **		texPtr = g_blueMetalImg.tex_Ptr;
-**	else if (g_worldMap[g_rayData.mapX][g_rayData.mapY] == 2)
+**	else if (g_worldMap[g_raydata.mapx][g_raydata.mapy] == 2)
 **		texPtr = g_yellowMetalImg.texPtr;
-**	else if (g_worldMap[g_rayData.mapX][g_rayData.mapY] == 3)
+**	else if (g_worldMap[g_raydata.mapx][g_raydata.mapy] == 3)
 **		texPtr = g_greenMetalImg.tex_Ptr;
 **	else
 **		texPtr = g_pinkMetalImg.tex_Ptr;
 **	//make color darker for y-sides
-**	buf[ibuf] = g_rayData.side == 1 ? (((texPtr[g_frameData.texX + \
-** g_frameData.texY * g_config.texW]) >> 1) & 8355711) : \
-** texPtr[g_frameData.texX + g_frameData.texY * g_config.texW];
+**	buf[ibuf] = g_raydata.side == 1 ? (((texPtr[g_framedata.texx + \
+** g_framedata.texy * g_config.texw]) >> 1) & 8355711) : \
+** texPtr[g_framedata.texx + g_framedata.texy * g_config.texw];
 **	//increment texPos by step
-**	g_frameData.texPos += g_frameData.step;
+**	g_framedata.texpos += g_framedata.step;
 **
 ** Anyway, this function below, drawfloor, does what it says on the tin. It
 ** draws the floor. ;) It just need to keep drawing until it reaches the end
@@ -49,10 +49,10 @@
 
 void	drawfloor(int x, int pixel, unsigned int *buf)
 {
-	while (pixel < (x + (g_config.screenH - 1) * g_config.screenW))
+	while (pixel < (x + (g_config.screenh - 1) * g_config.screenw))
 	{
-		buf[pixel] = g_frameData.ofloorColor;
-		pixel += g_config.screenW;
+		buf[pixel] = g_framedata.xfloorcolor;
+		pixel += g_config.screenw;
 	}
 }
 
@@ -99,26 +99,26 @@ int		texturedwalls(int x, int pixel, unsigned int *buf)
 {
 	unsigned int	*texptr;
 
-	if (g_rayData.side == 1 && g_rayData.stepY > 0)
-		texptr = sowallimg.tex_ptr;
-	else if (g_rayData.side == 1 && g_rayData.stepY < 0)
-		texptr = nowallimg.tex_ptr;
-	else if (g_rayData.side == 0 && g_rayData.stepX > 0)
-		texptr = eawallimg.tex_ptr;
-	else if (g_rayData.side == 0 && g_rayData.stepX < 0)
-		texptr = wewallimg.tex_ptr;
-	while (pixel <= (x + g_frameData.drawEnd * g_config.screenW))
+	if (g_raydata.side == 1 && g_raydata.stepy > 0)
+		texptr = g_sowallimg.tex_ptr;
+	else if (g_raydata.side == 1 && g_raydata.stepy < 0)
+		texptr = g_nowallimg.tex_ptr;
+	else if (g_raydata.side == 0 && g_raydata.stepx > 0)
+		texptr = g_eawallimg.tex_ptr;
+	else if (g_raydata.side == 0 && g_raydata.stepx < 0)
+		texptr = g_wewallimg.tex_ptr;
+	while (pixel <= (x + g_framedata.drawend * g_config.screenw))
 	{
-		g_frameData.texY = (int)(g_frameData.texPos) & (g_config.texH - 1);
-		if (g_keyData.m == 1)
-			buf[pixel] = g_rayData.side == 1 ? (((texptr[g_frameData.texX + \
-			g_frameData.texY * g_config.texW]) >> 1) & 8355711) : \
-			texptr[g_frameData.texX + g_frameData.texY * g_config.texW];
+		g_framedata.texy = (int)(g_framedata.texpos) & (g_config.texh - 1);
+		if (g_keydata.m == 1)
+			buf[pixel] = g_raydata.side == 1 ? (((texptr[g_framedata.texx + \
+			g_framedata.texy * g_config.texw]) >> 1) & 8355711) : \
+			texptr[g_framedata.texx + g_framedata.texy * g_config.texw];
 		else
-			buf[pixel] = texptr[g_frameData.texX + \
-			g_frameData.texY * g_config.texW];
-		g_frameData.texPos += g_frameData.step;
-		pixel += g_config.screenW;
+			buf[pixel] = texptr[g_framedata.texx + \
+			g_framedata.texy * g_config.texw];
+		g_framedata.texpos += g_framedata.step;
+		pixel += g_config.screenw;
 	}
 	return (pixel);
 }
@@ -137,21 +137,21 @@ int		texturedwalls(int x, int pixel, unsigned int *buf)
 
 int		solidcolorwalls(int x, int pixel, unsigned int *buf)
 {
-	g_frameData.ocolor = 0;
-	if (g_rayData.side == 1 && g_rayData.stepY > 0)
-		g_frameData.ocolor = 0x00ff0000;
-	else if (g_rayData.side == 1 && g_rayData.stepY < 0)
-		g_frameData.ocolor = 0x0000ff00;
-	else if (g_rayData.side == 0 && g_rayData.stepX > 0)
-		g_frameData.ocolor = 0x000000ff;
-	else if (g_rayData.side == 0 && g_rayData.stepX < 0)
-		g_frameData.ocolor = 0x00ffff00;
-	if (g_rayData.side == 1)
-		g_frameData.ocolor = (g_frameData.ocolor >> 1) & 8355711;
-	while (pixel <= (x + g_frameData.drawEnd * g_config.screenW))
+	g_framedata.xcolor = 0;
+	if (g_raydata.side == 1 && g_raydata.stepy > 0)
+		g_framedata.xcolor = 0x00ff0000;
+	else if (g_raydata.side == 1 && g_raydata.stepy < 0)
+		g_framedata.xcolor = 0x0000ff00;
+	else if (g_raydata.side == 0 && g_raydata.stepx > 0)
+		g_framedata.xcolor = 0x000000ff;
+	else if (g_raydata.side == 0 && g_raydata.stepx < 0)
+		g_framedata.xcolor = 0x00ffff00;
+	if (g_raydata.side == 1)
+		g_framedata.xcolor = (g_framedata.xcolor >> 1) & 8355711;
+	while (pixel <= (x + g_framedata.drawend * g_config.screenw))
 	{
-		buf[pixel] = g_frameData.ocolor;
-		pixel += g_config.screenW;
+		buf[pixel] = g_framedata.xcolor;
+		pixel += g_config.screenw;
 	}
 	return (pixel);
 }
@@ -175,10 +175,10 @@ int		solidcolorwalls(int x, int pixel, unsigned int *buf)
 
 int		drawceiling(int x, int pixel, unsigned int *buf)
 {
-	while (pixel < (x + g_frameData.drawStart * g_config.screenW))
+	while (pixel < (x + g_framedata.drawstart * g_config.screenw))
 	{
-		buf[pixel] = g_frameData.oceilingColor;
-		pixel += g_config.screenW;
+		buf[pixel] = g_framedata.xceilingcolor;
+		pixel += g_config.screenw;
 	}
 	return (pixel);
 }
@@ -198,7 +198,7 @@ void	drawframeline(int x, unsigned int *buf)
 
 	pixel = x;
 	pixel = drawceiling(x, pixel, buf);
-	if (g_keyData.m == 2)
+	if (g_keydata.m == 2)
 		pixel = solidcolorwalls(x, pixel, buf);
 	else
 		pixel = texturedwalls(x, pixel, buf);

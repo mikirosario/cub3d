@@ -6,21 +6,21 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/05 18:32:52 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/25 20:22:22 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/26 18:24:13 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-extern error_t g_iamerror;
+extern t_error g_iamerror;
 
 void	printsprites(void)
 {
 	unsigned int	y;
-	spriteData_t	*sprtlistptr;
+	t_spritedata	*sprtlistptr;
 
 	y = 0;
-	sprtlistptr = g_config.spriteList;
+	sprtlistptr = g_config.spritelist;
 	if (!sprtlistptr)
 		ft_printf(GREEN"NO SPRITES LOADED\n"RESET);
 	else
@@ -28,8 +28,8 @@ void	printsprites(void)
 		while (sprtlistptr)
 		{
 			ft_printf(GREEN"\nSprite %5u: X %5u Y %5u Sprite Type: %c"RESET, \
-			y + 1, (unsigned int)(round(sprtlistptr->posX)), \
-			(unsigned int)(round(sprtlistptr->posY)), sprtlistptr->spriteType);
+			y + 1, (unsigned int)(round(sprtlistptr->posx)), \
+			(unsigned int)(round(sprtlistptr->posy)), sprtlistptr->spritetype);
 			sprtlistptr = sprtlistptr->next;
 			y++;
 		}
@@ -61,7 +61,7 @@ void	printmap(void)
 	unsigned int	y;
 	t_list			*lstptr;
 
-	lstptr = g_config.Map;
+	lstptr = g_config.maplist;
 	y = 0;
 	if (!lstptr)
 		ft_printf(RED"\nNO MAP LOADED\n");
@@ -84,7 +84,7 @@ void	printmapbytes(void)
 	unsigned int	y;
 	t_list			*lstptr;
 
-	lstptr = g_config.Map;
+	lstptr = g_config.maplist;
 	y = 0;
 	if (!lstptr)
 		ft_printf(RED"\nNO MAP LOADED\n");

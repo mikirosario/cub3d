@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/12 17:42:02 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/17 19:27:38 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/26 19:18:02 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,21 +21,21 @@
 
 void	walltexparams(void)
 {
-	if (g_rayData.side == 0)
-		g_frameData.wallX = g_player.posY + \
-		g_rayData.perpWallDist * g_rayData.rayDirY;
+	if (g_raydata.side == 0)
+		g_framedata.wallx = g_player.posy + \
+		g_raydata.perpwalldist * g_raydata.raydiry;
 	else
-		g_frameData.wallX = g_player.posX + \
-		g_rayData.perpWallDist * g_rayData.rayDirX;
-	g_frameData.wallX -= floor((g_frameData.wallX));
-	g_frameData.texX = (int)(g_frameData.wallX * (double)g_config.texW);
-	if (g_rayData.side == 0 && g_rayData.rayDirX > 0)
-		g_frameData.texX = (g_config.texW) - (g_frameData.texX) - 1;
-	if (g_rayData.side == 1 && g_rayData.rayDirY < 0)
-		g_frameData.texX = (g_config.texW) - (g_frameData.texX) - 1;
-	g_frameData.step = 1.0 * g_config.texH / g_frameData.lineHeight;
-	g_frameData.texPos = (g_frameData.drawStart - g_config.screenH \
-	/ 2 + g_frameData.lineHeight / 2) * g_frameData.step;
+		g_framedata.wallx = g_player.posx + \
+		g_raydata.perpwalldist * g_raydata.raydirx;
+	g_framedata.wallx -= floor((g_framedata.wallx));
+	g_framedata.texx = (int)(g_framedata.wallx * (double)g_config.texw);
+	if (g_raydata.side == 0 && g_raydata.raydirx > 0)
+		g_framedata.texx = (g_config.texw) - (g_framedata.texx) - 1;
+	if (g_raydata.side == 1 && g_raydata.raydiry < 0)
+		g_framedata.texx = (g_config.texw) - (g_framedata.texx) - 1;
+	g_framedata.step = 1.0 * g_config.texh / g_framedata.lineheight;
+	g_framedata.texpos = (g_framedata.drawstart - g_config.screenh \
+	/ 2 + g_framedata.lineheight / 2) * g_framedata.step;
 }
 
 /*
@@ -46,21 +46,21 @@ void	walltexparams(void)
 
 void	walldrawparams(void)
 {
-	if (g_rayData.side == 0)
-		g_rayData.perpWallDist = (g_rayData.mapX - g_player.posX + \
-		(1 - g_rayData.stepX) / 2) / g_rayData.rayDirX;
+	if (g_raydata.side == 0)
+		g_raydata.perpwalldist = (g_raydata.mapx - g_player.posx + \
+		(1 - g_raydata.stepx) / 2) / g_raydata.raydirx;
 	else
-		g_rayData.perpWallDist = (g_rayData.mapY - g_player.posY + \
-		(1 - g_rayData.stepY) / 2) / g_rayData.rayDirY;
-	g_frameData.lineHeight = (int)(g_config.screenH * \
-	g_config.wallMultiplier / g_rayData.perpWallDist);
-	g_frameData.drawStart = -(g_frameData.lineHeight) \
-	/ 2 + g_config.screenH / 2;
-	if (g_frameData.drawStart < 0)
-		g_frameData.drawStart = 0;
-	g_frameData.drawEnd = g_frameData.lineHeight / 2 + g_config.screenH / 2;
-	if (g_frameData.drawEnd >= g_config.screenH)
-		g_frameData.drawEnd = g_config.screenH - 1;
+		g_raydata.perpwalldist = (g_raydata.mapy - g_player.posy + \
+		(1 - g_raydata.stepy) / 2) / g_raydata.raydiry;
+	g_framedata.lineheight = (int)(g_config.screenh * \
+	g_config.wallmultiplier / g_raydata.perpwalldist);
+	g_framedata.drawstart = -(g_framedata.lineheight) \
+	/ 2 + g_config.screenh / 2;
+	if (g_framedata.drawstart < 0)
+		g_framedata.drawstart = 0;
+	g_framedata.drawend = g_framedata.lineheight / 2 + g_config.screenh / 2;
+	if (g_framedata.drawend >= g_config.screenh)
+		g_framedata.drawend = g_config.screenh - 1;
 }
 
 /*
@@ -84,6 +84,6 @@ void	walldrawparams(void)
 void	calculateframeline(void)
 {
 	walldrawparams();
-	if (g_keyData.m != 2)
+	if (g_keydata.m != 2)
 		walltexparams();
 }

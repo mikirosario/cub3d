@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/17 19:05:43 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/25 20:21:44 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/26 18:25:02 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ int	maparray(void)
 	t_list	*map_ptr;
 	char	**maparray;
 
-	map_ptr = g_config.Map;
-	if (!(g_config.map = ft_calloc((size_t)g_config.mapH + 1, sizeof(char *))))
+	map_ptr = g_config.maplist;
+	if (!(g_config.map = ft_calloc((size_t)g_config.maph + 1, sizeof(char *))))
 		return (0);
 	maparray = g_config.map;
 	while (map_ptr)

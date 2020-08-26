@@ -6,13 +6,13 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/22 20:13:05 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/17 18:23:36 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/26 19:19:29 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-extern error_t	g_iamerror;
+extern t_error	g_iamerror;
 
 /*
 ** These functions evaluate the line passed as an argument. Any spaces at the
@@ -61,12 +61,12 @@ int		getno(const char *line, unsigned int linenum)
 	i = 0;
 	while (line[i] && ft_isprint(line[i]))
 		i++;
-	if (!(nowallimg.texpath = ft_calloc(i + 1, 1)))
+	if (!(g_nowallimg.texpath = ft_calloc(i + 1, 1)))
 	{
 		g_iamerror.mallocfail = 1;
 		return (0);
 	}
-	ft_memcpy(nowallimg.texpath, line, i);
+	ft_memcpy(g_nowallimg.texpath, line, i);
 	return (1);
 }
 
@@ -89,12 +89,12 @@ int		getso(const char *line, unsigned int linenum)
 	i = 0;
 	while (line[i] && ft_isprint(line[i]))
 		i++;
-	if (!(sowallimg.texpath = ft_calloc(i + 1, 1)))
+	if (!(g_sowallimg.texpath = ft_calloc(i + 1, 1)))
 	{
 		g_iamerror.mallocfail = 1;
 		return (0);
 	}
-	ft_memcpy(sowallimg.texpath, line, i);
+	ft_memcpy(g_sowallimg.texpath, line, i);
 	return (1);
 }
 
@@ -117,12 +117,12 @@ int		getwe(const char *line, unsigned int linenum)
 	i = 0;
 	while (line[i] && ft_isprint(line[i]))
 		i++;
-	if (!(wewallimg.texpath = ft_calloc(i + 1, 1)))
+	if (!(g_wewallimg.texpath = ft_calloc(i + 1, 1)))
 	{
 		g_iamerror.mallocfail = 1;
 		return (0);
 	}
-	ft_memcpy(wewallimg.texpath, line, i);
+	ft_memcpy(g_wewallimg.texpath, line, i);
 	return (1);
 }
 
@@ -145,11 +145,11 @@ int		getea(const char *line, unsigned int linenum)
 	i = 0;
 	while (line[i] && ft_isprint(line[i]))
 		i++;
-	if (!(eawallimg.texpath = ft_calloc(i + 1, 1)))
+	if (!(g_eawallimg.texpath = ft_calloc(i + 1, 1)))
 	{
 		g_iamerror.mallocfail = 1;
 		return (0);
 	}
-	ft_memcpy(eawallimg.texpath, line, i);
+	ft_memcpy(g_eawallimg.texpath, line, i);
 	return (1);
 }

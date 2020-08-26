@@ -6,21 +6,21 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/05 16:53:56 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/25 19:22:59 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/26 18:28:51 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-spriteData_t	*ft_sprtlstnew(void const *content)
+t_spritedata	*ft_sprtlstnew(void const *content)
 {
-	spriteData_t *tmp;
+	t_spritedata *tmp;
 
-	tmp = malloc(sizeof(spriteData_t));
+	tmp = malloc(sizeof(t_spritedata));
 	if (tmp)
 	{
-		tmp->posX = 0;
-		tmp->posY = 0;
+		tmp->posx = 0;
+		tmp->posy = 0;
 		if (content)
 			tmp->texture = (void *)content;
 		else
@@ -30,9 +30,9 @@ spriteData_t	*ft_sprtlstnew(void const *content)
 	return (tmp);
 }
 
-spriteData_t	*ft_sprtlstlast(spriteData_t *lst)
+t_spritedata	*ft_sprtlstlast(t_spritedata *lst)
 {
-	spriteData_t	*tmp;
+	t_spritedata	*tmp;
 
 	tmp = lst;
 	if (!lst)
@@ -42,7 +42,7 @@ spriteData_t	*ft_sprtlstlast(spriteData_t *lst)
 	return (tmp);
 }
 
-void			ft_sprtlstadd_back(spriteData_t **alst, spriteData_t *new)
+void			ft_sprtlstadd_back(t_spritedata **alst, t_spritedata *new)
 {
 	if (!new)
 		return ;
@@ -64,21 +64,21 @@ void			ft_sprtlstadd_back(spriteData_t **alst, spriteData_t *new)
 
 void			spritecounter(double x, double y, char c)
 {
-	static spriteData_t *lstptr = NULL;
+	static t_spritedata *lstptr = NULL;
 
-	g_config.spriteNum++;
-	if (!g_config.spriteList)
+	g_config.spritenum++;
+	if (!g_config.spritelist)
 	{
-		g_config.spriteList = ft_sprtlstnew((void *)0);
-		lstptr = g_config.spriteList;
+		g_config.spritelist = ft_sprtlstnew((void *)0);
+		lstptr = g_config.spritelist;
 	}
 	else
 	{
-		ft_sprtlstadd_back(&g_config.spriteList, (ft_sprtlstnew((void *)0)));
+		ft_sprtlstadd_back(&g_config.spritelist, (ft_sprtlstnew((void *)0)));
 		lstptr = lstptr->next;
 	}
-	lstptr->posX = (double)x + 0.5;
-	lstptr->posY = (double)y + 0.5;
+	lstptr->posx = (double)x + 0.5;
+	lstptr->posy = (double)y + 0.5;
 	if (c == '2')
-		lstptr->spriteType = '2';
+		lstptr->spritetype = '2';
 }

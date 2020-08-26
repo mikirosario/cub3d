@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/17 16:35:31 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/25 19:41:19 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/26 19:15:06 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,10 @@ void	countframes(time_t *timestart)
 	{
 		if (fps_str)
 			del(fps_str);
-		mlx_string_put(g_screenData.mlx_ptr, g_screenData.mlx_win, \
-		0, g_config.screenH - 100, 0x0000ff00, "FRAMEAZOS POR SEGUNDO:");
-		mlx_string_put(g_screenData.mlx_ptr, g_screenData.mlx_win, \
-		0, g_config.screenH - 80, 0x0000ff00, (fps_str = ft_itoa(fps)));
+		mlx_string_put(g_screendata.mlx_ptr, g_screendata.mlx_win, \
+		0, g_config.screenh - 100, 0x0000ff00, "FRAMEAZOS POR SEGUNDO:");
+		mlx_string_put(g_screendata.mlx_ptr, g_screendata.mlx_win, \
+		0, g_config.screenh - 80, 0x0000ff00, (fps_str = ft_itoa(fps)));
 		*timestart = 0;
 		fps = 0;
 	}
@@ -53,9 +53,9 @@ void	countframes(time_t *timestart)
 	{
 		if (!fps_str)
 			fps_str = ft_calloc(1, 1);
-		mlx_string_put(g_screenData.mlx_ptr, g_screenData.mlx_win, \
-		0, g_config.screenH - 100, 0x0000ff00, "FRAMEAZOS POR SEGUNDO:");
-		mlx_string_put(g_screenData.mlx_ptr, g_screenData.mlx_win, \
-		0, g_config.screenH - 80, 0x0000ff00, fps_str);
+		mlx_string_put(g_screendata.mlx_ptr, g_screendata.mlx_win, \
+		0, g_config.screenh - 100, 0x0000ff00, "FRAMEAZOS POR SEGUNDO:");
+		mlx_string_put(g_screendata.mlx_ptr, g_screendata.mlx_win, \
+		0, g_config.screenh - 80, 0x0000ff00, fps_str);
 	}
 }

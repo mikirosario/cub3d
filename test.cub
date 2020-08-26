@@ -1,6 +1,5 @@
 ** INSTRUCTIONS
 ** R    screenWidth screenHeight
-** SO   FAKE PATH
 ** NO   absolute or relative path to .XPM texture for north wall
 ** SO   absolute or relative path to .XPM texture for south wall
 ** WE   absolute or relative path to .XPM texture for west wall

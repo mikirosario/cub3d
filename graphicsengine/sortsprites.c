@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 18:24:16 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/25 20:20:37 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/26 20:05:10 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@ void	getdistances(double *distance, int *spriteorder)
 	int i;
 
 	i = 0;
-	while (i < g_config.spriteNum)
+	while (i < g_config.spritenum)
 	{
 		spriteorder[i] = i;
-		distance[i] = ((g_player.posX - (spriteiter(i))->posX) * \
-		(g_player.posX - (spriteiter(i))->posX) + (g_player.posY - \
-		(spriteiter(i))->posY) * (g_player.posY - (spriteiter(i))->posY));
+		distance[i] = ((g_player.posx - (spriteiter(i))->posx) * \
+		(g_player.posx - (spriteiter(i))->posx) + (g_player.posy - \
+		(spriteiter(i))->posy) * (g_player.posy - (spriteiter(i))->posy));
 		i++;
 	}
 }
@@ -41,15 +41,15 @@ void	getdistances(double *distance, int *spriteorder)
 ** for the frame.
 */
 
-void	ft_sortsprites(int *spriteorder)
+void	sortsprites(int *spriteorder)
 {
-	double	distance[g_config.spriteNum];
+	double	distance[g_config.spritenum];
 	int		tmp;
 	int		i;
 
 	getdistances(distance, spriteorder);
 	i = -1;
-	while (g_config.spriteNum > 1 && ++i < g_config.spriteNum - 1)
+	while (g_config.spritenum > 1 && ++i < g_config.spritenum - 1)
 	{
 		if (distance[i] < distance[i + 1])
 		{

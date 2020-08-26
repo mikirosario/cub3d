@@ -6,13 +6,13 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/21 19:17:09 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/25 19:14:40 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/26 18:28:51 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-extern error_t	g_iamerror;
+extern t_error	g_iamerror;
 
 /*
 ** This function prints the RED ERROR message and then calls the functions
@@ -46,7 +46,7 @@ extern error_t	g_iamerror;
 void	maperrors(void)
 {
 	if (!g_iamerror.noplayer && g_iamerror.mapsweeps)
-		*((char *)maplistdir(g_player.posX, g_player.posY)) = 'P';
+		*((char *)maplistdir(g_player.posx, g_player.posy)) = 'P';
 	unfloodmap("error");
 	printmap();
 	ft_printf("%s", REDERROR);
@@ -72,13 +72,12 @@ void	maperrors(void)
 
 void	reserrors(void)
 {
-	setdisplayresolution();
 	ft_printf("%s", YELLOWERROR);
 	ft_putstr(getResFail, ft_strlen(getResFail));
-	if (g_iamerror.badresSyn)
-		ft_printf("Line %u: %s", g_iamerror.badresSyn, badResSyn);
-	if (g_iamerror.badresSize)
-		ft_printf("Line %u: %s", g_iamerror.badresSize, badResSize);
+	if (g_iamerror.badressyn)
+		ft_printf("Line %u: %s", g_iamerror.badressyn, badResSyn);
+	if (g_iamerror.badressize)
+		ft_printf("Line %u: %s", g_iamerror.badressize, badresosize);
 	return ;
 }
 
@@ -111,9 +110,9 @@ void	texerrors(void)
 		ft_putstr(getEAFail, ft_strlen(getEAFail));
 	if (g_iamerror.badeasyn)
 		ft_printf("Line %u: %s", g_iamerror.badeasyn, badEASyn);
-	if (g_config.spriteNum && g_iamerror.getsprfail)
+	if (g_config.spritenum && g_iamerror.getsprfail)
 		ft_putstr(getSprFail, ft_strlen(getSprFail));
-	if (g_config.spriteNum && g_iamerror.badsprsyn)
+	if (g_config.spritenum && g_iamerror.badsprsyn)
 		ft_printf("Line %u: %s", g_iamerror.badsprsyn, badSprSyn);
 	texreaderror();
 	if (g_iamerror.texpathfail)

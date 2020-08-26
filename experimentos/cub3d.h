@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/19 18:05:52 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/26 19:24:11 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@
 #define vMove           (double)normiTexHeight //raise to lower sprite*/
 
 /*
-** posX and posY determine position. dirX and dirY determine direction.
+** posx and posy determine position. dirX and dirY determine direction.
 ** planeX and planeY determine camera plane. Ratio between direction
 ** length and camera plane determines FOV. Direction musst always be
 ** perpendicullar to camera plane. Time stores current frame time;
@@ -84,17 +84,17 @@
 
 typedef     struct spriteData_s
 {
-  double posX;
-  double posY;
-  char   spriteType;
+  double posx;
+  double posy;
+  char   spritetype;
   unsigned int *texture;
   struct spriteData_s *next;
-}                   spriteData_t;
+}                   t_spritedata;
 
 typedef     struct  configData_s
 {
   t_list *Map;
-  spriteData_t *spriteList;
+  t_spritedata *spritelist;
   int mapW;
   int mapH;
   int screenW;
@@ -113,7 +113,7 @@ typedef     struct  configData_s
   //int uDiv;
   //int vDiv;
   //int vMove;
-}           configData_t;
+}           t_configdata;
 
 typedef     struct  screenData_s
 {
@@ -123,7 +123,7 @@ typedef     struct  screenData_s
   int       bpp;
   int       size_line;
   int       endian;
-}           screenData_t;
+}           t_screendata;
 
 typedef		struct bmpdata_s
 {
@@ -147,8 +147,8 @@ typedef		struct bmpdata_s
 
 typedef     struct  player_s
 {
-    double  posX;
-    double  posY;
+    double  posx;
+    double  posy;
     double  dirX;
     double  dirY;
     double  oldDirX;
@@ -160,7 +160,7 @@ typedef     struct  player_s
     double  cameraX;
     double  moveSpeed;
     double  rotSpeed;
-}                   player_t;
+}                   t_player;
 
 typedef     struct  world_s
 {
@@ -168,7 +168,7 @@ typedef     struct  world_s
     int     y;
     int     stepX;
     int     stepY;
-}                   world_t;
+}                   t_world;
 
 typedef     struct  rayData_s
 {
@@ -186,7 +186,7 @@ typedef     struct  rayData_s
   int       hit;
   int       side; //NS or EW wall hit?
 
-}                   rayData_t;
+}                   t_raydata;
 
 //Habrá que localizar arrays en Raycaster para dinamizar screenHeight/screenWidth
 typedef     struct frameData_s
@@ -211,7 +211,7 @@ typedef     struct frameData_s
   //unsigned int  buffer[screenHeight][screenWidth]; //y coordinate first because it works per scanline
   //double        zBuffer[screenWidth]; //1D ZBuffer
   //int           spriteOrder[numSprites]; //traspasado a RayCaster
-}                  frameData_t;
+}                  t_framedata;
 
 typedef     struct imageData_s
 {
@@ -221,7 +221,7 @@ typedef     struct imageData_s
   int           endian;
   unsigned int  *tex_Ptr;
   char          *texPath;
-}                  imageData_t;
+}                  t_imagedata;
 
 typedef     struct keyData_s
 {
@@ -232,24 +232,24 @@ typedef     struct keyData_s
   char  r;
   char  l;
   char  m;
-}                   keyData_t;
+}                   t_keydata;
 
-configData_t g_config;
-player_t g_player;
-world_t g_world;
-rayData_t g_rayData;
-screenData_t g_screenData;
-frameData_t  g_frameData;
-imageData_t g_blueMetalImg;
-imageData_t g_yellowMetalImg;
-imageData_t g_greenMetalImg;
-imageData_t g_pinkMetalImg;
-imageData_t g_clsImg;
-imageData_t g_ceilingImg;
-imageData_t g_floorImg;
-imageData_t g_normiImg;
-keyData_t g_keyData;
-/*spriteData_t  g_sprite[numSprites] = {
+t_configdata g_config;
+t_player g_player;
+t_world g_world;
+t_raydata g_raydata;
+t_screendata g_screendata;
+t_framedata  g_framedata;
+t_imagedata g_blueMetalImg;
+t_imagedata g_yellowMetalImg;
+t_imagedata g_greenMetalImg;
+t_imagedata g_pinkMetalImg;
+t_imagedata g_clsimg;
+t_imagedata g_ceilingimg;
+t_imagedata g_floorimg;
+t_imagedata g_sprt2img;
+t_keydata g_keydata;
+/*t_spritedata  g_sprite[numSprites] = {
   {10.5, 14.5, 0},
   {6.5, 12.5, 0},
 };*/
@@ -258,7 +258,7 @@ double  ft_degtorad(double a);
 double  ft_radtodeg(double a);
 double  ft_round(double n, int prec);
 int     ft_rotate_2D(double x, double y, double adeg, double prec, double **ptr);
-int     getRes(const char *line);
+int     getres(const char *line);
 void    cls(void);
 
 #endif

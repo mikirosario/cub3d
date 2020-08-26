@@ -6,13 +6,13 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 16:50:30 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/25 19:08:58 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/26 19:03:11 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-extern error_t g_iamerror;
+extern t_error g_iamerror;
 
 /*
 ** These functions will retrieve the floor and ceiling colors specified in the
@@ -79,7 +79,7 @@ int			getfcolor(const char *line, unsigned int linenum)
 	if ((*line && !ft_isspace(*line)) || g_iamerror.fcoloroutofrange)
 		g_iamerror.badfcolorsyn = linenum;
 	else if (color == 3)
-		g_frameData.ofloorColor = \
+		g_framedata.xfloorcolor = \
 		(create_trgb(0, g_config.frgb[0], g_config.frgb[1], g_config.frgb[2]));
 	return (color == 3 && !g_iamerror.badfcolorsyn ? 1 : 0);
 }
@@ -107,7 +107,7 @@ int			getccolor(const char *line, unsigned int linenum)
 	if ((*line && !ft_isspace(*line)) || g_iamerror.ccoloroutofrange)
 		g_iamerror.badccolorsyn = linenum;
 	else if (color == 3)
-		g_frameData.oceilingColor = \
+		g_framedata.xceilingcolor = \
 		(create_trgb(0, g_config.crgb[0], g_config.crgb[1], g_config.crgb[2]));
 	return (color == 3 && !g_iamerror.badccolorsyn ? 1 : 0);
 }

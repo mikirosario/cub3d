@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/19 18:11:02 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/25 18:41:15 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/26 18:26:25 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,12 @@ ssize_t		copyscreen(int fd, int pad, unsigned int *buf)
 	unsigned char	threebytes[3];
 	ssize_t			res;
 
-	y = g_config.screenH - 1;
-	x = y * g_config.screenW;
+	y = g_config.screenh - 1;
+	x = y * g_config.screenw;
 	res = 1;
 	while (res && y >= 0)
 	{
-		while (res && x < ((y * g_config.screenW) + g_config.screenW))
+		while (res && x < ((y * g_config.screenw) + g_config.screenw))
 		{
 			uint_to_uchar(threebytes, (buf[x]));
 			res = write(fd, threebytes, 3);
@@ -90,7 +90,7 @@ ssize_t		copyscreen(int fd, int pad, unsigned int *buf)
 		if ((i = pad))
 			while (res && i--)
 				res = write(fd, "\0", 1);
-		x = --y * g_config.screenW;
+		x = --y * g_config.screenw;
 	}
 	return (res < 1 ? 0 : 1);
 }
@@ -114,15 +114,15 @@ ssize_t		writeheader(int fd, int pad)
 	int				filesize;
 	unsigned char	header[54];
 
-	filesize = ((3 * g_config.screenW + pad) * g_config.screenH) + 54;
+	filesize = ((3 * g_config.screenw + pad) * g_config.screenh) + 54;
 	ft_bzero(header, 54);
 	header[0] = 'B';
 	header[1] = 'M';
 	int_to_uchar(&header[2], filesize);
 	header[10] = (unsigned char)54;
 	header[14] = (unsigned char)40;
-	int_to_uchar(&header[18], g_config.screenW);
-	int_to_uchar(&header[22], g_config.screenH);
+	int_to_uchar(&header[18], g_config.screenw);
+	int_to_uchar(&header[22], g_config.screenh);
 	header[26] = (unsigned char)1;
 	header[28] = (unsigned char)24;
 	return (write(fd, header, 54) != 54 ? 0 : 1);
@@ -144,7 +144,7 @@ int			screenshot(unsigned int *buf)
 	int	fd;
 	int	error;
 
-	pad = g_config.screenW % 4;
+	pad = g_config.screenw % 4;
 	g_config.screenshot = 0;
 	error = 0;
 	if ((fd = open("screenie.bmp", O_RDWR | O_CREAT | O_TRUNC | \

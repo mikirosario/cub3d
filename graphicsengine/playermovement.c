@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/14 20:03:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/25 19:39:02 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/26 19:18:02 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,101 +21,101 @@
 ** keys are depressed):
 **
 ** Lode method clockwise (r) rotation
-**	g_player.oldDirX = g_player.dirX;
-**	g_player.dirX = g_player.dirX * cos(-g_player.rotSpeed) - \
-**	g_player.dirY * sin(-g_player.rotSpeed);
-**	g_player.dirY = g_player.oldDirX * sin(-g_player.rotSpeed) + \
-**	g_player.dirY * cos(-g_player.rotSpeed);
-**	g_player.oldPlaneX = g_player.planeX;
-**	g_player.planeX = g_player.planeX * cos(-g_player.rotSpeed) - \
-**	g_player.planeY * sin(-g_player.rotSpeed);
-**	g_player.planeY = g_player.oldPlaneX * sin(-g_player.rotSpeed) + \
-**	g_player.planeY * cos(-g_player.rotSpeed);
+**	g_player.oldDirX = g_player.dirx;
+**	g_player.dirx = g_player.dirx * cos(-g_player.rotspeed) - \
+**	g_player.diry * sin(-g_player.rotspeed);
+**	g_player.diry = g_player.oldDirX * sin(-g_player.rotspeed) + \
+**	g_player.diry * cos(-g_player.rotspeed);
+**	g_player.oldPlaneX = g_player.planex;
+**	g_player.planex = g_player.planex * cos(-g_player.rotspeed) - \
+**	g_player.planey * sin(-g_player.rotspeed);
+**	g_player.planey = g_player.oldPlaneX * sin(-g_player.rotspeed) + \
+**	g_player.planey * cos(-g_player.rotspeed);
 **
 ** Lode method anticlockwise rotation (l)
-**	g_player.oldDirX = g_player.dirX;
-**	g_player.dirX = g_player.dirX * cos(g_player.rotSpeed) - \
-**	g_player.dirY * sin(g_player.rotSpeed);
-**	g_player.dirY = g_player.oldDirX * sin(g_player.rotSpeed) + \
-**	g_player.dirY * cos(g_player.rotSpeed);
-**	g_player.oldPlaneX = g_player.planeX;
-**	g_player.planeX = g_player.planeX * cos(g_player.rotSpeed) - \
-**	g_player.planeY * sin(g_player.rotSpeed);
-**	g_player.planeY = g_player.oldPlaneX * sin(g_player.rotSpeed) + \
-**	g_player.planeY * cos(g_player.rotSpeed);
+**	g_player.oldDirX = g_player.dirx;
+**	g_player.dirx = g_player.dirx * cos(g_player.rotspeed) - \
+**	g_player.diry * sin(g_player.rotspeed);
+**	g_player.diry = g_player.oldDirX * sin(g_player.rotspeed) + \
+**	g_player.diry * cos(g_player.rotspeed);
+**	g_player.oldPlaneX = g_player.planex;
+**	g_player.planex = g_player.planex * cos(g_player.rotspeed) - \
+**	g_player.planey * sin(g_player.rotspeed);
+**	g_player.planey = g_player.oldPlaneX * sin(g_player.rotspeed) + \
+**	g_player.planey * cos(g_player.rotspeed);
 */
 
 void	rlrotate(void)
 {
-	if (g_keyData.r)
+	if (g_keydata.r)
 	{
-		ft_rotate_2d(g_player.dirX, g_player.dirY, -3, 6, \
-		(double *)(&g_player.newDirXY));
-		g_player.dirX = g_player.newDirXY[0];
-		g_player.dirY = g_player.newDirXY[1];
-		ft_rotate_2d(g_player.planeX, g_player.planeY, -3, 6, \
-		(double *)(&g_player.newDirXY));
-		g_player.planeX = g_player.newDirXY[0];
-		g_player.planeY = g_player.newDirXY[1];
+		ft_rotate_2d(g_player.dirx, g_player.diry, -3, 6, \
+		(double *)(&g_player.newdirxy));
+		g_player.dirx = g_player.newdirxy[0];
+		g_player.diry = g_player.newdirxy[1];
+		ft_rotate_2d(g_player.planex, g_player.planey, -3, 6, \
+		(double *)(&g_player.newdirxy));
+		g_player.planex = g_player.newdirxy[0];
+		g_player.planey = g_player.newdirxy[1];
 	}
-	if (g_keyData.l)
+	if (g_keydata.l)
 	{
-		ft_rotate_2d(g_player.dirX, g_player.dirY, 3, 6, \
-		(double *)(&g_player.newDirXY));
-		g_player.dirX = g_player.newDirXY[0];
-		g_player.dirY = g_player.newDirXY[1];
-		ft_rotate_2d(g_player.planeX, g_player.planeY, 3, 6, \
-		(double *)(&g_player.newDirXY));
-		g_player.planeX = g_player.newDirXY[0];
-		g_player.planeY = g_player.newDirXY[1];
+		ft_rotate_2d(g_player.dirx, g_player.diry, 3, 6, \
+		(double *)(&g_player.newdirxy));
+		g_player.dirx = g_player.newdirxy[0];
+		g_player.diry = g_player.newdirxy[1];
+		ft_rotate_2d(g_player.planex, g_player.planey, 3, 6, \
+		(double *)(&g_player.newdirxy));
+		g_player.planex = g_player.newdirxy[0];
+		g_player.planey = g_player.newdirxy[1];
 	}
 }
 
 void	adstrafe(void)
 {
-	if (g_keyData.a)
+	if (g_keydata.a)
 	{
-		ft_rotate_2d(g_player.dirX, g_player.dirY, 90, 6, \
-		(double *)(&g_player.newDirXY));
-		if (g_config.map[(int)g_player.posY][(int)(g_player.posX + \
-		g_player.newDirXY[0] * g_player.moveSpeed)] == '0')
-			g_player.posX += g_player.newDirXY[0] * g_player.moveSpeed;
-		if (g_config.map[(int)(g_player.posY + g_player.newDirXY[1] * \
-		g_player.moveSpeed)][(int)g_player.posX] == '0')
-			g_player.posY += g_player.newDirXY[1] * g_player.moveSpeed;
+		ft_rotate_2d(g_player.dirx, g_player.diry, 90, 6, \
+		(double *)(&g_player.newdirxy));
+		if (g_config.map[(int)g_player.posy][(int)(g_player.posx + \
+		g_player.newdirxy[0] * g_player.movespeed)] == '0')
+			g_player.posx += g_player.newdirxy[0] * g_player.movespeed;
+		if (g_config.map[(int)(g_player.posy + g_player.newdirxy[1] * \
+		g_player.movespeed)][(int)g_player.posx] == '0')
+			g_player.posy += g_player.newdirxy[1] * g_player.movespeed;
 	}
-	if (g_keyData.d)
+	if (g_keydata.d)
 	{
-		ft_rotate_2d(g_player.dirX, g_player.dirY, 90, 6, \
-		(double *)(&g_player.newDirXY));
-		if (g_config.map[(int)g_player.posY][(int)(g_player.posX - \
-		g_player.newDirXY[0] * g_player.moveSpeed)] == '0')
-			g_player.posX -= g_player.newDirXY[0] * g_player.moveSpeed;
-		if (g_config.map[(int)(g_player.posY - g_player.newDirXY[1] * \
-		g_player.moveSpeed)][(int)g_player.posX] == '0')
-			g_player.posY -= g_player.newDirXY[1] * g_player.moveSpeed;
+		ft_rotate_2d(g_player.dirx, g_player.diry, 90, 6, \
+		(double *)(&g_player.newdirxy));
+		if (g_config.map[(int)g_player.posy][(int)(g_player.posx - \
+		g_player.newdirxy[0] * g_player.movespeed)] == '0')
+			g_player.posx -= g_player.newdirxy[0] * g_player.movespeed;
+		if (g_config.map[(int)(g_player.posy - g_player.newdirxy[1] * \
+		g_player.movespeed)][(int)g_player.posx] == '0')
+			g_player.posy -= g_player.newdirxy[1] * g_player.movespeed;
 	}
 }
 
 void	wsupdown(void)
 {
-	if (g_keyData.w)
+	if (g_keydata.w)
 	{
-		if (g_config.map[(int)g_player.posY][(int)(g_player.posX + \
-		g_player.dirX * g_player.moveSpeed)] == '0')
-			g_player.posX += g_player.dirX * g_player.moveSpeed;
-		if (g_config.map[(int)(g_player.posY + g_player.dirY * \
-		g_player.moveSpeed)][(int)g_player.posX] == '0')
-			g_player.posY += g_player.dirY * g_player.moveSpeed;
+		if (g_config.map[(int)g_player.posy][(int)(g_player.posx + \
+		g_player.dirx * g_player.movespeed)] == '0')
+			g_player.posx += g_player.dirx * g_player.movespeed;
+		if (g_config.map[(int)(g_player.posy + g_player.diry * \
+		g_player.movespeed)][(int)g_player.posx] == '0')
+			g_player.posy += g_player.diry * g_player.movespeed;
 	}
-	if (g_keyData.s)
+	if (g_keydata.s)
 	{
-		if (g_config.map[(int)(g_player.posY)][(int)(g_player.posX - \
-		g_player.dirX * g_player.moveSpeed)] == '0')
-			g_player.posX -= g_player.dirX * g_player.moveSpeed;
-		if (g_config.map[(int)(g_player.posY - g_player.dirY * \
-		g_player.moveSpeed)][(int)g_player.posX] == '0')
-			g_player.posY -= g_player.dirY * g_player.moveSpeed;
+		if (g_config.map[(int)(g_player.posy)][(int)(g_player.posx - \
+		g_player.dirx * g_player.movespeed)] == '0')
+			g_player.posx -= g_player.dirx * g_player.movespeed;
+		if (g_config.map[(int)(g_player.posy - g_player.diry * \
+		g_player.movespeed)][(int)g_player.posx] == '0')
+			g_player.posy -= g_player.diry * g_player.movespeed;
 	}
 }
 

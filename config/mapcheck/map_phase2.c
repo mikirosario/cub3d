@@ -6,13 +6,13 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/03 19:10:33 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/05 19:38:24 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/26 18:25:02 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../cub3d.h"
 
-extern error_t	g_iamerror;
+extern t_error	g_iamerror;
 
 /*
 ** This function will take the map left by the floodfill function, which fills
@@ -37,7 +37,7 @@ void	unfloodmap(char *flag)
 	char	mode;
 	int		i;
 
-	mapptr = g_config.Map;
+	mapptr = g_config.maplist;
 	mode = 'p';
 	if (!(ft_strncmp(flag, "error", 5)))
 		mode = 'e';
@@ -138,10 +138,10 @@ int		floodleft(unsigned int x, unsigned int y)
 				(*(maplistdir(x, y + 1)) = 'A');
 			else if (!row->next || mapchr == ' ' || !mapchr)
 				return (recorderrorlocation(g_iamerror.outofbounds, x, y, 0));
-			if (row != g_config.Map && ((maplistmem(y - 1))->len) >= x && \
+			if (row != g_config.maplist && ((maplistmem(y - 1))->len) >= x && \
 			(mapchr = maplist(x, y - 1)) && (mapchr == '0' || mapchr == '2'))
 				(*(maplistdir(x, y - 1)) = 'A');
-			else if (row == g_config.Map || mapchr == ' ' || !mapchr)
+			else if (row == g_config.maplist || mapchr == ' ' || !mapchr)
 				return (recorderrorlocation(g_iamerror.outofbounds, x, y, 0));
 			(*(maplistdir(x, y)) = 'T');
 		}
@@ -167,10 +167,10 @@ int		floodright(unsigned int x, unsigned int y)
 				(*(maplistdir(x, y + 1)) = 'A');
 			else if (!row->next || mapchr == ' ' || !mapchr)
 				return (recorderrorlocation(g_iamerror.outofbounds, x, y, 0));
-			if (row != g_config.Map && ((maplistmem(y - 1))->len) >= x && \
+			if (row != g_config.maplist && ((maplistmem(y - 1))->len) >= x && \
 			(mapchr = maplist(x, y - 1)) && (mapchr == '0' || mapchr == '2'))
 				(*(maplistdir(x, y - 1)) = 'A');
-			else if (row == g_config.Map || mapchr == ' ' || !mapchr)
+			else if (row == g_config.maplist || mapchr == ' ' || !mapchr)
 				return (recorderrorlocation(g_iamerror.outofbounds, x, y, 0));
 			(*(maplistdir(x, y)) = 'T');
 		}
@@ -224,7 +224,7 @@ int		floodfill(void)
 	while (founda && (!(y = 0)))
 	{
 		founda = 0;
-		while (y <= g_config.mapH && (!(x = 0)))
+		while (y <= g_config.maph && (!(x = 0)))
 		{
 			g_iamerror.mapsweeps++;
 			while ((mapchr = maplist(x, y)))

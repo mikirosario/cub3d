@@ -6,17 +6,17 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 18:31:22 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/25 20:23:05 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/26 18:38:18 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../cub3d.h"
 
-extern error_t	g_iamerror;
+extern t_error	g_iamerror;
 
 /*
 ** This function assigns the player's starting position and configures the
-** associated initial data set - player position (posX, posY), relative camera
+** associated initial data set - player position (posx, posy), relative camera
 ** plane position and orientation (planeX, planeY), player orientation (dirX,
 ** dirY).
 **
@@ -41,35 +41,35 @@ extern error_t	g_iamerror;
 **
 ** void		configureplayer(unsigned int x, unsigned int y, char *playerchar)
 ** {
-**	g_player.posX = (double)x + 0.5;
-**	g_player.posY = (double)y + 0.5;
+**	g_player.posx = (double)x + 0.5;
+**	g_player.posy = (double)y + 0.5;
 **	if (*playerchar == 'N' || *playerchar == 'n')
 **	{
-**		g_player.dirX = (double)0;
-**		g_player.dirY = (double)-1;
-**		g_player.planeX = (double)0.66;
-**		g_player.planeY = (double)0;
+**		g_player.dirx = (double)0;
+**		g_player.diry = (double)-1;
+**		g_player.planex = (double)0.66;
+**		g_player.planey = (double)0;
 **	}
 **	else if (*playerchar == 'S' || *playerchar == 's')
 **	{
-**		g_player.dirX = (double)0;
-**		g_player.dirY = (double)1;
-**		g_player.planeX = (double)-0.66;
-**		g_player.planeY = (double)0;
+**		g_player.dirx = (double)0;
+**		g_player.diry = (double)1;
+**		g_player.planex = (double)-0.66;
+**		g_player.planey = (double)0;
 **	}
 **	else if (*playerchar == 'E' || *playerchar == 'e')
 **	{
-**		g_player.dirX = (double)1;
-**		g_player.dirY = (double)0;
-**		g_player.planeX = (double)0;
-**		g_player.planeY = (double)0.66;
+**		g_player.dirx = (double)1;
+**		g_player.diry = (double)0;
+**		g_player.planex = (double)0;
+**		g_player.planey = (double)0.66;
 **	}
 **	else if (*playerchar == 'W' || *playerchar == 'w')
 **	{
-**		g_player.dirX = (double)-1;
-**		g_player.dirY = (double)0;
-**		g_player.planeX = (double)0;
-**		g_player.planeY = (double)-0.66;
+**		g_player.dirx = (double)-1;
+**		g_player.diry = (double)0;
+**		g_player.planex = (double)0;
+**		g_player.planey = (double)-0.66;
 **	}
 **	*playerchar = 'A';
 ** }
@@ -77,26 +77,26 @@ extern error_t	g_iamerror;
 
 void	configureplayer(unsigned int x, unsigned int y, char *playerchar)
 {
-	g_player.posX = (double)x + 0.5;
-	g_player.posY = (double)y + 0.5;
+	g_player.posx = (double)x + 0.5;
+	g_player.posy = (double)y + 0.5;
 	if (*playerchar == 'N' || *playerchar == 'n' || \
 	*playerchar == 'S' || *playerchar == 's')
 	{
-		g_player.dirX = (double)0;
-		g_player.planeY = (double)0;
-		g_player.dirY = *playerchar == 'N' || *playerchar == 'n' ? \
+		g_player.dirx = (double)0;
+		g_player.planey = (double)0;
+		g_player.diry = *playerchar == 'N' || *playerchar == 'n' ? \
 		(double)-1 : (double)1;
-		g_player.planeX = *playerchar == 'N' || *playerchar == 'n' ? \
+		g_player.planex = *playerchar == 'N' || *playerchar == 'n' ? \
 		(double)0.66 : (double)-0.66;
 	}
 	else if (*playerchar == 'E' || *playerchar == 'e' || \
 	*playerchar == 'W' || *playerchar == 'w')
 	{
-		g_player.dirY = (double)0;
-		g_player.planeX = (double)0;
-		g_player.dirX = *playerchar == 'E' || *playerchar == 'e' ? \
+		g_player.diry = (double)0;
+		g_player.planex = (double)0;
+		g_player.dirx = *playerchar == 'E' || *playerchar == 'e' ? \
 		(double)1 : (double)-1;
-		g_player.planeY = *playerchar == 'E' || *playerchar == 'e' ? \
+		g_player.planey = *playerchar == 'E' || *playerchar == 'e' ? \
 		(double)0.66 : (double)-0.66;
 	}
 	*playerchar = 'A';
@@ -187,7 +187,7 @@ char	playerandspritescheck(char foundplayer, char *mapchrs)
 ** elements are NOT as the way they are displayed is user defined.
 **
 ** If a sprite is found, spriteCounter will be called to record its position
-** and place it onto a sprite list called spriteList.
+** and place it onto a sprite list called spritelist.
 **
 ** If the line being analysed is the first line (!y) or the last line (endmap)
 ** and the char found is any of those in the mapchr list from N onward
@@ -259,7 +259,7 @@ int		linecheck(char *line, unsigned int y, char *mapchrs)
 	{
 		listptr = ft_lstnew(((char *)ft_strdup(line)));
 		listptr->len = ft_strlen((const char *)line);
-		!y ? g_config.Map = listptr : ft_lstadd_back(&g_config.Map, listptr);
+		!y ? g_config.maplist = listptr : ft_lstadd_back(&g_config.maplist, listptr);
 	}
 	else
 		return (0);
@@ -313,7 +313,7 @@ int		makemaplist(int fd, char *firstline)
 		y++;
 	}
 	line ? del(line) : line;
-	g_config.mapH = !endfile || !line || \
+	g_config.maph = !endfile || !line || \
 	g_iamerror.memusage > MAPMEMCAP ? --y : y;
 	if (!maparray())
 		g_iamerror.mallocfail = 1;

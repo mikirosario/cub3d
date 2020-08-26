@@ -6,13 +6,13 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/03 18:36:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/17 18:15:53 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/26 19:19:29 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-extern error_t	g_iamerror;
+extern t_error	g_iamerror;
 
 /*
 ** This function simply checks all the conditions for going into the texerrors
@@ -22,14 +22,14 @@ extern error_t	g_iamerror;
 **
 ** Note: we will only consider that sprite texture failures, such as failing
 ** to get a sprite path or failing to load a sprite image, count as an error
-** condition if we actually found sprites on the map (g_config.spriteNum).
+** condition if we actually found sprites on the map (g_config.spritenum).
 */
 
 int		texerrorconditions(void)
 {
 	if (g_iamerror.getnofail || g_iamerror.getsofail || g_iamerror.getwefail \
-	|| g_iamerror.geteafail || (g_config.spriteNum && (g_iamerror.getsprfail \
-	|| !g_normiImg.mlx_img)) || g_iamerror.texpathfail \
+	|| g_iamerror.geteafail || (g_config.spritenum && (g_iamerror.getsprfail \
+	|| !g_sprt2img.mlx_img)) || g_iamerror.texpathfail \
 	|| g_iamerror.texsizefail || g_iamerror.couldnotopenxpm \
 	|| g_iamerror.walltexsizedif)
 		return (1);
@@ -48,14 +48,14 @@ void	texreaderror(void)
 
 void	texpatherrors(void)
 {
-	if (!nowallimg.mlx_img)
-		ft_printf("%s%s\n", pathNOFail, nowallimg.texpath);
-	if (!sowallimg.mlx_img)
-		ft_printf("%s%s\n", pathSOFail, sowallimg.texpath);
-	if (!wewallimg.mlx_img)
-		ft_printf("%s%s\n", pathWEFail, wewallimg.texpath);
-	if (!eawallimg.mlx_img)
-		ft_printf("%s%s\n", pathEAFail, eawallimg.texpath);
-	if (g_config.spriteNum && !g_normiImg.mlx_img)
-		ft_printf("%s%s\n", pathSprFail, g_normiImg.texpath);
+	if (!g_nowallimg.mlx_img)
+		ft_printf("%s%s\n", pathNOFail, g_nowallimg.texpath);
+	if (!g_sowallimg.mlx_img)
+		ft_printf("%s%s\n", pathSOFail, g_sowallimg.texpath);
+	if (!g_wewallimg.mlx_img)
+		ft_printf("%s%s\n", pathWEFail, g_wewallimg.texpath);
+	if (!g_eawallimg.mlx_img)
+		ft_printf("%s%s\n", pathEAFail, g_eawallimg.texpath);
+	if (g_config.spritenum && !g_sprt2img.mlx_img)
+		ft_printf("%s%s\n", pathSprFail, g_sprt2img.texpath);
 }

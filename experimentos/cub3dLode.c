@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/07 20:24:05 by mrosario          #+#    #+#             */
-/*   Updated: 2020/02/21 16:02:25 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/26 19:15:30 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
             y = screenHeight;
             while (y)
             {
-                mlx_pixel_put(g_screenData.mlx_ptr, g_screenData.mlx_win, x, y--, 0x0);
+                mlx_pixel_put(g_screendata.mlx_ptr, g_screendata.mlx_win, x, y--, 0x0);
             }
             x++;
         }
@@ -34,7 +34,7 @@
 //image dump cls
 void    cls(void)
 {
-    mlx_put_image_to_window(g_screenData.mlx_ptr, g_screenData.mlx_win, g_clsImg.mlx_img, 0, 0);
+    mlx_put_image_to_window(g_screendata.mlx_ptr, g_screendata.mlx_win, g_clsimg.mlx_img, 0, 0);
 }
 
 int   ft_rayCaster(int key, void *param)
@@ -49,110 +49,110 @@ int   ft_rayCaster(int key, void *param)
 
     x = 0;
     w = 0;
-    buf = mlx_get_data_addr(g_screenData.mlx_img_buffer, &g_screenData.bpp, &g_screenData.size_line, &g_screenData.endian);
+    buf = mlx_get_data_addr(g_screendata.mlx_img_buffer, &g_screendata.bpp, &g_screendata.size_line, &g_screendata.endian);
     cls();
     while (x < screenWidth)
     {
         //calculate ray position and direction
-        g_player.cameraX = 2 * x / (double)screenWidth - 1;
-        g_rayData.rayDirX = g_player.dirX + g_player.planeX * g_player.cameraX;
-        g_rayData.rayDirY = g_player.dirY + g_player.planeY * g_player.cameraX;
+        g_player.camerax = 2 * x / (double)screenWidth - 1;
+        g_raydata.raydirx = g_player.dirx + g_player.planex * g_player.camerax;
+        g_raydata.raydiry = g_player.diry + g_player.planey * g_player.camerax;
         //which box of the map we're in
-        g_rayData.mapX = (int)g_player.posX;
-        g_rayData.mapY = (int)g_player.posY;
+        g_raydata.mapx = (int)g_player.posx;
+        g_raydata.mapy = (int)g_player.posy;
         //length of ray from one x or y-side to the next x or y-side
-        if (g_rayData.rayDirY == 0)
-            g_rayData.deltaDistX = 0;
-        else if (g_rayData.rayDirX == 0)
-            g_rayData.deltaDistX = 1;
+        if (g_raydata.raydiry == 0)
+            g_raydata.deltadistx = 0;
+        else if (g_raydata.raydirx == 0)
+            g_raydata.deltadistx = 1;
         else
-            g_rayData.deltaDistX = fabs(1 / g_rayData.rayDirX);
-        if (g_rayData.rayDirX == 0)
-            g_rayData.deltaDistY = 0;
-        else if (g_rayData.rayDirY == 0)
-            g_rayData.deltaDistY = 1;
+            g_raydata.deltadistx = fabs(1 / g_raydata.raydirx);
+        if (g_raydata.raydirx == 0)
+            g_raydata.deltadisty = 0;
+        else if (g_raydata.raydiry == 0)
+            g_raydata.deltadisty = 1;
         else
-            g_rayData.deltaDistY = fabs(1 / g_rayData.rayDirY);
+            g_raydata.deltadisty = fabs(1 / g_raydata.raydiry);
         //wall hit?
-        g_rayData.hit = 0;
+        g_raydata.hit = 0;
         //calculate step and initial sideDist
-        if (g_rayData.rayDirX < 0)
+        if (g_raydata.raydirx < 0)
         {
-            g_rayData.stepX = -1;
-            g_rayData.sideDistX = (g_player.posX - g_rayData.mapX) * g_rayData.deltaDistX;
+            g_raydata.stepx = -1;
+            g_raydata.sidedistx = (g_player.posx - g_raydata.mapx) * g_raydata.deltadistx;
         }
         else
         {
-            g_rayData.stepX = 1;
-            g_rayData.sideDistX = (g_rayData.mapX + 1.0 - g_player.posX) * g_rayData.deltaDistX;
+            g_raydata.stepx = 1;
+            g_raydata.sidedistx = (g_raydata.mapx + 1.0 - g_player.posx) * g_raydata.deltadistx;
         }
-        if (g_rayData.rayDirY < 0)
+        if (g_raydata.raydiry < 0)
         {
-            g_rayData.stepY = -1;
-            g_rayData.sideDistY = (g_player.posY - g_rayData.mapY) * g_rayData.deltaDistY;
+            g_raydata.stepy = -1;
+            g_raydata.sidedisty = (g_player.posy - g_raydata.mapy) * g_raydata.deltadisty;
         }
         else
         {
-            g_rayData.stepY = 1;
-            g_rayData.sideDistY = (g_rayData.mapY + 1.0 - g_player.posY) * g_rayData.deltaDistY;
+            g_raydata.stepy = 1;
+            g_raydata.sidedisty = (g_raydata.mapy + 1.0 - g_player.posy) * g_raydata.deltadisty;
         }
         //perform DDA
-        while (g_rayData.hit == 0)
+        while (g_raydata.hit == 0)
         {
             //jump to next map square in x-direction OR in y-direction
-            if (g_rayData.sideDistX < g_rayData.sideDistY)
+            if (g_raydata.sidedistx < g_raydata.sidedisty)
             {
-                g_rayData.sideDistX += g_rayData.deltaDistX;
-                g_rayData.mapX += g_rayData.stepX;
-                g_rayData.side = 0;
+                g_raydata.sidedistx += g_raydata.deltadistx;
+                g_raydata.mapx += g_raydata.stepx;
+                g_raydata.side = 0;
             }
             else
             {
-                g_rayData.sideDistY += g_rayData.deltaDistY;
-                g_rayData.mapY += g_rayData.stepY;
-                g_rayData.side = 1;
+                g_raydata.sidedisty += g_raydata.deltadisty;
+                g_raydata.mapy += g_raydata.stepy;
+                g_raydata.side = 1;
             }
             //check of ray has hit a wall
-            if (g_worldMap[g_rayData.mapX][g_rayData.mapY] > 0)
-                g_rayData.hit = 1;
+            if (g_worldMap[g_raydata.mapx][g_raydata.mapy] > 0)
+                g_raydata.hit = 1;
         }
         //calculate distance projected on camera direction
-        if (g_rayData.side == 0)
-            g_rayData.perpWallDist = (g_rayData.mapX - g_player.posX + (1 - g_rayData.stepX) / 2) / g_rayData.rayDirX;
+        if (g_raydata.side == 0)
+            g_raydata.perpwalldist = (g_raydata.mapx - g_player.posx + (1 - g_raydata.stepx) / 2) / g_raydata.raydirx;
         else
-            g_rayData.perpWallDist = (g_rayData.mapY - g_player.posY + (1 - g_rayData.stepY) / 2) / g_rayData.rayDirY;
+            g_raydata.perpwalldist = (g_raydata.mapy - g_player.posy + (1 - g_raydata.stepy) / 2) / g_raydata.raydiry;
         //calculate height of line to draw on screen
-        g_frameData.lineHeight = (int)(screenHeight / g_rayData.perpWallDist);
+        g_framedata.lineheight = (int)(screenHeight / g_raydata.perpwalldist);
         //calculate lowest and highest pixel to fill in current stripe
-        g_frameData.drawStart = -(g_frameData.lineHeight) / 2 + screenHeight / 2;
-        if (g_frameData.drawStart < 0)
-            g_frameData.drawStart = 0;
-        g_frameData.drawEnd = g_frameData.lineHeight / 2 + screenHeight / 2;
-        if  (g_frameData.drawEnd >= screenHeight)
-            g_frameData.drawEnd = screenHeight - 1;
+        g_framedata.drawstart = -(g_framedata.lineheight) / 2 + screenHeight / 2;
+        if (g_framedata.drawstart < 0)
+            g_framedata.drawstart = 0;
+        g_framedata.drawend = g_framedata.lineheight / 2 + screenHeight / 2;
+        if  (g_framedata.drawend >= screenHeight)
+            g_framedata.drawend = screenHeight - 1;
         //choose wall colour
         i = 0;
-        g_frameData.ocolor = 0x0;
-        if (g_worldMap[g_rayData.mapX][g_rayData.mapY] == 1)
-            g_frameData.ocolor = 0x00ff0000; //red
-        else if (g_worldMap[g_rayData.mapX][g_rayData.mapY] == 2)
-            g_frameData.ocolor = 0x0000ff00; //green
-        else if (g_worldMap[g_rayData.mapX][g_rayData.mapY] == 3)
-            g_frameData.ocolor = 0x000000ff; //blue
-        else if (g_worldMap[g_rayData.mapX][g_rayData.mapY] == 4)
-            g_frameData.ocolor = 0x00ffffff; //white
+        g_framedata.xcolor = 0x0;
+        if (g_worldMap[g_raydata.mapx][g_raydata.mapy] == 1)
+            g_framedata.xcolor = 0x00ff0000; //red
+        else if (g_worldMap[g_raydata.mapx][g_raydata.mapy] == 2)
+            g_framedata.xcolor = 0x0000ff00; //green
+        else if (g_worldMap[g_raydata.mapx][g_raydata.mapy] == 3)
+            g_framedata.xcolor = 0x000000ff; //blue
+        else if (g_worldMap[g_raydata.mapx][g_raydata.mapy] == 4)
+            g_framedata.xcolor = 0x00ffffff; //white
         else
-            g_frameData.ocolor = 0x00ffff00; //yellow
+            g_framedata.xcolor = 0x00ffff00; //yellow
         //give x and y sides different brightnesses
-        if (g_rayData.side == 1)
+        if (g_raydata.side == 1)
         {
-            if (g_frameData.ocolor)
-                g_frameData.ocolor = (g_frameData.ocolor & 0xfefefe) >> 1;
+            if (g_framedata.xcolor)
+                g_framedata.xcolor = (g_framedata.xcolor & 0xfefefe) >> 1;
         }
         //draw pixels of stripe as vertical line
-        ibuf = g_frameData.drawStart;
-        while (ibuf < g_frameData.drawEnd)
-            mlx_pixel_put(g_screenData.mlx_ptr, g_screenData.mlx_win, x, ibuf++, g_frameData.ocolor);
+        ibuf = g_framedata.drawstart;
+        while (ibuf < g_framedata.drawend)
+            mlx_pixel_put(g_screendata.mlx_ptr, g_screendata.mlx_win, x, ibuf++, g_framedata.xcolor);
         x++;
         w += 4;
     }
@@ -164,9 +164,9 @@ int   ft_rayCaster(int key, void *param)
     (void)param;
     if (key == 0x35 || key == 0x00)
     {
-        mlx_destroy_window(g_screenData.mlx_ptr, g_screenData.mlx_win);
-        mlx_destroy_image(g_screenData.mlx_ptr, g_screenData.mlx_img_buffer);
-        mlx_destroy_image(g_screenData.mlx_ptr, g_clsImg.mlx_img);
+        mlx_destroy_window(g_screendata.mlx_ptr, g_screendata.mlx_win);
+        mlx_destroy_image(g_screendata.mlx_ptr, g_screendata.mlx_img_buffer);
+        mlx_destroy_image(g_screendata.mlx_ptr, g_clsimg.mlx_img);
         exit(EXIT_SUCCESS);
     }
     return (0);
@@ -175,8 +175,8 @@ int   ft_rayCaster(int key, void *param)
   int   ft_playerMovement(int key, void *param)
 {
     (void)param;
-    g_player.moveSpeed = 1;
-    g_player.rotSpeed = 0.1;
+    g_player.movespeed = 1;
+    g_player.rotspeed = 0.1;
     double *newDirXY;
 
     if (key == 0x35)
@@ -185,60 +185,60 @@ int   ft_rayCaster(int key, void *param)
     //move forwards if no wall in front
     if (key == 0xD)
     {
-    mlx_string_put(g_screenData.mlx_ptr, g_screenData.mlx_win, 0, 0, 0xFF00000, "UP"); //CHIVATO
-    if (g_worldMap[(int)(g_player.posX + g_player.dirX * g_player.moveSpeed)][(int)g_player.posY] == 0)
-        g_player.posX += g_player.dirX * g_player.moveSpeed;
-    if (g_worldMap[(int)g_player.posX][(int)(g_player.posY + g_player.dirY * g_player.moveSpeed)] == 0)
-        g_player.posY += g_player.dirY * g_player.moveSpeed;
+    mlx_string_put(g_screendata.mlx_ptr, g_screendata.mlx_win, 0, 0, 0xFF00000, "UP"); //CHIVATO
+    if (g_worldMap[(int)(g_player.posx + g_player.dirx * g_player.movespeed)][(int)g_player.posy] == 0)
+        g_player.posx += g_player.dirx * g_player.movespeed;
+    if (g_worldMap[(int)g_player.posx][(int)(g_player.posy + g_player.diry * g_player.movespeed)] == 0)
+        g_player.posy += g_player.diry * g_player.movespeed;
     }
       //move backwards if no wall in front
     if (key == 0x1)
     {
-        mlx_string_put(g_screenData.mlx_ptr, g_screenData.mlx_win, 0, 0, 0xFF00000, "DOWN"); //CHIVATO
-        if (g_worldMap[(int)(g_player.posX - g_player.dirX * g_player.moveSpeed)][(int)(g_player.posY)] == 0)
-            g_player.posX -= g_player.dirX * g_player.moveSpeed;
-        if (g_worldMap[(int)g_player.posX][(int)(g_player.posY - g_player.dirY * g_player.moveSpeed)] == 0)
-            g_player.posY -= g_player.dirY * g_player.moveSpeed;
+        mlx_string_put(g_screendata.mlx_ptr, g_screendata.mlx_win, 0, 0, 0xFF00000, "DOWN"); //CHIVATO
+        if (g_worldMap[(int)(g_player.posx - g_player.dirx * g_player.movespeed)][(int)(g_player.posy)] == 0)
+            g_player.posx -= g_player.dirx * g_player.movespeed;
+        if (g_worldMap[(int)g_player.posx][(int)(g_player.posy - g_player.diry * g_player.movespeed)] == 0)
+            g_player.posy -= g_player.diry * g_player.movespeed;
     }
         //clockwise rotation
     if (key == 0x7C)
     {
-        mlx_string_put(g_screenData.mlx_ptr, g_screenData.mlx_win, 0, 0, 0xFF00000, "RIGHT"); //CHIVATO
+        mlx_string_put(g_screendata.mlx_ptr, g_screendata.mlx_win, 0, 0, 0xFF00000, "RIGHT"); //CHIVATO
         //mi método
-        /*ft_rotate_2D(g_player.dirX, g_player.dirY, -5, 6, &newDirXY);
-        g_player.dirX = newDirXY[0];
-        g_player.dirY = newDirXY[1];
-        ft_rotate_2D(g_player.planeX, g_player.planeY, -5, 6, &newDirXY);
-        g_player.planeX = newDirXY[0];
-        g_player.planeY = newDirXY[1];*/
+        /*ft_rotate_2D(g_player.dirx, g_player.diry, -5, 6, &newDirXY);
+        g_player.dirx = newDirXY[0];
+        g_player.diry = newDirXY[1];
+        ft_rotate_2D(g_player.planex, g_player.planey, -5, 6, &newDirXY);
+        g_player.planex = newDirXY[0];
+        g_player.planey = newDirXY[1];*/
     
         //método Lode
-        g_player.oldDirX = g_player.dirX;
-        g_player.dirX = g_player.dirX * cos(-g_player.rotSpeed) - g_player.dirY * sin(-g_player.rotSpeed);
-        g_player.dirY = g_player.oldDirX * sin(-g_player.rotSpeed) + g_player.dirY * cos(-g_player.rotSpeed);
-        g_player.oldPlaneX = g_player.planeX;
-        g_player.planeX = g_player.planeX * cos(-g_player.rotSpeed) - g_player.planeY * sin(-g_player.rotSpeed);
-        g_player.planeY = g_player.oldPlaneX * sin(-g_player.rotSpeed) + g_player.planeY * cos(-g_player.rotSpeed);
+        g_player.oldDirX = g_player.dirx;
+        g_player.dirx = g_player.dirx * cos(-g_player.rotspeed) - g_player.diry * sin(-g_player.rotspeed);
+        g_player.diry = g_player.oldDirX * sin(-g_player.rotspeed) + g_player.diry * cos(-g_player.rotspeed);
+        g_player.oldPlaneX = g_player.planex;
+        g_player.planex = g_player.planex * cos(-g_player.rotspeed) - g_player.planey * sin(-g_player.rotspeed);
+        g_player.planey = g_player.oldPlaneX * sin(-g_player.rotspeed) + g_player.planey * cos(-g_player.rotspeed);
     }
     //anticlockwise rotation
     if (key == 0x7B)
     {
-        mlx_string_put(g_screenData.mlx_ptr, g_screenData.mlx_win, 0, 0, 0xFF00000, "LEFT"); //CHIVATO
+        mlx_string_put(g_screendata.mlx_ptr, g_screendata.mlx_win, 0, 0, 0xFF00000, "LEFT"); //CHIVATO
         //mi método
-        /*ft_rotate_2D(g_player.dirX, g_player.dirY, 5, 6, &newDirXY);
-        g_player.dirX = newDirXY[0];
-        g_player.dirY = newDirXY[1];
-        ft_rotate_2D(g_player.planeX, g_player.planeY, 5, 6, &newDirXY);
-        g_player.planeX = newDirXY[0];
-        g_player.planeY = newDirXY[1];*/
+        /*ft_rotate_2D(g_player.dirx, g_player.diry, 5, 6, &newDirXY);
+        g_player.dirx = newDirXY[0];
+        g_player.diry = newDirXY[1];
+        ft_rotate_2D(g_player.planex, g_player.planey, 5, 6, &newDirXY);
+        g_player.planex = newDirXY[0];
+        g_player.planey = newDirXY[1];*/
     
         //método Lode
-        g_player.oldDirX = g_player.dirX;
-        g_player.dirX = g_player.dirX * cos(g_player.rotSpeed) - g_player.dirY * sin(g_player.rotSpeed);
-        g_player.dirY = g_player.oldDirX * sin(g_player.rotSpeed) + g_player.dirY * cos(g_player.rotSpeed);
-        g_player.oldPlaneX = g_player.planeX;
-        g_player.planeX = g_player.planeX * cos(g_player.rotSpeed) - g_player.planeY * sin(g_player.rotSpeed);
-        g_player.planeY = g_player.oldPlaneX * sin(g_player.rotSpeed) + g_player.planeY * cos(g_player.rotSpeed);
+        g_player.oldDirX = g_player.dirx;
+        g_player.dirx = g_player.dirx * cos(g_player.rotspeed) - g_player.diry * sin(g_player.rotspeed);
+        g_player.diry = g_player.oldDirX * sin(g_player.rotspeed) + g_player.diry * cos(g_player.rotspeed);
+        g_player.oldPlaneX = g_player.planex;
+        g_player.planex = g_player.planex * cos(g_player.rotspeed) - g_player.planey * sin(g_player.rotspeed);
+        g_player.planey = g_player.oldPlaneX * sin(g_player.rotspeed) + g_player.planey * cos(g_player.rotspeed);
     }
     free(newDirXY);
       return (0);
@@ -246,26 +246,26 @@ int   ft_rayCaster(int key, void *param)
 
 int   main(void/*int argc, char **argv*/)
   {
-      g_player.posX = 22;
-      g_player.posY = 12;
-      g_player.dirX = -1;
-      g_player.dirY = 0;
-      g_player.planeX = 0;
-      g_player.planeY = 0.66;
-      g_frameData.time = 0;
-      g_frameData.oldTime = 0;
+      g_player.posx = 22;
+      g_player.posy = 12;
+      g_player.dirx = -1;
+      g_player.diry = 0;
+      g_player.planex = 0;
+      g_player.planey = 0.66;
+      g_framedata.time = 0;
+      g_framedata.oldTime = 0;
 
 //Create screen
-    if ((g_screenData.mlx_ptr = mlx_init()) == NULL)
+    if ((g_screendata.mlx_ptr = mlx_init()) == NULL)
         return (EXIT_FAILURE);
-    if ((g_screenData.mlx_win = mlx_new_window(g_screenData.mlx_ptr, screenWidth, screenHeight, "Norminator 3D")) == NULL)
+    if ((g_screendata.mlx_win = mlx_new_window(g_screendata.mlx_ptr, screenWidth, screenHeight, "Norminator 3D")) == NULL)
         return (EXIT_FAILURE);
-    g_screenData.mlx_img_buffer = mlx_new_image(g_screenData.mlx_ptr, screenWidth, screenHeight);
-    g_clsImg.mlx_img = mlx_new_image(g_screenData.mlx_ptr, screenWidth, screenHeight);
-    mlx_hook(g_screenData.mlx_win, 17, 0, ft_stop, (void*)0);
-    mlx_hook(g_screenData.mlx_win, 2, 0, ft_playerMovement, (void*)0);
-    mlx_loop_hook(g_screenData.mlx_ptr, ft_rayCaster, (void *)0);    
-    mlx_loop(g_screenData.mlx_ptr);
+    g_screendata.mlx_img_buffer = mlx_new_image(g_screendata.mlx_ptr, screenWidth, screenHeight);
+    g_clsimg.mlx_img = mlx_new_image(g_screendata.mlx_ptr, screenWidth, screenHeight);
+    mlx_hook(g_screendata.mlx_win, 17, 0, ft_stop, (void*)0);
+    mlx_hook(g_screendata.mlx_win, 2, 0, ft_playerMovement, (void*)0);
+    mlx_loop_hook(g_screendata.mlx_ptr, ft_rayCaster, (void *)0);    
+    mlx_loop(g_screendata.mlx_ptr);
     return(EXIT_SUCCESS);
   }
 

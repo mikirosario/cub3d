@@ -6,15 +6,15 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/05 16:47:39 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/05 17:31:56 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/26 18:18:46 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-void			freesprtlist(spriteData_t **alst)
+void			freesprtlist(t_spritedata **alst)
 {
-	spriteData_t *tmp;
+	t_spritedata *tmp;
 
 	while (*alst)
 	{
@@ -24,13 +24,13 @@ void			freesprtlist(spriteData_t **alst)
 	}
 }
 
-spriteData_t	*spriteiter(int listmember)
+t_spritedata	*spriteiter(int listmember)
 {
-	spriteData_t	*ptr;
+	t_spritedata	*ptr;
 	int				i;
 
 	i = 0;
-	ptr = g_config.spriteList;
+	ptr = g_config.spritelist;
 	while (i++ < listmember)
 		ptr = ptr->next;
 	return (ptr);

@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/12 18:46:59 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/18 18:32:28 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/26 20:05:10 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 ** As with the wall texture, we use Lode-provided mathemagics to determine
 ** which sprite texture pixel to draw for every sprite pixel we draw on the
 ** screen, as a function of the sprite's original height and width in pixels
-** (g_config.spriteH and g_config.spriteW) divided by its shrunk or expanded
-** size (g_frameData.spriteHeight and g_frameData.spriteWidth) and other bits
+** (g_config.spriteh and g_config.spritew) divided by its shrunk or expanded
+** size (g_framedata.spriteheight and g_framedata.spritewidth) and other bits
 ** of Lode mathemagics I unfortunately only very vaguely understand. xD The
 ** numbers 256 and 128 will avoid floats, for example, which I'd normally do
 ** by rounding or capping precision, vulgar as I am. ;p
@@ -29,20 +29,20 @@
 ** minilibx is AABBGGRR, so the transparency is at the beginning. :p
 */
 
-void	drawspriteline(spriteparams_t *prms, unsigned int *buf, \
-spriteData_t *sprite)
+void	drawspriteline(t_spriteparams *prms, unsigned int *buf, \
+t_spritedata *sprite)
 {
-	while (prms->scrny < g_frameData.spriteDrawEndY)
+	while (prms->scrny < g_framedata.spritedrawendy)
 	{
 		prms->d = (prms->scrny - prms->vmovescreen) * \
-		256 - g_config.screenH * 128 + g_frameData.spriteHeight * 128;
+		256 - g_config.screenh * 128 + g_framedata.spriteheight * 128;
 		prms->texy = \
-		((prms->d * g_config.spriteH) / g_frameData.spriteHeight) / 256;
-		g_frameData.ocolor = \
-		sprite->texture[g_config.spriteW * prms->texy + prms->texx];
-		if (g_frameData.ocolor != 0xff000000)
-			buf[prms->scrnx + (g_config.screenW * prms->scrny)] = \
-			g_frameData.ocolor;
+		((prms->d * g_config.spriteh) / g_framedata.spriteheight) / 256;
+		g_framedata.xcolor = \
+		sprite->texture[g_config.spritew * prms->texy + prms->texx];
+		if (g_framedata.xcolor != 0xff000000)
+			buf[prms->scrnx + (g_config.screenw * prms->scrny)] = \
+			g_framedata.xcolor;
 		prms->scrny++;
 	}
 }
@@ -71,7 +71,7 @@ spriteData_t *sprite)
 ** meaning that it is NOT off the left side of the screen.
 **
 ** 3. The calculated x position on the screen is less than the width of the
-** screen (scrnx < g_config.screenW), meaning that it is NOT off the right side
+** screen (scrnx < g_config.screenw), meaning that it is NOT off the right side
 ** of the screen.
 **
 ** 4. Remember the zBuffer? xD We used it to store the perpendicular distance
@@ -88,18 +88,18 @@ spriteData_t *sprite)
 ** pixels.
 */
 
-void	drawsprite(spriteparams_t *prms, unsigned int *buf, \
-spriteData_t *sprite)
+void	drawsprite(t_spriteparams *prms, unsigned int *buf, \
+t_spritedata *sprite)
 {
-	prms->scrnx = g_frameData.spriteDrawStartX;
-	while (prms->scrnx < g_frameData.spriteDrawEndX)
+	prms->scrnx = g_framedata.spritedrawstartx;
+	while (prms->scrnx < g_framedata.spritedrawendx)
 	{
 		prms->texx = (int)(256 * (prms->scrnx - \
-		(-g_frameData.spriteWidth / 2 + g_frameData.spriteScreenX)) * \
-		g_config.spriteW / g_frameData.spriteWidth) / 256;
-		prms->scrny = g_frameData.spriteDrawStartY;
+		(-g_framedata.spritewidth / 2 + g_framedata.spritescreenx)) * \
+		g_config.spritew / g_framedata.spritewidth) / 256;
+		prms->scrny = g_framedata.spritedrawstarty;
 		if (prms->transformy > 0 && prms->scrnx > 0 && \
-		prms->scrnx < g_config.screenW && \
+		prms->scrnx < g_config.screenw && \
 		prms->transformy < g_config.zbuffer[prms->scrnx])
 			drawspriteline(prms, buf, sprite);
 		prms->scrnx++;
@@ -118,7 +118,7 @@ spriteData_t *sprite)
 ** to shrink the sprite vertically if we want.
 **
 ** We know from the spriteposition function which vertical screen line or
-** 'x' will bisect the sprite down the middle (g_frameData.spriteScreenX),
+** 'x' will bisect the sprite down the middle (g_framedata.spritescreenx),
 ** but not where exactly on the screen the sprite begins and ends, which, again
 ** is the same as saying how big it is.
 **
@@ -151,34 +151,34 @@ spriteData_t *sprite)
 ** NOTE TO SELF: do abs only once to save cycles...
 */
 
-void	spritesize(spriteparams_t *prms)
+void	spritesize(t_spriteparams *prms)
 {
 	int	size;
 
-	size = abs((int)(g_config.screenH / (prms->transformy)));
-	g_frameData.spriteHeight = size / g_config.vDiv;
-	g_frameData.spriteDrawStartY = \
-	(-g_frameData.spriteHeight / 2 + g_config.screenH / 2 + prms->vmovescreen);
-	if (g_frameData.spriteDrawStartY < 0)
-		g_frameData.spriteDrawStartY = 0;
-	g_frameData.spriteDrawEndY = \
-	g_frameData.spriteHeight / 2 + g_config.screenH / 2 + prms->vmovescreen;
-	if (g_frameData.spriteDrawEndY >= g_config.screenH)
-		g_frameData.spriteDrawEndY = g_config.screenH - 1;
-	g_frameData.spriteWidth = size / g_config.uDiv;
-	g_frameData.spriteDrawStartX = \
-	(-g_frameData.spriteWidth / 2 + g_frameData.spriteScreenX);
-	if (g_frameData.spriteDrawStartX < 0)
-		g_frameData.spriteDrawStartX = 0;
-	g_frameData.spriteDrawEndX = \
-	g_frameData.spriteWidth / 2 + g_frameData.spriteScreenX;
-	if (g_frameData.spriteDrawEndX >= g_config.screenW)
-		g_frameData.spriteDrawEndX = g_config.screenW - 1;
+	size = abs((int)(g_config.screenh / (prms->transformy)));
+	g_framedata.spriteheight = size / g_config.vdiv;
+	g_framedata.spritedrawstarty = \
+	(-g_framedata.spriteheight / 2 + g_config.screenh / 2 + prms->vmovescreen);
+	if (g_framedata.spritedrawstarty < 0)
+		g_framedata.spritedrawstarty = 0;
+	g_framedata.spritedrawendy = \
+	g_framedata.spriteheight / 2 + g_config.screenh / 2 + prms->vmovescreen;
+	if (g_framedata.spritedrawendy >= g_config.screenh)
+		g_framedata.spritedrawendy = g_config.screenh - 1;
+	g_framedata.spritewidth = size / g_config.udiv;
+	g_framedata.spritedrawstartx = \
+	(-g_framedata.spritewidth / 2 + g_framedata.spritescreenx);
+	if (g_framedata.spritedrawstartx < 0)
+		g_framedata.spritedrawstartx = 0;
+	g_framedata.spritedrawendx = \
+	g_framedata.spritewidth / 2 + g_framedata.spritescreenx;
+	if (g_framedata.spritedrawendx >= g_config.screenw)
+		g_framedata.spritedrawendx = g_config.screenw - 1;
 }
 
 /*
 ** First this function takes the sprite position (x,y) as stored in each
-** member of the spritelist in the posX and posY variables, and subtracts the
+** member of the spritelist in the posx and posy variables, and subtracts the
 ** player's position from it on each vector to derive the sprite's position
 ** relative to the camera.
 **
@@ -194,7 +194,7 @@ void	spritesize(spriteparams_t *prms)
 **
 ** We do some more mathemagics after that to transform the spriteX and spriteY
 ** positions as a function of the player's orientation (which way the player
-** is facing, which I store in g_player.dirX and g_player.dirY). Ultimately,
+** is facing, which I store in g_player.dirx and g_player.diry). Ultimately,
 ** transformY is turned into a pseudo Z-axis or vector representing depth
 ** inside the screen which, together with shrinking and expanding the sprite,
 ** will give the illusion of 3D positioning. Finally finally, all this will
@@ -213,20 +213,20 @@ void	spritesize(spriteparams_t *prms)
 ** down through the vMove parameter as needed. ^_^
 */
 
-void	spriteposition(spriteparams_t *prms, spriteData_t *sprite)
+void	spriteposition(t_spriteparams *prms, t_spritedata *sprite)
 {
-	g_frameData.spriteX = sprite->posX - g_player.posX;
-	g_frameData.spriteY = sprite->posY - g_player.posY;
-	prms->invdet = 1.0 / (g_player.planeX * g_player.dirY - \
-	g_player.dirX * g_player.planeY);
-	prms->transformx = prms->invdet * (g_player.dirY * g_frameData.spriteX - \
-	g_player.dirX * g_frameData.spriteY);
-	prms->transformy = prms->invdet * (-g_player.planeY * \
-	g_frameData.spriteX + g_player.planeX * g_frameData.spriteY);
-	g_frameData.spriteScreenX = (int)((g_config.screenW / 2) * \
+	g_framedata.spritex = sprite->posx - g_player.posx;
+	g_framedata.spritey = sprite->posy - g_player.posy;
+	prms->invdet = 1.0 / (g_player.planex * g_player.diry - \
+	g_player.dirx * g_player.planey);
+	prms->transformx = prms->invdet * (g_player.diry * g_framedata.spritex - \
+	g_player.dirx * g_framedata.spritey);
+	prms->transformy = prms->invdet * (-g_player.planey * \
+	g_framedata.spritex + g_player.planex * g_framedata.spritey);
+	g_framedata.spritescreenx = (int)((g_config.screenw / 2) * \
 	(1 + prms->transformx / prms->transformy));
-	prms->vmovescreen = g_config.vMove == 0 ? \
-	0 : (int)(g_config.vMove / prms->transformy);
+	prms->vmovescreen = g_config.vmove == 0 ? \
+	0 : (int)(g_config.vmove / prms->transformy);
 }
 
 /*
@@ -248,7 +248,7 @@ void	spriteposition(spriteparams_t *prms, spriteData_t *sprite)
 **	int		texx;
 **	int		texy;
 **	int		d;
-** }				spriteparams_t;
+** }				t_spriteparams;
 **
 ** Henceforth any reference to these variables will refer to the variables in
 ** this struct.
@@ -284,12 +284,12 @@ void	spriteposition(spriteparams_t *prms, spriteData_t *sprite)
 void	castsprites(unsigned int *buf)
 {
 	int				i;
-	spriteData_t	*sprite;
-	spriteparams_t	prms;
+	t_spritedata	*sprite;
+	t_spriteparams	prms;
 
 	i = 0;
-	ft_sortsprites(g_config.spriteorder);
-	while (i < g_config.spriteNum)
+	sortsprites(g_config.spriteorder);
+	while (i < g_config.spritenum)
 	{
 		sprite = spriteiter(g_config.spriteorder[i]);
 		spriteposition(&prms, sprite);

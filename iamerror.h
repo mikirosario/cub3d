@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 16:29:20 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/25 19:12:44 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/26 18:02:12 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 #define mallocFail RED"MEMORY ALLOCATION FAILURE; CHECK YOUR AVAILABLE MEMORY AND REDUCE YOUR CUB FILE SIZE\n"RESET
 #define getResFail YELLOW"INVALID RESOLUTION; CHECK YOUR MAP FILE; USING DEFAULT RESOLUTION\n"RESET
 #define badResSyn YELLOW"BAD RESOLUTION SYNTAX; FOLLOW THE INSTRUCTIONS IN README.TXT\n"RESET
-#define badResSize YELLOW"PROVIDED SCREEN RESOLUTION TOO SMALL (BELOW 240) OR TOO LARGE (ABOVE DISPLAY RESOLUTION)\n"RESET
+#define badresosize YELLOW"PROVIDED SCREEN RESOLUTION TOO SMALL (BELOW 240) OR TOO LARGE (ABOVE DISPLAY RESOLUTION)\n"RESET
 #define getNOFail RED"NORTH WALL (NO) TEXTURE FILE PATH RETRIEVAL FAILED; CHECK YOUR MAP FILE\n"RESET
 #define	badNOSyn RED"BAD NORTH WALL SYNTAX; FOLLOW THE INSTRUCTIONS IN README.TXT\n"RESET
 #define pathNOFail RED"NORTH WALL TEXTURE FILE (NO) DOES NOT EXIST AT THE PATH YOU SPECIFIED:\n"RESET

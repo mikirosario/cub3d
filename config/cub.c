@@ -6,13 +6,13 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/16 18:38:05 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/14 17:37:17 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/26 20:44:45 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-extern error_t	g_iamerror;
+extern t_error	g_iamerror;
 
 /*
 ** This function will first check the result array. If all of the obligatory
@@ -252,7 +252,7 @@ int		maphandler(int fd, char *line)
 **		line = NULL;
 **		cubread(result, &line, fd);
 **		if (!(cuberrorhandler(result)) || !(maphandler(fd, line)) || \
-**		(g_config.spriteNum && g_iamerror.getsprfail))
+**		(g_config.spritenum && g_iamerror.getsprfail))
 **			success = 0;
 **	}
 **	if (close(fd) < 0)
@@ -276,8 +276,10 @@ int		cubhandler(const char *ptr)
 		line = NULL;
 		cubread(result, &line, fd, (linenum = 0));
 		if ((cuberrorhandler(result)) && (maphandler(fd, line)) && \
-		(!g_config.spriteNum || !g_iamerror.getsprfail))
+		(!g_config.spritenum || !g_iamerror.getsprfail))
 			success = 1;
+		if (g_iamerror.getresfail)
+			setdisplayresolution();
 		free(result);
 	}
 	else

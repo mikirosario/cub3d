@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/17 18:44:48 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/25 19:29:56 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/26 19:18:02 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,29 +28,29 @@
 **		ft_stop(key, (void *)0);
 **	//move forwards if no wall in front
 **	if (key == 0x77)
-**		g_keyData.w = 1;
+**		g_keydata.w = 1;
 **	//move backwards if no wall in front
 **	if (key == 0x73)
-**		g_keyData.s = 1;
+**		g_keydata.s = 1;
 **	//strafe right if no wall to right
 **	if (key == 0x64)
-**		g_keyData.d = 1;
+**		g_keydata.d = 1;
 **	//strafe left if no wall to left
 **	if (key == 0x61)
-**		g_keyData.a = 1;
+**		g_keydata.a = 1;
 **	//clockwise rotation
 **	if (key == 0xff53)
-**		g_keyData.r = 1;
+**		g_keydata.r = 1;
 **	//anticlockwise rotation
 **	if (key == 0xff51)
-**		g_keyData.l = 1;
+**		g_keydata.l = 1;
 **	if (key == 0x6d)
 **	{
-**		if (g_keyData.m == 2)
-**			g_keyData.m = 0;
+**		if (g_keydata.m == 2)
+**			g_keydata.m = 0;
 **		else
 **
-**			g_keyData.m += 1;
+**			g_keydata.m += 1;
 **	}
 **	return (0);
 ** }
@@ -64,23 +64,23 @@ int	keypress(int key, void *param)
 	if (key == 0x35)
 		ft_stop(key, (void *)0);
 	if (key == 0xD)
-		g_keyData.w = 1;
+		g_keydata.w = 1;
 	if (key == 0x1)
-		g_keyData.s = 1;
+		g_keydata.s = 1;
 	if (key == 0x2)
-		g_keyData.d = 1;
+		g_keydata.d = 1;
 	if (key == 0x0)
-		g_keyData.a = 1;
+		g_keydata.a = 1;
 	if (key == 0x7C)
-		g_keyData.r = 1;
+		g_keydata.r = 1;
 	if (key == 0x7B)
-		g_keyData.l = 1;
+		g_keydata.l = 1;
 	if (key == 0x2E)
 	{
-		if (g_keyData.m == 2)
-			g_keyData.m = 0;
+		if (g_keydata.m == 2)
+			g_keydata.m = 0;
 		else
-			g_keyData.m += 1;
+			g_keydata.m += 1;
 	}
 	return (0);
 }
@@ -96,22 +96,22 @@ int	keypress(int key, void *param)
 **	(void)param;
 **	//move forwards if no wall in front
 **	if (key == 0x77)
-**		g_keyData.w = 0;
+**		g_keydata.w = 0;
 **	//move backwards if no wall in front
 **	if (key == 0x73)
-**		g_keyData.s = 0;
+**		g_keydata.s = 0;
 **	//strafe right if no wall to right
 **	if (key == 0x64)
-**		g_keyData.d = 0;
+**		g_keydata.d = 0;
 **	//strafe left if no wall to left
 **	if (key == 0x61)
-**		g_keyData.a = 0;
+**		g_keydata.a = 0;
 **	//clockwise rotation
 **	if (key == 0xff53)
-**		g_keyData.r = 0;
+**		g_keydata.r = 0;
 **	//anticlockwise rotation
 **	if (key == 0xff51)
-**		g_keyData.l = 0;
+**		g_keydata.l = 0;
 **	return (0);
 ** }
 **
@@ -122,16 +122,16 @@ int	keyrelease(int key, void *param)
 {
 	(void)param;
 	if (key == 0xD)
-		g_keyData.w = 0;
+		g_keydata.w = 0;
 	if (key == 0x1)
-		g_keyData.s = 0;
+		g_keydata.s = 0;
 	if (key == 0x2)
-		g_keyData.d = 0;
+		g_keydata.d = 0;
 	if (key == 0x0)
-		g_keyData.a = 0;
+		g_keydata.a = 0;
 	if (key == 0x7C)
-		g_keyData.r = 0;
+		g_keydata.r = 0;
 	if (key == 0x7B)
-		g_keyData.l = 0;
+		g_keydata.l = 0;
 	return (0);
 }

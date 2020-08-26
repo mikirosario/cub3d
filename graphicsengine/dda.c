@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/11 18:13:54 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/25 19:26:25 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/26 18:56:57 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,23 +22,23 @@
 
 void	sidetoside(void)
 {
-	g_rayData.hit = 0;
-	while (!g_rayData.hit)
+	g_raydata.hit = 0;
+	while (!g_raydata.hit)
 	{
-		if (g_rayData.sideDistX < g_rayData.sideDistY)
+		if (g_raydata.sidedistx < g_raydata.sidedisty)
 		{
-			g_rayData.sideDistX += g_rayData.deltaDistX;
-			g_rayData.mapX += g_rayData.stepX;
-			g_rayData.side = 0;
+			g_raydata.sidedistx += g_raydata.deltadistx;
+			g_raydata.mapx += g_raydata.stepx;
+			g_raydata.side = 0;
 		}
 		else
 		{
-			g_rayData.sideDistY += g_rayData.deltaDistY;
-			g_rayData.mapY += g_rayData.stepY;
-			g_rayData.side = 1;
+			g_raydata.sidedisty += g_raydata.deltadisty;
+			g_raydata.mapy += g_raydata.stepy;
+			g_raydata.side = 1;
 		}
-		if (g_config.map[g_rayData.mapY][g_rayData.mapX] == '1')
-			g_rayData.hit = 1;
+		if (g_config.map[g_raydata.mapy][g_raydata.mapx] == '1')
+			g_raydata.hit = 1;
 	}
 }
 
@@ -58,29 +58,29 @@ void	sidetoside(void)
 
 void	stepandinitialside(void)
 {
-	if (g_rayData.rayDirX < 0)
+	if (g_raydata.raydirx < 0)
 	{
-		g_rayData.stepX = -1;
-		g_rayData.sideDistX = (g_player.posX - g_rayData.mapX) * \
-		g_rayData.deltaDistX;
+		g_raydata.stepx = -1;
+		g_raydata.sidedistx = (g_player.posx - g_raydata.mapx) * \
+		g_raydata.deltadistx;
 	}
 	else
 	{
-		g_rayData.stepX = 1;
-		g_rayData.sideDistX = (g_rayData.mapX + 1.0 - g_player.posX) * \
-		g_rayData.deltaDistX;
+		g_raydata.stepx = 1;
+		g_raydata.sidedistx = (g_raydata.mapx + 1.0 - g_player.posx) * \
+		g_raydata.deltadistx;
 	}
-	if (g_rayData.rayDirY < 0)
+	if (g_raydata.raydiry < 0)
 	{
-		g_rayData.stepY = -1;
-		g_rayData.sideDistY = (g_player.posY - g_rayData.mapY) * \
-		g_rayData.deltaDistY;
+		g_raydata.stepy = -1;
+		g_raydata.sidedisty = (g_player.posy - g_raydata.mapy) * \
+		g_raydata.deltadisty;
 	}
 	else
 	{
-		g_rayData.stepY = 1;
-		g_rayData.sideDistY = (g_rayData.mapY + 1.0 - g_player.posY) * \
-		g_rayData.deltaDistY;
+		g_raydata.stepy = 1;
+		g_raydata.sidedisty = (g_raydata.mapy + 1.0 - g_player.posy) * \
+		g_raydata.deltadisty;
 	}
 }
 
@@ -115,23 +115,23 @@ void	stepandinitialside(void)
 
 void	castray(int x)
 {
-	g_player.cameraX = 2 * x / (double)g_config.screenW - 1;
-	g_rayData.rayDirX = g_player.dirX + g_player.planeX * g_player.cameraX;
-	g_rayData.rayDirY = g_player.dirY + g_player.planeY * g_player.cameraX;
-	g_rayData.mapX = (int)g_player.posX;
-	g_rayData.mapY = (int)g_player.posY;
-	if (g_rayData.rayDirY == 0)
-		g_rayData.deltaDistX = 0;
-	else if (g_rayData.rayDirX == 0)
-		g_rayData.deltaDistX = 1;
+	g_player.camerax = 2 * x / (double)g_config.screenw - 1;
+	g_raydata.raydirx = g_player.dirx + g_player.planex * g_player.camerax;
+	g_raydata.raydiry = g_player.diry + g_player.planey * g_player.camerax;
+	g_raydata.mapx = (int)g_player.posx;
+	g_raydata.mapy = (int)g_player.posy;
+	if (g_raydata.raydiry == 0)
+		g_raydata.deltadistx = 0;
+	else if (g_raydata.raydirx == 0)
+		g_raydata.deltadistx = 1;
 	else
-		g_rayData.deltaDistX = fabs(1 / g_rayData.rayDirX);
-	if (g_rayData.rayDirX == 0)
-		g_rayData.deltaDistY = 0;
-	else if (g_rayData.rayDirY == 0)
-		g_rayData.deltaDistY = 1;
+		g_raydata.deltadistx = fabs(1 / g_raydata.raydirx);
+	if (g_raydata.raydirx == 0)
+		g_raydata.deltadisty = 0;
+	else if (g_raydata.raydiry == 0)
+		g_raydata.deltadisty = 1;
 	else
-		g_rayData.deltaDistY = fabs(1 / g_rayData.rayDirY);
+		g_raydata.deltadisty = fabs(1 / g_raydata.raydiry);
 	stepandinitialside();
 	sidetoside();
 }

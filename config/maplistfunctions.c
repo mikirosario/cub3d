@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/05 16:42:19 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/10 17:34:19 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/26 18:24:13 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ t_list	*maplistmem(unsigned int y)
 	unsigned int	i;
 
 	i = 0;
-	ptr = g_config.Map;
+	ptr = g_config.maplist;
 	while (ptr && i++ < y)
 		ptr = ptr->next;
 	if (!ptr)
@@ -93,7 +93,7 @@ char	*maplistdir(unsigned int x, unsigned int y)
 	unsigned int	i;
 
 	i = 0;
-	ptr = g_config.Map;
+	ptr = g_config.maplist;
 	while (ptr && i++ < y)
 		ptr = ptr->next;
 	if (!ptr)
@@ -113,7 +113,7 @@ char	maplist(unsigned int x, unsigned int y)
 	unsigned int	i;
 
 	i = 0;
-	ptr = g_config.Map;
+	ptr = g_config.maplist;
 	while (i++ < y)
 		ptr = ptr->next;
 	return (*((char *)(ptr->content + x)));
