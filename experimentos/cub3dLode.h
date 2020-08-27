@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/02/15 18:57:26 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/26 19:15:06 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 #define screenHeight    480
 
 /*
-** posX and posY determine position. dirX and dirY determine direction.
+** posx and posy determine position. dirX and dirY determine direction.
 ** planeX and planeY determine camera plane. Ratio between direction
 ** length and camera plane determines FOV. Direction musst always be
 ** perpendicullar to camera plane. Time stores current frame time;
@@ -65,12 +65,12 @@ typedef     struct screenData_s
   void      *mlx_ptr;
   void      *mlx_win;
   void      *mlx_rayimg;
-}           screenData_t;
+}           t_screendata;
 
 typedef     struct  player_s
 {
-    double  posX;
-    double  posY;
+    double  posx;
+    double  posy;
     double  dirX;
     double  dirY;
     double  oldDirX;
@@ -81,7 +81,7 @@ typedef     struct  player_s
     double  cameraX;
     double  moveSpeed;
     double  rotSpeed;
-}                   player_t;
+}                   t_player;
 
 typedef     struct  world_s
 {
@@ -89,7 +89,7 @@ typedef     struct  world_s
     int     y;
     int     stepX;
     int     stepY;
-}                   world_t;
+}                   t_world;
 
 typedef     struct  rayData_s
 {
@@ -107,7 +107,7 @@ typedef     struct  rayData_s
   int       hit;
   int       side; //NS or EW wall hit?
 
-}                   rayData_t;
+}                   t_raydata;
 
 typedef     struct imageData_s
 {
@@ -118,12 +118,12 @@ typedef     struct imageData_s
   int           drawStart;
   int           drawEnd;
   unsigned int  color;
-}                  imageData_t;
+}                  t_imagedata;
 
-player_t g_player;
-world_t g_world;
-screenData_t g_screenData;
-imageData_t   g_imageData;
+t_player g_player;
+t_world g_world;
+t_screendata g_screendata;
+t_imagedata   g_imageData;
 int g_stop;
 
 double  ft_degtorad(double a);

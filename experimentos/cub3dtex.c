@@ -6,16 +6,16 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/07 20:24:05 by mrosario          #+#    #+#             */
-/*   Updated: 2020/02/20 10:29:06 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/26 19:15:06 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
   #include "cub3d.h"
 
-  /*g_player.posX = 0;
-  g_player.posY = -1;
-  g_player.dirX = 0;
-  g_player.dirY = 1;*/
+  /*g_player.posx = 0;
+  g_player.posy = -1;
+  g_player.dirx = 0;
+  g_player.diry = 1;*/
  
   void cls()
 {
@@ -28,7 +28,7 @@
             y = 480;
             while (y)
             {
-                mlx_pixel_put(g_screenData.mlx_ptr, g_screenData.mlx_win, x, y--, 0x0);
+                mlx_pixel_put(g_screendata.mlx_ptr, g_screendata.mlx_win, x, y--, 0x0);
             }
             x++;
         }
@@ -45,7 +45,7 @@ void    sky_put()
         y = 480;
         while (y)
         {
-            mlx_pixel_put(g_screenData.mlx_ptr, g_screenData.mlx_win, x, y--, 0x00DBFFFF);
+            mlx_pixel_put(g_screendata.mlx_ptr, g_screendata.mlx_win, x, y--, 0x00DBFFFF);
         }
         x++;
     }
@@ -66,7 +66,7 @@ void    sky_put()
         y = 0;
         while (y < screenHeight)
         {
-            mlx_put_image_to_window(g_screenData.mlx_ptr, g_screenData.mlx_win, g_brickImg.mlx_img, x, y);
+            mlx_put_image_to_window(g_screendata.mlx_ptr, g_screendata.mlx_win, g_brickImg.mlx_img, x, y);
             y += 418;
         }
         x += 418;
@@ -90,7 +90,7 @@ void    sky_put()
     char *buf;
     char *img;
 
-    buf = mlx_get_data_addr(g_screenData.mlx_img_buffer, &g_brickImg.bpp, &g_brickImg.size_line, &g_brickImg.endian);
+    buf = mlx_get_data_addr(g_screendata.mlx_img_buffer, &g_brickImg.bpp, &g_brickImg.size_line, &g_brickImg.endian);
     img = mlx_get_data_addr(g_brickImg.mlx_img, &g_brickImg.bpp, &g_brickImg.size_line, &g_brickImg.endian);
 
     ibuf = 0;
@@ -120,8 +120,8 @@ void    sky_put()
         t = 0;
         x = 0;
     }
-    mlx_put_image_to_window(g_screenData.mlx_ptr, g_screenData.mlx_win, g_screenData.mlx_img_buffer, t++, 0);
-    //mlx_destroy_image(g_screenData.mlx_ptr, g_screenData.mlx_img_buffer);
+    mlx_put_image_to_window(g_screendata.mlx_ptr, g_screendata.mlx_win, g_screendata.mlx_img_buffer, t++, 0);
+    //mlx_destroy_image(g_screendata.mlx_ptr, g_screendata.mlx_img_buffer);
 
     /*while (x < 418)
     {
@@ -138,8 +138,8 @@ void    sky_put()
             }
             y++;
         }
-        mlx_put_image_to_window(g_screenData.mlx_ptr, g_screenData.mlx_win, buf, 0, 0);
-        mlx_destroy_image(g_screenData.mlx_ptr, buf);
+        mlx_put_image_to_window(g_screendata.mlx_ptr, g_screendata.mlx_win, buf, 0, 0);
+        mlx_destroy_image(g_screendata.mlx_ptr, buf);
         x++;
     }*/
         
@@ -151,9 +151,9 @@ void    sky_put()
     (void)param;
     if (key == 0x35 || key == 0x00)
     {
-        mlx_destroy_image(g_screenData.mlx_ptr, g_brickImg.mlx_img);
-        mlx_destroy_image(g_screenData.mlx_ptr, g_screenData.mlx_img_buffer);
-        mlx_destroy_window(g_screenData.mlx_ptr, g_screenData.mlx_win);
+        mlx_destroy_image(g_screendata.mlx_ptr, g_brickImg.mlx_img);
+        mlx_destroy_image(g_screendata.mlx_ptr, g_screendata.mlx_img_buffer);
+        mlx_destroy_window(g_screendata.mlx_ptr, g_screendata.mlx_win);
         exit(0);
     }
     return (0);
@@ -162,22 +162,22 @@ void    sky_put()
   int   loadTextures(void)
   {
     int textureSize = 418;
-    g_brickImg.mlx_img = mlx_xpm_file_to_image(g_screenData.mlx_ptr, "redbrick.XPM", &textureSize, &textureSize);
+    g_brickImg.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, "redbrick.XPM", &textureSize, &textureSize);
     
   }
   
   int   main(void)
   {
-    if ((g_screenData.mlx_ptr = mlx_init()) == NULL)
+    if ((g_screendata.mlx_ptr = mlx_init()) == NULL)
         return (EXIT_FAILURE);
-    if ((g_screenData.mlx_win = mlx_new_window(g_screenData.mlx_ptr, 640, 480, "Norminator 3D")) == NULL)
+    if ((g_screendata.mlx_win = mlx_new_window(g_screendata.mlx_ptr, 640, 480, "Norminator 3D")) == NULL)
         return (EXIT_FAILURE);
     //Create Texture Buffer
-    g_screenData.mlx_img_buffer = mlx_new_image(g_screenData.mlx_ptr, 1, screenHeight);
-    mlx_hook(g_screenData.mlx_win, 2, 0, stop, (void *)0);
-    mlx_hook(g_screenData.mlx_win, 17, 0, stop, (void *)0);
-    mlx_loop_hook(g_screenData.mlx_ptr, imagepaint, (void *)0);
-    mlx_loop(g_screenData.mlx_ptr); 
+    g_screendata.mlx_img_buffer = mlx_new_image(g_screendata.mlx_ptr, 1, screenHeight);
+    mlx_hook(g_screendata.mlx_win, 2, 0, stop, (void *)0);
+    mlx_hook(g_screendata.mlx_win, 17, 0, stop, (void *)0);
+    mlx_loop_hook(g_screendata.mlx_ptr, imagepaint, (void *)0);
+    mlx_loop(g_screendata.mlx_ptr); 
     return (EXIT_SUCCESS);
   }
   

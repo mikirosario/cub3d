@@ -6,13 +6,13 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/16 18:38:05 by mrosario          #+#    #+#             */
-/*   Updated: 2020/07/24 19:42:13 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/27 17:02:42 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-extern error_t	g_iamerror;
+extern t_error	g_iamerror;
 
 /*
 ** This function will first check the result array. If all of the obligatory
@@ -24,7 +24,7 @@ extern error_t	g_iamerror;
 ** valid map line, it will return '0'.
 */
 
-int		findfirstmapline(char **line, int *result)
+int		findfirstmapline(char **line, int *result, unsigned int linenum)
 {
 	int i;
 
@@ -32,9 +32,10 @@ int		findfirstmapline(char **line, int *result)
 	while (i < 5 && result[i] == 1)
 		i++;
 	if (i == 5)
-		if (isMap(*line))
+		if (ismap(*line))
 		{
 			result[8] = 1;
+			g_iamerror.premaplines = linenum - 1;
 			return (1);
 		}
 	return (0);
@@ -56,13 +57,12 @@ int		findfirstmapline(char **line, int *result)
 ** by the map handler.
 */
 
-void	cubread(int *result, char **line, int fd)
+void	cubread(int *result, char **line, int fd, int linenum)
 {
-	unsigned int	linenum;
-
-	linenum = 0;
 	while ((ft_get_next_line(fd, line)) > 0 && ++linenum)
 	{
+		if (!(*line))
+			g_iamerror.mallocfail = 1;
 		if (result[0] < 1)
 			result[0] = getres(*line, linenum);
 		if (result[1] < 1)
@@ -79,7 +79,7 @@ void	cubread(int *result, char **line, int fd)
 			result[6] = getfcolor(*line, linenum);
 		if (result[7] < 1)
 			result[7] = getccolor(*line, linenum);
-		if (findfirstmapline(line, result))
+		if (findfirstmapline(line, result, linenum))
 			break ;
 		del(*line);
 	}
@@ -100,9 +100,6 @@ void	cubread(int *result, char **line, int fd)
 ** The error in position 8 is also fatal. The error in position 5 is
 ** only fatal if sprites are found, but this is determined after
 ** the maphandler function is run. The rest are non-fatal.
-**
-** The result array will be freed just before function end, as it
-** will no longer be used.
 **
 ** If any fatal errors are found, this function will return 0.
 ** Otherwise, it will return 1.
@@ -133,7 +130,7 @@ int		cuberrorhandler(int *result)
 	i = 1;
 	while (result[i] && i < 5)
 		i++;
-	free(result);
+	g_iamerror.mapchecked = i == 5 ? 1 : 0;
 	return (i < 5 || !result[8] ? 0 : 1);
 }
 
@@ -166,18 +163,19 @@ int		maphandler(int fd, char *line)
 {
 	int i;
 
-	g_iamerror.mapchecked = 1;
-	i = makeMapList(fd, line);
+	i = makemaplist(fd, line);
 	if (i < 0)
 	{
-		if (i == -1)
-			g_iamerror.outofbounds = 1;
+		if (i == -5)
+			g_iamerror.maptoobig = 1;
+		else if (i == -1)
+			g_iamerror.outofbounds[2] = 1;
 		else if (i == -2)
 			g_iamerror.badmap3line = 1;
 		else if (i == -3)
 			g_iamerror.noplayer = 1;
 		else if (i == -4)
-			g_iamerror.toomanyplayers = 1;
+			g_iamerror.toomanyplayers[2] = 1;
 		return (0);
 	}
 	return (1);
@@ -219,6 +217,48 @@ int		maphandler(int fd, char *line)
 ** could not be found in the cub file, the program will
 ** abort and throw an invalid sprite path error. If sprites
 ** were not found, any sprite path error will be ignored.
+**
+** The original function was written with inverse logic to
+** the current one. I inverted the logic to shorten the
+** code (Norminette strikes again). I'm leaving a copy of
+** the old code, though, for reference, as I find it
+** easier to follow. ;) (It's functionally identical).
+**
+** Please excuse the needless ternaries in the else, again,
+** Norminette made me do it. :_( :_(
+**
+** int		cubhandler(const char *ptr)
+** {
+**	char	*line;
+**	int		fd;
+**	int		*result;
+**	char	success;
+**
+**	fd = open(ptr, O_RDONLY, S_IRUSR);
+**	success = 1;
+**	if (!(result = ft_calloc(9, sizeof(int))) || fd < 3)
+**	{
+**		if (fd < 0)
+**			g_iamerror.cubfilenotfound = 1;
+**		else if (fd >= 0)
+**			g_iamerror.weirdfd = 1;
+**		if (!result)
+**			g_iamerror.mallocfail = 1;
+**		success = 0;
+**		free(result);
+**	}
+**	else
+**	{
+**		line = NULL;
+**		cubread(result, &line, fd);
+**		if (!(cuberrorhandler(result)) || !(maphandler(fd, line)) || \
+**		(g_config.spritenum && g_iamerror.getsprfail))
+**			success = 0;
+**	}
+**	if (close(fd) < 0)
+**		g_iamerror.couldnotclose = 1;
+**	return (success ? 1 : 0);
+** }
 */
 
 int		cubhandler(const char *ptr)
@@ -226,27 +266,26 @@ int		cubhandler(const char *ptr)
 	char	*line;
 	int		fd;
 	int		*result;
+	int		linenum;
+	char	success;
 
 	fd = open(ptr, O_RDONLY, S_IRUSR);
-	if (!(result = ft_calloc(9, sizeof(int))) || fd < 3)
+	success = 0;
+	if ((result = ft_calloc(9, sizeof(int))) && fd >= 3)
 	{
-		if (fd < 0)
-			g_iamerror.cubfilenotfound = 1;
-		else if (fd >= 0)
-			g_iamerror.weirdfd = 1;
-		if (!result)
-			g_iamerror.mallocfail = 1;
-		return (0);
+		line = NULL;
+		cubread(result, &line, fd, (linenum = 0));
+		if ((cuberrorhandler(result)) && (maphandler(fd, line)) && \
+		(!g_config.spritenum || !g_iamerror.getsprfail))
+			success = 1;
+		free(result);
 	}
 	else
 	{
-		line = NULL;
-		cubread(result, &line, fd);
-		if (!(cuberrorhandler(result)) || !(maphandler(fd, line)) || \
-		(!g_config.spriteNum && g_iamerror.getsprfail))
-			return (0);
+		g_iamerror.cubfilenotfound = fd < 0 ? 1 : g_iamerror.cubfilenotfound;
+		g_iamerror.weirdfd = fd >= 0 ? 1 : g_iamerror.weirdfd;
+		g_iamerror.mallocfail = !result ? 1 : g_iamerror.mallocfail;
 	}
-	if (close(fd) < 0)
-		g_iamerror.couldnotclose = 1;
-	return (1);
+	g_iamerror.couldnotclose = close(fd) < 0 ? 1 : g_iamerror.couldnotclose;
+	return (success ? 1 : 0);
 }

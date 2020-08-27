@@ -10,9 +10,9 @@
 ** C    R,G,B color value for ceiling
 ** MAP ARRAY
 
-R   1920 1080
+R   800 800
 no  ./blueMetal.XPM
-SO  ./yellowMetal.XPM
+SO  ./yellowMetal.XP
 WE  ./greenMetal.XPM
 EA  ./pinkMetal.XPM
 S   ./normiSprite.XPM

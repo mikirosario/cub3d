@@ -90,18 +90,18 @@ int ft_stop(int key, char *param)
       //move forwards if no wall in front
       if (key == 0x7E)
       {
-        if (worldMap[(int)(posX + dirX * moveSpeed)][(int)posY] == 0)
-            posX += dirX * moveSpeed;
-        if (worldMap[(int)posX][(int)(posY + dirY * moveSpeed)] == 0)
-            posY += dirY * moveSpeed;
+        if (worldMap[(int)(posx + dirX * moveSpeed)][(int)posy] == 0)
+            posx += dirX * moveSpeed;
+        if (worldMap[(int)posx][(int)(posy + dirY * moveSpeed)] == 0)
+            posy += dirY * moveSpeed;
       }
       //move backwards if no wall in front
       if (key == 0x7D)
       {
-        if (worldMap[(int)(posX - dirX * moveSpeed)][(int)(posY)] == 0)
-            posX -= dirX * moveSpeed;
-        if (worldMap[(int)posX][(int)(posY - dirY * moveSpeed)] == 0)
-            posY -= dirY * moveSpeed;
+        if (worldMap[(int)(posx - dirX * moveSpeed)][(int)(posy)] == 0)
+            posx -= dirX * moveSpeed;
+        if (worldMap[(int)posx][(int)(posy - dirY * moveSpeed)] == 0)
+            posy -= dirY * moveSpeed;
         //clockwise rotation
         if (key == 0x7C)
         {
@@ -128,7 +128,7 @@ int ft_stop(int key, char *param)
 
 int main(void)
 {
-  double posX = 22, posY = 12;  //x and y start position
+  double posx = 22, posy = 12;  //x and y start position
   double dirX = -1, dirY = 0; //initial direction vector
   double planeX = 0, planeY = 0.66; //the 2d raycaster version of camera plane
 
@@ -154,8 +154,8 @@ mlx_loop(mlx_ptr);
         double rayDirX = dirX + planeX * cameraX;
         double rayDirY = dirY + planeY * cameraX;
         //which box of the map we're in
-        int mapX = (int)posX;
-        int mapY = (int)posY;
+        int mapX = (int)posx;
+        int mapY = (int)posy;
 
         //length of ray from current position to next x or y-side
         double sideDistX;
@@ -176,22 +176,22 @@ mlx_loop(mlx_ptr);
         if(rayDirX < 0)
         {
         stepX = -1;
-        sideDistX = (posX - mapX) * deltaDistX;
+        sideDistX = (posx - mapX) * deltaDistX;
         }
         else
         {
         stepX = 1;
-        sideDistX = (mapX + 1.0 - posX) * deltaDistX;
+        sideDistX = (mapX + 1.0 - posx) * deltaDistX;
         }
         if(rayDirY < 0)
         {
         stepY = -1;
-        sideDistY = (posY - mapY) * deltaDistY;
+        sideDistY = (posy - mapY) * deltaDistY;
         }
         else
         {
         stepY = 1;
-        sideDistY = (mapY + 1.0 - posY) * deltaDistY;
+        sideDistY = (mapY + 1.0 - posy) * deltaDistY;
         }
         //perform DDA
         while (hit == 0)
@@ -213,8 +213,8 @@ mlx_loop(mlx_ptr);
         if(worldMap[mapX][mapY] > 0) hit = 1;
         }
         //Calculate distance projected on camera direction (Euclidean distance will give fisheye effect!)
-        if(side == 0) perpWallDist = (mapX - posX + (1 - stepX) / 2) / rayDirX;
-        else          perpWallDist = (mapY - posY + (1 - stepY) / 2) / rayDirY;
+        if(side == 0) perpWallDist = (mapX - posx + (1 - stepX) / 2) / rayDirX;
+        else          perpWallDist = (mapY - posy + (1 - stepY) / 2) / rayDirY;
 
         //Calculate height of line to draw on screen
         int lineHeight = (int)(screenHeight / perpWallDist);
@@ -286,14 +286,14 @@ mlx_loop(mlx_ptr);
     //move forward if no wall in front of you
     if(keyDown(SDLK_UP))
     {
-      if(worldMap[int(posX + dirX * moveSpeed)][int(posY)] == false) posX += dirX * moveSpeed;
-      if(worldMap[int(posX)][int(posY + dirY * moveSpeed)] == false) posY += dirY * moveSpeed;
+      if(worldMap[int(posx + dirX * moveSpeed)][int(posy)] == false) posx += dirX * moveSpeed;
+      if(worldMap[int(posx)][int(posy + dirY * moveSpeed)] == false) posy += dirY * moveSpeed;
     }
     //move backwards if no wall behind you
     if(keyDown(SDLK_DOWN))
     {
-      if(worldMap[int(posX - dirX * moveSpeed)][int(posY)] == false) posX -= dirX * moveSpeed;
-      if(worldMap[int(posX)][int(posY - dirY * moveSpeed)] == false) posY -= dirY * moveSpeed;
+      if(worldMap[int(posx - dirX * moveSpeed)][int(posy)] == false) posx -= dirX * moveSpeed;
+      if(worldMap[int(posx)][int(posy - dirY * moveSpeed)] == false) posy -= dirY * moveSpeed;
     }
     //rotate to the right
     if(keyDown(SDLK_RIGHT))

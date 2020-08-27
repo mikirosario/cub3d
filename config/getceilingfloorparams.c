@@ -6,13 +6,13 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 16:50:30 by mrosario          #+#    #+#             */
-/*   Updated: 2020/07/24 19:01:31 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/26 19:03:11 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-extern error_t g_iamerror;
+extern t_error g_iamerror;
 
 /*
 ** These functions will retrieve the floor and ceiling colors specified in the
@@ -43,9 +43,15 @@ extern error_t g_iamerror;
 ** return 0.
 */
 
-const char	*getnumber(int *rgb, const char *line)
+const char	*getnumber(int *rgb, const char *line, char callfuncid)
 {
-	*rgb = ft_atoi(line);
+	if ((*rgb = ft_atoi(line)) > 255)
+	{
+		if (callfuncid == 'f')
+			g_iamerror.fcoloroutofrange = 1;
+		else
+			g_iamerror.ccoloroutofrange = 1;
+	}
 	line = ft_skipdigits(line);
 	return (line);
 }
@@ -64,16 +70,16 @@ int			getfcolor(const char *line, unsigned int linenum)
 	while (*line && color < 3)
 	{
 		if (ft_isdigit(*line))
-			line = getnumber(&(g_config.frgb[color++]), line);
+			line = getnumber(&(g_config.frgb[color++]), line, 'f');
 		else if (ft_isspace(*line) || (*line == ',' && color))
 			line++;
 		else
 			break ;
 	}
-	if (*line && !ft_isspace(*line))
+	if ((*line && !ft_isspace(*line)) || g_iamerror.fcoloroutofrange)
 		g_iamerror.badfcolorsyn = linenum;
 	else if (color == 3)
-		g_frameData.ofloorColor = \
+		g_framedata.xfloorcolor = \
 		(create_trgb(0, g_config.frgb[0], g_config.frgb[1], g_config.frgb[2]));
 	return (color == 3 && !g_iamerror.badfcolorsyn ? 1 : 0);
 }
@@ -92,16 +98,16 @@ int			getccolor(const char *line, unsigned int linenum)
 	while (*line && color < 3)
 	{
 		if (ft_isdigit(*line))
-			line = getnumber(&(g_config.crgb[color++]), line);
+			line = getnumber(&(g_config.crgb[color++]), line, 'c');
 		else if (ft_isspace(*line) || (*line == ',' && color))
 			line++;
 		else
 			break ;
 	}
-	if (*line && !ft_isspace(*line))
+	if ((*line && !ft_isspace(*line)) || g_iamerror.ccoloroutofrange)
 		g_iamerror.badccolorsyn = linenum;
 	else if (color == 3)
-		g_frameData.oceilingColor = \
+		g_framedata.xceilingcolor = \
 		(create_trgb(0, g_config.crgb[0], g_config.crgb[1], g_config.crgb[2]));
 	return (color == 3 && !g_iamerror.badccolorsyn ? 1 : 0);
 }

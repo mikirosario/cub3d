@@ -6,279 +6,409 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/07/24 19:28:33 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/27 17:43:17 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-#include <CoreGraphics/CGDisplayConfiguration.h> //need this to retrieve resolution
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
-#include <mlx.h>
-#include <string.h>
-#include "./libft/libft.h"
-#include "iamerror.h"
-#include "printnotifications.h"
-#include <fcntl.h>
-#include <unistd.h>
-#include <time.h> //BONUS
+/*
+** This library is absolutely necessary to retrieve the display resolution
+** from our Macs, but we are banned from using it. Shame! Shame! Let this
+** serve as an eternal reminder of the indignity...
+** #include <CoreGraphics/CGDisplayConfiguration.h>
+*/
 
-#define	GREEN "\033[0;32m"
-#define MAGENTA "\033[1;35m"
-#define RED "\033[22;31m"
-#define YELLOW "\x1b[33m"
-#define RESET "\033[0m"
+# include <limits.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <math.h>
+# include <mlx.h>
+# include <string.h>
+# include "./libft/libft.h"
+# include "iamerror.h"
+# include "printnotifications.h"
+# include <fcntl.h>
+# include <unistd.h>
+
+# define BLUE "\033[1;34m"
+# define GREEN "\033[0;32m"
+# define MAGENTA "\033[1;35m"
+# define RED "\033[22;31m"
+# define YELLOW "\x1b[33m"
+# define RESET "\033[0m"
+# define MAPMEMCAP 200000
 
 /*
-** posX and posY determine position. dirX and dirY determine direction.
-** planeX and planeY determine camera plane. Ratio between direction
-** length and camera plane determines FOV. Direction musst always be
-** perpendicullar to camera plane. Time stores current frame time;
-** oldTime stores last frame time.
+** This is the error flag struct. Aside from flags, it holds some data about
+** which line in the cub file certain errors appeared in or which paths were
+** inaccessible.
 */
-typedef		struct error_s
+
+typedef	struct	s_error
 {
+	unsigned char	toomanyargs : 1;
 	unsigned char	cubfilenotfound : 1;
 	unsigned char	weirdfd : 1;
 	unsigned char	couldnotclose : 1;
 	unsigned char	mallocfail : 1;
 	unsigned char	getresfail : 1;
-	unsigned int	badresSyn;
-	unsigned int	badresSize;
+	unsigned int	badressyn;
+	unsigned int	badressize;
 	unsigned char	getnofail : 1;
 	unsigned int	badnosyn;
 	unsigned char	getsofail : 1;
 	unsigned int	badsosyn;
 	unsigned char	getwefail : 1;
-	unsigned int	badwesyn;	
+	unsigned int	badwesyn;
 	unsigned char	geteafail : 1;
 	unsigned int	badeasyn;
 	unsigned char	getsprfail : 1;
 	unsigned int	badsprsyn;
-	unsigned char	pathsprfail : 1;
-	unsigned char	walltexsizefail : 1;
+	unsigned char	texpathfail : 1;
+	char			*texsizefail;
 	unsigned char	walltexsizedif : 1;
 	unsigned char	sprtexsizefail : 1;
 	unsigned char	fcolorinvalid : 1;
 	unsigned int	badfcolorsyn;
 	unsigned char	ccolorinvalid : 1;
 	unsigned int	badccolorsyn;
+	unsigned char	fcoloroutofrange : 1;
+	unsigned char	ccoloroutofrange : 1;
 	unsigned char	nomapfound : 1;
-	unsigned char	outofbounds : 1;
+	unsigned int	outofbounds[3];
 	unsigned char	badmap3line : 1;
 	unsigned char	noplayer : 1;
-	unsigned char	toomanyplayers : 1;
+	unsigned int	toomanyplayers[3];
 	unsigned char	getnextlinefail : 1;
 	unsigned char	mapchecked : 1;
-	}					error_t;
+	unsigned int	premaplines;
+	unsigned int	mapsweeps;
+	char			*couldnotopenxpm;
+	unsigned char	maptoobig : 1;
+	unsigned int	memusage;
+}				t_error;
 
-typedef     struct spriteData_s
+/*
+** This struct holds data about a sprite. It can be linked with others of its
+** type in a list, although it is faster to create a pointer array to access
+** all members directly. The pos variables indicate position. Spritetype holds
+** the char found on the map that indicated the sprite's starting position, for
+** example, '2'. By slightly modifying the map parser this can be used to store
+** potentially more sprite types, and assign a unique texture for each one.
+** Each sprite is associated with a texture address. For the basic cub3d it is
+** always the same texture.
+*/
+
+typedef struct	s_spritedata
 {
-  double posX;
-  double posY;
-  char   spriteType;
-  unsigned int *texture;
-  struct spriteData_s *next;
-}                   spriteData_t;
+	double				posx;
+	double				posy;
+	char				spritetype;
+	unsigned int		*texture;
+	struct s_spritedata	*next;
+}				t_spritedata;
 
-typedef     struct  configData_s
+/*
+** This struct holds a series of parameters related to sprites that are used
+** in the sprite drawing function wthin the graphics engine.
+*/
+
+typedef	struct	s_spriteparams
 {
-  t_list *Map;
-  spriteData_t *spriteList;
-  int mapW;
-  int mapH;
-  int screenW;
-  int screenH;
-  int texW;
-  int texH;
-  int spriteW;
-  int spriteH;
-  int spriteNum;
-  int frgb[3];
-  int crgb[3];
-  int wallMultiplier; //modifies apparent wall height
-  int uDiv; //no recuerdo qué hacía
-  int vDiv; //no recuerdo qué hacía
-  int vMove; //raise to lower sprite
-  char *spriteTexPath;
-}           configData_t;
+	double	transformy;
+	double	transformx;
+	double	invdet;
+	int		vmovescreen;
+	int		scrnx;
+	int		scrny;
+	int		texx;
+	int		texy;
+	int		d;
+}				t_spriteparams;
 
-typedef     struct  screenData_s
+/*
+** This struct holds game configuration data. Most of it is gathered from the
+** .cub file.
+*/
+
+typedef struct	s_configdata
 {
-  void      *mlx_ptr;
-  void      *mlx_win;
-  void      *mlx_img_buffer;
-  int       bpp;
-  int       size_line;
-  int       endian;
-}           screenData_t;
+	t_list			*maplist;
+	char			**map;
+	t_spritedata	*spritelist;
+	unsigned int	maph;
+	int				screenw;
+	int				screenh;
+	int				nativedisplayw;
+	int				nativedisplayh;
+	int				texw;
+	int				texh;
+	int				spritew;
+	int				spriteh;
+	int				spritenum;
+	int				frgb[3];
+	int				crgb[3];
+	int				wallmultiplier;
+	int				udiv;
+	int				vdiv;
+	int				vmove;
+	double			*zbuffer;
+	int				*spriteorder;
+	char			*spritetexpath;
+	char			screenshot;
+}				t_configdata;
 
-typedef     struct  player_s
+/*
+** This struct holds data about the screen, including data provided by the
+** mlx screen init function and the address of the image buffer used by the
+** raycaster to draw each frame.
+*/
+
+typedef struct	s_screendata
 {
-    double  posX;
-    double  posY;
-    double  dirX;
-    double  dirY;
-    double  oldDirX;
-    double  oldDirY;
-    double  *newDirXY;
-    double  planeX;
-    double  planeY;
-    double  oldPlaneX;
-    double  cameraX;
-    double  moveSpeed;
-    double  rotSpeed;
-}                   player_t;
+	void	*mlx_ptr;
+	void	*mlx_win;
+	void	*mlx_img_buffer;
+	int		bpp;
+	int		size_line;
+	int		endian;
+}				t_screendata;
 
-typedef     struct  world_s
+/*
+** This struct holds data about the player, such as position (pos), orientation
+** (dir), or camera position (plane). Rotspeed is used by Lode's method for
+** rotation, so since I use my own method for rotation I don't use that
+** variable, but I'm leaving it in so it can be switched to the Lode method
+** in case I ever decide to.
+*/
+
+typedef struct	s_player
 {
-    int     x;
-    int     y;
-    int     stepX;
-    int     stepY;
-}                   world_t;
+	double	posx;
+	double	posy;
+	double	dirx;
+	double	diry;
+	double	newdirxy[2];
+	double	planex;
+	double	planey;
+	double	camerax;
+	double	movespeed;
+	double	rotspeed;
+}				t_player;
 
-typedef     struct  rayData_s
+/*
+** This struct holds data about each ray cast by the player, such as position
+** (map), orientation (raydir), distance to sides in each axis, whether a wall
+** was hit, etc.
+*/
+
+typedef struct	s_raydata
 {
-  double    rayDirX;
-  double    rayDirY;
-  int       mapX;
-  int       mapY;
-  double    sideDistX;
-  double    sideDistY;
-  double    deltaDistX;
-  double    deltaDistY;
-  double    perpWallDist;
-  int       stepX;
-  int       stepY;
-  int       hit;
-  int       side; //NS or EW wall hit?
+	double	raydirx;
+	double	raydiry;
+	int		mapx;
+	int		mapy;
+	double	sidedistx;
+	double	sidedisty;
+	double	deltadistx;
+	double	deltadisty;
+	double	perpwalldist;
+	int		stepx;
+	int		stepy;
+	int		hit;
+	int		side;
+}				t_raydata;
 
-}                   rayData_t;
+/*
+** This struct holds data needed to construct a frame, such as where a line
+** begins and ends, where a sprite begins and ends, what color to draw each
+** pixel, etc. When I stored my colors in four-byte arrays instead of in
+** unsigned ints, I used the color arrays. Now I convert to hexadecimal and
+** use unsigned ints, but I've left the color arrays in place in case I want
+** to work with some older models I wrote that deal with each color value
+** separately. In any case, they aren't used in this version.
+*/
 
-typedef     struct frameData_s
+typedef struct	s_framedata
 {
-  clock_t       time;
-  clock_t       oldTime;
-  clock_t       frameTime;
-  int           lineHeight;
-  int           drawStart;
-  int           drawEnd;
-  unsigned char           color[4];
-  unsigned char           ceilingColor[4];
-  unsigned char           floorColor[4];
-  unsigned int           oceilingColor;
-  unsigned int           ocolor;
-  int           ofloorColor;
-  double        wallX; //where exactly wall was hit
-  int           texX; //texture X coordinate;
-  int           texY; //texture Y coordinate;
-  double        step;
-  double        texPos;
-}                  frameData_t;
+	int				lineheight;
+	int				drawstart;
+	int				drawend;
+	unsigned char	color[4];
+	unsigned char	ceilingcolor[4];
+	unsigned char	floorcolor[4];
+	unsigned int	xceilingcolor;
+	unsigned int	xcolor;
+	unsigned int	xfloorcolor;
+	double			wallx;
+	int				texx;
+	int				texy;
+	double			step;
+	double			texpos;
+	double			spritex;
+	double			spritey;
+	int				spritedrawstartx;
+	int				spritedrawendx;
+	int				spritedrawstarty;
+	int				spritedrawendy;
+	int				spriteheight;
+	int				spritewidth;
+	int				spritescreenx;
+}				t_framedata;
 
-typedef     struct imageData_s
+/*
+** This holds data for each image I use with the mlx library, including
+** sprites and textures.
+*/
+
+typedef struct	s_imagedata
 {
-  void          *mlx_img;
-  int           bpp;
-  int           size_line;
-  int           endian;
-  unsigned int  *tex_Ptr;
-  char          *texPath;
-}                  imageData_t;
+	void			*mlx_img;
+	int				bpp;
+	int				size_line;
+	int				endian;
+	unsigned int	*tex_ptr;
+	char			*texpath;
+}				t_imagedata;
 
-typedef     struct keyData_s
+/*
+** This holds all the key flags.
+*/
+
+typedef struct	s_keydata
 {
-  char  w;
-  char  a;
-  char  s;
-  char  d;
-  char  r;
-  char  l;
-  char  m;
-}                   keyData_t;
+	char	w : 1;
+	char	a : 1;
+	char	s : 1;
+	char	d : 1;
+	char	r : 1;
+	char	l : 1;
+	char	m;
+}				t_keydata;
 
-configData_t g_config;
-player_t g_player;
-world_t g_world;
-rayData_t g_rayData;
-screenData_t g_screenData;
-frameData_t  g_frameData;
-imageData_t g_blueMetalImg;
-imageData_t g_yellowMetalImg;
-imageData_t g_greenMetalImg;
-imageData_t g_pinkMetalImg;
-imageData_t g_clsImg;
-imageData_t g_ceilingImg;
-imageData_t g_floorImg;
-imageData_t g_normiImg;
-keyData_t g_keyData;
+t_configdata	g_config;
+t_player		g_player;
+t_raydata		g_raydata;
+t_screendata	g_screendata;
+t_framedata		g_framedata;
+t_imagedata		g_sowallimg;
+t_imagedata		g_nowallimg;
+t_imagedata		g_wewallimg;
+t_imagedata		g_eawallimg;
+t_imagedata		g_sprt2img;
+t_keydata		g_keydata;
 
-void			del(void *freeThis);
-spriteData_t	*ft_sprtlstnew(void const *content);
-spriteData_t	*ft_sprtlstlast(spriteData_t *lst);
-void			ft_sprtlstadd_back(spriteData_t **alst, spriteData_t *new);
-void			freeSprtList(spriteData_t **alst);
-spriteData_t	*spriteIter(int listMember);
-void			freeList(t_list **alst);
-char			mapList(int x, int y);
-char			*mapListDir(int x, int y);
-t_list			*mapListMem(int y);
-void			cls();
-void			ft_sortSprites(int *spriteOrder);
+/*
+** General Purpose
+*/
+
+void			del(void *freethis);
+char			*getnextnum(char *num);
+void			freeme(void);
 int				ft_stop(int key, void *param);
-int				ft_rayCaster(int key, void *param);
-int				ft_keyPress(int key, void *param);
-int				ft_keyRelease(int key, void *param);
+
+/*
+** Command Line Notifications
+*/
+
+void			printmap(void);
+void			printmapbytes(void);
+void			printsprites();
+void			printerrors(void);
+void			printnotifications(void);
+
+/*
+** Error Handling
+*/
+
+void			generalmaperrors(void);
+void			localizedmaperrors(void);
+char			toomanyplayers(unsigned int x, unsigned y, char foundplayer);
+int				recorderrorlocation(unsigned int *errorarray, unsigned int x, \
+unsigned int y, int returnvalue);
+void			geterrorlocation(unsigned int *errorarray, unsigned int *x, \
+unsigned int *y);
+void			texpatherrors(void);
+void			texreaderror(void);
+int				texerrorconditions(void);
+
+/*
+** Linked List Functions
+*/
+
+t_spritedata	*ft_sprtlstnew(void const *content);
+t_spritedata	*ft_sprtlstlast(t_spritedata *lst);
+void			ft_sprtlstadd_back(t_spritedata **alst, t_spritedata *new);
+void			freesprtlist(t_spritedata **alst);
+t_spritedata	*spriteiter(int listmember);
+void			freelist(t_list **alst);
+char			maplist(unsigned int x, unsigned int y);
+char			*maplistdir(unsigned int x, unsigned int y);
+t_list			*maplistmem(unsigned int y);
+
+/*
+** Game Config
+*/
+
 void			initialize(void);
-void			initializeKeys(void);
 int				getres(const char *line, unsigned int linenum);
 int				getno(const char *line, unsigned int linenum);
 int				getso(const char *line, unsigned int linenum);
 int				getwe(const char *line, unsigned int linenum);
 int				getea(const char *line, unsigned int linenum);
 int				getsprite(const char *line, unsigned int linenum);
-int				getTexRes(int *texRes, char *xmpPath);
-int				compTexRes(void);
 unsigned int	create_trgb(int t, int r, int g, int b);
 int				getfcolor(const char *line, unsigned int linenum);
 int				getccolor(const char *line, unsigned int linenum);
-void			spriteCounter(double x, double y, char c);
-int				isMap(char *line);
+void			spritecounter(double x, double y, char c);
+int				ismap(char *line);
 int				cubhandler(const char *ptr);
-void			cubread(int *result, char **line, int fd);
+void			cubread(int *result, char **line, int fd, int linenum);
 void			setdisplayresolution(void);
-void			printerrors(void);
-void			printnotifications(void);
-int				floodFill(void);
-int				floodRight(int x, int y);
-int				floodLeft(int x, int y);
-void			unfloodMap(void);
-int				makeMapList(int fd, char *firstLine);
-void			makeClsImg(void);
-void			makeTexImg(void);
-int				main(int argc, char **argv);
+int				floodfill(void);
+void			unfloodmap(char *flag);
+int				makemaplist(int fd, char *firstline);
+int				maketeximg(void);
+int				maparray(void);
 
+/*
+** Raycaster
+*/
 
+int				raycaster(int key, void *param);
+void			castray(int x);
+void			calculateframeline(void);
+void			drawframeline(int x, unsigned int *buf);
+void			sortsprites(int *spriteorder);
+void			castsprites(unsigned int *buf);
+int				keypress(int key, void *param);
+int				keyrelease(int key, void *param);
+void			readmovementkeys(void);
+void			graphicsmodes(void);
 
+/*
+** Screenshot
+*/
 
+int				screenshot(unsigned int *buf);
+void			bmperror(int error);
 
+/*
+** Rotation
+*/
 
+double			ft_degtorad(double a);
+double			ft_radtodeg(double a);
+double			ft_round(double n, int prec);
+int				ft_rotate_2d(double x, double y, double adeg, double *ptr);
 
+/*
+** Bonus
+*/
 
-
-
-
-
-
-double  ft_degtorad(double a);
-double  ft_radtodeg(double a);
-double  ft_round(double n, int prec);
-int     ft_rotate_2D(double x, double y, double adeg, double prec, double **ptr);
-int     getRes(const char *line);
-void    cls(void);
+void			countframes(time_t *timestart);
+void			cls(void);
 
 #endif
