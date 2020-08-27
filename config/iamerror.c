@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/21 19:17:09 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/26 18:28:51 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/27 19:57:48 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	maperrors(void)
 		*((char *)maplistdir(g_player.posx, g_player.posy)) = 'P';
 	unfloodmap("error");
 	printmap();
-	ft_printf("%s", REDERROR);
+	ft_printf(RED"%s"RESET, REDERROR);
 	generalmaperrors();
 	localizedmaperrors();
 }
@@ -72,12 +72,13 @@ void	maperrors(void)
 
 void	reserrors(void)
 {
-	ft_printf("%s", YELLOWERROR);
-	ft_putstr(getResFail, ft_strlen(getResFail));
+	ft_printf(YELLOW"%s"RESET, YELLOWERROR);
+	ft_printf(YELLOW"%s"RESET, GETRESFAIL);
 	if (g_iamerror.badressyn)
-		ft_printf("Line %u: %s", g_iamerror.badressyn, badResSyn);
+		ft_printf("Line %u: "YELLOW"%s"RESET, g_iamerror.badressyn, BADRESSYN);
 	if (g_iamerror.badressize)
-		ft_printf("Line %u: %s", g_iamerror.badressize, badresosize);
+		ft_printf("Line %u: "YELLOW"%s"RESET, g_iamerror.badressize, \
+		BADRESSIZE);
 	return ;
 }
 
@@ -93,27 +94,27 @@ void	reserrors(void)
 
 void	texerrors(void)
 {
-	ft_printf("%s", REDERROR);
+	ft_printf(RED"%s"RESET, REDERROR);
 	if (g_iamerror.getnofail)
-		ft_putstr(getNOFail, ft_strlen(getNOFail));
+		ft_printf(RED"%s"RESET, GETNOFAIL);
 	if (g_iamerror.badnosyn)
-		ft_printf("Line %u: %s", g_iamerror.badnosyn, badNOSyn);
+		ft_printf("Line %u: "RED"%s"RESET, g_iamerror.badnosyn, BADNOSYN);
 	if (g_iamerror.getsofail)
-		ft_putstr(getSOFail, ft_strlen(getSOFail));
+		ft_printf(RED"%s"RESET, GETSOFAIL);
 	if (g_iamerror.badsosyn)
-		ft_printf("Line %u: %s", g_iamerror.badsosyn, badSOSyn);
+		ft_printf("Line %u: "RED"%s"RESET, g_iamerror.badsosyn, BADSOSYN);
 	if (g_iamerror.getwefail)
-		ft_putstr(getWEFail, ft_strlen(getWEFail));
+		ft_printf(RED"%s"RESET, GETWEFAIL);
 	if (g_iamerror.badwesyn)
-		ft_printf("Line %u: %s", g_iamerror.badwesyn, badWESyn);
+		ft_printf("Line %u: "RED"%s"RESET, g_iamerror.badwesyn, BADWESYN);
 	if (g_iamerror.geteafail)
-		ft_putstr(getEAFail, ft_strlen(getEAFail));
+		ft_printf(RED"%s"RESET, GETEAFAIL);
 	if (g_iamerror.badeasyn)
-		ft_printf("Line %u: %s", g_iamerror.badeasyn, badEASyn);
+		ft_printf("Line %u: "RED"%s"RESET, g_iamerror.badeasyn, BADEASYN);
 	if (g_config.spritenum && g_iamerror.getsprfail)
-		ft_putstr(getSprFail, ft_strlen(getSprFail));
+		ft_printf(RED"%s"RESET, GETSPRFAIL);
 	if (g_config.spritenum && g_iamerror.badsprsyn)
-		ft_printf("Line %u: %s", g_iamerror.badsprsyn, badSprSyn);
+		ft_printf("Line %u: "RED"%s"RESET, g_iamerror.badsprsyn, BADSPRSYN);
 	texreaderror();
 	if (g_iamerror.texpathfail)
 		texpatherrors();
@@ -135,19 +136,21 @@ void	texerrors(void)
 
 void	ceilingfloorerrors(void)
 {
-	ft_printf("%s", YELLOWERROR);
+	ft_printf(YELLOW"%s"RESET, YELLOWERROR);
 	if (g_iamerror.fcolorinvalid)
-		ft_putstr(FColorInvalid, ft_strlen(FColorInvalid));
+		ft_printf(YELLOW"%s"RESET, FCOLORINVALID);
 	if (g_iamerror.badfcolorsyn)
-		ft_printf("Line %u: %s", g_iamerror.badfcolorsyn, badFColorSyn);
+		ft_printf("Line %u: "YELLOW"%s"RESET, g_iamerror.badfcolorsyn, \
+		BADFCOLORSYN);
 	if (g_iamerror.fcoloroutofrange)
-		ft_printf(badcolorrange);
+		ft_printf(YELLOW"%s"RESET, BADCOLORRANGE);
 	if (g_iamerror.ccolorinvalid)
-		ft_putstr(CColorInvalid, ft_strlen(CColorInvalid));
+		ft_printf(YELLOW"%s"RESET, CCOLORINVALID);
 	if (g_iamerror.badccolorsyn)
-		ft_printf("Line %u: %s", g_iamerror.badccolorsyn, badCColorSyn);
+		ft_printf("Line %u: "YELLOW"%s"RESET, g_iamerror.badccolorsyn, \
+		BADCCOLORSYN);
 	if (g_iamerror.ccoloroutofrange)
-		ft_printf(badcolorrange);
+		ft_printf(YELLOW"%s"RESET, BADCOLORRANGE);
 }
 
 /*
@@ -158,19 +161,38 @@ void	ceilingfloorerrors(void)
 **
 ** Map errors will not be printed unless a map has been found and checked.
 **
-** If no map was found, a no map found error will be displayed. However, if
-** errors before the map could be checked cause the program to abort, no map
-** error will be displayed, even if the nomapfound error is flagged. This is
-** controlled with the mapchecked flag, which indicates whether the map was
-** checked.
+** If no map was found, a no map found error will be displayed.
+**
+** There is a slight quirk here. Because the texture paths MUST be properly
+** retrieved before the map begins, we don't look for the map until they have
+** all been retrieved. This means that even if there *is* a valid map in the
+** file, if a wall texture path hasn't been retrieved due to a bad syntax
+** error, the map will never be registered, as the parser will go to the end of
+** the file looking for the wall texture path first, and a false no map found
+** error may thus be displayed alongside the texture path error.
+**
+** To control for this, I use the mapchecked flag, which really indicates
+** whether the all of the wall texture paths were actually retrieved or not.
+** Thus, the nomapfound error will only be displayed if the mapchecked flag
+** is also true. Because of this, if the wall texture retrieval fails due to
+** bad syntax, even if there is no map, a no map error will NOT be displayed
+** as the parser will not look for a map until the texture path error is fixed.
+** If it's fixed and there is still no map, obviously, you'll get the no map
+** error.
 */
 
 void	printerrors(void)
 {
+	if (g_iamerror.toomanyargs)
+		ft_printf(RED"%s%s"RESET, REDERROR, TOOMANYARGS);
 	if (g_iamerror.cubfilenotfound)
-		ft_putstr(cubFileNotFound, ft_strlen(cubFileNotFound));
+		ft_printf(RED"%s%s"RESET, REDERROR, CUBNOTFOUND);
 	if (g_iamerror.weirdfd)
-		ft_putstr(weirdFD, ft_strlen(weirdFD));
+		ft_printf(RED"%s%s"RESET, REDERROR, WEIRDFD);
+	if (g_iamerror.couldnotclose)
+		ft_printf(YELLOW"%s%s"RESET, YELLOWERROR, COULDNOTCLOSE);
+	if (g_iamerror.mapchecked && g_iamerror.nomapfound)
+		ft_printf(RED"%s%s"RESET, REDERROR, NOMAPFOUND);
 	if (g_iamerror.getresfail)
 		reserrors();
 	if (g_iamerror.fcolorinvalid || g_iamerror.ccolorinvalid)
@@ -181,10 +203,6 @@ void	printerrors(void)
 		maperrors();
 	else if (texerrorconditions())
 		texerrors();
-	if (g_iamerror.mapchecked && g_iamerror.nomapfound)
-		ft_putstr(noMapFound, ft_strlen(noMapFound));
-	if (g_iamerror.couldnotclose)
-		ft_putstr(couldNotClose, ft_strlen(couldNotClose));
 	write(1, "\n", 1);
 	return ;
 }

@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/11 15:32:45 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/26 20:44:49 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/27 18:26:31 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,19 +97,19 @@ void	start(unsigned int **buf)
 {
 	if (!memreserve())
 	{
-		ft_printf(RED"\nError\n"RESET mallocFail);
+		ft_printf(RED"%s%s"RESET, REDERROR, MALLOCFAIL);
 		ft_stop(0x0, (void *)0);
 	}
-	*buf = (unsigned int *)mlx_get_data_addr(g_screendata.mlx_img_buffer, \
+	*buf = (unsigned int *)mlx_get_data_addr(g_screendata.mlx_img_buffer,
 	&g_screendata.bpp, &g_screendata.size_line, &g_screendata.endian);
 	g_config.vmove = g_config.spriteh * g_config.vdiv;
-	g_nowallimg.tex_ptr = (unsigned int *)mlx_get_data_addr(g_nowallimg.mlx_img, \
+	g_nowallimg.tex_ptr = (unsigned int *)mlx_get_data_addr(g_nowallimg.mlx_img,
 	&g_nowallimg.bpp, &g_nowallimg.size_line, &g_nowallimg.endian);
-	g_sowallimg.tex_ptr = (unsigned int *)mlx_get_data_addr(g_sowallimg.mlx_img, \
+	g_sowallimg.tex_ptr = (unsigned int *)mlx_get_data_addr(g_sowallimg.mlx_img,
 	&g_sowallimg.bpp, &g_sowallimg.size_line, &g_sowallimg.endian);
-	g_wewallimg.tex_ptr = (unsigned int *)mlx_get_data_addr(g_wewallimg.mlx_img, \
+	g_wewallimg.tex_ptr = (unsigned int *)mlx_get_data_addr(g_wewallimg.mlx_img,
 	&g_wewallimg.bpp, &g_wewallimg.size_line, &g_wewallimg.endian);
-	g_eawallimg.tex_ptr = (unsigned int *)mlx_get_data_addr(g_eawallimg.mlx_img, \
+	g_eawallimg.tex_ptr = (unsigned int *)mlx_get_data_addr(g_eawallimg.mlx_img,
 	&g_eawallimg.bpp, &g_eawallimg.size_line, &g_eawallimg.endian);
 	loadsprites();
 }

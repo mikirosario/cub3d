@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/31 17:47:38 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/26 17:44:54 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/27 19:08:21 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,17 +61,18 @@ char	toomanyplayers(unsigned int x, unsigned int y, char foundplayer)
 **
 ** If the map was rejected because it had less than 3 lines, the associated
 ** error will be printed. If the map occupies more than the MAPMEMCAP, which
-** is set in the cub3d.h, we'll print the mapTooBig error.
+** is set in the cub3d.h, we'll print the MAPTOOBIG error.
 */
 
 void	generalmaperrors(void)
 {
 	if (g_iamerror.noplayer)
-		ft_putstr(noPlayer, strlen(noPlayer));
+		ft_printf(RED"%s"RESET, NOPLAYER);
 	if (g_iamerror.badmap3line)
-		ft_putstr(badMap3line, strlen(badMap3line));
+		ft_printf(RED"%s"RESET, BADMAP3LINE);
 	if (g_iamerror.maptoobig)
-		ft_printf("%.63s""%u""%s\n", mapTooBig, MAPMEMCAP, (mapTooBig + 63));
+		ft_printf(RED"%.47s"RESET"%u"RED"%s\n"RESET, MAPTOOBIG, MAPMEMCAP, \
+		(MAPTOOBIG + 47));
 }
 
 /*
@@ -124,13 +125,14 @@ void	localizedmaperrors(void)
 		geterrorlocation(g_iamerror.outofbounds, &x, &y);
 		if (*(c = maplistdir(x, y)) != 'P')
 			*c = 'X';
-		ft_printf("Line: %u: %.*s"RED"%c"RESET"%s\n%s\n", y + 1 + o, x, \
-		maplistdir(0, y), maplist(x, y), maplistdir(x + 1, y), outOfBounds);
+		ft_printf("Line: %u: %.*s"RED"%c"RESET"%s\n"RED"%s\n"RESET, y + 1 + o, \
+		x, maplistdir(0, y), maplist(x, y), maplistdir(x + 1, y), OUTOFBOUNDS);
 	}
 	if (g_iamerror.toomanyplayers[2])
 	{
 		geterrorlocation(g_iamerror.toomanyplayers, &x, &y);
-		ft_printf("Line: %u: %.*s"RED"%c"RESET"%s\n%s\n", y + 1 + o, x, \
-		maplistdir(0, y), maplist(x, y), maplistdir(x + 1, y), tooManyPlayers);
+		ft_printf("Line: %u: %.*s"RED"%c"RESET"%s\n"RED"%s\n"RESET, y + 1 + o, \
+		x, maplistdir(0, y), maplist(x, y), maplistdir(x + 1, y), \
+		TOOMANYPLAYERS);
 	}
 }

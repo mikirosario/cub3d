@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/07 20:24:05 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/26 19:24:11 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/27 19:41:44 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -832,7 +832,7 @@ int     getres(const char *line)
             charPtr++;
     }
     if (*charPtr == 'F' || *charPtr == 'f' || *charPtr == 'C' || *charPtr == 'c')
-        ft_putstr(badResSyn, ft_strlen(badResSyn));
+        ft_putstr(BADRESSYN, ft_strlen(BADRESSYN));
     if (resCount == 2)
         printf("\nResolution Retrieved: %d, %d\n", g_config.screenw, g_config.screenh);
     return (resCount == 2 ? 1 : -1);
@@ -1044,7 +1044,7 @@ int     getTexRes(int *texRes, char *xmpPath)
     resCount = 0;
     i = 0;
     if (fd >= 0 && fd < 3)
-        ft_putstr(weirdFD, ft_strlen(weirdFD));
+        ft_putstr(WEIRDFD, ft_strlen(WEIRDFD));
     else if (fd >= 3)
     {
         while (resCount < 1 && (ft_get_next_line(fd, line)) > 0)
@@ -1123,7 +1123,7 @@ int     compTexRes(void)
         {
             if (results[i] != g_config.texw || results[i + 1] != g_config.texh)
             {
-                ft_putstr(wallTexSizeDif, ft_strlen(wallTexSizeDif));
+                ft_putstr(WALLTEXSIZEDIF, ft_strlen(WALLTEXSIZEDIF));
                 ft_stop(0x35, (void*)0);
             }
             i += 2;
@@ -1164,7 +1164,7 @@ int     getFColor(const char *line)
             charPtr++;
     }
     if (*charPtr == 'R' || *charPtr == 'r' || *charPtr == 'C' || *charPtr == 'c')
-        ft_putstr(badFColorSyn, ft_strlen(badFColorSyn));
+        ft_putstr(BADFCOLORSYN, ft_strlen(BADFCOLORSYN));
     if (resCount == 3)
     {
         xcolor = create_trgb(0, res[0], res[1], res[2]);
@@ -1203,7 +1203,7 @@ int     getCColor(const char *line)
             charPtr++;
     }
     if (*charPtr == 'R' || *charPtr == 'r' || *charPtr == 'F' || *charPtr == 'f')
-        ft_putstr(badFColorSyn, ft_strlen(badFColorSyn));
+        ft_putstr(BADFCOLORSYN, ft_strlen(BADFCOLORSYN));
     if (resCount == 3)
     {
         xcolor = create_trgb(0, res[0], res[1], res[2]);
@@ -1761,9 +1761,9 @@ int    getMap(const char *ptr)
         result[i++] = 0;
     result[8] = 1;
     if (fd < 0)
-        ft_putstr(cubFileNotFound, ft_strlen(cubFileNotFound));
+        ft_putstr(CUBNOTFOUND, ft_strlen(CUBNOTFOUND));
     else if (fd >= 0 && fd < 3)
-        ft_putstr(weirdFD, ft_strlen(weirdFD));
+        ft_putstr(WEIRDFD, ft_strlen(WEIRDFD));
     else
     {
         while ((ft_get_next_line(fd, line)) > 0) //mi get_next envía algo malloceado a EOF?
@@ -1795,21 +1795,21 @@ int    getMap(const char *ptr)
         }
         
         if (result[0] == -1)
-            ft_putstr(getResFail, ft_strlen(getResFail));
+            ft_putstr(GETRESFAIL, ft_strlen(GETRESFAIL));
         if (result[1] == -1)
-            ft_putstr(getNOFail, ft_strlen(getNOFail));
+            ft_putstr(GETNOFAIL, ft_strlen(GETNOFAIL));
         if (result[2] == -1)
-            ft_putstr(getSOFail, ft_strlen(getSOFail));
+            ft_putstr(GETSOFAIL, ft_strlen(GETSOFAIL));
         if (result[3] == -1)
-            ft_putstr(getWEFail, ft_strlen(getWEFail));
+            ft_putstr(GETWEFAIL, ft_strlen(GETWEFAIL));
         if (result[4] == -1)
-            ft_putstr(getEAFail, ft_strlen(getEAFail));
+            ft_putstr(GETEAFAIL, ft_strlen(GETEAFAIL));
         if (result[5] == -1)
-            ft_putstr(getSprFail, ft_strlen(getSprFail));
+            ft_putstr(GETSPRFAIL, ft_strlen(GETSPRFAIL));
         if (result[6] == -1)
-            ft_putstr(FColorInvalid, ft_strlen(FColorInvalid));
+            ft_putstr(FCOLORINVALID, ft_strlen(FCOLORINVALID));
         if (result[7] == -1)
-            ft_putstr(CColorInvalid, ft_strlen(CColorInvalid));
+            ft_putstr(CCOLORINVALID, ft_strlen(CCOLORINVALID));
         i = 1;
         while (result[i] > -1)
             i++;
@@ -1819,28 +1819,28 @@ int    getMap(const char *ptr)
         {
             //free(*line);
             //*line = NULL;
-            ft_putstr(outOfBounds, strlen(outOfBounds));
+            ft_putstr(OUTOFBOUNDS, strlen(OUTOFBOUNDS));
             return (0);
         }
         else if (i == -2)
         {
             //free(*line);
             //*line = NULL;
-            ft_putstr(badMap3line, strlen(badMap3line));
+            ft_putstr(BADMAP3LINE, strlen(BADMAP3LINE));
             return (0);   
         }
         else if (i == -3)
         {
             //free(*line);
             //*line = NULL;
-            ft_putstr(noPlayer, strlen(noPlayer));
+            ft_putstr(NOPLAYER, strlen(NOPLAYER));
             return (0);
         }
         else if (i == -4)
         {
             //free(*line);
             //*line = NULL;
-            ft_putstr(tooManyPlayers, strlen(tooManyPlayers));
+            ft_putstr(TOOMANYPLAYERS, strlen(TOOMANYPLAYERS));
             return (0);
         }
         //if (*line)
@@ -1856,7 +1856,7 @@ int    getMap(const char *ptr)
                   //  printf("%d\n%d\n", g_config.screenw, g_config.screenh);
     //printf("FD: %d", fd);
     if (close(fd) < 0)
-        ft_putstr(couldNotClose, ft_strlen(couldNotClose));
+        ft_putstr(COULDNOTCLOSE, ft_strlen(COULDNOTCLOSE));
     close(fdtest);
     return (1);
 }
@@ -1875,7 +1875,7 @@ void    makeTexImg(void)
     int normiHeight;
 
     if (!(wallSize = malloc(2 * sizeof(int))) | (!(sprSize = malloc(2 * sizeof(int)))))
-        ft_putstr(mallocFail, ft_strlen(mallocFail));
+        ft_putstr(MALLOCFAIL, ft_strlen(MALLOCFAIL));
     else
     {   
         normiWidth = 128;
@@ -1888,19 +1888,19 @@ void    makeTexImg(void)
         if (!g_blueMetalImg.mlx_img || !g_yellowMetalImg.mlx_img || !g_greenMetalImg.mlx_img || !g_pinkMetalImg.mlx_img || !g_sprt2img.mlx_img)
         {
             if (!g_blueMetalImg.mlx_img)
-                ft_putstr(pathNOFail, ft_strlen(pathNOFail));
+                ft_putstr(PATHNOFAIL, ft_strlen(PATHNOFAIL));
             if (!g_yellowMetalImg.mlx_img)
-                ft_putstr(pathSOFail, ft_strlen(pathSOFail));
+                ft_putstr(PATHSOFAIL, ft_strlen(PATHSOFAIL));
             if (!g_greenMetalImg.mlx_img)
-                ft_putstr(pathWEFail, ft_strlen(pathWEFail));
+                ft_putstr(PATHWEFAIL, ft_strlen(PATHWEFAIL));
             if (!g_pinkMetalImg.mlx_img)
-                ft_putstr(pathEAFail, ft_strlen(pathEAFail));
+                ft_putstr(PATHEAFAIL, ft_strlen(PATHEAFAIL));
             if (!g_sprt2img.mlx_img)
-                ft_putstr(pathSprFail, ft_strlen(pathSprFail));
+                ft_putstr(PATHSPRFAIL, ft_strlen(PATHSPRFAIL));
             exit(EXIT_FAILURE); //Fugoso?
         }
         if ((getTexRes(wallSize, g_blueMetalImg.texPath)) < 0)
-            ft_putstr(wallTexSizeFail, ft_strlen(wallTexSizeFail));
+            ft_putstr(WALLTEXSIZEFail, ft_strlen(WALLTEXSIZEFail));
         else
         {
             g_config.texw = wallSize[0];

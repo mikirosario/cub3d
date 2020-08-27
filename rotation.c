@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/04 17:17:25 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/11 15:27:01 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/27 17:42:44 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,13 @@ double	ft_round(double n, int prec)
 ** rotation (between -360 and 360), it will be set to 0. Requires
 ** valid double pointer to two contiguous reserved memory spaces
 ** of the double type.
+**
+** Addendum: NORMINETTE doesn't allow us the luxury of five arguments
+** so I've had to cut out the ability to specify precision  here. It
+** will be automatically set to 6. Norminette made me do it.
 */
 
-int		ft_rotate_2d(double x, double y, double adeg, double prec, double *ptr)
+int		ft_rotate_2d(double x, double y, double adeg, double *ptr)
 {
 	double	arad;
 
@@ -87,12 +91,8 @@ int		ft_rotate_2d(double x, double y, double adeg, double prec, double *ptr)
 		return (-1);
 	if (!(adeg >= -360 && adeg <= 360))
 		adeg = 0;
-	if (prec < 0)
-		prec = 0;
-	else if (prec > 15)
-		prec = 15;
 	arad = ft_degtorad(adeg);
-	(*(ptr + 0)) = ft_round((x * (cos(arad))) + (y * (sin(arad))), prec);
-	(*(ptr + 1)) = ft_round((y * (cos(arad))) - (x * (sin(arad))), prec);
+	(*(ptr + 0)) = ft_round((x * (cos(arad))) + (y * (sin(arad))), 6);
+	(*(ptr + 1)) = ft_round((y * (cos(arad))) - (x * (sin(arad))), 6);
 	return (0);
 }

@@ -6,25 +6,24 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/24 19:13:30 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/25 18:39:16 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/27 19:53:39 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PRINT_NOTIFICATIONS_H
-# define PRINT_NOTIFICATIONS_H
+#ifndef PRINTNOTIFICATIONS_H
+# define PRINTNOTIFICATIONS_H
 
-#define	Res GREEN"\nResolution: "RESET"\n%d x %d\n"
-#define wallPaths GREEN"\nNO Wall Path: "RESET"\n%s\n"GREEN"SO Wall Path: "RESET"\n%s\n"GREEN"EA Wall Path: "RESET"\n%s\n"GREEN"WE Wall Path: "RESET"\n%s\n"
-#define	sprPaths GREEN"Sprite Path: "RESET"\n%s\n"
-#define wallTexSize GREEN"\nWall Texture Size (WxH): "RESET"\n%d x %d\n"
-#define	spriteTexSize GREEN"Sprite Texture Size (WxH): "RESET"\n%d x %d\n"
-#define rgbF GREEN"\nFloor Color:\nRGB: "RESET"%d, %d, %d"
-#define hexF GREEN"\nHex: "RESET"%x\n"
-#define defaultF YELLOW"\nDefault Floor Color\n"RESET
-#define rgbC GREEN"\nCeiling Color:\nRGB: "RESET"%d, %d, %d"
-#define hexC GREEN"\nHex: "RESET"%x\n"
-#define defaultC YELLOW"\nDefault Ceiling Color\n"RESET
-#define	mapHeight GREEN"\nMap Height: "RESET"\n%d\n"
-#define screenshotsaved GREEN"**** Screenshot saved to ./screenie.bmp *****\n"RESET
+# define RES "\nResolution: \n"
+# define WALLPATHS "\nNO Wall Path:SO Wall Path:EA Wall Path:WE Wall Path:"
+# define SPRPATHS "Sprite Path:"
+# define WALLTEXSIZE "\nWall Texture Size (WxH):"
+# define SPRITETEXSIZE "Sprite Texture Size (WxH):"
+# define RGBF "\nFloor Color:\nRGB: "
+# define HEXF "\nHex: "
+# define DEFAULTF "\nDefault Floor Color\n"
+# define RGBC "\nCeiling Color:\nRGB: "
+# define HEXC "\nHex: "
+# define DEFAULTC "\nDefault Ceiling Color\n"
+# define SCREENSHOTSAVED "**** Screenshot saved to ./screenie.bmp *****\n"
 
 #endif

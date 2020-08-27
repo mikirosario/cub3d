@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/03 18:36:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/26 19:19:29 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/27 18:46:39 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,23 +39,23 @@ int		texerrorconditions(void)
 void	texreaderror(void)
 {
 	if (g_iamerror.texsizefail)
-		ft_printf("%s%s\n", texSizeFail, g_iamerror.texsizefail);
+		ft_printf(YELLOW"%s%s\n"RESET, TEXSIZEFAIL, g_iamerror.texsizefail);
 	if (g_iamerror.walltexsizedif)
-		ft_printf("%s\n", wallTexSizeDif);
+		ft_printf(RED"%s\n"RESET, WALLTEXSIZEDIF);
 	if (g_iamerror.couldnotopenxpm)
-		ft_printf("%s%s\n", couldNotOpenXPM, g_iamerror.couldnotopenxpm);
+		ft_printf(RED"%s%s\n"RESET, OPENXPMFAIL, g_iamerror.couldnotopenxpm);
 }
 
 void	texpatherrors(void)
 {
 	if (!g_nowallimg.mlx_img)
-		ft_printf("%s%s\n", pathNOFail, g_nowallimg.texpath);
+		ft_printf(RED"%s%s\n"RESET, PATHNOFAIL, g_nowallimg.texpath);
 	if (!g_sowallimg.mlx_img)
-		ft_printf("%s%s\n", pathSOFail, g_sowallimg.texpath);
+		ft_printf(RED"%s%s\n"RESET, PATHSOFAIL, g_sowallimg.texpath);
 	if (!g_wewallimg.mlx_img)
-		ft_printf("%s%s\n", pathWEFail, g_wewallimg.texpath);
+		ft_printf(RED"%s%s\n"RESET, PATHWEFAIL, g_wewallimg.texpath);
 	if (!g_eawallimg.mlx_img)
-		ft_printf("%s%s\n", pathEAFail, g_eawallimg.texpath);
+		ft_printf(RED"%s%s\n"RESET, PATHEAFAIL, g_eawallimg.texpath);
 	if (g_config.spritenum && !g_sprt2img.mlx_img)
-		ft_printf("%s%s\n", pathSprFail, g_sprt2img.texpath);
+		ft_printf(RED"%s%s\n"RESET, PATHSPRFAIL, g_sprt2img.texpath);
 }

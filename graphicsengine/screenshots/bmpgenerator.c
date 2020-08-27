@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/19 18:11:02 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/26 18:26:25 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/27 19:52:49 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,6 @@ int			screenshot(unsigned int *buf)
 	if (error)
 		bmperror(error);
 	else
-		ft_printf(screenshotsaved);
+		ft_printf(GREEN"%s"RESET, SCREENSHOTSAVED);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 18:31:22 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/26 18:38:18 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/27 17:37:57 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -259,7 +259,8 @@ int		linecheck(char *line, unsigned int y, char *mapchrs)
 	{
 		listptr = ft_lstnew(((char *)ft_strdup(line)));
 		listptr->len = ft_strlen((const char *)line);
-		!y ? g_config.maplist = listptr : ft_lstadd_back(&g_config.maplist, listptr);
+		!y ? g_config.maplist = listptr : ft_lstadd_back(&g_config.maplist, \
+		listptr);
 	}
 	else
 		return (0);

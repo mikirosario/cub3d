@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/26 20:17:32 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/27 17:43:17 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@
 
 typedef	struct	s_error
 {
+	unsigned char	toomanyargs : 1;
 	unsigned char	cubfilenotfound : 1;
 	unsigned char	weirdfd : 1;
 	unsigned char	couldnotclose : 1;
@@ -156,7 +157,7 @@ typedef struct	s_configdata
 	double			*zbuffer;
 	int				*spriteorder;
 	char			*spritetexpath;
-	char			screenshot : 1;
+	char			screenshot;
 }				t_configdata;
 
 /*
@@ -401,8 +402,7 @@ void			bmperror(int error);
 double			ft_degtorad(double a);
 double			ft_radtodeg(double a);
 double			ft_round(double n, int prec);
-int				ft_rotate_2d(double x, double y, double adeg, double prec, \
-double *ptr);
+int				ft_rotate_2d(double x, double y, double adeg, double *ptr);
 
 /*
 ** Bonus

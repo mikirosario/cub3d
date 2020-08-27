@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/07 20:24:05 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/26 20:36:48 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/27 17:39:01 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,18 @@ int		ft_stop(int key, void *param)
 	return (0);
 }
 
-void	configure(char *argv, int *success)
+void	configure(char **argv, int argc, int *success)
 {
-	if ((*success = cubhandler(argv)))
+	ft_printf(GREEN"\nCHECKING .CUB FILE...\n"RESET);
+	if (!(*success = argc > 3 ? 0 : 1))
+		g_iamerror.toomanyargs = 1;
+	else if (argc == 3)
+		if (!(ft_strncmp("--save", argv[2], ft_strlen(argv[2]))))
+			g_config.screenshot = 1;
+	if (*success && (*success = cubhandler(argv[1])))
 	{
+		if (g_iamerror.getresfail)
+			setdisplayresolution();
 		if (!(g_screendata.mlx_ptr = mlx_init()))
 			*success = 0;
 		else if (!(g_screendata.mlx_win = mlx_new_window(g_screendata.mlx_ptr, \
@@ -87,13 +95,8 @@ int		main(int argc, char **argv)
 {
 	int	success;
 
-	(void)argc;
-	if (argv[2] && !(ft_strncmp("--save", argv[2], ft_strlen(argv[2]))))
-		g_config.screenshot = 1;
-	//if too many args, abort error
-	ft_printf(GREEN"\nCHECKING .CUB FILE...\n"RESET);
 	initialize();
-	configure(argv[1], &success);
+	configure(argv, argc, &success);
 	printnotifications();
 	printerrors();
 	if (!success)

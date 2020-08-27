@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/16 18:38:05 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/26 20:44:45 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/27 17:02:42 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,7 @@ int		cuberrorhandler(int *result)
 	i = 1;
 	while (result[i] && i < 5)
 		i++;
+	g_iamerror.mapchecked = i == 5 ? 1 : 0;
 	return (i < 5 || !result[8] ? 0 : 1);
 }
 
@@ -162,7 +163,6 @@ int		maphandler(int fd, char *line)
 {
 	int i;
 
-	g_iamerror.mapchecked = 1;
 	i = makemaplist(fd, line);
 	if (i < 0)
 	{
@@ -278,8 +278,6 @@ int		cubhandler(const char *ptr)
 		if ((cuberrorhandler(result)) && (maphandler(fd, line)) && \
 		(!g_config.spritenum || !g_iamerror.getsprfail))
 			success = 1;
-		if (g_iamerror.getresfail)
-			setdisplayresolution();
 		free(result);
 	}
 	else
