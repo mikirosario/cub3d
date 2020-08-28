@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/27 17:43:17 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/28 15:50:55 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,12 @@
 ** #include <CoreGraphics/CGDisplayConfiguration.h>
 */
 
-# include <limits.h>
-# include <stdio.h>
-# include <stdlib.h>
 # include <math.h>
 # include <mlx.h>
-# include <string.h>
+# include <fcntl.h>
 # include "./libft/libft.h"
 # include "iamerror.h"
 # include "printnotifications.h"
-# include <fcntl.h>
-# include <unistd.h>
 
 # define BLUE "\033[1;34m"
 # define GREEN "\033[0;32m"
@@ -386,7 +381,6 @@ void			castsprites(unsigned int *buf);
 int				keypress(int key, void *param);
 int				keyrelease(int key, void *param);
 void			readmovementkeys(void);
-void			graphicsmodes(void);
 
 /*
 ** Screenshot
@@ -403,12 +397,5 @@ double			ft_degtorad(double a);
 double			ft_radtodeg(double a);
 double			ft_round(double n, int prec);
 int				ft_rotate_2d(double x, double y, double adeg, double *ptr);
-
-/*
-** Bonus
-*/
-
-void			countframes(time_t *timestart);
-void			cls(void);
 
 #endif

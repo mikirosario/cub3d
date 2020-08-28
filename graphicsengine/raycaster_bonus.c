@@ -6,13 +6,13 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/11 15:32:45 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/27 18:26:31 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/28 20:17:25 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cub3d.h"
+#include "../cub3d_bonus.h"
 
-extern error_t	g_iamerror;
+extern t_error	g_iamerror;
 
 void	loadsprites(void)
 {
@@ -103,6 +103,12 @@ void	start(unsigned int **buf)
 	*buf = (unsigned int *)mlx_get_data_addr(g_screendata.mlx_img_buffer,
 	&g_screendata.bpp, &g_screendata.size_line, &g_screendata.endian);
 	g_config.vmove = g_config.spriteh * g_config.vdiv;
+	if (g_floorimg.mlx_img)
+		g_floorimg.tex_ptr = (unsigned int *)mlx_get_data_addr(g_floorimg.mlx_img, \
+		&g_floorimg.bpp, &g_floorimg.size_line, &g_floorimg.endian);
+	g_ceilingimg.tex_ptr = (unsigned int *)mlx_get_data_addr( \
+	g_ceilingimg.mlx_img, &g_ceilingimg.bpp, &g_ceilingimg.size_line,\
+	&g_ceilingimg.endian);
 	g_nowallimg.tex_ptr = (unsigned int *)mlx_get_data_addr(g_nowallimg.mlx_img,
 	&g_nowallimg.bpp, &g_nowallimg.size_line, &g_nowallimg.endian);
 	g_sowallimg.tex_ptr = (unsigned int *)mlx_get_data_addr(g_sowallimg.mlx_img,
@@ -133,23 +139,23 @@ int		raycaster(int key, void *param)
 {
 	int					x;
 	static unsigned int	*buf = NULL;
-	static time_t timestart = 0; //BONUS!
+	static time_t		timestart = 0;
 
 	(void)param;
 	(void)key;
-	if (!timestart) //BONUS!
-		timestart = time(NULL); //BONUS!
+	if (!timestart)
+		timestart = time(NULL);
 	x = 0;
 	if (!buf)
 		start(&buf);
+	cast_ceiling_floor(buf);
 	while (x < g_config.screenw)
 	{
 		castray(x);
 		calculateframeline();
 		drawframeline(x, buf);
-		//set zBuffer for sprite casting
 		if (g_config.spritenum)
-			g_config.zbuffer[x] = g_raydata.perpwalldist; //perpendicular distances to walls from camera
+			g_config.zbuffer[x] = g_raydata.perpwalldist;
 		x++;
 	}
 	castsprites(buf);
@@ -159,7 +165,7 @@ int		raycaster(int key, void *param)
 		screenshot(buf);
 	readmovementkeys();
 	//other key presses (inventory, menu, etc.) here
-		countframes(&timestart); //BONUS!
-	//displaygraphicsmodes(); //BONUS!
+	countframes(&timestart);
+	displaygraphicsmode();
 	return (0);
 }

@@ -14,13 +14,14 @@
 ** getFColor no es tolerante ni tira el error. (o_O) Comportamiento deseado: que tire el error.
 ** Hay que encontrar la diferencia. R es intolerante y tira bien el error, lo cual es correcto. ;)
 
-R  1920 11080
+R  1920 1080
 no ./blueMetal.XPM
 SO ./yellowMetal.XPM
 WE ./greenMetal.XPM
 EA ./pinkMetal.XPM
 S ./normiSprite.XPM
-F 	102 , 153,153
+** F 	102 , 153,153
+F ./bricks.XPM
 C	102,0,255
 
 basurilla

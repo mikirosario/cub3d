@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 16:26:34 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/26 18:26:25 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/28 15:58:39 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,15 +81,6 @@ void	setdisplayresolution(void)
 **	g_iamerror.badressize = linenum;
 **	return (0);
 ** }
-**
-** Mac, using CoreGraphics library.
-**
-** This library isn't allowed... :( Had to take it out.
-** Now I just input the maximum resolution manually.
-**
-** CGDirectDisplayID	displayid;
-**
-** displayid = CGMainDisplayID();
 */
 
 int		setres(const char *line, int res, unsigned int linenum)

@@ -6,7 +6,7 @@
 #    By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/07/15 20:32:43 by mrosario          #+#    #+#              #
-#    Updated: 2020/08/27 20:02:50 by mrosario         ###   ########.fr        #
+#    Updated: 2020/08/28 19:53:47 by mrosario         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,9 +24,23 @@ SRC = rotation.c freeme.c ./toolkit.c ./config/cub.c ./config/getscreenres.c \
 ./graphicsengine/drawsprites.c ./graphicsengine/playermovement.c \
 ./graphicsengine/keychecks.c ./config/maparray.c \
 ./graphicsengine/sortsprites.c ./graphicsengine/screenshots/bmpgenerator.c \
-./graphicsengine/screenshots/bmperror.c ./graphicsengine/graphicsmodes.c
+./graphicsengine/screenshots/bmperror.c
 
-BSRC = ./graphicsengine/fpscounter_bonus.c
+BSRC = rotation.c freeme_bonus.c ./toolkit.c ./config/cub_bonus.c ./config/getscreenres.c \
+./config/getwallparams.c ./config/getspriteparams.c \
+./config/getceilingfloorparams_bonus.c cub3d.c ./config/iamerror.c \
+./config/printnotifications.c ./config/mapcheck/map_phase1.c \
+./config/maperrors.c ./config/texerrors_bonus.c ./config/mapcheck/map_phase2.c \
+./config/maplistfunctions.c ./config/spritelistfunctions.c \
+./config/spritecounter.c ./config/printlinkedlists.c ./config/initialize_bonus.c \
+./config/makeimages_bonus.c ./graphicsengine/raycaster_bonus.c ./graphicsengine/dda.c \
+./graphicsengine/drawframeline_bonus.c ./graphicsengine/calculateframeline.c \
+./graphicsengine/drawsprites.c ./graphicsengine/playermovement.c \
+./graphicsengine/keychecks.c ./config/maparray.c \
+./graphicsengine/sortsprites.c ./graphicsengine/screenshots/bmpgenerator.c \
+./graphicsengine/screenshots/bmperror.c ./graphicsengine/graphicsmodes_bonus.c \
+./graphicsengine/fpscounter_bonus.c ./graphicsengine/drawceilingfloor_bonus.c \
+
 
 OBJ = $(SRC:.c=.o)
 
@@ -52,7 +66,11 @@ $(LIBFT):
 	make -C ./libft
 	make clean -C ./libft
 
-bonus:
+bonus: $(LIBFT)
+	gcc $(CFLAG) $(LIBS) $(FRMWRK) $(BSRC) -o cub3d
+
+bdebug: $(LIBFT)
+	gcc $(CFLAG) $(LIBS) $(FRMWRK) $(BSRC) -g -o cub3d
 
 clean:
 	rm -f *.o
