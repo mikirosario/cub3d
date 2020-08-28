@@ -30,7 +30,9 @@
 */
 
 # include <time.h>
+#ifdef __APPLE__
 # include <CoreGraphics/CGDisplayConfiguration.h>
+#endif
 # include "cub3d.h"
 # include "iamerror_bonus.h"
 

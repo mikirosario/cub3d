@@ -41,6 +41,21 @@ BSRC = rotation.c freeme_bonus.c ./toolkit.c ./config/cub_bonus.c ./config/getsc
 ./graphicsengine/screenshots/bmperror.c ./graphicsengine/graphicsmodes_bonus.c \
 ./graphicsengine/fpscounter_bonus.c ./graphicsengine/drawceilingfloor_bonus.c \
 
+LBSRC = rotation.c freeme_bonus.c ./toolkit.c ./config/cub_bonus.c ./config/getscreenres.c \
+./config/getwallparams.c ./config/getspriteparams.c \
+./config/getceilingfloorparams_bonus.c cub3d_linux.c ./config/iamerror.c \
+./config/printnotifications.c ./config/mapcheck/map_phase1.c \
+./config/maperrors.c ./config/texerrors_bonus.c ./config/mapcheck/map_phase2.c \
+./config/maplistfunctions.c ./config/spritelistfunctions.c \
+./config/spritecounter.c ./config/printlinkedlists.c ./config/initialize_linux.c \
+./config/makeimages_bonus.c ./graphicsengine/raycaster_bonus.c ./graphicsengine/dda.c \
+./graphicsengine/drawframeline_bonus.c ./graphicsengine/calculateframeline.c \
+./graphicsengine/drawsprites.c ./graphicsengine/playermovement.c \
+./graphicsengine/keychecks_linux.c ./config/maparray.c \
+./graphicsengine/sortsprites.c ./graphicsengine/screenshots/bmpgenerator.c \
+./graphicsengine/screenshots/bmperror.c ./graphicsengine/graphicsmodes_bonus.c \
+./graphicsengine/fpscounter_bonus.c ./graphicsengine/drawceilingfloor_bonus.c \
+
 
 OBJ = $(SRC:.c=.o)
 
@@ -53,6 +68,8 @@ CFLAG = -Wall -Werror -Wextra
 FRMWRK = -framework OpenGL -framework AppKit
 
 LIBS = -I /usr/local/include/ -I ./libft/ -L./libft/ -lft -L /usr/local/lib/ -lmlx
+
+LINUXLIBS = -I ./ -I ./libft/ -L. -lmlx_Linux -lm -lXext -lX11 -lbsd -L ./libft -lft
 
 all: $(NAME)
 
@@ -71,6 +88,10 @@ bonus: $(LIBFT)
 
 bdebug: $(LIBFT)
 	gcc $(CFLAG) $(LIBS) $(FRMWRK) $(BSRC) -g -o cub3d
+
+blinux: $(LIBFT)
+	gcc $(CFLAG) $(LBSRC) $(LINUXLIBS) -g -o cub3d
+
 
 clean:
 	rm -f *.o
