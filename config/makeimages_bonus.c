@@ -83,15 +83,16 @@ int		getxpmres(int *texres, char *xpmpath)
 
 int		comptexres(int *firstwallsize)
 {
-	char	*texpath[3];
+	char	*texpath[4];
 	int		texres[2];
 	int		i;
 
 	texpath[0] = g_sowallimg.texpath;
 	texpath[1] = g_wewallimg.texpath;
 	texpath[2] = g_eawallimg.texpath;
+	texpath[3] = g_floorimg.texpath;
 	i = 0;
-	while (i < 3)
+	while (i < 4)
 	{
 		getxpmres(texres, texpath[i]);
 		if (firstwallsize[0] == texres[0] && firstwallsize[1] == texres[1])
@@ -99,9 +100,9 @@ int		comptexres(int *firstwallsize)
 		else
 			break ;
 	}
-	if (i < 3)
+	if (i < 4)
 		g_iamerror.walltexsizedif = 1;
-	return (i == 3 ? 1 : 0);
+	return (i == 4 ? 1 : 0);
 }
 
 /*
@@ -130,7 +131,6 @@ int		getteximg(void)
 {
 	g_floorimg.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, \
 	g_floorimg.texpath, &g_config.texw, &g_config.texh);
-	g_ceilingimg.texpath = "sandbrick.XPM"; //temp
 	g_ceilingimg.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, \
 	g_ceilingimg.texpath, &g_config.texw, &g_config.texh);
 	g_nowallimg.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, \
@@ -144,15 +144,15 @@ int		getteximg(void)
 	if (g_config.spritenum)
 		g_sprt2img.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, \
 		g_sprt2img.texpath, &g_config.spritew, &g_config.spriteh);
-	if (!g_nowallimg.mlx_img || !g_sowallimg.mlx_img || \
-	!g_wewallimg.mlx_img || !g_eawallimg.mlx_img || \
+	if (!g_nowallimg.mlx_img || !g_sowallimg.mlx_img || !g_wewallimg.mlx_img ||
+	!g_eawallimg.mlx_img || !g_floorimg.mlx_img || !g_ceilingimg.mlx_img ||
 	(!g_sprt2img.mlx_img && g_config.spritenum))
 	{
 		g_iamerror.texpathfail = 1;
 		return (0);
 	}
-	if (!g_floorimg.mlx_img && g_floorimg.texpath)
-		g_iamerror.texpathfail = 1;
+	//if (!g_floorimg.mlx_img && g_floorimg.texpath)
+	//	g_iamerror.texpathfail = 1;
 	return (1);
 }
 

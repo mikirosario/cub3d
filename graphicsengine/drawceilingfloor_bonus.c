@@ -17,7 +17,7 @@ void	draw_floor(unsigned int *buf, int x, int y)
 	unsigned int	*texptr;
 
 	texptr = g_floorimg.tex_ptr;
-	if (g_keydata.m != 2 && g_floorimg.mlx_img)
+	if (g_keydata.m != 2)
 	{
 		g_framedata.xcolor = texptr[(g_xraydata.texy * g_config.texw) \
 		+ g_xraydata.texx];

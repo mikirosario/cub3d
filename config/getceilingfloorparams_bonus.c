@@ -115,9 +115,7 @@ int			getccolor(const char *line, unsigned int linenum)
 int			getftex(const char *line, unsigned int linenum)
 {
 	int			i;
-	const char *tmp;
 
-	tmp = line;
 	if (!line)
 		return (0);
 	line = ft_skipspaces(line);
@@ -125,7 +123,10 @@ int			getftex(const char *line, unsigned int linenum)
 		return (0);
 	line = ft_skipspaces(line += 2);
 	if (*line != '.' || *(line + 1) != '/')
-		return (getfcolor(tmp, linenum));
+	{
+		g_iamerror.badfloorsyn = linenum;
+		return (0);
+	}
 	i = 0;
 	while (line[i] && ft_isprint(line[i]))
 		i++;
@@ -135,5 +136,32 @@ int			getftex(const char *line, unsigned int linenum)
 		return (0);
 	}
 	ft_memcpy(g_floorimg.texpath, line, i);
+	return (1);
+}
+
+int			getctex(const char *line, unsigned int linenum)
+{
+	int			i;
+
+	if (!line)
+		return (0);
+	line = ft_skipspaces(line);
+	if (*line != 'C' && *line != 'c')
+		return (0);
+	line = ft_skipspaces(line += 2);
+	if (*line != '.' || *(line + 1) != '/')
+	{
+		g_iamerror.badceilsyn = linenum;
+		return (0);
+	}
+	i = 0;
+	while (line[i] && ft_isprint(line[i]))
+		i++;
+	if (!(g_ceilingimg.texpath = ft_calloc(i + 1, 1)))
+	{
+		g_iamerror.mallocfail = 1;
+		return (0);
+	}
+	ft_memcpy(g_ceilingimg.texpath, line, i);
 	return (1);
 }

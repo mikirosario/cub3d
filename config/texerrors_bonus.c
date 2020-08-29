@@ -14,6 +14,38 @@
 
 extern t_error	g_iamerror;
 
+void	gettexfail(void)
+{
+	if (g_iamerror.getnofail)
+		ft_printf(RED"%s"RESET, GETNOFAIL);
+	if (g_iamerror.badnosyn)
+		ft_printf("Line %u: "RED"%s"RESET, g_iamerror.badnosyn, BADNOSYN);
+	if (g_iamerror.getsofail)
+		ft_printf(RED"%s"RESET, GETSOFAIL);
+	if (g_iamerror.badsosyn)
+		ft_printf("Line %u: "RED"%s"RESET, g_iamerror.badsosyn, BADSOSYN);
+	if (g_iamerror.getwefail)
+		ft_printf(RED"%s"RESET, GETWEFAIL);
+	if (g_iamerror.badwesyn)
+		ft_printf("Line %u: "RED"%s"RESET, g_iamerror.badwesyn, BADWESYN);
+	if (g_iamerror.geteafail)
+		ft_printf(RED"%s"RESET, GETEAFAIL);
+	if (g_iamerror.badeasyn)
+		ft_printf("Line %u: "RED"%s"RESET, g_iamerror.badeasyn, BADEASYN);
+	if (g_config.spritenum && g_iamerror.getsprfail)
+		ft_printf(RED"%s"RESET, GETSPRFAIL);
+	if (g_config.spritenum && g_iamerror.badsprsyn)
+		ft_printf("Line %u: "RED"%s"RESET, g_iamerror.badsprsyn, BADSPRSYN);
+	if (g_iamerror.getfloorfail)
+		ft_printf(RED"%s"RESET, GETFLFAIL);
+	if (g_iamerror.badfloorsyn)
+		ft_printf("Line %u: "RED"%s"RESET, g_iamerror.badfloorsyn, BADFLSYN);
+	if (g_iamerror.getceilfail)
+		ft_printf(RED"%s"RESET, GETCEFAIL);
+	if (g_iamerror.badceilsyn)
+		ft_printf("Line %u: "RED"%s"RESET, g_iamerror.badceilsyn, BADCESYN);
+}
+
 /*
 ** This function simply checks all the conditions for going into the texerrors
 ** function, in case any texture configuration errors happened. There are so
@@ -28,7 +60,8 @@ extern t_error	g_iamerror;
 int		texerrorconditions(void)
 {
 	if (g_iamerror.getnofail || g_iamerror.getsofail || g_iamerror.getwefail \
-	|| g_iamerror.geteafail || (g_config.spritenum && (g_iamerror.getsprfail \
+	|| g_iamerror.geteafail || g_iamerror.getfloorfail \
+	|| g_iamerror.getceilfail|| (g_config.spritenum && (g_iamerror.getsprfail \
 	|| !g_sprt2img.mlx_img)) || g_iamerror.texpathfail \
 	|| g_iamerror.texsizefail || g_iamerror.couldnotopenxpm \
 	|| g_iamerror.walltexsizedif)
@@ -48,8 +81,6 @@ void	texreaderror(void)
 
 void	texpatherrors(void)
 {
-	if (!g_floorimg.mlx_img && g_floorimg.texpath)
-		ft_printf(YELLOW"%s%s%s\n"RESET, PATHFLFAIL, g_floorimg.texpath, DEFC);
 	if (!g_nowallimg.mlx_img)
 		ft_printf(RED"%s%s\n"RESET, PATHNOFAIL, g_nowallimg.texpath);
 	if (!g_sowallimg.mlx_img)
@@ -60,4 +91,8 @@ void	texpatherrors(void)
 		ft_printf(RED"%s%s\n"RESET, PATHEAFAIL, g_eawallimg.texpath);
 	if (g_config.spritenum && !g_sprt2img.mlx_img)
 		ft_printf(RED"%s%s\n"RESET, PATHSPRFAIL, g_sprt2img.texpath);
+	if (!g_floorimg.mlx_img)
+		ft_printf(RED"%s%s\n"RESET, PATHFLFAIL, g_floorimg.texpath);
+	if (!g_ceilingimg.mlx_img)
+		ft_printf(RED"%s%s\n"RESET, PATHCEFAIL, g_ceilingimg.texpath);
 }

@@ -35,6 +35,7 @@
 #endif
 # include "cub3d.h"
 # include "iamerror_bonus.h"
+# include "printnotifications_bonus.h"
 
 /*
 ** Raydir for leftmost ray (x = 0) and rightmost ray (x = w).
@@ -78,7 +79,6 @@ typedef struct	s_horizontalraydata
 
 t_imagedata	g_ceilingimg;
 t_imagedata	g_floorimg;
-t_imagedata	g_ceilingimg;
 t_xraydata	g_xraydata;
 
 /*
@@ -90,5 +90,7 @@ void	displaygraphicsmode(void);
 void	cls(void);
 void	cast_ceiling_floor(unsigned int *buf);
 int		getftex(const char *line, unsigned int linenum);
+int		getctex(const char *line, unsigned int linenum);
+void	gettexfail(void);
 
 #endif

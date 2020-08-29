@@ -29,9 +29,9 @@ int		findfirstmapline(char **line, int *result, unsigned int linenum)
 	int i;
 
 	i = 1;
-	while (i < 5 && result[i] == 1)
+	while (i < 7 && result[i] == 1)
 		i++;
-	if (i == 5)
+	if (i == 7)
 		if (ismap(*line))
 		{
 			result[8] = 1;
@@ -74,11 +74,11 @@ void	cubread(int *result, char **line, int fd, int linenum)
 		if (result[4] < 1)
 			result[4] = getea(*line, linenum);
 		if (result[5] < 1)
-			result[5] = getsprite(*line, linenum);
+			result[5] = getftex(*line, linenum);
 		if (result[6] < 1)
-			result[6] = getftex(*line, linenum);
+			result[6] = getctex(*line, linenum);
 		if (result[7] < 1)
-			result[7] = getccolor(*line, linenum);
+			result[7] = getsprite(*line, linenum);
 		if (findfirstmapline(line, result, linenum))
 			break ;
 		del(*line);
@@ -120,18 +120,18 @@ int		cuberrorhandler(int *result)
 	if (result[4] == 0)
 		g_iamerror.geteafail = 1;
 	if (result[5] == 0)
-		g_iamerror.getsprfail = 1;
+		g_iamerror.getfloorfail = 1;
 	if (result[6] == 0)
-		g_iamerror.fcolorinvalid = 1;
+		g_iamerror.getceilfail = 1;
 	if (result[7] == 0)
-		g_iamerror.ccolorinvalid = 1;
+		g_iamerror.getsprfail = 1;
 	if (!(result[8]))
 		g_iamerror.nomapfound = 1;
 	i = 1;
-	while (result[i] && i < 5)
+	while (result[i] && i < 7)
 		i++;
-	g_iamerror.mapchecked = i == 5 ? 1 : 0;
-	return (i < 5 || !result[8] ? 0 : 1);
+	g_iamerror.mapchecked = i == 7 ? 1 : 0;
+	return (i < 7 || !result[8] ? 0 : 1);
 }
 
 /*

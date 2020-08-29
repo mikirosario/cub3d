@@ -61,6 +61,10 @@ typedef	struct	s_error
 	unsigned int	badeasyn;
 	unsigned char	getsprfail : 1;
 	unsigned int	badsprsyn;
+	unsigned char	getfloorfail : 1;
+	unsigned int	badfloorsyn;
+	unsigned char	getceilfail : 1;
+	unsigned int	badceilsyn;
 	unsigned char	texpathfail : 1;
 	char			*texsizefail;
 	unsigned char	walltexsizedif : 1;

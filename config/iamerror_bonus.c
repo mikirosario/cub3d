@@ -95,26 +95,7 @@ void	reserrors(void)
 void	texerrors(void)
 {
 	ft_printf(RED"%s"RESET, REDERROR);
-	if (g_iamerror.getnofail)
-		ft_printf(RED"%s"RESET, GETNOFAIL);
-	if (g_iamerror.badnosyn)
-		ft_printf("Line %u: "RED"%s"RESET, g_iamerror.badnosyn, BADNOSYN);
-	if (g_iamerror.getsofail)
-		ft_printf(RED"%s"RESET, GETSOFAIL);
-	if (g_iamerror.badsosyn)
-		ft_printf("Line %u: "RED"%s"RESET, g_iamerror.badsosyn, BADSOSYN);
-	if (g_iamerror.getwefail)
-		ft_printf(RED"%s"RESET, GETWEFAIL);
-	if (g_iamerror.badwesyn)
-		ft_printf("Line %u: "RED"%s"RESET, g_iamerror.badwesyn, BADWESYN);
-	if (g_iamerror.geteafail)
-		ft_printf(RED"%s"RESET, GETEAFAIL);
-	if (g_iamerror.badeasyn)
-		ft_printf("Line %u: "RED"%s"RESET, g_iamerror.badeasyn, BADEASYN);
-	if (g_config.spritenum && g_iamerror.getsprfail)
-		ft_printf(RED"%s"RESET, GETSPRFAIL);
-	if (g_config.spritenum && g_iamerror.badsprsyn)
-		ft_printf("Line %u: "RED"%s"RESET, g_iamerror.badsprsyn, BADSPRSYN);
+	gettexfail();
 	texreaderror();
 	if (g_iamerror.texpathfail)
 		texpatherrors();

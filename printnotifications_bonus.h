@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   printnotifications.h                               :+:      :+:    :+:   */
+/*   printnotifications_bonus.h                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,20 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PRINTNOTIFICATIONS_H
-# define PRINTNOTIFICATIONS_H
+#ifndef PRINTNOTIFICATIONS_BONUS_H
+# define PRINTNOTIFICATIONS_BONUS_H
 
-# define RES "\nResolution: \n"
-# define WALLPATHS "\nNO Wall Path:SO Wall Path:EA Wall Path:WE Wall Path:"
-# define SPRPATHS "Sprite Path:"
-# define WALLTEXSIZE "\nSurface Texture Size (WxH):"
-# define SPRITETEXSIZE "Sprite Texture Size (WxH):"
-# define RGBF "\nFloor Color:\nRGB: "
-# define HEXF "\nHex: "
-# define DEFAULTF "\nDefault Floor Color\n"
-# define RGBC "\nCeiling Color:\nRGB: "
-# define HEXC "\nHex: "
-# define DEFAULTC "\nDefault Ceiling Color\n"
-# define SCREENSHOTSAVED "**** Screenshot saved to ./screenie.bmp *****\n"
+# define FCPATHS "Floor Path:Ceiling Path:"
 
 #endif
