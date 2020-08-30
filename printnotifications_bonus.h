@@ -14,5 +14,7 @@
 # define PRINTNOTIFICATIONS_BONUS_H
 
 # define FCPATHS "Floor Path:Ceiling Path:"
+# define SPRPATHS "Sprite Paths:"
+# define SPRITETEXSIZES "Sprite Texture Sizes (WxH):"
 
 #endif

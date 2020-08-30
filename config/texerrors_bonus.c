@@ -13,6 +13,7 @@
 #include "../cub3d_bonus.h"
 
 extern t_error	g_iamerror;
+extern t_imagedata *sprimg[10];
 
 void	gettexfail(void)
 {
@@ -32,9 +33,9 @@ void	gettexfail(void)
 		ft_printf(RED"%s"RESET, GETEAFAIL);
 	if (g_iamerror.badeasyn)
 		ft_printf("Line %u: "RED"%s"RESET, g_iamerror.badeasyn, BADEASYN);
-	if (g_config.spritenum && g_iamerror.getsprfail)
+	if (g_iamerror.getsprfail)
 		ft_printf(RED"%s"RESET, GETSPRFAIL);
-	if (g_config.spritenum && g_iamerror.badsprsyn)
+	if (g_iamerror.badsprsyn)
 		ft_printf("Line %u: "RED"%s"RESET, g_iamerror.badsprsyn, BADSPRSYN);
 	if (g_iamerror.getfloorfail)
 		ft_printf(RED"%s"RESET, GETFLFAIL);
@@ -61,8 +62,8 @@ int		texerrorconditions(void)
 {
 	if (g_iamerror.getnofail || g_iamerror.getsofail || g_iamerror.getwefail \
 	|| g_iamerror.geteafail || g_iamerror.getfloorfail \
-	|| g_iamerror.getceilfail|| (g_config.spritenum && (g_iamerror.getsprfail \
-	|| !g_sprt2img.mlx_img)) || g_iamerror.texpathfail \
+	|| g_iamerror.getceilfail|| (g_config.spritenum && g_iamerror.getsprfail) \
+	|| g_iamerror.texpathfail || g_iamerror.orphansprites \
 	|| g_iamerror.texsizefail || g_iamerror.couldnotopenxpm \
 	|| g_iamerror.walltexsizedif)
 		return (1);
@@ -81,6 +82,9 @@ void	texreaderror(void)
 
 void	texpatherrors(void)
 {
+	int i;
+
+	i = 2;
 	if (!g_nowallimg.mlx_img)
 		ft_printf(RED"%s%s\n"RESET, PATHNOFAIL, g_nowallimg.texpath);
 	if (!g_sowallimg.mlx_img)
@@ -89,8 +93,13 @@ void	texpatherrors(void)
 		ft_printf(RED"%s%s\n"RESET, PATHWEFAIL, g_wewallimg.texpath);
 	if (!g_eawallimg.mlx_img)
 		ft_printf(RED"%s%s\n"RESET, PATHEAFAIL, g_eawallimg.texpath);
-	if (g_config.spritenum && !g_sprt2img.mlx_img)
-		ft_printf(RED"%s%s\n"RESET, PATHSPRFAIL, g_sprt2img.texpath);
+	if (g_config.spritenum)
+		while (i <= g_config.sprtexnum)
+		{
+			if (!(*sprimg[i]).mlx_img)
+				ft_printf(RED"%s%s\n"RESET, PATHSPRFAIL, (*sprimg[i]).texpath);
+			i++;
+		}
 	if (!g_floorimg.mlx_img)
 		ft_printf(RED"%s%s\n"RESET, PATHFLFAIL, g_floorimg.texpath);
 	if (!g_ceilingimg.mlx_img)

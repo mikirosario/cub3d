@@ -50,7 +50,7 @@ void	printnotifications(void)
 		(WALLPATHS + 27), g_wewallimg.texpath, (WALLPATHS + 40), \
 		g_eawallimg.texpath);
 		if (g_config.spritenum)
-			ft_printf(GREEN"%s"RESET"\n%s\n", SPRPATHS, g_sprt2img.texpath);
+			ft_printf(GREEN"%s"RESET"\n%s\n", SPRPATH, g_sprt2img.texpath);
 		if (!g_iamerror.texpathfail)
 			texturesizenotifications();
 		if (!g_iamerror.fcolorinvalid)

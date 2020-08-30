@@ -79,6 +79,13 @@ typedef struct	s_horizontalraydata
 
 t_imagedata	g_ceilingimg;
 t_imagedata	g_floorimg;
+t_imagedata	g_sprt3img;
+t_imagedata	g_sprt4img;
+t_imagedata	g_sprt5img;
+t_imagedata	g_sprt6img;
+t_imagedata	g_sprt7img;
+t_imagedata	g_sprt8img;
+t_imagedata	g_sprt9img;
 t_xraydata	g_xraydata;
 
 /*

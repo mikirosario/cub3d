@@ -27,30 +27,30 @@ SRC = cub3d.c rotation.c freeme.c ./toolkit.c ./config/cub.c \
 ./graphicsengine/screenshots/bmperror.c
 
 BSRC = cub3d.c rotation.c freeme_bonus.c ./toolkit.c ./config/cub_bonus.c \
-./config/getscreenres.c ./config/getwallparams.c ./config/getspriteparams.c \
+./config/getscreenres.c ./config/getwallparams.c ./config/getspriteparams_bonus.c \
 ./config/getceilingfloorparams_bonus.c ./config/iamerror_bonus.c \
-./config/printnotifications_bonus.c ./config/mapcheck/map_phase1.c \
-./config/maperrors.c ./config/texerrors_bonus.c ./config/mapcheck/map_phase2.c \
+./config/printnotifications_bonus.c ./config/mapcheck/map_phase1_bonus.c \
+./config/maperrors.c ./config/texerrors_bonus.c ./config/mapcheck/map_phase2_bonus.c \
 ./config/maplistfunctions.c ./config/spritelistfunctions.c \
 ./config/spritecounter.c ./config/printlinkedlists.c ./config/initialize_bonus.c \
 ./config/makeimages_bonus.c ./graphicsengine/raycaster_bonus.c ./graphicsengine/dda.c \
 ./graphicsengine/drawframeline_bonus.c ./graphicsengine/calculateframeline.c \
-./graphicsengine/drawsprites.c ./graphicsengine/playermovement.c \
+./graphicsengine/drawsprites_bonus.c ./graphicsengine/playermovement.c \
 ./graphicsengine/keychecks.c ./config/maparray.c \
 ./graphicsengine/sortsprites.c ./graphicsengine/screenshots/bmpgenerator.c \
 ./graphicsengine/screenshots/bmperror.c ./graphicsengine/graphicsmodes_bonus.c \
 ./graphicsengine/fpscounter_bonus.c ./graphicsengine/drawceilingfloor_bonus.c \
 
 LBSRC = cub3d_linux.c rotation.c freeme_bonus.c ./toolkit.c ./config/cub_bonus.c \
-./config/getscreenres.c ./config/getwallparams.c ./config/getspriteparams.c \
+./config/getscreenres.c ./config/getwallparams.c ./config/getspriteparams_bonus.c \
 ./config/getceilingfloorparams_bonus.c ./config/iamerror_bonus.c \
-./config/printnotifications_bonus.c ./config/mapcheck/map_phase1.c \
-./config/maperrors.c ./config/texerrors_bonus.c ./config/mapcheck/map_phase2.c \
+./config/printnotifications_bonus.c ./config/mapcheck/map_phase1_bonus.c \
+./config/maperrors.c ./config/texerrors_bonus.c ./config/mapcheck/map_phase2_bonus.c \
 ./config/maplistfunctions.c ./config/spritelistfunctions.c \
 ./config/spritecounter.c ./config/printlinkedlists.c ./config/initialize_linux.c \
 ./config/makeimages_bonus.c ./graphicsengine/raycaster_bonus.c ./graphicsengine/dda.c \
 ./graphicsengine/drawframeline_bonus.c ./graphicsengine/calculateframeline.c \
-./graphicsengine/drawsprites.c ./graphicsengine/playermovement.c \
+./graphicsengine/drawsprites_bonus.c ./graphicsengine/playermovement.c \
 ./graphicsengine/keychecks_linux.c ./config/maparray.c \
 ./graphicsengine/sortsprites.c ./graphicsengine/screenshots/bmpgenerator.c \
 ./graphicsengine/screenshots/bmperror.c ./graphicsengine/graphicsmodes_bonus.c \

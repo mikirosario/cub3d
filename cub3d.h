@@ -69,6 +69,7 @@ typedef	struct	s_error
 	char			*texsizefail;
 	unsigned char	walltexsizedif : 1;
 	unsigned char	sprtexsizefail : 1;
+	unsigned char	orphansprites;
 	unsigned char	fcolorinvalid : 1;
 	unsigned int	badfcolorsyn;
 	unsigned char	ccolorinvalid : 1;
@@ -156,6 +157,7 @@ typedef struct	s_configdata
 	double			*zbuffer;
 	int				*spriteorder;
 	char			*spritetexpath;
+	int				sprtexnum;
 	char			screenshot;
 }				t_configdata;
 
@@ -268,6 +270,8 @@ typedef struct	s_imagedata
 	int				bpp;
 	int				size_line;
 	int				endian;
+	int				texw;
+	int				texh;
 	unsigned int	*tex_ptr;
 	char			*texpath;
 }				t_imagedata;
@@ -306,6 +310,7 @@ t_keydata		g_keydata;
 void			del(void *freethis);
 char			*getnextnum(char *num);
 void			freeme(void);
+int				isbitset(unsigned char byte, int bit);
 int				ft_stop(int key, void *param);
 
 /*

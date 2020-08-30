@@ -90,15 +90,34 @@ void	reserrors(void)
 ** printed. For syntax errors, the line where the error was detected will be
 ** reported to the user. Possible errors are retrieval errors and syntax
 ** errors.
+**
+** For the bonus, the new orphansprites error sets each bit in the
+** orphansprites variable when a sprite is found without a loaded texture.
+** If any are set, we return an error message and check each bit to print all
+** the affected sprite numbers on the terminal.
 */
 
 void	texerrors(void)
 {
+	int		stype;
+
 	ft_printf(RED"%s"RESET, REDERROR);
 	gettexfail();
 	texreaderror();
 	if (g_iamerror.texpathfail)
 		texpatherrors();
+	if (g_iamerror.orphansprites)
+	{
+		stype = 2;
+		ft_printf(RED"%s"RESET, ORPHANSPR);
+		while (stype <= 9)
+		{
+			if(isbitset(g_iamerror.orphansprites, stype - 2))
+				ft_printf("%d ", stype);
+			stype++;
+		}
+		write(1, "\n", 1);
+	}
 }
 
 /*

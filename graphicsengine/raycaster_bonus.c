@@ -13,18 +13,20 @@
 #include "../cub3d_bonus.h"
 
 extern t_error	g_iamerror;
+extern t_imagedata *sprimg[10];
 
 void	loadsprites(void)
 {
 	t_spritedata	*sprtptr;
+	int				stype;
 
 	sprtptr = g_config.spritelist;
 	while (sprtptr)
 	{
-		if (sprtptr->spritetype == '2')
-			sprtptr->texture = (unsigned int *)\
-			mlx_get_data_addr(g_sprt2img.mlx_img, &g_sprt2img.bpp, \
-			&g_sprt2img.size_line, &g_sprt2img.endian);
+		stype = (sprtptr->spritetype) - 48;
+		sprtptr->texture = (unsigned int *)\
+		mlx_get_data_addr((*sprimg[stype]).mlx_img, &(*sprimg[stype]).bpp, \
+		&(*sprimg[stype]).size_line, &(*sprimg[stype]).endian);
 		sprtptr = sprtptr->next;
 	}
 }
@@ -103,9 +105,8 @@ void	start(unsigned int **buf)
 	*buf = (unsigned int *)mlx_get_data_addr(g_screendata.mlx_img_buffer,
 	&g_screendata.bpp, &g_screendata.size_line, &g_screendata.endian);
 	g_config.vmove = g_config.spriteh * g_config.vdiv;
-	if (g_floorimg.mlx_img)
-		g_floorimg.tex_ptr = (unsigned int *)mlx_get_data_addr(g_floorimg.mlx_img, \
-		&g_floorimg.bpp, &g_floorimg.size_line, &g_floorimg.endian);
+	g_floorimg.tex_ptr = (unsigned int *)mlx_get_data_addr(g_floorimg.mlx_img, \
+	&g_floorimg.bpp, &g_floorimg.size_line, &g_floorimg.endian);
 	g_ceilingimg.tex_ptr = (unsigned int *)mlx_get_data_addr( \
 	g_ceilingimg.mlx_img, &g_ceilingimg.bpp, &g_ceilingimg.size_line,\
 	&g_ceilingimg.endian);

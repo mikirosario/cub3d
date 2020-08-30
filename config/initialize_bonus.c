@@ -73,6 +73,7 @@ void	initialize(void)
 	g_framedata.xfloorcolor = 0x00669999;
 	g_framedata.xceilingcolor = 0x0066004b;
 	g_config.spritenum = 0;
+	g_config.sprtexnum = 0;
 	g_config.spritelist = NULL;
 	g_config.maplist = NULL;
 	g_config.wallmultiplier = 1;

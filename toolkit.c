@@ -13,6 +13,19 @@
 #include "cub3d.h"
 
 /*
+** Simple function to tell you whether a given bit is set in a byte. Another
+** libft candidate. ;) Bit 0 is the rightmost bit.
+*/
+
+int				isbitset(unsigned char byte, int bit)
+{
+	unsigned char	mask;
+
+	mask = (unsigned char)1 << bit;
+	return (mask & byte);
+}
+
+/*
 ** This function is a generic, run-of-the-mill "free this memory and set the
 ** pointer to NULL" function that should really be in my libft by now. :p
 */

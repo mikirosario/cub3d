@@ -15,7 +15,7 @@
 
 # define RES "\nResolution: \n"
 # define WALLPATHS "\nNO Wall Path:SO Wall Path:EA Wall Path:WE Wall Path:"
-# define SPRPATHS "Sprite Path:"
+# define SPRPATH "Sprite Path:"
 # define WALLTEXSIZE "\nSurface Texture Size (WxH):"
 # define SPRITETEXSIZE "Sprite Texture Size (WxH):"
 # define RGBF "\nFloor Color:\nRGB: "

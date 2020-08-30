@@ -79,6 +79,5 @@ void			spritecounter(double x, double y, char c)
 	}
 	lstptr->posx = (double)x + 0.5;
 	lstptr->posy = (double)y + 0.5;
-	if (c == '2')
-		lstptr->spritetype = '2';
+	lstptr->spritetype = c;
 }

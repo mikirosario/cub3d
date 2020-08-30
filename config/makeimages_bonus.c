@@ -13,66 +13,54 @@
 #include "../cub3d_bonus.h"
 
 extern t_error	g_iamerror;
+extern t_imagedata *sprimg[10];
 
 /*
-** This function retrieves the width and height in pixels (resolution) of the
-** an XPM file. IMPORTANT, this function is designed to work with XPM ONLY. It
-** does NOT work with XPM2! I haven't tested with XPM3... it should work with
-** XPM3, but it's untested.
+** The variable g_config.sprtexnum states the highest sprite type number for
+** which the user provided a path, so if there are any sprite types in our
+** sprite list higher than that number, we know they don't have an image
+** because none was ever provided by the user.
 **
-** In XPM files resolution information is stored in the first string, below the
-** header information beside the first '"', so that is where we'll look for it.
-** It should be the first two numbers, respectively. Once we have them, we exit.
-** If we can't find the information, we return 0 and throw a texsizefail error.
-** Since the most common cause will likely be attempting to use XPM2 or XPM3
-** files with the program, the error will explicitly warn the user that only XPM
-** is compatible.
+** The variable i states the lowest sprite type number for which an image was
+** successfully loaded, so if there are any sprite types in our sprite list
+** lower than that number, we know they don't have an image because, even
+** though the user did provide one, the path was bad.
 **
-** I use a pointer array here. The first pointer member line[0] is used to store
-** the address of the first characer in the line string. The second member
-** line[1] is used as an index to iterate through the string. This saves me from
-** having to declare and initialize an integer to use as an index, or declare a
-** second pointer, so it saves me lines... in words, Norminette made me do it.
+** The former will trigger a shiny, brand-spanking-new bonus error called
+** orphansprites, which signals sprites without an image. Since I'm on a bit of
+** a bitshifting kick, and exactly eight different sprites happen to be
+** loadable in my game, I encode every sprite type that threw an error bitwise
+** in the orphansprite variable so I can use it to inform the user which
+** sprites are orphaned in their map. This will be << spritetype - 50, because
+** remember we start our types with the ASCII digit 2, so 2 will be 0 bits
+** shifted, 3 will be 1 bit shifted, etc.
 **
-** Since gotres is always incremented after being checked against 2 in the
-** in the while, when it fails the check it increments to 3, so the value we
-** need to check against at the end of the function to determine whether it
-** got both resolutions is 3, not 2. I'd prefer to have that counter inside
-** the while so that it terminates neatly on 2, but... Norminette made me do
-** it.
-**
-** If the retrieval succeeds we return 1.
+** The latter will trigger ye olde bad path error. Do not declare sprites
+** without an image, kids. It's just plain mean.
 */
 
-int		getxpmres(int *texres, char *xpmpath)
+int		checkimgs(void)
 {
-	int		fd;
-	char	*line[2];
-	int		gotres;
+	int	i;
+	t_spritedata *s;
 
-	fd = open(xpmpath, O_RDONLY, S_IRUSR);
-	gotres = 0;
-	if (fd < 0)
-		g_iamerror.couldnotopenxpm = xpmpath;
-	else if (fd >= 0 && fd < 3)
-		g_iamerror.weirdfd = 1;
-	else
+	s = g_config.spritelist;
+	while (s)
 	{
-		while (!gotres && ft_get_next_line(fd, &line[0]))
-		{
-			line[1] = line[0];
-			while (*line[1] && *line[1] != '"')
-				line[1]++;
-			while ((line[1] = getnextnum(line[1])) && gotres++ < 2)
-				*texres++ = (ft_atoi(line[1]));
-			del(line[0]);
-		}
+		if (s->spritetype > g_config.sprtexnum + 48)
+			g_iamerror.orphansprites |= (char)00000001 << (s->spritetype - 50);
+		s = s->next;
 	}
-	g_iamerror.texsizefail = gotres < 3 ? xpmpath : g_iamerror.texsizefail;
-	g_iamerror.couldnotclose = close(fd) < 0 ? 1 : g_iamerror.couldnotclose;
-	return (gotres == 3 ? 1 : 0);
+	i = g_config.sprtexnum;
+	while (i > 1)
+		if (!(*sprimg[i--]).mlx_img)
+			break ;
+	if (!g_nowallimg.mlx_img || !g_sowallimg.mlx_img || !g_wewallimg.mlx_img ||
+	!g_eawallimg.mlx_img || !g_floorimg.mlx_img || !g_ceilingimg.mlx_img ||
+	(i != 1 && g_config.spritenum))
+		g_iamerror.texpathfail = 1;
+	return (g_iamerror.orphansprites || g_iamerror.texpathfail ? 0 : 1);
 }
-
 /*
 ** This function compares the first retrieved wall texture resolution (for the
 ** north wall) with all other wall texture resolutions. If ANY of them are
@@ -83,26 +71,25 @@ int		getxpmres(int *texres, char *xpmpath)
 
 int		comptexres(int *firstwallsize)
 {
-	char	*texpath[4];
-	int		texres[2];
+	t_imagedata	*texpath[5];
 	int		i;
 
-	texpath[0] = g_sowallimg.texpath;
-	texpath[1] = g_wewallimg.texpath;
-	texpath[2] = g_eawallimg.texpath;
-	texpath[3] = g_floorimg.texpath;
+	texpath[0] = &g_sowallimg;
+	texpath[1] = &g_wewallimg;
+	texpath[2] = &g_eawallimg;
+	texpath[3] = &g_floorimg;
+	texpath[4] = &g_ceilingimg;
 	i = 0;
-	while (i < 4)
+	while (i < 5)
 	{
-		getxpmres(texres, texpath[i]);
-		if (firstwallsize[0] == texres[0] && firstwallsize[1] == texres[1])
+		if (firstwallsize[0] == (texpath[i])->texw && firstwallsize[1] == (texpath[i]->texh))
 			i++;
 		else
 			break ;
 	}
-	if (i < 4)
+	if (i < 5)
 		g_iamerror.walltexsizedif = 1;
-	return (i == 4 ? 1 : 0);
+	return (i == 5 ? 1 : 0);
 }
 
 /*
@@ -129,31 +116,29 @@ int		comptexres(int *firstwallsize)
 
 int		getteximg(void)
 {
+	int i;
+
+	i = g_config.sprtexnum;
 	g_floorimg.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, \
-	g_floorimg.texpath, &g_config.texw, &g_config.texh);
+	g_floorimg.texpath, &g_floorimg.texw, &g_floorimg.texh);
 	g_ceilingimg.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, \
-	g_ceilingimg.texpath, &g_config.texw, &g_config.texh);
+	g_ceilingimg.texpath, &g_ceilingimg.texw, &g_ceilingimg.texh);
 	g_nowallimg.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, \
-	g_nowallimg.texpath, &g_config.texw, &g_config.texh);
+	g_nowallimg.texpath, &g_nowallimg.texw, &g_nowallimg.texh);
 	g_sowallimg.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, \
-	g_sowallimg.texpath, &g_config.texw, &g_config.texh);
+	g_sowallimg.texpath, &g_sowallimg.texw, &g_sowallimg.texh);
 	g_wewallimg.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, \
-	g_wewallimg.texpath, &g_config.texw, &g_config.texh);
+	g_wewallimg.texpath, &g_wewallimg.texw, &g_wewallimg.texh);
 	g_eawallimg.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, \
-	g_eawallimg.texpath, &g_config.texw, &g_config.texh);
+	g_eawallimg.texpath, &g_eawallimg.texw, &g_eawallimg.texh);
 	if (g_config.spritenum)
-		g_sprt2img.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, \
-		g_sprt2img.texpath, &g_config.spritew, &g_config.spriteh);
-	if (!g_nowallimg.mlx_img || !g_sowallimg.mlx_img || !g_wewallimg.mlx_img ||
-	!g_eawallimg.mlx_img || !g_floorimg.mlx_img || !g_ceilingimg.mlx_img ||
-	(!g_sprt2img.mlx_img && g_config.spritenum))
-	{
-		g_iamerror.texpathfail = 1;
-		return (0);
-	}
-	//if (!g_floorimg.mlx_img && g_floorimg.texpath)
-	//	g_iamerror.texpathfail = 1;
-	return (1);
+		while (i > 1)
+		{
+			(*sprimg[i]).mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, \
+			(*sprimg[i]).texpath, &(*sprimg[i]).texw, &(*sprimg[i]).texh);
+			i--;
+		}
+	return (checkimgs());
 }
 
 /*
@@ -172,43 +157,36 @@ int		getteximg(void)
 ** are NULL or not to determine whether it took place.
 **
 ** If the XPM files were all successfully converted to minililbx images by
-** getteximg, then we will parse the XPM file for the north wall texture to
-** discover its resolution (how many pixels high and how many pixels wide it
-** is). This is only necessary for one of the wall texture files, because in
-** our program we will require all wall textures to have the same resolution,
-** for the sake of keeping things looking nice. We will also do this for the
-** sprite texture, if there are sprites to load. These values are stored in
-** the g_config struct. If this fails we will throw a texsizefail error. This
-** is a yellow error, and if it is thrown the program will attempt to continue
-** using a default resolution of 64x64 (which is typical for this kind of
-** application), but it will warn the user that the image is using a default
-** resolution and may not be displayed correctly.
+** getteximg, then -- so! I actually wrote a function to parse the XPM files
+** and find the texture before I realized that mlx_file_to_image does that
+** work for me already. Damn it! I'm so used to being up a creek without a
+** paddle at 42 School I didn't even hesitate to jump to the conclusion that
+** I'd have to parse the image to find the resolution myself. xD Since that
+** fuctionality is handled by minilibx, and I find it convenient for getting
+** different resolutions for different sprites in the bonus, I am using that
+** here. You can find my original crazy parsing function in the standard
+** makeimages.c file. xD
 **
-** The comptexres function will then use getxpmres on the remaining wall files
-** and confirm that they all share the same width and height. If any do not
-** share the same width or height, we will terminate with a UN Security Council
-** red error. I am extreme about this requirement. ;)
+** The comptexres function will compare the texture sizes for the wall, ceiling
+** and floor files and confirm that they all share the same width and height.
+** If any do not share the same width or height, we will terminate with a UN
+** Security Council red error. I am extreme about this requirement. ;)
 */
 
 int		maketeximg(void)
 {
 	int	size[2];
 
-	if (!getteximg() || !getxpmres(size, g_nowallimg.texpath))
+	if (!getteximg())
 		return (0);
 	else
 	{
-		g_config.texw = size[0];
-		g_config.texh = size[1];
+		size[0] = g_nowallimg.texw;
+		size[1] = g_nowallimg.texh;
 	}
 	if (!(comptexres(size)))
 		return (0);
-	if (g_sprt2img.mlx_img && !getxpmres(size, g_sprt2img.texpath))
-		return (0);
-	else
-	{
-		g_config.spritew = size[0];
-		g_config.spriteh = size[1];
-	}
+	g_config.texw = size[0];
+	g_config.texh = size[1];
 	return (1);
 }

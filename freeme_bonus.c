@@ -21,8 +21,8 @@ void	freestrings(void)
 {
 	if (g_floorimg.texpath)
 		del(g_floorimg.texpath);
-	//if	(g_ceilingimg.texpath)
-	//	del(g_ceilingimg.texpath);
+	if	(g_ceilingimg.texpath)
+		del(g_ceilingimg.texpath);
 	if (g_nowallimg.texpath)
 		del(g_nowallimg.texpath);
 	if (g_sowallimg.texpath)

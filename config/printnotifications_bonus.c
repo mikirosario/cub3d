@@ -13,6 +13,24 @@
 #include "../cub3d_bonus.h"
 
 extern t_error g_iamerror;
+extern t_imagedata *sprimg[10];
+
+void	spritepathnotifications(void)
+{
+	int i;
+
+	i = 2;
+	if (g_config.sprtexnum)
+	{
+		ft_printf(GREEN"%s"RESET, SPRPATHS);
+		while (i <= g_config.sprtexnum)
+		{
+			ft_printf(GREEN"\n%d ->"RESET" %s", i, (*sprimg[i]).texpath);
+			i++;
+		}
+		write(1, "\n", 2);
+	}
+}
 
 void	ceilingcolornotifications(void)
 {
@@ -30,12 +48,24 @@ void	floorcolornotifications(void)
 
 void	texturesizenotifications(void)
 {
-	if (g_config.texw && g_config.texh)
+	int i;
+
+	i = 2;
+	if (g_config.texw && g_config.texh && !g_iamerror.orphansprites)
 		ft_printf(GREEN"%s"RESET"\n%d x %d\n", WALLTEXSIZE, g_config.texw, \
 		g_config.texh);
-	if (g_config.spritew && g_config.spriteh && g_config.spritenum)
-		ft_printf(GREEN"%s"RESET"\n%d x %d\n", SPRITETEXSIZE, \
-		g_config.spritew, g_config.spriteh);
+	if (g_config.sprtexnum && !g_iamerror.badsprsyn && \
+	!g_iamerror.orphansprites)
+	{
+		ft_printf(GREEN"%s"RESET, SPRITETEXSIZES);
+		while (i <= g_config.sprtexnum)
+		{
+			ft_printf(GREEN"\n%d ->"RESET" %d x %d", i, (*sprimg[i]).texw, \
+			(*sprimg[i]).texh);
+			i++;
+		}
+		write (1, "\n", 1);
+	}
 }
 
 void	printnotifications(void)
@@ -52,7 +82,7 @@ void	printnotifications(void)
         ft_printf(GREEN"%.11s"RESET"\n%s\n"GREEN"%.13s"RESET"\n%s\n", FCPATHS, \
         g_floorimg.texpath, (FCPATHS + 11), g_ceilingimg.texpath);
 		if (g_config.spritenum)
-			ft_printf(GREEN"%s"RESET"\n%s\n", SPRPATHS, g_sprt2img.texpath);
+			spritepathnotifications();
 		if (!g_iamerror.texpathfail)
 			texturesizenotifications();
 	}

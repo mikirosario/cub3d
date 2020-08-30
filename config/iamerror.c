@@ -111,9 +111,9 @@ void	texerrors(void)
 		ft_printf(RED"%s"RESET, GETEAFAIL);
 	if (g_iamerror.badeasyn)
 		ft_printf("Line %u: "RED"%s"RESET, g_iamerror.badeasyn, BADEASYN);
-	if (g_config.spritenum && g_iamerror.getsprfail)
+	if (g_iamerror.getsprfail)
 		ft_printf(RED"%s"RESET, GETSPRFAIL);
-	if (g_config.spritenum && g_iamerror.badsprsyn)
+	if (g_iamerror.badsprsyn)
 		ft_printf("Line %u: "RED"%s"RESET, g_iamerror.badsprsyn, BADSPRSYN);
 	texreaderror();
 	if (g_iamerror.texpathfail)
