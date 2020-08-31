@@ -6,14 +6,14 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 18:36:40 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/28 20:29:53 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/31 16:56:43 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d_bonus.h"
 
 extern t_error	g_iamerror;
-extern t_imagedata *sprimg[10];
+extern t_imagedata *g_simg[10];
 
 /*
 ** The variable g_config.sprtexnum states the highest sprite type number for
@@ -53,7 +53,7 @@ int		checkimgs(void)
 	}
 	i = g_config.sprtexnum;
 	while (i > 1)
-		if (!(*sprimg[i--]).mlx_img)
+		if (!(*g_simg[i--]).mlx_img)
 			break ;
 	if (!g_nowallimg.mlx_img || !g_sowallimg.mlx_img || !g_wewallimg.mlx_img ||
 	!g_eawallimg.mlx_img || !g_floorimg.mlx_img || !g_ceilingimg.mlx_img ||
@@ -134,8 +134,8 @@ int		getteximg(void)
 	if (g_config.spritenum)
 		while (i > 1)
 		{
-			(*sprimg[i]).mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, \
-			(*sprimg[i]).texpath, &(*sprimg[i]).texw, &(*sprimg[i]).texh);
+			(*g_simg[i]).mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, \
+			(*g_simg[i]).texpath, &(*g_simg[i]).texw, &(*g_simg[i]).texh);
 			i--;
 		}
 	return (checkimgs());

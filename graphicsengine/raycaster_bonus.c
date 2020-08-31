@@ -6,14 +6,14 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/11 15:32:45 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/28 20:17:25 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/31 17:13:40 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d_bonus.h"
 
 extern t_error	g_iamerror;
-extern t_imagedata *sprimg[10];
+extern t_imagedata *g_simg[10];
 
 void	loadsprites(void)
 {
@@ -25,8 +25,8 @@ void	loadsprites(void)
 	{
 		stype = (sprtptr->spritetype) - 48;
 		sprtptr->texture = (unsigned int *)\
-		mlx_get_data_addr((*sprimg[stype]).mlx_img, &(*sprimg[stype]).bpp, \
-		&(*sprimg[stype]).size_line, &(*sprimg[stype]).endian);
+		mlx_get_data_addr((*g_simg[stype]).mlx_img, &(*g_simg[stype]).bpp, \
+		&(*g_simg[stype]).size_line, &(*g_simg[stype]).endian);
 		sprtptr = sprtptr->next;
 	}
 }
@@ -149,7 +149,8 @@ int		raycaster(int key, void *param)
 	x = 0;
 	if (!buf)
 		start(&buf);
-	cast_ceiling_floor(buf);
+	if (g_keydata.m != 2)
+		cast_ceiling_floor(buf);
 	while (x < g_config.screenw)
 	{
 		castray(x);

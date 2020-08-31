@@ -6,14 +6,14 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/03 18:36:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/28 20:29:01 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/31 16:56:43 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d_bonus.h"
 
 extern t_error	g_iamerror;
-extern t_imagedata *sprimg[10];
+extern t_imagedata *g_simg[10];
 
 void	gettexfail(void)
 {
@@ -96,8 +96,8 @@ void	texpatherrors(void)
 	if (g_config.spritenum)
 		while (i <= g_config.sprtexnum)
 		{
-			if (!(*sprimg[i]).mlx_img)
-				ft_printf(RED"%s%s\n"RESET, PATHSPRFAIL, (*sprimg[i]).texpath);
+			if (!(*g_simg[i]).mlx_img)
+				ft_printf(RED"%s%s\n"RESET, PATHSPRFAIL, (*g_simg[i]).texpath);
 			i++;
 		}
 	if (!g_floorimg.mlx_img)

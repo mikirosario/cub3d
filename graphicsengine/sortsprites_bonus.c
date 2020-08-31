@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 18:24:16 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/26 20:05:10 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/31 17:39:20 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /*
 ** Here we get the distance from the player position of each sprite.
-** 
+**
 ** Remember our reference distance is 1, which is the distance between two
 ** opposite sides of a map square.
 **
@@ -24,7 +24,7 @@
 ** should be able to fit at a time without colliding with each other (the
 ** hexagonal circle packing arrangement gives maximum density for packing
 ** identical circles - check Wikipedia on this topic for details).
-** 
+**
 ** Therefore, to enforce the hit circle, we need to monitor at most the
 ** positions of six other objects at a time within the player's vicinity
 ** (and the sprites, if the sprites have a movement AI).
@@ -56,10 +56,10 @@
 void	getdistances(double *distance, int *spriteorder)
 {
 	int i;
-    int s;
+	int s;
 
 	i = 0;
-    s = 6;
+	s = 6;
 	while (s--)
 		g_framedata.closesprite[s] = -1;
 	s++;
@@ -69,8 +69,8 @@ void	getdistances(double *distance, int *spriteorder)
 		distance[i] = ((g_player.posx - g_config.sprt[i]->posx) * \
 		(g_player.posx - g_config.sprt[i]->posx) + (g_player.posy - \
 		g_config.sprt[i]->posy) * (g_player.posy - g_config.sprt[i]->posy));
-        if (distance[i] <= 0.33)
-            g_framedata.closesprite[s++] = i;
+		if (distance[i] <= 0.33)
+			g_framedata.closesprite[s++] = i;
 		i++;
 	}
 }

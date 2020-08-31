@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/11 19:45:47 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/28 20:38:24 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/31 17:03:46 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,12 +196,16 @@ void	drawframeline(int x, unsigned int *buf)
 {
 	int	pixel;
 
-	//pixel = x;
-	pixel = (g_framedata.drawstart * g_config.screenw) + x;
-	//drawceiling(x, pixel, buf);
 	if (g_keydata.m == 2)
+	{
+		pixel = x;
+		pixel = drawceiling(x, pixel, buf);
 		pixel = solidcolorwalls(x, pixel, buf);
+		drawfloor(x, pixel, buf);
+	}
 	else
+	{
+		pixel = (g_framedata.drawstart * g_config.screenw) + x;
 		pixel = texturedwalls(x, pixel, buf);
-	//drawfloor(x, pixel, buf);
+	}
 }

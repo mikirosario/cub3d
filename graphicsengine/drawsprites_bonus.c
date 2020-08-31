@@ -1,17 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   drawsprites.c                                      :+:      :+:    :+:   */
+/*   drawsprites_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/12 18:46:59 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/26 20:05:10 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/31 16:56:48 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d_bonus.h"
-extern t_imagedata *sprimg[10];
+
+extern t_imagedata *g_simg[10];
 
 /*
 ** As with the wall texture, we use Lode-provided mathemagics to determine
@@ -33,9 +34,9 @@ extern t_imagedata *sprimg[10];
 void	drawspriteline(t_spriteparams *prms, unsigned int *buf, \
 t_spritedata *sprite)
 {
-	g_config.spriteh = (*sprimg[sprite->spritetype - 48]).texh;
-    g_config.spritew = (*sprimg[sprite->spritetype - 48]).texw;
-    while (prms->scrny < g_framedata.spritedrawendy)
+	g_config.spriteh = (*g_simg[sprite->spritetype - 48]).texh;
+	g_config.spritew = (*g_simg[sprite->spritetype - 48]).texw;
+	while (prms->scrny < g_framedata.spritedrawendy)
 	{
 		prms->d = (prms->scrny - prms->vmovescreen) * \
 		256 - g_config.screenh * 128 + g_framedata.spriteheight * 128;

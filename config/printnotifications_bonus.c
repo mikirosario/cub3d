@@ -6,14 +6,14 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/24 19:08:46 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/27 19:59:37 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/31 16:56:43 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d_bonus.h"
 
 extern t_error g_iamerror;
-extern t_imagedata *sprimg[10];
+extern t_imagedata *g_simg[10];
 
 void	spritepathnotifications(void)
 {
@@ -25,7 +25,7 @@ void	spritepathnotifications(void)
 		ft_printf(GREEN"%s"RESET, SPRPATHS);
 		while (i <= g_config.sprtexnum)
 		{
-			ft_printf(GREEN"\n%d ->"RESET" %s", i, (*sprimg[i]).texpath);
+			ft_printf(GREEN"\n%d ->"RESET" %s", i, (*g_simg[i]).texpath);
 			i++;
 		}
 		write(1, "\n", 2);
@@ -60,8 +60,8 @@ void	texturesizenotifications(void)
 		ft_printf(GREEN"%s"RESET, SPRITETEXSIZES);
 		while (i <= g_config.sprtexnum)
 		{
-			ft_printf(GREEN"\n%d ->"RESET" %d x %d", i, (*sprimg[i]).texw, \
-			(*sprimg[i]).texh);
+			ft_printf(GREEN"\n%d ->"RESET" %d x %d", i, (*g_simg[i]).texw, \
+			(*g_simg[i]).texh);
 			i++;
 		}
 		write (1, "\n", 1);

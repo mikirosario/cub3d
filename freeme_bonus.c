@@ -6,11 +6,37 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 16:44:15 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/28 19:57:05 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/31 16:50:47 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
+
+/*
+** Free bonus images.
+*/
+
+void	freebonusimgs(void)
+{
+	if (g_sprt3img.mlx_img)
+		mlx_destroy_image(g_screendata.mlx_ptr, g_sprt3img.mlx_img);
+	if (g_sprt4img.mlx_img)
+		mlx_destroy_image(g_screendata.mlx_ptr, g_sprt4img.mlx_img);
+	if (g_sprt5img.mlx_img)
+		mlx_destroy_image(g_screendata.mlx_ptr, g_sprt5img.mlx_img);
+	if (g_sprt6img.mlx_img)
+		mlx_destroy_image(g_screendata.mlx_ptr, g_sprt6img.mlx_img);
+	if (g_sprt7img.mlx_img)
+		mlx_destroy_image(g_screendata.mlx_ptr, g_sprt7img.mlx_img);
+	if (g_sprt8img.mlx_img)
+		mlx_destroy_image(g_screendata.mlx_ptr, g_sprt8img.mlx_img);
+	if (g_sprt9img.mlx_img)
+		mlx_destroy_image(g_screendata.mlx_ptr, g_sprt9img.mlx_img);
+	if (g_floorimg.mlx_img)
+		mlx_destroy_image(g_screendata.mlx_ptr, g_floorimg.mlx_img);
+	if (g_ceilingimg.mlx_img)
+		mlx_destroy_image(g_screendata.mlx_ptr, g_ceilingimg.mlx_img);
+}
 
 /*
 ** This function will free all strings reserved to store file path data
@@ -61,10 +87,6 @@ void	freeimgs(void)
 {
 	if (g_screendata.mlx_img_buffer)
 		mlx_destroy_image(g_screendata.mlx_ptr, g_screendata.mlx_img_buffer);
-	if (g_floorimg.mlx_img)
-		mlx_destroy_image(g_screendata.mlx_ptr, g_floorimg.mlx_img);
-	if (g_ceilingimg.mlx_img)
-		mlx_destroy_image(g_screendata.mlx_ptr, g_ceilingimg.mlx_img);
 	if (g_nowallimg.mlx_img)
 		mlx_destroy_image(g_screendata.mlx_ptr, g_nowallimg.mlx_img);
 	if (g_sowallimg.mlx_img)
@@ -75,6 +97,7 @@ void	freeimgs(void)
 		mlx_destroy_image(g_screendata.mlx_ptr, g_eawallimg.mlx_img);
 	if (g_sprt2img.mlx_img)
 		mlx_destroy_image(g_screendata.mlx_ptr, g_sprt2img.mlx_img);
+	freebonusimgs();
 }
 
 /*

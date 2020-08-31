@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/28 16:41:58 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/28 20:07:45 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/31 17:16:39 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,11 @@ void	draw_floor(unsigned int *buf, int x, int y)
 	unsigned int	*texptr;
 
 	texptr = g_floorimg.tex_ptr;
-	if (g_keydata.m != 2)
-	{
-		g_framedata.xcolor = texptr[(g_xraydata.texy * g_config.texw) \
-		+ g_xraydata.texx];
-		if (g_keydata.m == 1)
-			g_framedata.xcolor = (g_framedata.xcolor >> 1) & 8355711;
-	}
-	buf[(y * g_config.screenw) + x] = g_keydata.m != 2 && g_floorimg.mlx_img ?
-	g_framedata.xcolor : g_framedata.xfloorcolor;
+	g_framedata.xcolor = texptr[(g_xraydata.texy * g_config.texw) \
+	+ g_xraydata.texx];
+	if (g_keydata.m == 1)
+		g_framedata.xcolor = (g_framedata.xcolor >> 1) & 8355711;
+	buf[(y * g_config.screenw) + x] = g_framedata.xcolor;
 }
 
 void	draw_ceiling(unsigned int *buf, int x, int y)
@@ -33,15 +29,12 @@ void	draw_ceiling(unsigned int *buf, int x, int y)
 	unsigned int	*texptr;
 
 	texptr = g_ceilingimg.tex_ptr;
-	if (g_keydata.m != 2)
-	{
-		g_framedata.xcolor = texptr[(g_xraydata.texy * g_config.texw) \
-		+ g_xraydata.texx];
-		if (g_keydata.m == 1)
-			g_framedata.xcolor = (g_framedata.xcolor >> 1) & 8355711;
-	}
+	g_framedata.xcolor = texptr[(g_xraydata.texy * g_config.texw) \
+	+ g_xraydata.texx];
+	if (g_keydata.m == 1)
+		g_framedata.xcolor = (g_framedata.xcolor >> 1) & 8355711;
 	buf[((g_config.screenh - y - 1) * g_config.screenw) + x] = \
-	g_keydata.m != 2 ? g_framedata.xcolor : g_framedata.xceilingcolor;
+	g_framedata.xcolor;
 }
 
 void	setpixelparams(void)

@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/14 20:03:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/27 17:44:01 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/31 17:20:11 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@
 ** We return 1 if a collision was detected and 0 if no collision was detected.
 */
 
-int     sprcollide(double y, double x)
+int		sprcollide(double y, double x)
 {
 	int i;
 	int	sprnum;
@@ -45,7 +45,7 @@ int     sprcollide(double y, double x)
 		if ((sprnum = g_framedata.closesprite[i++]) >= 0)
 			if ((pow(x - g_config.sprt[sprnum]->posx, 2) + \
 			pow(y - g_config.sprt[sprnum]->posy, 2)) <= 0.25)
-				return(1);
+				return (1);
 	return (0);
 }
 
@@ -118,7 +118,7 @@ void	adstrafe(void)
 {
 	double	newposx;
 	double	newposy;
-	
+
 	ft_rotate_2d(g_player.dirx, g_player.diry, 90, g_player.newdirxy);
 	if (g_keydata.a)
 	{
