@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/11 15:32:45 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/31 17:13:40 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/31 20:37:59 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,37 @@
 
 extern t_error	g_iamerror;
 extern t_imagedata *g_simg[10];
+
+void	refreshui(unsigned int *buf)
+{
+	int	bx;
+	int	tx;
+	int	y;
+
+	y = 0;
+	while (y < g_border.top_left.texh - 1)
+	{
+		bx = y * g_config.screenw;
+		tx = y * g_border.top_left.texw;
+		while (tx < y * g_border.top_left.texw + g_border.top_left.texw)
+		{
+			if (g_border.top_left.tex_ptr[tx] != 0xFF000000)
+				buf[bx] = g_border.top_left.tex_ptr[tx];
+			bx++;
+			tx++;
+		}
+		y++;
+	}
+}
+
+void	loadui(void)
+{
+	t_border	*b;
+
+	b = &g_border;
+	b->top_left.tex_ptr = (unsigned int *)mlx_get_data_addr(b->top_left.mlx_img, \
+	&b->top_left.bpp, &b->top_left.size_line, &b->top_left.endian);
+}
 
 void	loadsprites(void)
 {
@@ -119,6 +150,7 @@ void	start(unsigned int **buf)
 	g_eawallimg.tex_ptr = (unsigned int *)mlx_get_data_addr(g_eawallimg.mlx_img,
 	&g_eawallimg.bpp, &g_eawallimg.size_line, &g_eawallimg.endian);
 	loadsprites();
+	loadui();
 }
 
 /*
@@ -161,6 +193,7 @@ int		raycaster(int key, void *param)
 		x++;
 	}
 	castsprites(buf);
+	refreshui(buf);
 	mlx_put_image_to_window(g_screendata.mlx_ptr, g_screendata.mlx_win, \
 	g_screendata.mlx_img_buffer, 0, 0);
 	if (g_config.screenshot)

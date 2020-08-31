@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/28 19:49:13 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/31 20:03:32 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,19 @@ typedef struct	s_horizontalraydata
 	
 }				t_xraydata;
 
+typedef struct	s_border
+{
+	t_imagedata	top_left;
+	t_imagedata	top_right;
+	t_imagedata	bottom_left;
+	t_imagedata	bottom_right;
+	t_imagedata	left;
+	t_imagedata	right;
+	t_imagedata	top;
+	t_imagedata	bottom;
+	t_imagedata	*ptr;
+}				t_border;
+
 t_imagedata	g_ceilingimg;
 t_imagedata	g_floorimg;
 t_imagedata	g_sprt3img;
@@ -86,6 +99,7 @@ t_imagedata	g_sprt6img;
 t_imagedata	g_sprt7img;
 t_imagedata	g_sprt8img;
 t_imagedata	g_sprt9img;
+t_border	g_border;
 t_xraydata	g_xraydata;
 
 /*
@@ -100,5 +114,6 @@ int		getftex(const char *line, unsigned int linenum);
 int		getctex(const char *line, unsigned int linenum);
 void	gettexfail(void);
 int		sprarray(void);
+int		raycaster_start(unsigned int **buf);
 
 #endif

@@ -6,11 +6,11 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/07 20:24:05 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/28 15:41:43 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/31 20:40:35 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3d_bonus.h"
 
 t_error g_iamerror;
 
@@ -86,14 +86,14 @@ void	configure(char **argv, int argc, int *success)
 		else if (!(g_screendata.mlx_win = mlx_new_window(g_screendata.mlx_ptr, \
 		g_config.screenw, g_config.screenh, "Norminator 3D")))
 			*success = 0;
-		else
-			*success = maketeximg();
+		else if (!maketeximg()/* || !raycaster_start(buf)*/)
+			*success = 0;
 	}
 }
 
 int		main(int argc, char **argv)
 {
-	int	success;
+	int				success;
 
 	initialize();
 	configure(argv, argc, &success);

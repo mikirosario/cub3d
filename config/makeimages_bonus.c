@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 18:36:40 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/31 16:56:43 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/08/31 19:41:29 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,14 @@
 
 extern t_error	g_iamerror;
 extern t_imagedata *g_simg[10];
+
+int		createhudimages(void)
+{
+	if (!(g_border.top_left.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, \
+	"./uielements/ivy_top_left.xpm", &g_border.top_left.texw, &g_border.top_left.texh)))
+		return (0);
+	return (1);
+}
 
 /*
 ** The variable g_config.sprtexnum states the highest sprite type number for
@@ -188,5 +196,6 @@ int		maketeximg(void)
 		return (0);
 	g_config.texw = size[0];
 	g_config.texh = size[1];
+	createhudimages();
 	return (1);
 }

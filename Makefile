@@ -6,7 +6,7 @@
 #    By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/07/15 20:32:43 by mrosario          #+#    #+#              #
-#    Updated: 2020/08/28 19:53:47 by mrosario         ###   ########.fr        #
+#    Updated: 2020/08/31 20:41:14 by mrosario         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ SRC = cub3d.c rotation.c freeme.c ./toolkit.c ./config/cub.c \
 ./graphicsengine/sortsprites.c ./graphicsengine/screenshots/bmpgenerator.c \
 ./graphicsengine/screenshots/bmperror.c
 
-BSRC = cub3d.c rotation.c freeme_bonus.c ./toolkit.c ./config/cub_bonus.c \
+BSRC = cub3d_bonus.c rotation.c freeme_bonus.c ./toolkit.c ./config/cub_bonus.c \
 ./config/getscreenres.c ./config/getwallparams.c ./config/getspriteparams_bonus.c \
 ./config/getceilingfloorparams_bonus.c ./config/iamerror_bonus.c \
 ./config/printnotifications_bonus.c ./config/mapcheck/map_phase1_bonus.c \
@@ -39,7 +39,7 @@ BSRC = cub3d.c rotation.c freeme_bonus.c ./toolkit.c ./config/cub_bonus.c \
 ./graphicsengine/keychecks.c ./config/mapsprarrays_bonus.c \
 ./graphicsengine/sortsprites_bonus.c ./graphicsengine/screenshots/bmpgenerator.c \
 ./graphicsengine/screenshots/bmperror.c ./graphicsengine/graphicsmodes_bonus.c \
-./graphicsengine/fpscounter_bonus.c ./graphicsengine/drawceilingfloor_bonus.c \
+./graphicsengine/fpscounter_bonus.c ./graphicsengine/drawceilingfloor_bonus.c 
 
 LBSRC = cub3d_linux.c rotation.c freeme_bonus.c ./toolkit.c ./config/cub_bonus.c \
 ./config/getscreenres.c ./config/getwallparams.c ./config/getspriteparams_bonus.c \
@@ -54,8 +54,7 @@ LBSRC = cub3d_linux.c rotation.c freeme_bonus.c ./toolkit.c ./config/cub_bonus.c
 ./graphicsengine/keychecks_linux.c ./config/mapsprarrays_bonus.c \
 ./graphicsengine/sortsprites_bonus.c ./graphicsengine/screenshots/bmpgenerator.c \
 ./graphicsengine/screenshots/bmperror.c ./graphicsengine/graphicsmodes_bonus.c \
-./graphicsengine/fpscounter_bonus.c ./graphicsengine/drawceilingfloor_bonus.c \
-
+./graphicsengine/fpscounter_bonus.c ./graphicsengine/drawceilingfloor_bonus.c 
 
 OBJ = $(SRC:.c=.o)
 
