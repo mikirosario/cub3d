@@ -15,6 +15,15 @@
 extern t_error	g_iamerror;
 
 /*
+** If the mapchar represents a sprite, returns true. Otherwise, returns false.
+*/
+
+int     isspr(char mapchr)
+{
+    return (mapchr >= '2' && mapchr <= '9' ? 1 : 0);
+}
+
+/*
 ** This function will take the map left by the floodfill function, which fills
 ** all traversable spaces in the map with 'A' and/or 'T' characters until all
 ** spaces reachable by the player are filled or an out of bounds position is
@@ -131,15 +140,15 @@ int		floodleft(unsigned int x, unsigned int y)
 
 	while ((mapchr = maplist(x, y)) && mapchr != '1' && mapchr != 'T')
 	{
-		if (x > 0 && (mapchr == '0' || mapchr == '2' || mapchr == 'A'))
+		if (x > 0 && (mapchr == '0' || isspr(mapchr) || mapchr == 'A'))
 		{
 			if ((row = maplistmem(y))->next && ((maplistmem(y + 1))->len) >= x \
-			&& (mapchr = maplist(x, y + 1)) && (mapchr == '0' || mapchr == '2'))
+			&& (mapchr = maplist(x, y + 1)) && (mapchr == '0' || isspr(mapchr)))
 				(*(maplistdir(x, y + 1)) = 'A');
 			else if (!row->next || mapchr == ' ' || !mapchr)
 				return (recorderrorlocation(g_iamerror.outofbounds, x, y, 0));
 			if (row != g_config.maplist && ((maplistmem(y - 1))->len) >= x && \
-			(mapchr = maplist(x, y - 1)) && (mapchr == '0' || mapchr == '2'))
+			(mapchr = maplist(x, y - 1)) && (mapchr == '0' || isspr(mapchr)))
 				(*(maplistdir(x, y - 1)) = 'A');
 			else if (row == g_config.maplist || mapchr == ' ' || !mapchr)
 				return (recorderrorlocation(g_iamerror.outofbounds, x, y, 0));
@@ -160,15 +169,15 @@ int		floodright(unsigned int x, unsigned int y)
 
 	while ((mapchr = maplist(++x, y)) != '1' && mapchr != 'T')
 	{
-		if (mapchr == '0' || mapchr == '2' || mapchr == 'A')
+		if (mapchr == '0' || isspr(mapchr) || mapchr == 'A')
 		{
 			if ((row = maplistmem(y))->next && ((maplistmem(y + 1))->len) >= x \
-			&& (mapchr = maplist(x, y + 1)) && (mapchr == '0' || mapchr == '2'))
+			&& (mapchr = maplist(x, y + 1)) && (mapchr == '0' || isspr(mapchr)))
 				(*(maplistdir(x, y + 1)) = 'A');
 			else if (!row->next || mapchr == ' ' || !mapchr)
 				return (recorderrorlocation(g_iamerror.outofbounds, x, y, 0));
 			if (row != g_config.maplist && ((maplistmem(y - 1))->len) >= x && \
-			(mapchr = maplist(x, y - 1)) && (mapchr == '0' || mapchr == '2'))
+			(mapchr = maplist(x, y - 1)) && (mapchr == '0' || isspr(mapchr)))
 				(*(maplistdir(x, y - 1)) = 'A');
 			else if (row == g_config.maplist || mapchr == ' ' || !mapchr)
 				return (recorderrorlocation(g_iamerror.outofbounds, x, y, 0));

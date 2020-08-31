@@ -49,23 +49,19 @@ void	rlrotate(void)
 {
 	if (g_keydata.r)
 	{
-		ft_rotate_2d(g_player.dirx, g_player.diry, -3, \
-		(double *)(&g_player.newdirxy));
+		ft_rotate_2d(g_player.dirx, g_player.diry, -3, g_player.newdirxy);
 		g_player.dirx = g_player.newdirxy[0];
 		g_player.diry = g_player.newdirxy[1];
-		ft_rotate_2d(g_player.planex, g_player.planey, -3, \
-		(double *)(&g_player.newdirxy));
+		ft_rotate_2d(g_player.planex, g_player.planey, -3, g_player.newdirxy);
 		g_player.planex = g_player.newdirxy[0];
 		g_player.planey = g_player.newdirxy[1];
 	}
 	if (g_keydata.l)
 	{
-		ft_rotate_2d(g_player.dirx, g_player.diry, 3, \
-		(double *)(&g_player.newdirxy));
+		ft_rotate_2d(g_player.dirx, g_player.diry, 3, g_player.newdirxy);
 		g_player.dirx = g_player.newdirxy[0];
 		g_player.diry = g_player.newdirxy[1];
-		ft_rotate_2d(g_player.planex, g_player.planey, 3, \
-		(double *)(&g_player.newdirxy));
+		ft_rotate_2d(g_player.planex, g_player.planey, 3, g_player.newdirxy);
 		g_player.planex = g_player.newdirxy[0];
 		g_player.planey = g_player.newdirxy[1];
 	}
@@ -75,8 +71,7 @@ void	adstrafe(void)
 {
 	if (g_keydata.a)
 	{
-		ft_rotate_2d(g_player.dirx, g_player.diry, 90, \
-		(double *)(&g_player.newdirxy));
+		ft_rotate_2d(g_player.dirx, g_player.diry, 90, g_player.newdirxy);
 		if (g_config.map[(int)g_player.posy][(int)(g_player.posx + \
 		g_player.newdirxy[0] * g_player.movespeed)] == '0')
 			g_player.posx += g_player.newdirxy[0] * g_player.movespeed;

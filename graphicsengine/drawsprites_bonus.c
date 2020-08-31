@@ -294,7 +294,7 @@ void	castsprites(unsigned int *buf)
 	sortsprites(g_config.spriteorder);
 	while (i < g_config.spritenum)
 	{
-		sprite = spriteiter(g_config.spriteorder[i]);
+		sprite = g_config.sprt[g_config.spriteorder[i]];
 		spriteposition(&prms, sprite);
 		spritesize(&prms);
 		drawsprite(&prms, buf, sprite);

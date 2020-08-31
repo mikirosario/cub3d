@@ -99,5 +99,6 @@ void	cast_ceiling_floor(unsigned int *buf);
 int		getftex(const char *line, unsigned int linenum);
 int		getctex(const char *line, unsigned int linenum);
 void	gettexfail(void);
+int		sprarray(void);
 
 #endif

@@ -37,6 +37,7 @@ void	freestrings(void)
 
 /*
 ** This function will free all memory used by linked lists, including content.
+** Also frees associated arrays.
 */
 
 void	freelists(void)
@@ -47,6 +48,8 @@ void	freelists(void)
 		del(g_config.map);
 	if (g_config.spritelist)
 		freesprtlist(&g_config.spritelist);
+	if (g_config.sprt)
+		del (g_config.sprt);
 }
 
 /*

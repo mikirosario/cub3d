@@ -14,10 +14,10 @@
 ** C    R,G,B color value for ceiling (ex. 102,0,255)
 ** MAP
 **
-** - Separate screenWidth and screenHeight with spaces, 'x' or ','.	Example:	R 1920 1080
-** - Separate RGB color values with spaces or ','.					Example:	F 102,0,75
-** - Texture files must be in the game's root directory.			Example:	NO ./My_North_Wall_Texture.XPM
-** - Do *NOT* put characters before or after values					Example:	F ,102,0,75,
+** - Separate screenWidth and screenHeight with spaces, 'x' or ','.	Example: R 1920 1080
+** - Separate RGB color values with spaces or ','.					Example: F 102,0,75
+** - Texture files must be in the game's root directory.			Example: NO ./nwall.XPM
+** - Do *NOT* put characters before or after values					Example: F ,102,0,75,
 **
 ** // FOR THE BONUS COMPILATION: \\
 ** R    screenWidth screenHeight (ex. 1920 1080)
@@ -47,7 +47,7 @@
 **
 ** To draw a map, write 0 for a floor, 1 for a wall, 2 for a sprite and
 ** N, S, E or W for the player starting location, where the letter will
-** specify which direction the player will be pointing in at the start.
+** specify which direction the player will be facing at the start.
 **
 ** Any map shape is fine, but the player MUST be within an area bounded by
 ** walls. You MUST use only the space bar to shape your map. Tabs will NOT be
@@ -71,7 +71,7 @@
 **
 ** If you have sprites on the map that lack a sprite texture, the program will
 ** abort with a missing sprite texture error. If you have textures loaded that
-** lack a sprite, the program will execute with a missing sprite error.
+** lack a sprite, the program will ignore them and execute normally.
 **
 **
 ** - YOU MUST PASS THE PROGRAM A VALID MAP FILE WHEN YOU EXECUTE IT.

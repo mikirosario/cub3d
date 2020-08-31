@@ -59,7 +59,7 @@ void			ft_sprtlstadd_back(t_spritedata **alst, t_spritedata *new)
 }
 
 /*
-**  //aquí podemos asignar la textura en función del número en el mapa :)
+** Aquí podemos asignar la textura en función del número en el mapa :)
 */
 
 void			spritecounter(double x, double y, char c)

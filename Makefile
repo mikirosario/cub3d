@@ -35,9 +35,9 @@ BSRC = cub3d.c rotation.c freeme_bonus.c ./toolkit.c ./config/cub_bonus.c \
 ./config/spritecounter.c ./config/printlinkedlists.c ./config/initialize_bonus.c \
 ./config/makeimages_bonus.c ./graphicsengine/raycaster_bonus.c ./graphicsengine/dda.c \
 ./graphicsengine/drawframeline_bonus.c ./graphicsengine/calculateframeline.c \
-./graphicsengine/drawsprites_bonus.c ./graphicsengine/playermovement.c \
-./graphicsengine/keychecks.c ./config/maparray.c \
-./graphicsengine/sortsprites.c ./graphicsengine/screenshots/bmpgenerator.c \
+./graphicsengine/drawsprites_bonus.c ./graphicsengine/playermovement_bonus.c \
+./graphicsengine/keychecks.c ./config/mapsprarrays_bonus.c \
+./graphicsengine/sortsprites_bonus.c ./graphicsengine/screenshots/bmpgenerator.c \
 ./graphicsengine/screenshots/bmperror.c ./graphicsengine/graphicsmodes_bonus.c \
 ./graphicsengine/fpscounter_bonus.c ./graphicsengine/drawceilingfloor_bonus.c \
 
@@ -50,9 +50,9 @@ LBSRC = cub3d_linux.c rotation.c freeme_bonus.c ./toolkit.c ./config/cub_bonus.c
 ./config/spritecounter.c ./config/printlinkedlists.c ./config/initialize_linux.c \
 ./config/makeimages_bonus.c ./graphicsengine/raycaster_bonus.c ./graphicsengine/dda.c \
 ./graphicsengine/drawframeline_bonus.c ./graphicsengine/calculateframeline.c \
-./graphicsengine/drawsprites_bonus.c ./graphicsengine/playermovement.c \
-./graphicsengine/keychecks_linux.c ./config/maparray.c \
-./graphicsengine/sortsprites.c ./graphicsengine/screenshots/bmpgenerator.c \
+./graphicsengine/drawsprites_bonus.c ./graphicsengine/playermovement_bonus.c \
+./graphicsengine/keychecks_linux.c ./config/mapsprarrays_bonus.c \
+./graphicsengine/sortsprites_bonus.c ./graphicsengine/screenshots/bmpgenerator.c \
 ./graphicsengine/screenshots/bmperror.c ./graphicsengine/graphicsmodes_bonus.c \
 ./graphicsengine/fpscounter_bonus.c ./graphicsengine/drawceilingfloor_bonus.c \
 

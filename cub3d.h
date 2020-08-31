@@ -138,6 +138,7 @@ typedef struct	s_configdata
 	t_list			*maplist;
 	char			**map;
 	t_spritedata	*spritelist;
+	t_spritedata	**sprt;
 	unsigned int	maph;
 	int				screenw;
 	int				screenh;
@@ -257,6 +258,7 @@ typedef struct	s_framedata
 	int				spriteheight;
 	int				spritewidth;
 	int				spritescreenx;
+	int				closesprite[6];
 }				t_framedata;
 
 /*

@@ -278,8 +278,6 @@ int		checkmap(unsigned int y, char *mapchrs)
 	char foundplayer;
 
 	foundplayer = 0;
-	if (g_iamerror.mallocfail)
-		return (-6);
 	if (g_iamerror.memusage > MAPMEMCAP)
 		return (-5);
 	if (y < 2)
@@ -288,6 +286,10 @@ int		checkmap(unsigned int y, char *mapchrs)
 		return (-4);
 	else if (!foundplayer)
 		return (-3);
+	if (!sprarray())
+		g_iamerror.mallocfail = 1;
+	if (g_iamerror.mallocfail)
+		return (-6);
 	ft_printf(MAGENTA"\n**** MAP RETRIEVED ****\n"RESET);
 	printmapbytes();
 	ft_printf(MAGENTA"\n**** SPRITES RETRIEVED ****\n"RESET);
