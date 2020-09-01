@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/28 15:50:55 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/01 20:11:32 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,6 +198,7 @@ typedef struct	s_player
 	double	camerax;
 	double	movespeed;
 	double	rotspeed;
+	int		life;
 }				t_player;
 
 /*

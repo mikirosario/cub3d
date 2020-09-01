@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/11 15:32:45 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/31 20:37:59 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/01 20:44:15 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,51 +15,84 @@
 extern t_error	g_iamerror;
 extern t_imagedata *g_simg[10];
 
-void	refreshui(unsigned int *buf)
-{
-	int	bx;
-	int	tx;
-	int	y;
+/*
+** This function will draw lines of pixels to the buffer starting at the x, y
+** position passed as arguments, from top to bottom row by row, excluding
+** transparent colors. Note that on MAC this seems to be marked by making the
+** A channel 00, and on Linux by making it FF. :p I don't know why that is.
+**
+** It's unprotected, so make sure your image will fit into your buffer. :p
+*/
 
-	y = 0;
-	while (y < g_border.top_left.texh - 1)
+void	xput_to_buffer(int x, int y, unsigned int *buf, t_imagedata *img)
+{
+	int bx;
+	int	tx;
+	int	ty;
+
+	ty = 0;
+	while (ty < img->texh - 1)
 	{
-		bx = y * g_config.screenw;
-		tx = y * g_border.top_left.texw;
-		while (tx < y * g_border.top_left.texw + g_border.top_left.texw)
+		bx = x + y * g_config.screenw;
+		tx = ty * img->texw;
+		while (tx < ty * img->texw + img->texw)
 		{
-			if (g_border.top_left.tex_ptr[tx] != 0xFF000000)
-				buf[bx] = g_border.top_left.tex_ptr[tx];
+			if (img->tex_ptr[tx] != 0xff000000)
+				buf[bx] = img->tex_ptr[tx];
 			bx++;
 			tx++;
 		}
 		y++;
+		ty++;
 	}
 }
 
-void	loadui(void)
+/*
+** Like xput_to_buffer, but draws lines vertically column by column instead of
+** horizontally row by row.
+*/
+
+void	yput_to_buffer(int x, int y, unsigned int *buf, t_imagedata *img)
 {
-	t_border	*b;
+	int bx;
+	int	tx;
+	int	ty;
 
-	b = &g_border;
-	b->top_left.tex_ptr = (unsigned int *)mlx_get_data_addr(b->top_left.mlx_img, \
-	&b->top_left.bpp, &b->top_left.size_line, &b->top_left.endian);
-}
-
-void	loadsprites(void)
-{
-	t_spritedata	*sprtptr;
-	int				stype;
-
-	sprtptr = g_config.spritelist;
-	while (sprtptr)
+	tx = 0;
+	while (tx < img->texw)
 	{
-		stype = (sprtptr->spritetype) - 48;
-		sprtptr->texture = (unsigned int *)\
-		mlx_get_data_addr((*g_simg[stype]).mlx_img, &(*g_simg[stype]).bpp, \
-		&(*g_simg[stype]).size_line, &(*g_simg[stype]).endian);
-		sprtptr = sprtptr->next;
+		bx = x + y * g_config.screenw;
+		ty = tx;
+		while (ty < tx + img->texh * img->texw)
+		{
+			if (img->tex_ptr[ty] != 0xff000000)
+				buf[bx] = img->tex_ptr[ty];
+			bx += g_config.screenw;
+			ty += img->texw;
+		}
+		x++;
+		tx++;
 	}
+}
+
+void	refreshui(unsigned int *buf)
+{
+	int	full;
+	int half;
+	//int empty;
+	int	i;
+
+	full = g_player.life / 2;
+	half = g_player.life % 2;
+	//empty = (full + half) % 3;
+	
+	i = 0;
+	while (full--)
+		xput_to_buffer((10 + 36) * i++, 10, buf, &g_lifebar.fullheart);
+	while (half--)
+		xput_to_buffer((10 + 36) * i++, 10, buf, &g_lifebar.halfheart);
+	//while (empty--)
+	//	xput_to_buffer((10 + 36) * i++, 10, buf, &g_lifebar.emptyheart);
 }
 
 /*
@@ -82,7 +115,7 @@ void	loadsprites(void)
 ** and abort the program. If they succeed, we merrily carry on.
 */
 
-char	memreserve(void)
+char	xmemreserve(void)
 {
 	char	memerror;
 
@@ -126,7 +159,7 @@ char	memreserve(void)
 ** more textures for additional types, you can assign them here. :)
 */
 
-void	start(unsigned int **buf)
+/*void	start(unsigned int **buf)
 {
 	if (!memreserve())
 	{
@@ -151,7 +184,8 @@ void	start(unsigned int **buf)
 	&g_eawallimg.bpp, &g_eawallimg.size_line, &g_eawallimg.endian);
 	loadsprites();
 	loadui();
-}
+}*/
+
 
 /*
 ** X will be used to describe each pixel position on a given screen line, from
@@ -168,19 +202,14 @@ void	start(unsigned int **buf)
 ** interactions.
 */
 
-int		raycaster(int key, void *param)
+int		raycaster_bonus(unsigned int *buf)
 {
 	int					x;
-	static unsigned int	*buf = NULL;
 	static time_t		timestart = 0;
 
-	(void)param;
-	(void)key;
 	if (!timestart)
 		timestart = time(NULL);
 	x = 0;
-	if (!buf)
-		start(&buf);
 	if (g_keydata.m != 2)
 		cast_ceiling_floor(buf);
 	while (x < g_config.screenw)

@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/31 20:03:32 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/01 17:36:00 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,18 +77,13 @@ typedef struct	s_horizontalraydata
 	
 }				t_xraydata;
 
-typedef struct	s_border
+typedef struct	s_lifebar
 {
-	t_imagedata	top_left;
-	t_imagedata	top_right;
-	t_imagedata	bottom_left;
-	t_imagedata	bottom_right;
-	t_imagedata	left;
-	t_imagedata	right;
-	t_imagedata	top;
-	t_imagedata	bottom;
-	t_imagedata	*ptr;
-}				t_border;
+	t_imagedata	fullheart;
+	t_imagedata	halfheart;
+	t_imagedata	emptyheart;
+	t_imagedata	*ptr[3];
+}				t_lifebar;
 
 t_imagedata	g_ceilingimg;
 t_imagedata	g_floorimg;
@@ -99,7 +94,7 @@ t_imagedata	g_sprt6img;
 t_imagedata	g_sprt7img;
 t_imagedata	g_sprt8img;
 t_imagedata	g_sprt9img;
-t_border	g_border;
+t_lifebar	g_lifebar;
 t_xraydata	g_xraydata;
 
 /*
@@ -115,5 +110,6 @@ int		getctex(const char *line, unsigned int linenum);
 void	gettexfail(void);
 int		sprarray(void);
 int		raycaster_start(unsigned int **buf);
+int		raycaster_bonus(unsigned int *buf);
 
 #endif

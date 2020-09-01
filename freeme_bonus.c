@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 16:44:15 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/31 16:50:47 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/01 20:09:01 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 
 void	freebonusimgs(void)
 {
+	int i;
+
 	if (g_sprt3img.mlx_img)
 		mlx_destroy_image(g_screendata.mlx_ptr, g_sprt3img.mlx_img);
 	if (g_sprt4img.mlx_img)
@@ -36,6 +38,14 @@ void	freebonusimgs(void)
 		mlx_destroy_image(g_screendata.mlx_ptr, g_floorimg.mlx_img);
 	if (g_ceilingimg.mlx_img)
 		mlx_destroy_image(g_screendata.mlx_ptr, g_ceilingimg.mlx_img);
+	i = 0;
+	while (i < 3)
+	{
+		if (g_lifebar.ptr[i]->mlx_img)
+			mlx_destroy_image(g_screendata.mlx_ptr, g_lifebar.ptr[i]->mlx_img);
+		i++;
+	}
+		
 }
 
 /*

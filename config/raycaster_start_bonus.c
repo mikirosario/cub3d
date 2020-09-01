@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/31 19:37:21 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/31 20:26:43 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/01 19:36:53 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,17 @@
 extern t_error	g_iamerror;
 extern t_imagedata *g_simg[10];
 
-
-
 void	loadui(void)
 {
-	t_border	*b;
+	t_lifebar	*b;
 
-	b = &g_border;
-	b->top_left.tex_ptr = (unsigned int *)mlx_get_data_addr(b->top_left.mlx_img, \
-	&b->top_left.bpp, &b->top_left.size_line, &b->top_left.endian);
+	b = &g_lifebar;
+	b->fullheart.tex_ptr = (unsigned int *)mlx_get_data_addr(b->fullheart.mlx_img, \
+	&b->fullheart.bpp, &b->fullheart.size_line, &b->fullheart.endian);
+	b->halfheart.tex_ptr = (unsigned int *)mlx_get_data_addr(b->halfheart.mlx_img, \
+	&b->halfheart.bpp, &b->halfheart.size_line, &b->halfheart.endian);
+	b->emptyheart.tex_ptr = (unsigned int *)mlx_get_data_addr(b->emptyheart.mlx_img, \
+	&b->emptyheart.bpp, &b->emptyheart.size_line, &b->emptyheart.endian);
 }
 
 int		loadsprites(void)
@@ -46,25 +48,24 @@ int		loadsprites(void)
 
 int		getimgaddresses(unsigned int **buf)
 {
-	if ((*buf = (unsigned int *)mlx_get_data_addr(g_screendata.mlx_img_buffer,
-	&g_screendata.bpp, &g_screendata.size_line, &g_screendata.endian)) && \
-	(g_floorimg.tex_ptr = (unsigned int *)mlx_get_data_addr(g_floorimg.mlx_img, \
-	&g_floorimg.bpp, &g_floorimg.size_line, &g_floorimg.endian)) &&
-	(g_ceilingimg.tex_ptr = (unsigned int *)mlx_get_data_addr( \
+	*buf = (unsigned int *)mlx_get_data_addr(g_screendata.mlx_img_buffer,
+	&g_screendata.bpp, &g_screendata.size_line, &g_screendata.endian); \
+	g_floorimg.tex_ptr = (unsigned int *)mlx_get_data_addr(g_floorimg.mlx_img, \
+	&g_floorimg.bpp, &g_floorimg.size_line, &g_floorimg.endian);
+	g_ceilingimg.tex_ptr = (unsigned int *)mlx_get_data_addr( \
 	g_ceilingimg.mlx_img, &g_ceilingimg.bpp, &g_ceilingimg.size_line,\
-	&g_ceilingimg.endian)) &&
-	(g_nowallimg.tex_ptr = (unsigned int *)mlx_get_data_addr(g_nowallimg.mlx_img,
-	&g_nowallimg.bpp, &g_nowallimg.size_line, &g_nowallimg.endian)) &&
-	(g_sowallimg.tex_ptr = (unsigned int *)mlx_get_data_addr(g_sowallimg.mlx_img,
-	&g_sowallimg.bpp, &g_sowallimg.size_line, &g_sowallimg.endian)) &&
-	(g_wewallimg.tex_ptr = (unsigned int *)mlx_get_data_addr(g_wewallimg.mlx_img,
-	&g_wewallimg.bpp, &g_wewallimg.size_line, &g_wewallimg.endian)) &&
-	(g_eawallimg.tex_ptr = (unsigned int *)mlx_get_data_addr(g_eawallimg.mlx_img,
-	&g_eawallimg.bpp, &g_eawallimg.size_line, &g_eawallimg.endian)) &&
-	loadsprites())
-		return (1);
-		//loadui();
-	return (0);
+	&g_ceilingimg.endian);
+	g_nowallimg.tex_ptr = (unsigned int *)mlx_get_data_addr(g_nowallimg.mlx_img,
+	&g_nowallimg.bpp, &g_nowallimg.size_line, &g_nowallimg.endian);
+	g_sowallimg.tex_ptr = (unsigned int *)mlx_get_data_addr(g_sowallimg.mlx_img,
+	&g_sowallimg.bpp, &g_sowallimg.size_line, &g_sowallimg.endian);
+	g_wewallimg.tex_ptr = (unsigned int *)mlx_get_data_addr(g_wewallimg.mlx_img,
+	&g_wewallimg.bpp, &g_wewallimg.size_line, &g_wewallimg.endian);
+	g_eawallimg.tex_ptr = (unsigned int *)mlx_get_data_addr(g_eawallimg.mlx_img,
+	&g_eawallimg.bpp, &g_eawallimg.size_line, &g_eawallimg.endian);
+	loadsprites();
+	loadui();
+	return (1);
 }
 
 /*

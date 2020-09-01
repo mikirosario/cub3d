@@ -6,11 +6,11 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/31 19:41:02 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/31 19:41:26 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/01 17:32:16 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../cub3d.h"
+#include "../../cub3d_bonus.h"
 
 void	buildui(unsigned int *buf)
 {
