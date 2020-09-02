@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/11 15:32:45 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/01 20:44:15 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/02 20:19:22 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,20 +79,20 @@ void	refreshui(unsigned int *buf)
 {
 	int	full;
 	int half;
-	//int empty;
+	int empty;
 	int	i;
 
 	full = g_player.life / 2;
 	half = g_player.life % 2;
-	//empty = (full + half) % 3;
+	empty = 3 - (full + half);
 	
 	i = 0;
 	while (full--)
 		xput_to_buffer((10 + 36) * i++, 10, buf, &g_lifebar.fullheart);
 	while (half--)
 		xput_to_buffer((10 + 36) * i++, 10, buf, &g_lifebar.halfheart);
-	//while (empty--)
-	//	xput_to_buffer((10 + 36) * i++, 10, buf, &g_lifebar.emptyheart);
+	while (empty--)
+		xput_to_buffer((10 + 36) * i++, 10, buf, &g_lifebar.emptyheart);
 }
 
 /*
@@ -207,9 +207,11 @@ int		raycaster_bonus(unsigned int *buf)
 	int					x;
 	static time_t		timestart = 0;
 
+	x = 0;
 	if (!timestart)
 		timestart = time(NULL);
-	x = 0;
+	if (g_framedata.invincibilityframes)
+			g_framedata.invincibilityframes--;
 	if (g_keydata.m != 2)
 		cast_ceiling_floor(buf);
 	while (x < g_config.screenw)

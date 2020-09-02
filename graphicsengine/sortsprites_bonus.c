@@ -6,11 +6,33 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 18:24:16 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/31 17:39:20 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/02 19:20:31 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d_bonus.h"
+
+/*
+** This function will control the player's health bar. If the player is within
+** .33 of an enemy sprite, the player will lose 1 health per
+** invincibilityframes frames per enemy at that distance.
+**
+** If the player is within .33 of a healing sprite, the player will gain life
+** at a rate of 1 per frame.
+*/
+
+void	getplayerdamage(int sprnum)
+{
+	//si si no tenemos invincibility frames y es enemigo
+	if (!g_framedata.invincibilityframes && g_config.sprt[sprnum]->spritetype == '2')
+	{
+			if (g_player.life && (g_framedata.invincibilityframes = 15))
+				g_player.life--;
+	}
+	if (g_config.sprt[sprnum]->spritetype == '3')
+		if (g_player.life < 6)
+			g_player.life++;
+}
 
 /*
 ** Here we get the distance from the player position of each sprite.
@@ -51,6 +73,14 @@
 ** Since we only have to track at maximum six sprites at a time, this will
 ** limit the number of additional operations we need to do per frame to enforce
 ** collision detection, even if many sprites are in the map. Woot. ^_^
+**
+** It's a bit weird to have this in sortsprites I suppose, but since I get
+** distances here it is very convenient. This function calls getplayerdamage,
+** which will determine whether the player is cruising for a bruising. If
+** within 0.33 of an enemy sprite, we'll damage the player and start a timer
+** called invincibilityframes that will have the effect of blocking further
+** damage and causing the screen to flash red every other frame. Heart meter
+** will also go down by half, of course.
 */
 
 void	getdistances(double *distance, int *spriteorder)
@@ -70,7 +100,11 @@ void	getdistances(double *distance, int *spriteorder)
 		(g_player.posx - g_config.sprt[i]->posx) + (g_player.posy - \
 		g_config.sprt[i]->posy) * (g_player.posy - g_config.sprt[i]->posy));
 		if (distance[i] <= 0.33)
-			g_framedata.closesprite[s++] = i;
+		{
+			g_framedata.closesprite[s] = i;
+			getplayerdamage(i);
+			s++;
+		}
 		i++;
 	}
 }

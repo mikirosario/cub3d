@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/01 20:11:32 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/02 20:43:59 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -260,6 +260,7 @@ typedef struct	s_framedata
 	int				spritewidth;
 	int				spritescreenx;
 	int				closesprite[6];
+	int				invincibilityframes;
 }				t_framedata;
 
 /*
@@ -269,14 +270,16 @@ typedef struct	s_framedata
 
 typedef struct	s_imagedata
 {
-	void			*mlx_img;
-	int				bpp;
-	int				size_line;
-	int				endian;
-	int				texw;
-	int				texh;
-	unsigned int	*tex_ptr;
-	char			*texpath;
+	void					*mlx_img;
+	int						bpp;
+	int						size_line;
+	int						endian;
+	int						texw;
+	int						texh;
+	unsigned int			*tex_ptr;
+	struct s_imagedata		*animate[8];
+	char					*texpath;
+	char					*texpaths[8];
 }				t_imagedata;
 
 /*

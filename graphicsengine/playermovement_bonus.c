@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/14 20:03:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/01 20:45:28 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/02 17:03:44 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,7 @@ int		sprcollide(double y, double x)
 		if ((sprnum = g_framedata.closesprite[i++]) >= 0)
 			if ((pow(x - g_config.sprt[sprnum]->posx, 2) + \
 			pow(y - g_config.sprt[sprnum]->posy, 2)) <= 0.25)
-			{
-				if (g_player.life)
-					g_player.life--;
 				return (1);
-			}
 	return (0);
 }
 

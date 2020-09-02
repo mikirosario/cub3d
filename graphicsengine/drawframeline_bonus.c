@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/11 19:45:47 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/31 17:03:46 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/02 18:46:40 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,13 +110,15 @@ int		texturedwalls(int x, int pixel, unsigned int *buf)
 	while (pixel <= (x + g_framedata.drawend * g_config.screenw))
 	{
 		g_framedata.texy = (int)(g_framedata.texpos) & (g_config.texh - 1);
-		if (g_keydata.m == 1)
-			buf[pixel] = g_raydata.side == 1 ? (((texptr[g_framedata.texx + \
-			g_framedata.texy * g_config.texw]) >> 1) & 8355711) : \
-			texptr[g_framedata.texx + g_framedata.texy * g_config.texw];
+		if (g_keydata.m == 1 && g_raydata.side == 1)
+			g_framedata.xcolor = (texptr[g_framedata.texx + \
+			g_framedata.texy * g_config.texw] >> 1) & 0x7F7F7F;
 		else
-			buf[pixel] = texptr[g_framedata.texx + \
+			g_framedata.xcolor = texptr[g_framedata.texx + \
 			g_framedata.texy * g_config.texw];
+		if (g_framedata.invincibilityframes % 2)
+			g_framedata.xcolor = g_framedata.xcolor >> 1 & 0x7F0000;
+		buf[pixel] = g_framedata.xcolor;
 		g_framedata.texpos += g_framedata.step;
 		pixel += g_config.screenw;
 	}
