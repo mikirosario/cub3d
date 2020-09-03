@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d_bonus.c                                      :+:      :+:    :+:   */
+/*   cub3d_linux.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3d_bonus.h"
 
 t_error g_iamerror;
 
@@ -55,7 +55,7 @@ int   ft_stop(int key, void *param)
 	return (0);
 }
 
-void	configure(char **argv, int argc, int *success)
+void	configure(unsigned int **buf, char **argv, int argc, int *success)
 {
 	ft_printf(GREEN"\nCHECKING .CUB FILE...\n"RESET);
 	if (!(*success = argc > 3 ? 0 : 1))
@@ -72,17 +72,19 @@ void	configure(char **argv, int argc, int *success)
 		else if (!(g_screendata.mlx_win = mlx_new_window(g_screendata.mlx_ptr, \
 		g_config.screenw, g_config.screenh, "Norminator 3D")))
 			*success = 0;
-		else
-			*success = maketeximg();
+		else if (!maketeximg() || !raycaster_start(buf))
+			*success = 0;
 	}
 }
 
 int		main(int argc, char **argv)
 {
-	int	success;
+	unsigned int	*buf;
+	int				success;
 
+	buf = NULL;
 	initialize();
-	configure(argv, argc, &success);
+	configure(&buf, argv, argc, &success);
 	printnotifications();
 	printerrors();
 	if (!success)
@@ -91,10 +93,10 @@ int		main(int argc, char **argv)
 		return (EXIT_FAILURE);
 	}
 	mlx_do_key_autorepeatoff(g_screendata.mlx_ptr);
-	mlx_hook(g_screendata.mlx_win, 17, 1l << 17, ft_stop, (void*)0);
+	mlx_hook(g_screendata.mlx_win, 17, 1L << 17, ft_stop, (void*)0);
 	mlx_hook(g_screendata.mlx_win, 2, 1L << 0, keypress, (void*)0);
 	mlx_hook(g_screendata.mlx_win, 3, 1L << 1, keyrelease, (void *)0);
-	mlx_loop_hook(g_screendata.mlx_ptr, raycaster, (void *)0);
+	mlx_loop_hook(g_screendata.mlx_ptr, raycaster_bonus, buf);
 	mlx_loop(g_screendata.mlx_ptr);
 	return (EXIT_SUCCESS);
 }

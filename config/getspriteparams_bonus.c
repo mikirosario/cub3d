@@ -15,6 +15,34 @@
 extern t_error g_iamerror;
 t_imagedata *g_simg[10];
 
+int		animationframes(const char **line, unsigned int linenum, \
+t_imagedata **g_simg, int stype)
+{
+	static int a = 0;
+	int	i;
+	if (!**line || **line == stype + 1)
+		return (1);
+	else if (**line != stype || *(*line + 1) != '.' || *(*line + 2) != '/')
+	{
+		a = 0;
+		g_iamerror.badsprsyn = linenum;
+		return (0);
+	}
+	i = 0;
+	*line += 1;
+	while ((*line)[i] && ft_isprint((*line)[i]) && !(ft_isspace((*line)[i])))
+		i++;
+	if (!((*g_simg[stype - 48]).texpaths[a] = ft_calloc(i, 1)))
+	{
+		a = 0;
+		g_iamerror.mallocfail = 1;
+		return (0);
+	}
+	ft_memcpy((*g_simg[stype - 48]).texpaths[a++], *line, i);
+	*line = ft_skipspaces(&((*line)[i]));
+	return (animationframes(line, linenum, g_simg, stype));
+}
+
 int     sprtpaths(const char *line, unsigned int linenum, t_imagedata **g_simg, \
 int stype)
 {
@@ -37,6 +65,8 @@ int stype)
 	ft_memcpy((*g_simg[stype - 48]).texpath, line, i);
     g_config.sprtexnum += stype == 50 ? 2 : 1;
     line = ft_skipspaces(&line[i]);
+	if (!animationframes(&line, linenum, g_simg, stype))
+		return (0);
     return (++stype < 58 && *line ? sprtpaths(line, linenum, g_simg, stype) : \
     1);
 }

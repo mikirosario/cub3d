@@ -3,7 +3,7 @@ no ./blueMetal.XPM
 SO ./yellowMetal.XPM
 WE ./greenMetal.XPM
 EA ./pinkMetal.XPM
-S 2./normiSprite.XPM 3./bricks.XPM 4./redpotion.xpm
+S 2./normiSprite.XPM 2./otrosprite.xpm 3./bricks.XPM 4./redpotion.xpm
 F ./experimentos/newBricks.XPM
 c ./sandbrick.XPM
 
