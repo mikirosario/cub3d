@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/02 18:10:35 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/03 19:14:11 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,5 +111,9 @@ void	gettexfail(void);
 int		sprarray(void);
 int		raycaster_start(unsigned int **buf);
 int		raycaster_bonus(unsigned int *buf);
+void	getanimationimgs(t_imagedata *simg);
+int		checkanimations(t_imagedata *simg);
+void	animationtexerrors(t_imagedata *simg);
+int		getanimationptrs(t_spritedata *sprt, t_imagedata *simg);
 
 #endif

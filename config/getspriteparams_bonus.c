@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 18:08:49 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/31 16:56:43 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/03 17:32:33 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,13 @@
 extern t_error g_iamerror;
 t_imagedata *g_simg[10];
 
-int		animationframes(const char **line, unsigned int linenum, \
-t_imagedata **g_simg, int stype)
+int		animationframes(const char **line, int frame, unsigned int linenum, int stype)
 {
-	static int a = 0;
 	int	i;
 	if (!**line || **line == stype + 1)
 		return (1);
 	else if (**line != stype || *(*line + 1) != '.' || *(*line + 2) != '/')
 	{
-		a = 0;
 		g_iamerror.badsprsyn = linenum;
 		return (0);
 	}
@@ -32,19 +29,17 @@ t_imagedata **g_simg, int stype)
 	*line += 1;
 	while ((*line)[i] && ft_isprint((*line)[i]) && !(ft_isspace((*line)[i])))
 		i++;
-	if (!((*g_simg[stype - 48]).texpaths[a] = ft_calloc(i, 1)))
+	if (!((g_simg[stype - 48])->texpaths[frame] = ft_calloc(i + 1, 1)))
 	{
-		a = 0;
 		g_iamerror.mallocfail = 1;
 		return (0);
 	}
-	ft_memcpy((*g_simg[stype - 48]).texpaths[a++], *line, i);
+	ft_memcpy((g_simg[stype - 48])->texpaths[frame++], *line, i);
 	*line = ft_skipspaces(&((*line)[i]));
-	return (animationframes(line, linenum, g_simg, stype));
+	return (animationframes(line, frame, linenum, stype));
 }
 
-int     sprtpaths(const char *line, unsigned int linenum, t_imagedata **g_simg, \
-int stype)
+int     sprtpaths(const char *line, unsigned int linenum, int stype)
 {
     int i;
 
@@ -57,18 +52,17 @@ int stype)
     line++;
 	while (line[i] && ft_isprint(line[i]) && !(ft_isspace(line[i])))
 		i++;
-	if (!((*g_simg[stype - 48]).texpath = ft_calloc(i + 1, 1)))
+	if (!((g_simg[stype - 48])->texpath = ft_calloc(i + 1, 1)))
 	{
 		g_iamerror.mallocfail = 1;
 		return (0);
 	}
-	ft_memcpy((*g_simg[stype - 48]).texpath, line, i);
+	ft_memcpy((g_simg[stype - 48])->texpath, line, i);
     g_config.sprtexnum += stype == 50 ? 2 : 1;
     line = ft_skipspaces(&line[i]);
-	if (!animationframes(&line, linenum, g_simg, stype))
+	if (!animationframes(&line, 0, linenum, stype))
 		return (0);
-    return (++stype < 58 && *line ? sprtpaths(line, linenum, g_simg, stype) : \
-    1);
+    return (++stype < 58 && *line ? sprtpaths(line, linenum, stype) : 1);
 }
 
 /*
@@ -111,5 +105,5 @@ int		getsprite(const char *line, unsigned int linenum)
     g_simg[7] = &g_sprt7img;
     g_simg[8] = &g_sprt8img;
     g_simg[9] = &g_sprt9img;
-	return (*line ? sprtpaths(line, linenum, g_simg, stype) : 0);
+	return (*line ? sprtpaths(line, linenum, stype) : 0);
 }

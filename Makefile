@@ -6,7 +6,7 @@
 #    By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/07/15 20:32:43 by mrosario          #+#    #+#              #
-#    Updated: 2020/09/01 15:47:28 by mrosario         ###   ########.fr        #
+#    Updated: 2020/09/03 18:59:50 by mrosario         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,8 @@ BSRC = cub3d_bonus.c rotation.c freeme_bonus.c ./toolkit.c ./config/cub_bonus.c 
 ./graphicsengine/sortsprites_bonus.c ./graphicsengine/screenshots/bmpgenerator.c \
 ./graphicsengine/screenshots/bmperror.c ./graphicsengine/graphicsmodes_bonus.c \
 ./graphicsengine/fpscounter_bonus.c ./graphicsengine/drawceilingfloor_bonus.c \
-./config/raycaster_start_bonus.c
+./config/raycaster_start_bonus.c ./config/makeanimationimgs_bonus.c \
+./config/animationerrors_bonus.c
 
 LBSRC = cub3d_linux.c rotation.c freeme_bonus.c ./toolkit.c ./config/cub_bonus.c \
 ./config/getscreenres.c ./config/getwallparams.c ./config/getspriteparams_bonus.c \
@@ -56,7 +57,8 @@ LBSRC = cub3d_linux.c rotation.c freeme_bonus.c ./toolkit.c ./config/cub_bonus.c
 ./graphicsengine/sortsprites_bonus.c ./graphicsengine/screenshots/bmpgenerator.c \
 ./graphicsengine/screenshots/bmperror.c ./graphicsengine/graphicsmodes_bonus.c \
 ./graphicsengine/fpscounter_bonus.c ./graphicsengine/drawceilingfloor_bonus.c \
-./config/raycaster_start_bonus.c
+./config/raycaster_start_bonus.c ./config/makeanimationimgs_bonus.c \
+./config/animationerrors_bonus.c
 
 OBJ = $(SRC:.c=.o)
 

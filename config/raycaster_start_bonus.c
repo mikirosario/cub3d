@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/31 19:37:21 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/01 19:36:53 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/03 19:14:23 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,12 @@ int		loadsprites(void)
 	{
 		stype = (sprtptr->spritetype) - 48;
 		if (!(sprtptr->texture = (unsigned int *) \
-		mlx_get_data_addr((*g_simg[stype]).mlx_img, &(*g_simg[stype]).bpp, \
-		&(*g_simg[stype]).size_line, &(*g_simg[stype]).endian)))
+		mlx_get_data_addr(g_simg[stype]->mlx_img, &g_simg[stype]->bpp, \
+		&g_simg[stype]->size_line, &g_simg[stype]->endian)))
 			return (0);
+		if (g_simg[stype]->animation[0])
+			if (!(getanimationptrs(sprtptr, g_simg[stype])))
+				return (0);
 		sprtptr = sprtptr->next;
 	}
 	return (1);

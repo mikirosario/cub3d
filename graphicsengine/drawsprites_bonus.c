@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/12 18:46:59 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/02 18:47:47 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/03 20:39:32 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -296,6 +296,18 @@ void	castsprites(unsigned int *buf)
 	while (i < g_config.spritenum)
 	{
 		sprite = g_config.sprt[g_config.spriteorder[i]];
+		if (sprite->firstframe && !sprite->frame)
+		{
+			sprite->texture = sprite->firstframe;
+			sprite->frame++;
+		}
+		else if (sprite->firstframe)
+		{
+			sprite->texture = sprite->animtex[sprite->frame - 1];
+			sprite->frame++;
+			if (sprite->frame == 7)
+				sprite->frame = 0;
+		}
 		spriteposition(&prms, sprite);
 		spritesize(&prms);
 		drawsprite(&prms, buf, sprite);

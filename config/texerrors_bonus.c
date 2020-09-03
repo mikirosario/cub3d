@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/03 18:36:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/31 16:56:43 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/03 18:55:29 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,10 @@ void	texpatherrors(void)
 	if (g_config.spritenum)
 		while (i <= g_config.sprtexnum)
 		{
-			if (!(*g_simg[i]).mlx_img)
+			if (!g_simg[i]->mlx_img)
 				ft_printf(RED"%s%s\n"RESET, PATHSPRFAIL, (*g_simg[i]).texpath);
+			if (g_simg[i]->texpaths[0])
+				animationtexerrors(g_simg[i]);
 			i++;
 		}
 	if (!g_floorimg.mlx_img)

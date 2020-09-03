@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 16:44:15 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/01 20:09:01 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/03 17:43:29 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	freebonusimgs(void)
 	i = 0;
 	while (i < 3)
 	{
-		if (g_lifebar.ptr[i]->mlx_img)
+		if (g_lifebar.ptr[i] && g_lifebar.ptr[i]->mlx_img)
 			mlx_destroy_image(g_screendata.mlx_ptr, g_lifebar.ptr[i]->mlx_img);
 		i++;
 	}

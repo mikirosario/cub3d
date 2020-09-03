@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 18:36:40 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/01 20:07:12 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/03 18:30:21 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,11 @@ int		createhudimages(void)
 int		checkimgs(void)
 {
 	int	i;
+	int animationsfound;
 	t_spritedata *s;
 
 	s = g_config.spritelist;
+	animationsfound = 1;
 	while (s)
 	{
 		if (s->spritetype > g_config.sprtexnum + 48)
@@ -70,11 +72,15 @@ int		checkimgs(void)
 	}
 	i = g_config.sprtexnum;
 	while (i > 1)
-		if (!(*g_simg[i--]).mlx_img)
+	{
+		if (!g_simg[i]->mlx_img || (*(g_simg[i]->texpaths) && \
+		!(animationsfound = checkanimations(g_simg[i]))))
 			break ;
+		i--;
+	}
 	if (!g_nowallimg.mlx_img || !g_sowallimg.mlx_img || !g_wewallimg.mlx_img ||
 	!g_eawallimg.mlx_img || !g_floorimg.mlx_img || !g_ceilingimg.mlx_img ||
-	(i != 1 && g_config.spritenum))
+	(i != 1 && g_config.spritenum) || !animationsfound)
 		g_iamerror.texpathfail = 1;
 	return (g_iamerror.orphansprites || g_iamerror.texpathfail ? 0 : 1);
 }
@@ -151,8 +157,10 @@ int		getteximg(void)
 	if (g_config.spritenum)
 		while (i > 1)
 		{
-			(*g_simg[i]).mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, \
-			(*g_simg[i]).texpath, &(*g_simg[i]).texw, &(*g_simg[i]).texh);
+			g_simg[i]->mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, \
+			g_simg[i]->texpath, &g_simg[i]->texw, &g_simg[i]->texh);
+			if (*(g_simg[i]->texpaths))
+				getanimationimgs(g_simg[i]);
 			i--;
 		}
 	return (checkimgs());

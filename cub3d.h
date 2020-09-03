@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/02 20:43:59 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/03 19:48:56 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,9 @@ typedef struct	s_spritedata
 	double				posy;
 	char				spritetype;
 	unsigned int		*texture;
+	unsigned int		*firstframe;
+	unsigned int		*animtex[8];
+	int					frame;
 	struct s_spritedata	*next;
 }				t_spritedata;
 
@@ -277,7 +280,7 @@ typedef struct	s_imagedata
 	int						texw;
 	int						texh;
 	unsigned int			*tex_ptr;
-	struct s_imagedata		*animate[8];
+	struct s_imagedata		*animation[8];
 	char					*texpath;
 	char					*texpaths[8];
 }				t_imagedata;
