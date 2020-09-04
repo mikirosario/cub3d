@@ -158,8 +158,8 @@ int		getteximg(void)
 		while (i > 1)
 		{
 			g_simg[i]->mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, \
-			g_simg[i]->texpath, &g_simg[i]->texw, &g_simg[i]->texh);
-			if (*(g_simg[i]->texpaths))
+			g_simg[i]->texpaths[0], &g_simg[i]->texw, &g_simg[i]->texh);
+			if (&g_simg[i]->texpaths[1])
 				getanimationimgs(g_simg[i]);
 			i--;
 		}
@@ -213,6 +213,8 @@ int		maketeximg(void)
 		return (0);
 	g_config.texw = size[0];
 	g_config.texh = size[1];
+	if (!(companimsizes(g_simg)))
+		return (0);
 	createhudimages();
 	return (1);
 }

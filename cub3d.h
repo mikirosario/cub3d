@@ -66,8 +66,10 @@ typedef	struct	s_error
 	unsigned char	getceilfail : 1;
 	unsigned int	badceilsyn;
 	unsigned char	texpathfail : 1;
+	unsigned char	toomanyframes : 1;
 	char			*texsizefail;
 	unsigned char	walltexsizedif : 1;
+	unsigned char	animtexsizedif;
 	unsigned char	sprtexsizefail : 1;
 	unsigned char	orphansprites;
 	unsigned char	fcolorinvalid : 1;
@@ -107,9 +109,12 @@ typedef struct	s_spritedata
 	double				posy;
 	char				spritetype;
 	unsigned int		*texture;
-	unsigned int		*firstframe;
 	unsigned int		*animtex[8];
 	int					frame;
+	int					framelimit;
+	int					udiv;
+	int					vdiv;
+	int					vmove;
 	struct s_spritedata	*next;
 }				t_spritedata;
 

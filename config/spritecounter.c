@@ -12,6 +12,8 @@
 
 #include "../cub3d.h"
 
+extern t_imagedata *g_simg[10];
+
 t_spritedata	*ft_sprtlstnew(void const *content)
 {
 	t_spritedata *tmp;
@@ -21,6 +23,12 @@ t_spritedata	*ft_sprtlstnew(void const *content)
 	{
 		tmp->posx = 0;
 		tmp->posy = 0;
+		tmp->frame = 0;
+		tmp->framelimit = 0;
+		tmp->spritetype = 0;
+		tmp->udiv = 1;
+		tmp->vdiv = 1;
+		tmp->vmove = 0;
 		if (content)
 			tmp->texture = (void *)content;
 		else

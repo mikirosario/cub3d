@@ -25,7 +25,7 @@ void	spritepathnotifications(void)
 		ft_printf(GREEN"%s"RESET, SPRPATHS);
 		while (i <= g_config.sprtexnum)
 		{
-			ft_printf(GREEN"\n%d ->"RESET" %s", i, (*g_simg[i]).texpath);
+			ft_printf(GREEN"\n%d ->"RESET" %s", i, g_simg[i]->texpaths[0]);
 			i++;
 		}
 		write(1, "\n", 2);
@@ -60,8 +60,8 @@ void	texturesizenotifications(void)
 		ft_printf(GREEN"%s"RESET, SPRITETEXSIZES);
 		while (i <= g_config.sprtexnum)
 		{
-			ft_printf(GREEN"\n%d ->"RESET" %d x %d", i, (*g_simg[i]).texw, \
-			(*g_simg[i]).texh);
+			ft_printf(GREEN"\n%d ->"RESET" %d x %d", i, g_simg[i]->texw, \
+			g_simg[i]->texh);
 			i++;
 		}
 		write (1, "\n", 1);

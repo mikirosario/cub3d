@@ -155,12 +155,12 @@ t_spritedata *sprite)
 ** NOTE TO SELF: do abs only once to save cycles...
 */
 
-void	spritesize(t_spriteparams *prms)
+void	spritesize(t_spriteparams *prms, t_spritedata *sprite)
 {
 	int	size;
 
 	size = abs((int)(g_config.screenh / (prms->transformy)));
-	g_framedata.spriteheight = size / g_config.vdiv;
+	g_framedata.spriteheight = size / sprite->vdiv;
 	g_framedata.spritedrawstarty = \
 	(-g_framedata.spriteheight / 2 + g_config.screenh / 2 + prms->vmovescreen);
 	if (g_framedata.spritedrawstarty < 0)
@@ -169,7 +169,7 @@ void	spritesize(t_spriteparams *prms)
 	g_framedata.spriteheight / 2 + g_config.screenh / 2 + prms->vmovescreen;
 	if (g_framedata.spritedrawendy >= g_config.screenh)
 		g_framedata.spritedrawendy = g_config.screenh - 1;
-	g_framedata.spritewidth = size / g_config.udiv;
+	g_framedata.spritewidth = size / sprite->udiv;
 	g_framedata.spritedrawstartx = \
 	(-g_framedata.spritewidth / 2 + g_framedata.spritescreenx);
 	if (g_framedata.spritedrawstartx < 0)
@@ -229,8 +229,8 @@ void	spriteposition(t_spriteparams *prms, t_spritedata *sprite)
 	g_framedata.spritex + g_player.planex * g_framedata.spritey);
 	g_framedata.spritescreenx = (int)((g_config.screenw / 2) * \
 	(1 + prms->transformx / prms->transformy));
-	prms->vmovescreen = g_config.vmove == 0 ? \
-	0 : (int)(g_config.vmove / prms->transformy);
+	prms->vmovescreen = sprite->vmove == 0 ? \
+	0 : (int)(sprite->vmove / prms->transformy);
 }
 
 /*
@@ -296,21 +296,18 @@ void	castsprites(unsigned int *buf)
 	while (i < g_config.spritenum)
 	{
 		sprite = g_config.sprt[g_config.spriteorder[i]];
-		if (sprite->firstframe && !sprite->frame)
+		if (sprite->framelimit)
 		{
-			sprite->texture = sprite->firstframe;
-			sprite->frame++;
-		}
-		else if (sprite->firstframe)
-		{
-			sprite->texture = sprite->animtex[sprite->frame - 1];
-			sprite->frame++;
-			if (sprite->frame == 7)
+			sprite->texture = sprite->animtex[sprite->frame];
+			if (sprite->frame < sprite->framelimit)
+				sprite->frame++;
+			else
 				sprite->frame = 0;
 		}
 		spriteposition(&prms, sprite);
-		spritesize(&prms);
+		spritesize(&prms, sprite);
 		drawsprite(&prms, buf, sprite);
+
 		i++;
 	}
 }

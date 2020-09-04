@@ -37,6 +37,8 @@ void	gettexfail(void)
 		ft_printf(RED"%s"RESET, GETSPRFAIL);
 	if (g_iamerror.badsprsyn)
 		ft_printf("Line %u: "RED"%s"RESET, g_iamerror.badsprsyn, BADSPRSYN);
+	if (g_iamerror.toomanyframes)
+		ft_printf(RED"%s"RESET, TOOMANYFRAMES);
 	if (g_iamerror.getfloorfail)
 		ft_printf(RED"%s"RESET, GETFLFAIL);
 	if (g_iamerror.badfloorsyn)
@@ -65,7 +67,7 @@ int		texerrorconditions(void)
 	|| g_iamerror.getceilfail|| (g_config.spritenum && g_iamerror.getsprfail) \
 	|| g_iamerror.texpathfail || g_iamerror.orphansprites \
 	|| g_iamerror.texsizefail || g_iamerror.couldnotopenxpm \
-	|| g_iamerror.walltexsizedif)
+	|| g_iamerror.walltexsizedif || g_iamerror.animtexsizedif)
 		return (1);
 	return (0);
 }
@@ -76,6 +78,8 @@ void	texreaderror(void)
 		ft_printf(YELLOW"%s%s\n"RESET, TEXSIZEFAIL, g_iamerror.texsizefail);
 	if (g_iamerror.walltexsizedif)
 		ft_printf(RED"%s\n"RESET, WALLTEXSIZEDIF);
+	if (g_iamerror.animtexsizedif)
+		ft_printf(RED"%s"RESET"Sprite: 4\n", ANIMSIZDIF, g_iamerror.animtexsizedif);
 	if (g_iamerror.couldnotopenxpm)
 		ft_printf(RED"%s%s\n"RESET, OPENXPMFAIL, g_iamerror.couldnotopenxpm);
 }

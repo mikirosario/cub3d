@@ -37,11 +37,12 @@ int		loadsprites(void)
 	while (sprtptr)
 	{
 		stype = (sprtptr->spritetype) - 48;
-		if (!(sprtptr->texture = (unsigned int *) \
+		if (!(sprtptr->animtex[0] = (unsigned int *) \
 		mlx_get_data_addr(g_simg[stype]->mlx_img, &g_simg[stype]->bpp, \
 		&g_simg[stype]->size_line, &g_simg[stype]->endian)))
 			return (0);
-		if (g_simg[stype]->animation[0])
+		sprtptr->texture = sprtptr->animtex[0];
+		if (g_simg[stype]->animation[1])
 			if (!(getanimationptrs(sprtptr, g_simg[stype])))
 				return (0);
 		sprtptr = sprtptr->next;

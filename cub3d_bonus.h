@@ -37,6 +37,9 @@
 # include "iamerror_bonus.h"
 # include "printnotifications_bonus.h"
 
+# define HALFSIZE 2
+# define QUARTERSIZE 4
+
 /*
 ** Raydir for leftmost ray (x = 0) and rightmost ray (x = w).
 **
@@ -115,5 +118,6 @@ void	getanimationimgs(t_imagedata *simg);
 int		checkanimations(t_imagedata *simg);
 void	animationtexerrors(t_imagedata *simg);
 int		getanimationptrs(t_spritedata *sprt, t_imagedata *simg);
+int		companimsizes(t_imagedata **simg);
 
 #endif

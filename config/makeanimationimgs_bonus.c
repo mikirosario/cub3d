@@ -14,20 +14,50 @@
 
 extern t_error g_iamerror;
 
+int		companimsizes(t_imagedata **simg)
+{
+	int	i;
+	int	j;
+
+	i = g_config.sprtexnum;
+	while (i > 1)
+	{
+		j = 0;
+		while (j < 7 && simg[i]->animation[j + 1])
+		{
+			if ((simg[i]->animation[j]->texw != simg[i]->animation[j + 1]->texw) || \
+			(simg[i]->animation[j]->texh != simg[i]->animation[j + 1]->texh))
+			{
+				g_iamerror.animtexsizedif = i + 48;
+				return (0);
+			}
+			j++;
+		}
+		i--;
+	}
+	return (1);
+}
+
 int		getanimationptrs(t_spritedata *sprt, t_imagedata *simg)
 {
 	int	i;
 	
-	i = 0;
-	sprt->firstframe = sprt->texture;
-	while (simg->animation[i])
+	i = 1;
+	while (i < 8 && simg->animation[i])
 	{	if (!(sprt->animtex[i] = \
 		(unsigned int *)mlx_get_data_addr(simg->animation[i]->mlx_img, \
 		&simg->animation[i]->bpp, &simg->animation[i]->size_line, \
 		&simg->animation[i]->endian)))
 			return (0);
+		if (sprt->spritetype == '4')
+		{
+			sprt->vdiv = 6;
+			sprt->udiv = 6;
+		}
+		sprt->vmove = simg->texh * sprt->vdiv;
 		i++;
 	}
+	sprt->framelimit = i - 1;
 	return (1);
 }
 
@@ -36,7 +66,7 @@ int		checkanimations(t_imagedata *simg)
 	int i;
 
 	i = 0;
-	while (simg->animation[i])
+	while (i < 8 && simg->animation[i])
 		if (!simg->animation[i++]->mlx_img)
 			return (0);
 	return (1);
@@ -47,7 +77,7 @@ void	getanimationimgs(t_imagedata *simg)
 	int i;
 
 	i = 0;
-	while (simg->texpaths[i])
+	while (i < 8 && simg->texpaths[i])
 	{
 		if (!(simg->animation[i] = ft_calloc(1, sizeof(t_imagedata))))
 		{
