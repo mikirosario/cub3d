@@ -207,6 +207,7 @@ typedef struct	s_player
 	double	movespeed;
 	double	rotspeed;
 	int		life;
+	int		inventory;
 }				t_player;
 
 /*

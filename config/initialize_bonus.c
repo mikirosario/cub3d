@@ -71,6 +71,7 @@ void	initialize(void)
 	g_player.rotspeed = 0.1;
 	g_player.movespeed = 0.25;
 	g_player.life = 6;
+	g_player.inventory = 0;
 	g_framedata.xfloorcolor = 0x00669999;
 	g_framedata.xceilingcolor = 0x0066004b;
 	g_config.spritenum = 0;

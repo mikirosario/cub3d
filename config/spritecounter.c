@@ -14,6 +14,36 @@
 
 extern t_imagedata *g_simg[10];
 
+void			ft_copysprtlst(t_spritedata *copyto, t_spritedata *copyfrom)
+{
+	int				i;
+
+	while (i < 8)
+		copyto->animtex[i] = copyfrom->animtex[i++];
+	copyto->frame = copyfrom->frame;
+	copyto->framelimit = copyfrom->framelimit;
+	copyto->posx = copyfrom->posx;
+	copyto->posy = copyfrom->posy;
+	copyto->spritetype = copyfrom->spritetype;
+	copyto->texture = copyfrom->texture;
+	copyto->udiv = copyfrom->udiv;
+	copyto->vdiv = copyfrom->vdiv;
+	copyto->vmove = copyfrom->vmove;
+}
+
+void			ft_movesprttoback(t_spritedata *lstmem)
+{
+	t_spritedata	tmp;
+
+	ft_copysprtlst(&tmp, lstmem);
+	while (lstmem->next)
+	{
+		ft_copysprtlst(lstmem, lstmem->next);
+		lstmem = lstmem->next;
+	}
+	ft_copysprtlst(lstmem, &tmp);
+}
+
 t_spritedata	*ft_sprtlstnew(void const *content)
 {
 	t_spritedata *tmp;
