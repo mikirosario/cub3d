@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/28 16:41:58 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/02 18:48:28 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/04 20:29:42 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	draw_ceiling(unsigned int *buf, int x, int y)
 	if (g_keydata.m == 1)
 		g_framedata.xcolor = (g_framedata.xcolor >> 1) & 8355711;
 	if (g_framedata.invincibilityframes % 2)
-			g_framedata.xcolor = g_framedata.xcolor >> 1 & 0x7F0000;
+		g_framedata.xcolor = g_framedata.xcolor >> 1 & 0x7F0000;
 	buf[((g_config.screenh - y - 1) * g_config.screenw) + x] = \
 	g_framedata.xcolor;
 }

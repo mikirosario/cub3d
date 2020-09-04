@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/05 16:53:56 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/26 18:28:51 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/04 17:50:13 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,34 +14,32 @@
 
 extern t_imagedata *g_simg[10];
 
-void			ft_copysprtlst(t_spritedata *copyto, t_spritedata *copyfrom)
+void			ft_movesprttoback(t_spritedata *firstmem, t_spritedata *lstmem)
 {
-	int				i;
+	t_spritedata	*preceding;
+	t_spritedata	*proceding;
 
-	while (i < 8)
-		copyto->animtex[i] = copyfrom->animtex[i++];
-	copyto->frame = copyfrom->frame;
-	copyto->framelimit = copyfrom->framelimit;
-	copyto->posx = copyfrom->posx;
-	copyto->posy = copyfrom->posy;
-	copyto->spritetype = copyfrom->spritetype;
-	copyto->texture = copyfrom->texture;
-	copyto->udiv = copyfrom->udiv;
-	copyto->vdiv = copyfrom->vdiv;
-	copyto->vmove = copyfrom->vmove;
-}
-
-void			ft_movesprttoback(t_spritedata *lstmem)
-{
-	t_spritedata	tmp;
-
-	ft_copysprtlst(&tmp, lstmem);
-	while (lstmem->next)
+	if (!lstmem->next)
+		return ;
+	else if (firstmem == lstmem)
 	{
-		ft_copysprtlst(lstmem, lstmem->next);
-		lstmem = lstmem->next;
+		g_config.spritelist = firstmem->next;
+		preceding = firstmem;
+		while (preceding->next)
+			preceding = preceding->next;
+		preceding->next = lstmem;
+		lstmem->next = NULL;
+		return ;
 	}
-	ft_copysprtlst(lstmem, &tmp);
+	proceding = lstmem->next;
+	preceding = firstmem;
+	while (preceding->next != lstmem)
+		preceding = preceding->next;
+	preceding->next = proceding;
+	while (preceding->next)
+		preceding = preceding->next;
+	preceding->next = lstmem;
+	lstmem->next = NULL;
 }
 
 t_spritedata	*ft_sprtlstnew(void const *content)
@@ -59,6 +57,7 @@ t_spritedata	*ft_sprtlstnew(void const *content)
 		tmp->udiv = 1;
 		tmp->vdiv = 1;
 		tmp->vmove = 0;
+		tmp->remove = 0;
 		if (content)
 			tmp->texture = (void *)content;
 		else

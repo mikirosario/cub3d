@@ -6,69 +6,34 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 16:44:15 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/03 17:43:29 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/04 19:52:46 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
 /*
-** Free bonus images.
+** This function handles the new imagedata structs, that may hold animation
+** frames, destroying all created images. In this version it also handles the
+** freeing of file paths, which are now stored in the texpaths array at the
+** root image.
 */
 
-void	freebonusimgs(void)
+void	destroyimages(t_imagedata *image)
 {
 	int i;
 
-	if (g_sprt3img.mlx_img)
-		mlx_destroy_image(g_screendata.mlx_ptr, g_sprt3img.mlx_img);
-	if (g_sprt4img.mlx_img)
-		mlx_destroy_image(g_screendata.mlx_ptr, g_sprt4img.mlx_img);
-	if (g_sprt5img.mlx_img)
-		mlx_destroy_image(g_screendata.mlx_ptr, g_sprt5img.mlx_img);
-	if (g_sprt6img.mlx_img)
-		mlx_destroy_image(g_screendata.mlx_ptr, g_sprt6img.mlx_img);
-	if (g_sprt7img.mlx_img)
-		mlx_destroy_image(g_screendata.mlx_ptr, g_sprt7img.mlx_img);
-	if (g_sprt8img.mlx_img)
-		mlx_destroy_image(g_screendata.mlx_ptr, g_sprt8img.mlx_img);
-	if (g_sprt9img.mlx_img)
-		mlx_destroy_image(g_screendata.mlx_ptr, g_sprt9img.mlx_img);
-	if (g_floorimg.mlx_img)
-		mlx_destroy_image(g_screendata.mlx_ptr, g_floorimg.mlx_img);
-	if (g_ceilingimg.mlx_img)
-		mlx_destroy_image(g_screendata.mlx_ptr, g_ceilingimg.mlx_img);
 	i = 0;
-	while (i < 3)
+	if (image->mlx_img)
 	{
-		if (g_lifebar.ptr[i] && g_lifebar.ptr[i]->mlx_img)
-			mlx_destroy_image(g_screendata.mlx_ptr, g_lifebar.ptr[i]->mlx_img);
-		i++;
+		while (i < 8 && image->animation[i])
+			mlx_destroy_image(g_screendata.mlx_ptr, \
+			image->animation[i++]->mlx_img);
+		mlx_destroy_image(g_screendata.mlx_ptr, image->mlx_img);
 	}
-		
-}
-
-/*
-** This function will free all strings reserved to store file path data
-** retrieved during cub file configuration.
-*/
-
-void	freestrings(void)
-{
-	if (g_floorimg.texpath)
-		del(g_floorimg.texpath);
-	if	(g_ceilingimg.texpath)
-		del(g_ceilingimg.texpath);
-	if (g_nowallimg.texpath)
-		del(g_nowallimg.texpath);
-	if (g_sowallimg.texpath)
-		del(g_sowallimg.texpath);
-	if (g_wewallimg.texpath)
-		del(g_wewallimg.texpath);
-	if (g_eawallimg.texpath)
-		del(g_eawallimg.texpath);
-	if (g_sprt2img.texpath)
-		del(g_sprt2img.texpath);
+	i = 0;
+	while (i < 8 && image->texpaths[i])
+		del(image->texpaths[i++]);
 }
 
 /*
@@ -85,7 +50,7 @@ void	freelists(void)
 	if (g_config.spritelist)
 		freesprtlist(&g_config.spritelist);
 	if (g_config.sprt)
-		del (g_config.sprt);
+		del(g_config.sprt);
 }
 
 /*
@@ -95,19 +60,30 @@ void	freelists(void)
 
 void	freeimgs(void)
 {
+	int	i;
+
 	if (g_screendata.mlx_img_buffer)
 		mlx_destroy_image(g_screendata.mlx_ptr, g_screendata.mlx_img_buffer);
-	if (g_nowallimg.mlx_img)
-		mlx_destroy_image(g_screendata.mlx_ptr, g_nowallimg.mlx_img);
-	if (g_sowallimg.mlx_img)
-		mlx_destroy_image(g_screendata.mlx_ptr, g_sowallimg.mlx_img);
-	if (g_wewallimg.mlx_img)
-		mlx_destroy_image(g_screendata.mlx_ptr, g_wewallimg.mlx_img);
-	if (g_eawallimg.mlx_img)
-		mlx_destroy_image(g_screendata.mlx_ptr, g_eawallimg.mlx_img);
-	if (g_sprt2img.mlx_img)
-		mlx_destroy_image(g_screendata.mlx_ptr, g_sprt2img.mlx_img);
-	freebonusimgs();
+	destroyimages(&g_nowallimg);
+	destroyimages(&g_sowallimg);
+	destroyimages(&g_wewallimg);
+	destroyimages(&g_eawallimg);
+	destroyimages(&g_sprt2img);
+	destroyimages(&g_sprt3img);
+	destroyimages(&g_sprt4img);
+	destroyimages(&g_sprt5img);
+	destroyimages(&g_sprt6img);
+	destroyimages(&g_sprt7img);
+	destroyimages(&g_sprt8img);
+	destroyimages(&g_sprt9img);
+	destroyimages(&g_floorimg);
+	destroyimages(&g_ceilingimg);
+	destroyimages(&g_potion);
+	i = 0;
+	while (i < 3)
+		if (g_lifebar.ptr[i])
+			mlx_destroy_image(g_screendata.mlx_ptr, \
+			g_lifebar.ptr[i++]->mlx_img);
 }
 
 /*
@@ -133,7 +109,6 @@ void	freeme(void)
 		}
 	}
 	freelists();
-	freestrings();
 	if (g_config.spriteorder)
 		del(g_config.spriteorder);
 	if (g_config.zbuffer)

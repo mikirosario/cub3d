@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 16:10:16 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/01 20:16:31 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/04 18:09:59 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,5 +88,6 @@ void	initialize(void)
 	g_keydata.r = 0;
 	g_keydata.l = 0;
 	g_keydata.m = 1;
+	g_keydata.ctrl = 0;
 	getdisplayresolution();
 }

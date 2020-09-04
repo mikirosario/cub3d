@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/07 20:24:05 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/28 15:41:43 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/04 19:53:42 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ t_error g_iamerror;
 ** Linux version:
 */
 
-int   ft_stop(int key, void *param)
+int		ft_stop(int key, void *param)
 {
 	(void)param;
 	if (key == 0xff1b || key == 0)

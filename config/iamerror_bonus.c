@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/21 19:17:09 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/28 20:24:18 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/04 19:59:24 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ void	texerrors(void)
 		ft_printf(RED"%s"RESET, ORPHANSPR);
 		while (stype <= 9)
 		{
-			if(isbitset(g_iamerror.orphansprites, stype - 2))
+			if (isbitset(g_iamerror.orphansprites, stype - 2))
 				ft_printf("%d ", stype);
 			stype++;
 		}

@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 18:08:49 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/03 17:32:33 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/04 19:58:14 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,11 @@ t_imagedata *g_simg[10];
 ** to return a success/failure indication instead.
 */
 
-int		animationframes(const char **line, int frame, unsigned int linenum, int stype)
+int		animationframes(const char **line, int frame, unsigned int linenum, \
+int stype)
 {
 	int	i;
+
 	if (!**line || **line == stype + 1)
 		return (1);
 	else if (**line != stype || *(*line + 1) != '.' || *(*line + 2) != '/' \
@@ -85,17 +87,17 @@ int		animationframes(const char **line, int frame, unsigned int linenum, int sty
 ** total of eight, to use as animation frames.
 */
 
-int     sprtpaths(const char *line, unsigned int linenum, int stype)
+int		sprtpaths(const char *line, unsigned int linenum, int stype)
 {
-    int i;
+	int i;
 
-    if (*line != stype || *(line + 1) != '.' || *(line + 2) != '/')
+	if (*line != stype || *(line + 1) != '.' || *(line + 2) != '/')
 	{
 		g_iamerror.badsprsyn = linenum;
 		return (0);
 	}
 	i = 0;
-    line++;
+	line++;
 	while (line[i] && ft_isprint(line[i]) && !(ft_isspace(line[i])))
 		i++;
 	if (!((g_simg[stype - 48])->texpaths[0] = ft_calloc(i + 1, 1)))
@@ -104,11 +106,11 @@ int     sprtpaths(const char *line, unsigned int linenum, int stype)
 		return (0);
 	}
 	ft_memcpy((g_simg[stype - 48])->texpaths[0], line, i);
-    g_config.sprtexnum += stype == 50 ? 2 : 1;
-    line = ft_skipspaces(&line[i]);
+	g_config.sprtexnum += stype == 50 ? 2 : 1;
+	line = ft_skipspaces(&line[i]);
 	if (!animationframes(&line, 1, linenum, stype))
 		return (0);
-    return (++stype < 58 && *line ? sprtpaths(line, linenum, stype) : 1);
+	return (++stype < 58 && *line ? sprtpaths(line, linenum, stype) : 1);
 }
 
 /*
@@ -133,7 +135,7 @@ int     sprtpaths(const char *line, unsigned int linenum, int stype)
 
 int		getsprite(const char *line, unsigned int linenum)
 {
-    int         stype;
+	int	stype;
 
 	if (!line)
 		return (0);
@@ -142,14 +144,14 @@ int		getsprite(const char *line, unsigned int linenum)
 	*(line + 1) == 'O' || *(line + 1) == 'o'))
 		return (0);
 	line = ft_skipspaces(++line);
-    stype = 50;
-    g_simg[2] = &g_sprt2img;
-    g_simg[3] = &g_sprt3img;
-    g_simg[4] = &g_sprt4img;
-    g_simg[5] = &g_sprt5img;
-    g_simg[6] = &g_sprt6img;
-    g_simg[7] = &g_sprt7img;
-    g_simg[8] = &g_sprt8img;
-    g_simg[9] = &g_sprt9img;
+	stype = 50;
+	g_simg[2] = &g_sprt2img;
+	g_simg[3] = &g_sprt3img;
+	g_simg[4] = &g_sprt4img;
+	g_simg[5] = &g_sprt5img;
+	g_simg[6] = &g_sprt6img;
+	g_simg[7] = &g_sprt7img;
+	g_simg[8] = &g_sprt8img;
+	g_simg[9] = &g_sprt9img;
 	return (*line ? sprtpaths(line, linenum, stype) : 0);
 }

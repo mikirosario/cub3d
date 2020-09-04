@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/03 18:36:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/03 18:55:29 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/04 20:20:18 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,20 @@
 
 extern t_error	g_iamerror;
 extern t_imagedata *g_simg[10];
+
+void	bonustexfailures(void)
+{
+	if (g_iamerror.toomanyframes)
+		ft_printf(RED"%s"RESET, TOOMANYFRAMES);
+	if (g_iamerror.getfloorfail)
+		ft_printf(RED"%s"RESET, GETFLFAIL);
+	if (g_iamerror.badfloorsyn)
+		ft_printf("Line %u: "RED"%s"RESET, g_iamerror.badfloorsyn, BADFLSYN);
+	if (g_iamerror.getceilfail)
+		ft_printf(RED"%s"RESET, GETCEFAIL);
+	if (g_iamerror.badceilsyn)
+		ft_printf("Line %u: "RED"%s"RESET, g_iamerror.badceilsyn, BADCESYN);
+}
 
 void	gettexfail(void)
 {
@@ -37,16 +51,7 @@ void	gettexfail(void)
 		ft_printf(RED"%s"RESET, GETSPRFAIL);
 	if (g_iamerror.badsprsyn)
 		ft_printf("Line %u: "RED"%s"RESET, g_iamerror.badsprsyn, BADSPRSYN);
-	if (g_iamerror.toomanyframes)
-		ft_printf(RED"%s"RESET, TOOMANYFRAMES);
-	if (g_iamerror.getfloorfail)
-		ft_printf(RED"%s"RESET, GETFLFAIL);
-	if (g_iamerror.badfloorsyn)
-		ft_printf("Line %u: "RED"%s"RESET, g_iamerror.badfloorsyn, BADFLSYN);
-	if (g_iamerror.getceilfail)
-		ft_printf(RED"%s"RESET, GETCEFAIL);
-	if (g_iamerror.badceilsyn)
-		ft_printf("Line %u: "RED"%s"RESET, g_iamerror.badceilsyn, BADCESYN);
+	bonustexfailures();
 }
 
 /*
@@ -64,7 +69,7 @@ int		texerrorconditions(void)
 {
 	if (g_iamerror.getnofail || g_iamerror.getsofail || g_iamerror.getwefail \
 	|| g_iamerror.geteafail || g_iamerror.getfloorfail \
-	|| g_iamerror.getceilfail|| (g_config.spritenum && g_iamerror.getsprfail) \
+	|| g_iamerror.getceilfail || (g_config.spritenum && g_iamerror.getsprfail) \
 	|| g_iamerror.texpathfail || g_iamerror.orphansprites \
 	|| g_iamerror.texsizefail || g_iamerror.couldnotopenxpm \
 	|| g_iamerror.walltexsizedif || g_iamerror.animtexsizedif)
@@ -79,7 +84,8 @@ void	texreaderror(void)
 	if (g_iamerror.walltexsizedif)
 		ft_printf(RED"%s\n"RESET, WALLTEXSIZEDIF);
 	if (g_iamerror.animtexsizedif)
-		ft_printf(RED"%s"RESET"Sprite: 4\n", ANIMSIZDIF, g_iamerror.animtexsizedif);
+		ft_printf(RED"%s"RESET"Sprite: 4\n", ANIMSIZDIF, \
+		g_iamerror.animtexsizedif);
 	if (g_iamerror.couldnotopenxpm)
 		ft_printf(RED"%s%s\n"RESET, OPENXPMFAIL, g_iamerror.couldnotopenxpm);
 }

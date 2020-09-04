@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/03 19:48:56 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/04 18:26:31 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ typedef struct	s_spritedata
 	int					udiv;
 	int					vdiv;
 	int					vmove;
+	unsigned char		remove : 1;
 	struct s_spritedata	*next;
 }				t_spritedata;
 
@@ -290,7 +291,6 @@ typedef struct	s_imagedata
 	struct s_imagedata		*animation[8];
 	char					*texpath;
 	char					*texpaths[8];
-	unsigned char			remove : 1;
 }				t_imagedata;
 
 /*
@@ -306,6 +306,7 @@ typedef struct	s_keydata
 	char	r : 1;
 	char	l : 1;
 	char	m;
+	char	ctrl : 1;
 }				t_keydata;
 
 t_configdata	g_config;

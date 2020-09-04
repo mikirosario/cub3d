@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map_phase2.c                                       :+:      :+:    :+:   */
+/*   map_phase2_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/03 19:10:33 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/26 18:25:02 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/04 20:26:25 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ extern t_error	g_iamerror;
 ** If the mapchar represents a sprite, returns true. Otherwise, returns false.
 */
 
-int     isspr(char mapchr)
+int		isspr(char mapchr)
 {
-    return (mapchr >= '2' && mapchr <= '9' ? 1 : 0);
+	return (mapchr >= '2' && mapchr <= '9' ? 1 : 0);
 }
 
 /*
@@ -157,7 +157,7 @@ int		floodleft(unsigned int x, unsigned int y)
 		else if (mapchr == ' ' || !x)
 			return (recorderrorlocation(g_iamerror.outofbounds, \
 			(mapchr == ' ' ? x + 1 : x), y, 0));
-		x--;
+			x--;
 	}
 	return (1);
 }

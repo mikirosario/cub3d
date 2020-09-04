@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/03 19:14:11 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/04 20:49:10 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,5 +117,11 @@ int		checkanimations(t_imagedata *simg);
 void	animationtexerrors(t_imagedata *simg);
 int		getanimationptrs(t_spritedata *sprt, t_imagedata *simg);
 int		companimsizes(t_imagedata **simg);
+void	ft_copysprtlst(t_spritedata *copyto, t_spritedata *copyfrom);
+void	ft_movesprttoback(t_spritedata *firstmem, t_spritedata *lstmem);
+int		usepotion(void);
+void	removesprite(t_spritedata *sprite);
+void	animate(t_spritedata *sprite);
+
 
 #endif

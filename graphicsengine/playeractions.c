@@ -1,32 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   animationerrors_bonus.c                            :+:      :+:    :+:   */
+/*   playeractions.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/09/03 18:52:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/04 19:58:38 by mrosario         ###   ########.fr       */
+/*   Created: 2020/09/04 20:42:01 by mrosario          #+#    #+#             */
+/*   Updated: 2020/09/04 20:47:00 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d_bonus.h"
 
-extern t_error g_iamerror;
-
-/*
-** No more error functions... please... for the love of Turing... no more...
-*/
-
-void	animationtexerrors(t_imagedata *simg)
+void	removesprite(t_spritedata *sprite)
 {
-	int i;
+	t_spritedata	*tmp;
+	int				i;
 
+	ft_movesprttoback(g_config.spritelist, sprite);
+	g_config.spritenum--;
+	tmp = g_config.spritelist;
 	i = 0;
-	while (simg->texpaths[i])
+	while (i < g_config.spritenum)
 	{
-		if (!(simg->animation[i]->mlx_img))
-			ft_printf(RED"%s%s\n"RESET, PATHSPRFAIL, (simg->texpaths[i]));
-		i++;
+		g_config.sprt[i++] = tmp;
+		tmp = tmp->next;
 	}
 }

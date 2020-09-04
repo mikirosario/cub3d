@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 18:24:16 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/02 19:20:31 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/04 18:06:09 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,13 @@ void	getplayerdamage(int sprnum)
 			if (g_player.life && (g_framedata.invincibilityframes = 15))
 				g_player.life--;
 	}
-	if (g_config.sprt[sprnum]->spritetype == '3')
-		if (g_player.life < 6)
-			g_player.life++;
+	if (g_config.sprt[sprnum]->spritetype == '4' && g_player.inventory < 3)
+	{
+			g_config.sprt[sprnum]->remove = 1;
+			g_player.inventory++;
+	}
+	//	if (g_player.life < 6)
+	//		g_player.life++;
 }
 
 /*

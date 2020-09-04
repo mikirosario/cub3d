@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mapsprarrays.c                                     :+:      :+:    :+:   */
+/*   mapsprarrays_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/17 19:05:43 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/26 18:25:02 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/04 20:10:16 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,24 +56,24 @@ int	maparray(void)
 ** The array will conserve the original sprite order.
 */
 
-int sprarray(void)
+int	sprarray(void)
 {
-    t_spritedata    *spr_ptr;
-    t_spritedata    **sprarray;
-    size_t             listsize;
+	t_spritedata	*spr_ptr;
+	t_spritedata	**sprarray;
+	size_t			listsize;
 
-    spr_ptr = g_config.spritelist;
-    listsize = 0;
-    while (spr_ptr && ++listsize)
-        spr_ptr = spr_ptr->next;
-    if (!(g_config.sprt = ft_calloc(listsize, sizeof(t_spritedata *))))
-        return (0);
-    spr_ptr = g_config.spritelist;
-    sprarray = g_config.sprt;
-    while (spr_ptr)
-        {
-            *sprarray++ = spr_ptr;
-            spr_ptr = spr_ptr->next;
-        }
-    return (1);  
+	spr_ptr = g_config.spritelist;
+	listsize = 0;
+	while (spr_ptr && ++listsize)
+		spr_ptr = spr_ptr->next;
+	if (!(g_config.sprt = ft_calloc(listsize, sizeof(t_spritedata *))))
+		return (0);
+	spr_ptr = g_config.spritelist;
+	sprarray = g_config.sprt;
+	while (spr_ptr)
+	{
+		*sprarray++ = spr_ptr;
+		spr_ptr = spr_ptr->next;
+	}
+	return (1);
 }

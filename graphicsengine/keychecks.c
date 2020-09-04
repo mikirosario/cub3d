@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/17 18:44:48 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/01 19:54:15 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/04 19:09:21 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,8 @@ int	keypress(int key, void *param)
 		else
 			g_keydata.m += 1;
 	}
+	if (key == 82)
+		g_keydata.ctrl = 1;
 	return (0);
 }
 

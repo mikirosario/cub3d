@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/11 15:32:45 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/02 20:19:22 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/04 18:49:05 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,17 +75,34 @@ void	yput_to_buffer(int x, int y, unsigned int *buf, t_imagedata *img)
 	}
 }
 
+int		usepotion(void)
+{
+	if (g_player.inventory && g_player.life < 6)
+	{
+		g_player.inventory--;
+		g_player.life++;
+		return (1);
+	}
+	return (0);
+}
+
 void	refreshui(unsigned int *buf)
 {
 	int	full;
 	int half;
 	int empty;
+	int	inventory;
 	int	i;
 
+	if (g_keydata.ctrl)
+	{
+		usepotion();
+		g_keydata.ctrl = 0;
+	}
+	//ft_printf("%d\n", g_keydata.w);
 	full = g_player.life / 2;
 	half = g_player.life % 2;
 	empty = 3 - (full + half);
-	
 	i = 0;
 	while (full--)
 		xput_to_buffer((10 + 36) * i++, 10, buf, &g_lifebar.fullheart);
@@ -93,7 +110,13 @@ void	refreshui(unsigned int *buf)
 		xput_to_buffer((10 + 36) * i++, 10, buf, &g_lifebar.halfheart);
 	while (empty--)
 		xput_to_buffer((10 + 36) * i++, 10, buf, &g_lifebar.emptyheart);
-	xput_to_buffer(g_config.screenw - 200, g_config.screenh - 200, buf, &g_potion);
+	i = 300;
+	inventory = g_player.inventory;
+	while (inventory--)
+	{
+		xput_to_buffer(g_config.screenw - i, g_config.screenh - 200, buf, &g_potion);
+		i -= 25;
+	}
 }
 
 /*

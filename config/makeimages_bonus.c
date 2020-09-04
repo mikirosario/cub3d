@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 18:36:40 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/03 18:30:21 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/04 20:08:17 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,17 @@ int		createhudimages(void)
 	g_lifebar.ptr[1] = &g_lifebar.halfheart;
 	g_lifebar.ptr[2] = &g_lifebar.emptyheart;
 	success = 1;
-	if (!(g_lifebar.fullheart.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, \
-	"./uielements/fullheart.xpm", &g_lifebar.fullheart.texw, &g_lifebar.fullheart.texh)))
+	if (!(g_lifebar.fullheart.mlx_img = \
+	mlx_xpm_file_to_image(g_screendata.mlx_ptr, "./uielements/fullheart.xpm", \
+	&g_lifebar.fullheart.texw, &g_lifebar.fullheart.texh)))
 		success = 0;
-	else if (!(g_lifebar.halfheart.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, \
-	"./uielements/halfheart.xpm", &g_lifebar.halfheart.texw, &g_lifebar.halfheart.texh)))
+	else if (!(g_lifebar.halfheart.mlx_img = \
+	mlx_xpm_file_to_image(g_screendata.mlx_ptr, "./uielements/halfheart.xpm", \
+	&g_lifebar.halfheart.texw, &g_lifebar.halfheart.texh)))
 		success = 0;
-	else if (!(g_lifebar.emptyheart.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, \
-	"./uielements/emptyheart.xpm", &g_lifebar.emptyheart.texw, &g_lifebar.emptyheart.texh)))
+	else if (!(g_lifebar.emptyheart.mlx_img = \
+	mlx_xpm_file_to_image(g_screendata.mlx_ptr, "./uielements/emptyheart.xpm", \
+	&g_lifebar.emptyheart.texw, &g_lifebar.emptyheart.texh)))
 		success = 0;
 	else if (!(g_potion.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, \
 	"./uielements/uipotion.xpm", &g_potion.texw, &g_potion.texh)))
@@ -66,9 +69,9 @@ int		createhudimages(void)
 
 int		checkimgs(void)
 {
-	int	i;
-	int animationsfound;
-	t_spritedata *s;
+	t_spritedata	*s;
+	int				i;
+	int				animationsfound;
 
 	s = g_config.spritelist;
 	animationsfound = 1;
@@ -92,6 +95,7 @@ int		checkimgs(void)
 		g_iamerror.texpathfail = 1;
 	return (g_iamerror.orphansprites || g_iamerror.texpathfail ? 0 : 1);
 }
+
 /*
 ** This function compares the first retrieved wall texture resolution (for the
 ** north wall) with all other wall texture resolutions. If ANY of them are
@@ -103,7 +107,7 @@ int		checkimgs(void)
 int		comptexres(int *firstwallsize)
 {
 	t_imagedata	*texpath[5];
-	int		i;
+	int			i;
 
 	texpath[0] = &g_sowallimg;
 	texpath[1] = &g_wewallimg;
@@ -113,7 +117,8 @@ int		comptexres(int *firstwallsize)
 	i = 0;
 	while (i < 5)
 	{
-		if (firstwallsize[0] == (texpath[i])->texw && firstwallsize[1] == (texpath[i]->texh))
+		if (firstwallsize[0] == (texpath[i])->texw && \
+		firstwallsize[1] == (texpath[i]->texh))
 			i++;
 		else
 			break ;
