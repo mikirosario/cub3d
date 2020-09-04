@@ -26,6 +26,8 @@ void	loadui(void)
 	&b->halfheart.bpp, &b->halfheart.size_line, &b->halfheart.endian);
 	b->emptyheart.tex_ptr = (unsigned int *)mlx_get_data_addr(b->emptyheart.mlx_img, \
 	&b->emptyheart.bpp, &b->emptyheart.size_line, &b->emptyheart.endian);
+	g_potion.tex_ptr = (unsigned int *)mlx_get_data_addr(g_potion.mlx_img, \
+	&g_potion.bpp, &g_potion.size_line, &g_potion.endian);
 }
 
 int		loadsprites(void)

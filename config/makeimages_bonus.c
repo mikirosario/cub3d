@@ -17,19 +17,27 @@ extern t_imagedata *g_simg[10];
 
 int		createhudimages(void)
 {
+	char	success;
+
 	g_lifebar.ptr[0] = &g_lifebar.fullheart;
 	g_lifebar.ptr[1] = &g_lifebar.halfheart;
 	g_lifebar.ptr[2] = &g_lifebar.emptyheart;
+	success = 1;
 	if (!(g_lifebar.fullheart.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, \
 	"./uielements/fullheart.xpm", &g_lifebar.fullheart.texw, &g_lifebar.fullheart.texh)))
-		return (0);
+		success = 0;
 	else if (!(g_lifebar.halfheart.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, \
 	"./uielements/halfheart.xpm", &g_lifebar.halfheart.texw, &g_lifebar.halfheart.texh)))
-		return (0);
+		success = 0;
 	else if (!(g_lifebar.emptyheart.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, \
 	"./uielements/emptyheart.xpm", &g_lifebar.emptyheart.texw, &g_lifebar.emptyheart.texh)))
-		return (0);
-	return (1);
+		success = 0;
+	else if (!(g_potion.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, \
+	"./uielements/uipotion.xpm", &g_potion.texw, &g_potion.texh)))
+		success = 0;
+	if (!success)
+		g_iamerror.texpathfail = 1;
+	return (success ? 1 : 0);
 }
 
 /*
@@ -213,8 +221,7 @@ int		maketeximg(void)
 		return (0);
 	g_config.texw = size[0];
 	g_config.texh = size[1];
-	if (!(companimsizes(g_simg)))
+	if (!(companimsizes(g_simg)) || !(createhudimages()))
 		return (0);
-	createhudimages();
 	return (1);
 }

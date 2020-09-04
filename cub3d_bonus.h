@@ -37,9 +37,6 @@
 # include "iamerror_bonus.h"
 # include "printnotifications_bonus.h"
 
-# define HALFSIZE 2
-# define QUARTERSIZE 4
-
 /*
 ** Raydir for leftmost ray (x = 0) and rightmost ray (x = w).
 **
@@ -97,6 +94,7 @@ t_imagedata	g_sprt6img;
 t_imagedata	g_sprt7img;
 t_imagedata	g_sprt8img;
 t_imagedata	g_sprt9img;
+t_imagedata	g_potion;
 t_lifebar	g_lifebar;
 t_xraydata	g_xraydata;
 

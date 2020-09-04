@@ -273,7 +273,8 @@ typedef struct	s_framedata
 
 /*
 ** This holds data for each image I use with the mlx library, including
-** sprites and textures.
+** sprites and textures. Some of these are used only for the standard
+** compilation and some only for the bonus. :p
 */
 
 typedef struct	s_imagedata
@@ -288,6 +289,7 @@ typedef struct	s_imagedata
 	struct s_imagedata		*animation[8];
 	char					*texpath;
 	char					*texpaths[8];
+	unsigned char			remove : 1;
 }				t_imagedata;
 
 /*

@@ -33,7 +33,7 @@ void	xput_to_buffer(int x, int y, unsigned int *buf, t_imagedata *img)
 	ty = 0;
 	while (ty < img->texh - 1)
 	{
-		bx = x + y * g_config.screenw;
+		bx = x + (y * g_config.screenw);
 		tx = ty * img->texw;
 		while (tx < ty * img->texw + img->texw)
 		{
@@ -93,6 +93,7 @@ void	refreshui(unsigned int *buf)
 		xput_to_buffer((10 + 36) * i++, 10, buf, &g_lifebar.halfheart);
 	while (empty--)
 		xput_to_buffer((10 + 36) * i++, 10, buf, &g_lifebar.emptyheart);
+	xput_to_buffer(g_config.screenw - 200, g_config.screenh - 200, buf, &g_potion);
 }
 
 /*
