@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   calculateframeline.c                               :+:      :+:    :+:   */
+/*   calculateframeline_bonus.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/12 17:42:02 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/07 13:10:57 by mikiencolor      ###   ########.fr       */
+/*   Updated: 2020/09/07 14:32:02 by mikiencolor      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,14 @@ void	walldrawparams(void)
 		g_raydata.perpwalldist = (g_raydata.mapx - g_player.posx + \
 		(1 - g_raydata.stepx) / 2) / g_raydata.raydirx;
 	else
-		g_raydata.perpwalldist = (g_raydata.mapy - g_player.posy + \
-		(1 - g_raydata.stepy) / 2) / g_raydata.raydiry;
+	{
+		if (g_raydata.hit == 2)
+			g_raydata.perpwalldist = g_raydata.hypo + ((g_raydata.mapy - g_player.posy + \
+			(1 - g_raydata.stepy) / 2) / g_raydata.raydiry);
+		else
+			g_raydata.perpwalldist = (g_raydata.mapy - g_player.posy + \
+			(1 - g_raydata.stepy) / 2) / g_raydata.raydiry;
+	}
 	g_framedata.lineheight = (int)(g_config.screenh * \
 	g_config.wallmultiplier / g_raydata.perpwalldist);
 	g_framedata.drawstart = -(g_framedata.lineheight) \

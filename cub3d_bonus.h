@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/04 20:49:10 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/07 05:50:27 by mikiencolor      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@
 # include "cub3d.h"
 # include "iamerror_bonus.h"
 # include "printnotifications_bonus.h"
+
+#define PI 3.1415926535 
 
 /*
 ** Raydir for leftmost ray (x = 0) and rightmost ray (x = w).
@@ -85,6 +87,12 @@ typedef struct	s_lifebar
 	t_imagedata	*ptr[3];
 }				t_lifebar;
 
+typedef struct	s_door
+{
+	t_raydata	raydata;
+	char		*posmap;
+}				t_door;
+
 t_imagedata	g_ceilingimg;
 t_imagedata	g_floorimg;
 t_imagedata	g_sprt3img;
@@ -109,7 +117,7 @@ void	cast_ceiling_floor(unsigned int *buf);
 int		getftex(const char *line, unsigned int linenum);
 int		getctex(const char *line, unsigned int linenum);
 void	gettexfail(void);
-int		sprarray(void);
+int		sprarray(t_spritedata *list, t_spritedata ***array);
 int		raycaster_start(unsigned int **buf);
 int		raycaster_bonus(unsigned int *buf);
 void	getanimationimgs(t_imagedata *simg);
@@ -122,6 +130,6 @@ void	ft_movesprttoback(t_spritedata *firstmem, t_spritedata *lstmem);
 int		usepotion(void);
 void	removesprite(t_spritedata *sprite);
 void	animate(t_spritedata *sprite);
-
+int		doorcounter(unsigned int x, unsigned int y, char *c);
 
 #endif

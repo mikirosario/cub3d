@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_phase1_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 18:31:22 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/27 17:37:57 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/06 19:34:33 by mikiencolor      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,6 +167,8 @@ char	playerandspritescheck(char foundplayer, char *mapchrs)
 		{
 			if (c > 49 && c < 58)
 				spritecounter((double)x, (double)y, c);
+			if (c == '_' || c == '/')
+				doorcounter(x, y, maplistdir(x, y));
 			else if ((ft_strchr(mapchrs, c)) >= mapchrs + \
 			ft_chrcmp(mapchrs, 'N'))
 			{
@@ -286,7 +288,8 @@ int		checkmap(unsigned int y, char *mapchrs)
 		return (-4);
 	else if (!foundplayer)
 		return (-3);
-	if (!sprarray())
+	if (!sprarray(g_config.spritelist, &g_config.sprt) || \
+	!sprarray(g_config.doorlist, &g_config.door))
 		g_iamerror.mallocfail = 1;
 	if (g_iamerror.mallocfail)
 		return (-6);
@@ -311,7 +314,7 @@ int		makemaplist(int fd, char *firstline)
 	y = 0;
 	endfile = 0;
 	line = firstline;
-	mapchrs = " 0123456789NnSsEeWw";
+	mapchrs = " 0123456789_/NnSsEeWw";
 	while (linecheck(line, y, mapchrs) && !endfile)
 	{
 		del(line);

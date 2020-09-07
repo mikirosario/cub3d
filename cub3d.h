@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/04 18:26:31 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/07 13:43:26 by mikiencolor      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,33 +93,6 @@ typedef	struct	s_error
 }				t_error;
 
 /*
-** This struct holds data about a sprite. It can be linked with others of its
-** type in a list, although it is faster to create a pointer array to access
-** all members directly. The pos variables indicate position. Spritetype holds
-** the char found on the map that indicated the sprite's starting position, for
-** example, '2'. By slightly modifying the map parser this can be used to store
-** potentially more sprite types, and assign a unique texture for each one.
-** Each sprite is associated with a texture address. For the basic cub3d it is
-** always the same texture.
-*/
-
-typedef struct	s_spritedata
-{
-	double				posx;
-	double				posy;
-	char				spritetype;
-	unsigned int		*texture;
-	unsigned int		*animtex[8];
-	int					frame;
-	int					framelimit;
-	int					udiv;
-	int					vdiv;
-	int					vmove;
-	unsigned char		remove : 1;
-	struct s_spritedata	*next;
-}				t_spritedata;
-
-/*
 ** This struct holds a series of parameters related to sprites that are used
 ** in the sprite drawing function wthin the graphics engine.
 */
@@ -136,40 +109,6 @@ typedef	struct	s_spriteparams
 	int		texy;
 	int		d;
 }				t_spriteparams;
-
-/*
-** This struct holds game configuration data. Most of it is gathered from the
-** .cub file.
-*/
-
-typedef struct	s_configdata
-{
-	t_list			*maplist;
-	char			**map;
-	t_spritedata	*spritelist;
-	t_spritedata	**sprt;
-	unsigned int	maph;
-	int				screenw;
-	int				screenh;
-	int				nativedisplayw;
-	int				nativedisplayh;
-	int				texw;
-	int				texh;
-	int				spritew;
-	int				spriteh;
-	int				spritenum;
-	int				frgb[3];
-	int				crgb[3];
-	int				wallmultiplier;
-	int				udiv;
-	int				vdiv;
-	int				vmove;
-	double			*zbuffer;
-	int				*spriteorder;
-	char			*spritetexpath;
-	int				sprtexnum;
-	char			screenshot;
-}				t_configdata;
 
 /*
 ** This struct holds data about the screen, including data provided by the
@@ -232,7 +171,74 @@ typedef struct	s_raydata
 	int		stepy;
 	int		hit;
 	int		side;
+	double	hypo;
 }				t_raydata;
+
+/*
+** This struct holds data about a sprite. It can be linked with others of its
+** type in a list, although it is faster to create a pointer array to access
+** all members directly. The pos variables indicate position. Spritetype holds
+** the char found on the map that indicated the sprite's starting position, for
+** example, '2'. By slightly modifying the map parser this can be used to store
+** potentially more sprite types, and assign a unique texture for each one.
+** Each sprite is associated with a texture address. For the basic cub3d it is
+** always the same texture.
+*/
+
+typedef struct	s_spritedata
+{
+	double				posx;
+	double				posy;
+	char				spritetype;
+	unsigned int		*texture;
+	unsigned int		*animtex[8];
+	int					frame;
+	int					framelimit;
+	int					udiv;
+	int					vdiv;
+	int					vmove;
+	unsigned char		remove : 1;
+	char				*dooraddr;
+	t_raydata			raydata;
+	struct s_spritedata	*next;
+}				t_spritedata;
+
+/*
+** This struct holds game configuration data. Most of it is gathered from the
+** .cub file.
+*/
+
+typedef struct	s_configdata
+{
+	t_list			*maplist;
+	char			**map;
+	t_spritedata	*spritelist;
+	t_spritedata	**sprt;
+	t_spritedata	*doorlist;
+	t_spritedata	**door;
+	unsigned int	maph;
+	int				screenw;
+	int				screenh;
+	int				nativedisplayw;
+	int				nativedisplayh;
+	int				texw;
+	int				texh;
+	int				spritew;
+	int				spriteh;
+	int				spritenum;
+	int				doornum;
+	int				frgb[3];
+	int				crgb[3];
+	int				wallmultiplier;
+	int				udiv;
+	int				vdiv;
+	int				vmove;
+	double			*zbuffer;
+	int				*spriteorder;
+	char			*spritetexpath;
+	int				sprtexnum;
+	char			screenshot;
+}				t_configdata;
 
 /*
 ** This struct holds data needed to construct a frame, such as where a line

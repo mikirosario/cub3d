@@ -46,6 +46,8 @@ int	keypress(int key, void *param)
 		else
 			g_keydata.m += 1;
 	}
+	if (key == 0xffe4)
+		g_keydata.ctrl = 1;
 	return (0);
 }
 

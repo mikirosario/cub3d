@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mapsprarrays_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/17 19:05:43 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/04 20:10:16 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/06 19:49:33 by mikiencolor      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,26 +54,30 @@ int	maparray(void)
 ** greater role.
 **
 ** The array will conserve the original sprite order.
+**
+** Updated this function to work with the sprite array and the new door array.
+** Also it is now protected against listlessness instead of relying on malloc
+** to reserve 0 memory, whatever that meant. ;)
 */
 
-int	sprarray(void)
+int	sprarray(t_spritedata *list, t_spritedata ***array)
 {
 	t_spritedata	*spr_ptr;
 	t_spritedata	**sprarray;
 	size_t			listsize;
 
-	spr_ptr = g_config.spritelist;
+	if (!(spr_ptr = list))
+		return (1);
 	listsize = 0;
 	while (spr_ptr && ++listsize)
 		spr_ptr = spr_ptr->next;
-	if (!(g_config.sprt = ft_calloc(listsize, sizeof(t_spritedata *))))
+	if (!(*array = ft_calloc(listsize, sizeof(t_spritedata *))))
 		return (0);
-	spr_ptr = g_config.spritelist;
-	sprarray = g_config.sprt;
-	while (spr_ptr)
+	sprarray = *array;
+	while (list)
 	{
-		*sprarray++ = spr_ptr;
-		spr_ptr = spr_ptr->next;
+		*sprarray++ = list;
+		list = list->next;
 	}
 	return (1);
 }

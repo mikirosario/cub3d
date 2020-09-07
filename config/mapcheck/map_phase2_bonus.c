@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_phase2_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/03 19:10:33 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/04 20:26:25 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/06 20:10:02 by mikiencolor      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ extern t_error	g_iamerror;
 
 int		isspr(char mapchr)
 {
-	return (mapchr >= '2' && mapchr <= '9' ? 1 : 0);
+	return ((mapchr >= '2' && mapchr <= '9') || mapchr == '_' || \
+	mapchr == '/' ? 1 : 0);
 }
 
 /*
@@ -42,9 +43,10 @@ int		isspr(char mapchr)
 void	unfloodmap(char *flag)
 {
 	t_list	*mapptr;
-	char	mapchr;
+	char	*mapchr;
 	char	mode;
 	int		i;
+	int		d;
 
 	mapptr = g_config.maplist;
 	mode = 'p';
@@ -53,10 +55,23 @@ void	unfloodmap(char *flag)
 	while (mapptr)
 	{
 		i = 0;
-		while ((mapchr = *(char *)(mapptr->content + i)))
+		while ((*(mapchr = (char *)(mapptr->content + i))))
 		{
-			if (mapchr == 'T' || mapchr == 'A')
-				(*(char *)(mapptr->content + i)) = mode == 'p' ? '0' : '.';
+			if (*mapchr == 'T' || *mapchr == 'A')
+			{
+				if (mode == 'p')
+				{
+					d = 0;
+					while (d < g_config.doornum && g_config.door[d]->dooraddr != mapchr)
+						d++;
+					if (d < g_config.doornum)
+							*mapchr = g_config.door[d]->spritetype;
+					else
+						*mapchr = '0';
+				}
+				else
+					*mapchr = '.';
+			}
 			i++;
 		}
 		mapptr = mapptr->next;
@@ -157,7 +172,7 @@ int		floodleft(unsigned int x, unsigned int y)
 		else if (mapchr == ' ' || !x)
 			return (recorderrorlocation(g_iamerror.outofbounds, \
 			(mapchr == ' ' ? x + 1 : x), y, 0));
-			x--;
+		x--;
 	}
 	return (1);
 }

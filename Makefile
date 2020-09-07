@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+         #
+#    By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/07/15 20:32:43 by mrosario          #+#    #+#              #
-#    Updated: 2020/09/04 20:49:21 by mrosario         ###   ########.fr        #
+#    Updated: 2020/09/07 13:11:58 by mikiencolor      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,15 +33,16 @@ BSRC = cub3d_bonus.c rotation.c freeme_bonus.c ./toolkit.c ./config/cub_bonus.c 
 ./config/maperrors.c ./config/texerrors_bonus.c ./config/mapcheck/map_phase2_bonus.c \
 ./config/maplistfunctions.c ./config/spritelistfunctions.c \
 ./config/spritecounter.c ./config/printlinkedlists.c ./config/initialize_bonus.c \
-./config/makeimages_bonus.c ./graphicsengine/raycaster_bonus.c ./graphicsengine/dda.c \
-./graphicsengine/drawframeline_bonus.c ./graphicsengine/calculateframeline.c \
+./config/makeimages_bonus.c ./graphicsengine/raycaster_bonus.c ./graphicsengine/dda_bonus.c \
+./graphicsengine/drawframeline_bonus.c ./graphicsengine/calculateframeline_bonus.c \
 ./graphicsengine/drawsprites_bonus.c ./graphicsengine/playermovement_bonus.c \
 ./graphicsengine/keychecks.c ./config/mapsprarrays_bonus.c \
 ./graphicsengine/sortsprites_bonus.c ./graphicsengine/screenshots/bmpgenerator.c \
 ./graphicsengine/screenshots/bmperror.c ./graphicsengine/graphicsmodes_bonus.c \
 ./graphicsengine/fpscounter_bonus.c ./graphicsengine/drawceilingfloor_bonus.c \
 ./config/raycaster_start_bonus.c ./config/makeanimationimgs_bonus.c \
-./config/animationerrors_bonus.c ./graphicsengine/modifysprite.c
+./config/animationerrors_bonus.c ./graphicsengine/modifysprite.c \
+./config/doorcounter_bonus.c
 
 LBSRC = cub3d_linux.c rotation.c freeme_bonus.c ./toolkit.c ./config/cub_bonus.c \
 ./config/getscreenres.c ./config/getwallparams.c ./config/getspriteparams_bonus.c \
@@ -50,15 +51,16 @@ LBSRC = cub3d_linux.c rotation.c freeme_bonus.c ./toolkit.c ./config/cub_bonus.c
 ./config/maperrors.c ./config/texerrors_bonus.c ./config/mapcheck/map_phase2_bonus.c \
 ./config/maplistfunctions.c ./config/spritelistfunctions.c \
 ./config/spritecounter.c ./config/printlinkedlists.c ./config/initialize_linux.c \
-./config/makeimages_bonus.c ./graphicsengine/raycaster_bonus.c ./graphicsengine/dda.c \
-./graphicsengine/drawframeline_bonus.c ./graphicsengine/calculateframeline.c \
+./config/makeimages_bonus.c ./graphicsengine/raycaster_bonus.c ./graphicsengine/dda_bonus.c \
+./graphicsengine/drawframeline_bonus.c ./graphicsengine/calculateframeline_bonus.c \
 ./graphicsengine/drawsprites_bonus.c ./graphicsengine/playermovement_bonus.c \
 ./graphicsengine/keychecks_linux.c ./config/mapsprarrays_bonus.c \
 ./graphicsengine/sortsprites_bonus.c ./graphicsengine/screenshots/bmpgenerator.c \
 ./graphicsengine/screenshots/bmperror.c ./graphicsengine/graphicsmodes_bonus.c \
 ./graphicsengine/fpscounter_bonus.c ./graphicsengine/drawceilingfloor_bonus.c \
 ./config/raycaster_start_bonus.c ./config/makeanimationimgs_bonus.c \
-./config/animationerrors_bonus.c ./graphicsengine/modifysprite.c
+./config/animationerrors_bonus.c ./graphicsengine/modifysprite.c \
+./config/doorcounter_bonus.c
 
 OBJ = $(SRC:.c=.o)
 

@@ -3,16 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   spritecounter.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/05 16:53:56 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/04 17:50:13 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/06 18:43:38 by mikiencolor      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
 extern t_imagedata *g_simg[10];
+
+/*
+** This function moves the sprite passed as lstmem to the back of the list, and
+** redirects the rest of the list to reflect the new ordering. If the sprite is
+** already at the back of the list, it will not do anything. Will adapt this
+** for use with t_list in libft.
+*/
 
 void			ft_movesprttoback(t_spritedata *firstmem, t_spritedata *lstmem)
 {
