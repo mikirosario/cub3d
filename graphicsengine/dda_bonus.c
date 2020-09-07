@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dda_bonus.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/11 18:13:54 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/07 15:32:18 by mikiencolor      ###   ########.fr       */
+/*   Updated: 2020/09/07 19:36:56 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,25 @@
 
 int		hitdoor(void)
 {
+	
+	//double	sidedistx;
+	double	sidedisty;
+	//double	mapx;
+	double	mapy;
+
 	double perpwalldist;
 	double	wallx;
-	double	anglea;
-	double	anglec;
-	double	sidea;
-	double	a;
-	double	c;
+	//double	anglea;
+	//double	anglec;
+	//double	sidea;
+	
 
-	if (g_raydata.side == 0)
+	if (g_raydata.sidedistx < g_raydata.sidedisty)
 	{
+		g_raydata.sidedistx += g_raydata.deltadistx;
+		g_raydata.mapx += g_raydata.stepx;
+		//g_raydata.side = 0;
+
 		perpwalldist = (g_raydata.mapx - g_player.posx + \
 		(1 - g_raydata.stepx) / 2) / g_raydata.raydirx;
 		wallx = g_player.posy + \
@@ -33,21 +42,39 @@ int		hitdoor(void)
 	}
 	else
 	{
+		//second coordinates wallx, y == 1
+		sidedisty = g_raydata.sidedisty + g_raydata.deltadisty;
+		mapy = g_raydata.mapy + g_raydata.stepy;
+		//g_raydata.side = 1;
+	
 		//RAYDIR * PI/2 == RADIAN!!!!!????
-		perpwalldist = (g_raydata.mapy - g_player.posy + \
+		perpwalldist = (mapy - g_player.posy + \
 		(1 - g_raydata.stepy) / 2) / g_raydata.raydiry;
 		wallx = g_player.posx + 
 		perpwalldist * g_raydata.raydirx;
 		//anglea = atan2(g_raydata.raydiry, 1);
 		wallx -= floor(wallx);
-		anglea = fabs(g_raydata.raydiry); //> 0 ? -g_raydata.raydiry : g_raydata.raydiry;
+	
+		//rayline coordinates
+		//start x1: g_framedata.wallx, y1: 0
+		//end	x2: wallx, y2: 1
+
+		//doorline coordinates
+		//start x1: 0, y1: 0.5
+		//end x2: 1, y2: 0.5
+	
+		//rayline
+		
+		
+
+		/*anglea = fabs(g_raydata.raydiry); //> 0 ? -g_raydata.raydiry : g_raydata.raydiry;
 		anglec = PI - anglea - (PI/2);
 		sidea = (sin(anglea) * wallx) / sin(anglec);
 		a = 0.5;
 		c = wallx;
 		g_raydata.hypo = sqrt(((pow(a, 2) + pow(c, 2)) - ((2 * a * c) * cos(PI/2))));
 		if (sidea >= 0.5)//g_raydata.mapy - (g_raydata.mapy + g_raydata.stepy / 2))
-			return (1);
+			return (1);*/
 	}
 	return (0);
 }
@@ -72,17 +99,17 @@ void	sidetoside(void)
 			g_raydata.side = 0;
 		}
 		else
-		{
+		{	
 			g_raydata.sidedisty += g_raydata.deltadisty;
 			g_raydata.mapy += g_raydata.stepy;
 			g_raydata.side = 1;
 		}
 		if (g_config.map[g_raydata.mapy][g_raydata.mapx] == '1')
 			g_raydata.hit = 1;
-		if (g_config.map[g_raydata.mapy][g_raydata.mapx] == '_')
-			if (g_raydata.side == 1)
-				if (hitdoor())
-					g_raydata.hit = 2;
+		//if (g_config.map[g_raydata.mapy][g_raydata.mapx] == '_')
+		//	if (g_raydata.side == 1)
+		//		if (hitdoor())
+		//			g_raydata.hit = 2;
 				//if (g_raydata.sidedisty - g_raydata.deltadisty < g_raydata.mapy + g_raydata.stepy / 2)
 				//	g_raydata.hit = 2;
 	}

@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/24 19:08:46 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/04 20:12:15 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/07 20:30:25 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,20 @@ void	printnotifications(void)
 			spritepathnotifications();
 		if (!g_iamerror.texpathfail)
 			texturesizenotifications();
+		double xresult;
+		double yresult;
+		t_line linea;
+		t_line lineb;
+		linea.startx = 0.33;
+		linea.starty = 0;
+		linea.endx = 0.66;
+		lineb.endy = 1;
+		lineb.startx = 0;
+		lineb.starty = 0.5;
+		lineb.endx = 1;
+		lineb.endy = 0.51;
+		findintersection(&linea, &lineb, &xresult, &yresult);
+		printf("Intersección x,y???: \n%f, %f\n", xresult, yresult);
 	}
 	return ;
 }

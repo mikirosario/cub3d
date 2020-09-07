@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/07 05:50:27 by mikiencolor      ###   ########.fr       */
+/*   Updated: 2020/09/07 20:06:40 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,14 @@
 # include "printnotifications_bonus.h"
 
 #define PI 3.1415926535 
+
+typedef	struct	s_line
+{
+	double	startx;
+	double	starty;
+	double	endx;
+	double	endy;
+}				t_line;
 
 /*
 ** Raydir for leftmost ray (x = 0) and rightmost ray (x = w).
@@ -131,5 +139,6 @@ int		usepotion(void);
 void	removesprite(t_spritedata *sprite);
 void	animate(t_spritedata *sprite);
 int		doorcounter(unsigned int x, unsigned int y, char *c);
+int		findintersection(t_line *linea, t_line *lineb, double *xresult, double *yresult);
 
 #endif

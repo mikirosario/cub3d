@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+         #
+#    By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/07/15 20:32:43 by mrosario          #+#    #+#              #
-#    Updated: 2020/09/07 13:11:58 by mikiencolor      ###   ########.fr        #
+#    Updated: 2020/09/07 19:35:40 by mrosario         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ SRC = cub3d.c rotation.c freeme.c ./toolkit.c ./config/cub.c \
 ./graphicsengine/sortsprites.c ./graphicsengine/screenshots/bmpgenerator.c \
 ./graphicsengine/screenshots/bmperror.c
 
-BSRC = cub3d_bonus.c rotation.c freeme_bonus.c ./toolkit.c ./config/cub_bonus.c \
+BSRC = cub3d_bonus.c rotation.c freeme_bonus.c ./toolkit_bonus.c ./config/cub_bonus.c \
 ./config/getscreenres.c ./config/getwallparams.c ./config/getspriteparams_bonus.c \
 ./config/getceilingfloorparams_bonus.c ./config/iamerror_bonus.c \
 ./config/printnotifications_bonus.c ./config/mapcheck/map_phase1_bonus.c \
@@ -44,7 +44,7 @@ BSRC = cub3d_bonus.c rotation.c freeme_bonus.c ./toolkit.c ./config/cub_bonus.c 
 ./config/animationerrors_bonus.c ./graphicsengine/modifysprite.c \
 ./config/doorcounter_bonus.c
 
-LBSRC = cub3d_linux.c rotation.c freeme_bonus.c ./toolkit.c ./config/cub_bonus.c \
+LBSRC = cub3d_linux.c rotation.c freeme_bonus.c ./toolkit_bonus.c ./config/cub_bonus.c \
 ./config/getscreenres.c ./config/getwallparams.c ./config/getspriteparams_bonus.c \
 ./config/getceilingfloorparams_bonus.c ./config/iamerror_bonus.c \
 ./config/printnotifications_bonus.c ./config/mapcheck/map_phase1_bonus.c \
