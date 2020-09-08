@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/07 20:06:40 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/08 13:29:27 by mikiencolor      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,16 @@ typedef	struct	s_line
 	double	endx;
 	double	endy;
 }				t_line;
+
+typedef struct	s_triangle
+{
+	double	hypotenuse;
+	double	angletheta;
+	double	adjacent;
+	double	anglealpha;
+	double	opposite;
+	double	anglebeta;
+}				t_triangle;
 
 /*
 ** Raydir for leftmost ray (x = 0) and rightmost ray (x = w).
@@ -140,5 +150,6 @@ void	removesprite(t_spritedata *sprite);
 void	animate(t_spritedata *sprite);
 int		doorcounter(unsigned int x, unsigned int y, char *c);
 int		findintersection(t_line *linea, t_line *lineb, double *xresult, double *yresult);
+void	ft_hypotenuse(t_triangle *triangle);
 
 #endif

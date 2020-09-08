@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dda_bonus.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/11 18:13:54 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/07 19:36:56 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/08 13:38:00 by mikiencolor      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,14 @@ int		hitdoor(void)
 {
 	
 	//double	sidedistx;
-	double	sidedisty;
-	//double	mapx;
-	double	mapy;
+	//double	sidedisty;
+	double	mapx;
+	//double	mapy;
+	t_line	ray;
+	t_line	door;
+	t_triangle raytodoor;
+	double	x;
+	double	y;
 
 	double perpwalldist;
 	double	wallx;
@@ -26,34 +31,51 @@ int		hitdoor(void)
 	//double	anglec;
 	//double	sidea;
 	
-
+//we came from below and exit through the side, maybe we hit the door, maybe not
 	if (g_raydata.sidedistx < g_raydata.sidedisty)
 	{
-		g_raydata.sidedistx += g_raydata.deltadistx;
-		g_raydata.mapx += g_raydata.stepx;
+		//g_raydata.sidedistx += g_raydata.deltadistx;
+		mapx = g_raydata.mapx + g_raydata.stepx;
 		//g_raydata.side = 0;
 
-		perpwalldist = (g_raydata.mapx - g_player.posx + \
+		perpwalldist = (mapx - g_player.posx + \
 		(1 - g_raydata.stepx) / 2) / g_raydata.raydirx;
 		wallx = g_player.posy + \
 		perpwalldist * g_raydata.raydiry;
-		(void)perpwalldist;
-		(void)wallx;
+		wallx -= floor(wallx);
+		ray.startx = g_raydata.mapx;
+		ray.starty = 0;
+		ray.endx = 0;
+		ray.endy = wallx;
+		door.startx = 0;
+		door.starty = 0.5;
+		door.endx = 1;
+		door.endy = 0.5;
+		if (findintersection(&ray, &door, &x, &y))
+			if ((x >= 0 && x <= 1) && y == 0.5)
+			{
+				raytodoor.opposite = 0.5;
+				raytodoor.anglealpha = PI/2;
+				raytodoor.angletheta = g_raydata.raydiry * (PI/2);
+				ft_hypotenuse(&raytodoor);
+				g_raydata.hypo = raytodoor.hypotenuse;
+				return (1);
+			}
 	}
-	else
+	else //if we came from below and are exiting from above, we definiely hit the door
 	{
 		//second coordinates wallx, y == 1
-		sidedisty = g_raydata.sidedisty + g_raydata.deltadisty;
-		mapy = g_raydata.mapy + g_raydata.stepy;
+		//sidedisty = g_raydata.sidedisty + g_raydata.deltadisty;
+		//mapy = g_raydata.mapy + g_raydata.stepy;
 		//g_raydata.side = 1;
 	
 		//RAYDIR * PI/2 == RADIAN!!!!!????
-		perpwalldist = (mapy - g_player.posy + \
-		(1 - g_raydata.stepy) / 2) / g_raydata.raydiry;
-		wallx = g_player.posx + 
-		perpwalldist * g_raydata.raydirx;
+		//perpwalldist = (mapy - g_player.posy + 
+		//(1 - g_raydata.stepy) / 2) / g_raydata.raydiry;
+		//wallx = g_player.posx + 
+		//perpwalldist * g_raydata.raydirx;
 		//anglea = atan2(g_raydata.raydiry, 1);
-		wallx -= floor(wallx);
+		//wallx -= floor(wallx);
 	
 		//rayline coordinates
 		//start x1: g_framedata.wallx, y1: 0
@@ -73,8 +95,8 @@ int		hitdoor(void)
 		a = 0.5;
 		c = wallx;
 		g_raydata.hypo = sqrt(((pow(a, 2) + pow(c, 2)) - ((2 * a * c) * cos(PI/2))));
-		if (sidea >= 0.5)//g_raydata.mapy - (g_raydata.mapy + g_raydata.stepy / 2))
-			return (1);*/
+		if (sidea >= 0.5)//g_raydata.mapy - (g_raydata.mapy + g_raydata.stepy / 2))*/
+			return (1);
 	}
 	return (0);
 }
@@ -106,10 +128,9 @@ void	sidetoside(void)
 		}
 		if (g_config.map[g_raydata.mapy][g_raydata.mapx] == '1')
 			g_raydata.hit = 1;
-		//if (g_config.map[g_raydata.mapy][g_raydata.mapx] == '_')
-		//	if (g_raydata.side == 1)
-		//		if (hitdoor())
-		//			g_raydata.hit = 2;
+		if (g_config.map[g_raydata.mapy][g_raydata.mapx] == '_')
+				if (hitdoor())
+					g_raydata.hit = 2;
 				//if (g_raydata.sidedisty - g_raydata.deltadisty < g_raydata.mapy + g_raydata.stepy / 2)
 				//	g_raydata.hit = 2;
 	}
@@ -198,13 +219,19 @@ void	castray(int x)
 	else if (g_raydata.raydirx == 0)
 		g_raydata.deltadistx = 1;
 	else
+	{
 		g_raydata.deltadistx = fabs(1 / g_raydata.raydirx);
+		//g_raydata.deltadistx = sqrt(1 + (g_raydata.raydiry*g_raydata.raydiry)/(g_raydata.raydirx*g_raydata.raydirx));
+	}
 	if (g_raydata.raydirx == 0)
 		g_raydata.deltadisty = 0;
 	else if (g_raydata.raydiry == 0)
 		g_raydata.deltadisty = 1;
 	else
+	{
+		//g_raydata.deltadisty = sqrt(1 + (g_raydata.raydirx * g_raydata.raydirx)/(g_raydata.raydiry * g_raydata.raydiry));
 		g_raydata.deltadisty = fabs(1 / g_raydata.raydiry);
+	}
 	stepandinitialside();
 	sidetoside();
 }

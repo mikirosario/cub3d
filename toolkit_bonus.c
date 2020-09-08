@@ -3,14 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   toolkit_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 18:37:36 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/07 20:38:26 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/08 13:29:06 by mikiencolor      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
+
+
+void	ft_hypotenuse(t_triangle *triangle)
+{
+	triangle->anglebeta = PI - triangle->angletheta - triangle->anglealpha;
+	triangle->hypotenuse = (sin(triangle->anglealpha) * 0.5) / sin(triangle->anglebeta);
+}
 
 /*
 ** Line intersect detector, finds where two lines intersect. Mathematic hell.
