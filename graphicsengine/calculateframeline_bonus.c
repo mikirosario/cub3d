@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   calculateframeline_bonus.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/12 17:42:02 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/08 13:42:40 by mikiencolor      ###   ########.fr       */
+/*   Updated: 2020/09/08 19:21:56 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,16 +47,12 @@ void	walltexparams(void)
 void	walldrawparams(void)
 {
 	if (g_raydata.side == 0)
-		if (g_raydata.hit == 2)
-			g_raydata.perpwalldist = (g_raydata.mapy - g_player.posy +
-			(1 - g_raydata.stepy) / 2) / g_raydata.raydiry;
-		else
-			g_raydata.perpwalldist = (g_raydata.mapx - g_player.posx + \
-			(1 - g_raydata.stepx) / 2) / g_raydata.raydirx;
+		g_raydata.perpwalldist = (g_raydata.mapx - g_player.posx + \
+		(1 - g_raydata.stepx) / 2) / g_raydata.raydirx;
 	else
 	{
 		if (g_raydata.hit == 2)
-			g_raydata.perpwalldist = (g_raydata.mapy - g_player.posy + \
+			g_raydata.perpwalldist = ((double)(g_raydata.mapy + (0.5 * g_raydata.stepy)) - g_player.posy + \
 			(1 - g_raydata.stepy) / 2) / g_raydata.raydiry;
 		else
 			g_raydata.perpwalldist = (g_raydata.mapy - g_player.posy + \
