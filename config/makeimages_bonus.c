@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 18:36:40 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/04 20:08:17 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/09 18:10:08 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,6 +159,10 @@ int		getteximg(void)
 	g_floorimg.texpath, &g_floorimg.texw, &g_floorimg.texh);
 	g_ceilingimg.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, \
 	g_ceilingimg.texpath, &g_ceilingimg.texw, &g_ceilingimg.texh);
+	g_doorrightimg.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, \
+	"doorright.XPM", &g_doorrightimg.texw, &g_doorrightimg.texh);
+	g_doorleftimg.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, \
+	"doorleft.XPM", &g_doorleftimg.texw, &g_doorleftimg.texh);
 	g_nowallimg.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, \
 	g_nowallimg.texpath, &g_nowallimg.texw, &g_nowallimg.texh);
 	g_sowallimg.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, \

@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/12 17:42:02 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/08 19:21:56 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/09 18:24:07 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,17 @@ void	walltexparams(void)
 void	walldrawparams(void)
 {
 	if (g_raydata.side == 0)
-		g_raydata.perpwalldist = (g_raydata.mapx - g_player.posx + \
-		(1 - g_raydata.stepx) / 2) / g_raydata.raydirx;
+	{
+		if (g_raydata.hit > 1)
+			g_raydata.perpwalldist = ((double)(g_raydata.mapx + (0.5 * g_raydata.stepx)) - g_player.posx + \
+			(1 - g_raydata.stepx) / 2) / g_raydata.raydirx;
+		else
+			g_raydata.perpwalldist = (g_raydata.mapx - g_player.posx + \
+			(1 - g_raydata.stepx) / 2) / g_raydata.raydirx;
+	}		
 	else
 	{
-		if (g_raydata.hit == 2)
+		if (g_raydata.hit > 1)
 			g_raydata.perpwalldist = ((double)(g_raydata.mapy + (0.5 * g_raydata.stepy)) - g_player.posy + \
 			(1 - g_raydata.stepy) / 2) / g_raydata.raydiry;
 		else

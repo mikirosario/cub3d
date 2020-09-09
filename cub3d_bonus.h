@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/08 13:29:27 by mikiencolor      ###   ########.fr       */
+/*   Updated: 2020/09/09 18:08:45 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,8 @@ typedef struct	s_door
 
 t_imagedata	g_ceilingimg;
 t_imagedata	g_floorimg;
+t_imagedata	g_doorrightimg;
+t_imagedata g_doorleftimg;
 t_imagedata	g_sprt3img;
 t_imagedata	g_sprt4img;
 t_imagedata	g_sprt5img;

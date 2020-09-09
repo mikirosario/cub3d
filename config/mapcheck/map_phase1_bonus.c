@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_phase1_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 18:31:22 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/06 19:34:33 by mikiencolor      ###   ########.fr       */
+/*   Updated: 2020/09/09 16:20:39 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,7 @@ char	playerandspritescheck(char foundplayer, char *mapchrs)
 		{
 			if (c > 49 && c < 58)
 				spritecounter((double)x, (double)y, c);
-			if (c == '_' || c == '/')
+			if (c == '-' || c == '|')
 				doorcounter(x, y, maplistdir(x, y));
 			else if ((ft_strchr(mapchrs, c)) >= mapchrs + \
 			ft_chrcmp(mapchrs, 'N'))
@@ -314,7 +314,7 @@ int		makemaplist(int fd, char *firstline)
 	y = 0;
 	endfile = 0;
 	line = firstline;
-	mapchrs = " 0123456789_/NnSsEeWw";
+	mapchrs = " 0123456789-|NnSsEeWw";
 	while (linecheck(line, y, mapchrs) && !endfile)
 	{
 		del(line);

@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/31 19:37:21 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/04 20:16:27 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/09 18:11:46 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,12 @@ int		getimgaddresses(unsigned int **buf)
 	g_ceilingimg.tex_ptr = \
 	(unsigned int *)mlx_get_data_addr(g_ceilingimg.mlx_img, &g_ceilingimg.bpp, \
 	&g_ceilingimg.size_line, &g_ceilingimg.endian);
+	g_doorrightimg.tex_ptr = \
+	(unsigned int *)mlx_get_data_addr(g_doorrightimg.mlx_img, &g_doorrightimg.bpp, \
+	&g_doorrightimg.size_line, &g_doorrightimg.endian);
+	g_doorleftimg.tex_ptr = \
+	(unsigned int *)mlx_get_data_addr(g_doorleftimg.mlx_img, &g_doorleftimg.bpp, \
+	&g_doorleftimg.size_line, &g_doorleftimg.endian);
 	g_nowallimg.tex_ptr = (unsigned int *)mlx_get_data_addr(g_nowallimg.mlx_img,
 	&g_nowallimg.bpp, &g_nowallimg.size_line, &g_nowallimg.endian);
 	g_sowallimg.tex_ptr = (unsigned int *)mlx_get_data_addr(g_sowallimg.mlx_img,
