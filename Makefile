@@ -6,7 +6,7 @@
 #    By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/07/15 20:32:43 by mrosario          #+#    #+#              #
-#    Updated: 2020/09/07 19:35:40 by mrosario         ###   ########.fr        #
+#    Updated: 2020/09/10 17:22:38 by mrosario         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ BSRC = cub3d_bonus.c rotation.c freeme_bonus.c ./toolkit_bonus.c ./config/cub_bo
 ./config/getceilingfloorparams_bonus.c ./config/iamerror_bonus.c \
 ./config/printnotifications_bonus.c ./config/mapcheck/map_phase1_bonus.c \
 ./config/maperrors.c ./config/texerrors_bonus.c ./config/mapcheck/map_phase2_bonus.c \
-./config/maplistfunctions.c ./config/spritelistfunctions.c \
+./config/maplistfunctions_bonus.c ./config/spritelistfunctions.c \
 ./config/spritecounter.c ./config/printlinkedlists.c ./config/initialize_bonus.c \
 ./config/makeimages_bonus.c ./graphicsengine/raycaster_bonus.c ./graphicsengine/dda_bonus.c \
 ./graphicsengine/drawframeline_bonus.c ./graphicsengine/calculateframeline_bonus.c \
@@ -49,7 +49,7 @@ LBSRC = cub3d_linux.c rotation.c freeme_bonus.c ./toolkit_bonus.c ./config/cub_b
 ./config/getceilingfloorparams_bonus.c ./config/iamerror_bonus.c \
 ./config/printnotifications_bonus.c ./config/mapcheck/map_phase1_bonus.c \
 ./config/maperrors.c ./config/texerrors_bonus.c ./config/mapcheck/map_phase2_bonus.c \
-./config/maplistfunctions.c ./config/spritelistfunctions.c \
+./config/maplistfunctions_bonus.c ./config/spritelistfunctions.c \
 ./config/spritecounter.c ./config/printlinkedlists.c ./config/initialize_linux.c \
 ./config/makeimages_bonus.c ./graphicsengine/raycaster_bonus.c ./graphicsengine/dda_bonus.c \
 ./graphicsengine/drawframeline_bonus.c ./graphicsengine/calculateframeline_bonus.c \

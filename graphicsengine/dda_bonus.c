@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/11 18:13:54 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/09 20:24:25 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/10 19:57:26 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,11 +165,14 @@ int		hordoorhitcheck(void)
 	double	mapx;
 	double	perpwalldist;
 	double	wallx;
+	double	stepx;
+	double	raydirx;
+	double	raydiry;
 	t_line	ray;
 	t_line	door;
 	double	x;
 	double	y;
-
+/* versión no local, marco de referencia mixto mapa/cuadrado
 //we came from below and exit through the side, maybe we hit the door, maybe not
 	if (g_raydata.sidedistx < g_raydata.sidedisty)
 	{	
@@ -196,6 +199,40 @@ int		hordoorhitcheck(void)
 		findintersection(&ray, &door, &x, &y);
 		//if ((wallx >= 0.5 && g_raydata.stepy > 0) || (wallx <= 0.5 && g_raydata.stepy <= 0))
 		if ((g_raydata.stepy > 0 && x > 0 && x < 1 && ray.endy>= 0.5) || (g_raydata.stepy <= 0 && x > 0 && x < 1 && ray.endy <= 0.5))
+			return (1);
+	}*/
+//versión local, marco de referencia cuadrado
+//we came from below and exit through the side, maybe we hit the door, maybe not
+	if (g_raydata.sidedistx < g_raydata.sidedisty)
+	{	
+		raydiry = g_raydata.raydiry < 0 ? g_raydata.raydiry * -1 : g_raydata.raydiry;
+		raydirx = g_raydata.stepy == -1 ? g_raydata.raydirx * -1 : g_raydata.raydirx;
+		stepx = g_raydata.stepy == -1 ? g_raydata.stepx * -1 : g_raydata.stepx;
+
+		perpwalldist = (fabs(g_raydata.mapy - g_player.posy));// + ((1 - g_raydata.stepy) / 2) / g_raydata.raydiry;
+		wallx = g_player.posx + perpwalldist * raydirx;
+		wallx -= floor(wallx);
+
+		ray.startx = wallx;
+		ray.starty = 0;//g_raydata.stepy > 0 ? 0 : 1;
+		ray.endx = g_raydata.stepx > 0 ? 1 : 0;
+
+		mapx = g_raydata.mapx + g_raydata.stepx; //go to next square
+		perpwalldist = (mapx - g_player.posx + \
+		(1 - g_raydata.stepx) / 2) / raydirx; //calculate perpendicular distance to player camera
+		wallx = g_player.posy + perpwalldist * raydiry; //calculate where on the adjacent square edge the ray hit, this will effectively be a y axis value in our square
+		wallx -= floor(wallx); //remove the map-centric component of wallx and get the square-centric component
+		if (g_raydata.stepy == -1)
+			wallx = 1 - wallx;
+	
+		ray.endy = wallx;
+		door.startx = 0;//g_raydata.stepy > 0 ? 0 : 1;
+		door.starty = 0.5;
+		door.endx = 1;//g_raydata.stepy > 0 ? 1 : 0;
+		door.endy = 0.5;
+		findintersection(&ray, &door, &x, &y);
+		//if ((wallx >= 0.5 && g_raydata.stepy > 0) || (wallx <= 0.5 && g_raydata.stepy <= 0))
+		if ((x > 0 && x < 1 && y == 0.5))
 			return (1);
 	}
 	else //if we came from below and are exiting from above, we definiely hit the door
