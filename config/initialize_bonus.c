@@ -3,14 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   initialize_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 16:10:16 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/06 18:34:46 by mikiencolor      ###   ########.fr       */
+/*   Updated: 2020/09/11 19:00:47 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d_bonus.h"
+
+void	initializedoorline(void)
+{
+	g_door.startx = 0;
+	g_door.starty = 0.5;
+	g_door.endx = 1;
+	g_door.endy = 0.5;
+}
 
 /*
 ** This function used a system call to retrieve the native display resolution
@@ -90,5 +98,6 @@ void	initialize(void)
 	g_keydata.l = 0;
 	g_keydata.m = 1;
 	g_keydata.ctrl = 0;
+	initializedoorline();
 	getdisplayresolution();
 }

@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/09 17:58:55 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/11 19:19:10 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,6 +199,7 @@ typedef struct	s_spritedata
 	int					vmove;
 	unsigned char		remove : 1;
 	char				*dooraddr;
+	double				doorend;
 	t_raydata			raydata;
 	struct s_spritedata	*next;
 }				t_spritedata;

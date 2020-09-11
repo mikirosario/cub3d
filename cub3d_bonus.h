@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/09 18:08:45 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/11 20:12:29 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,28 @@ typedef struct	s_horizontalraydata
 	
 }				t_xraydata;
 
+/*
+** This is for playing around with ray data within a map square without
+** affecting the ray data used by the renderer, in order to do calculations to
+** determine the ray's trajectory *within* a square (rather than its
+** square-to-square path, as dda normally does in this raycaster) to resolve the
+** special interactions created by doors. :) It would not need to exist if not
+** for Norminette. :p Note that even mapx is actually a double here. Like I
+** said, it's intra-square data. ;)
+*/
+
+typedef struct	s_localraydata
+{
+	double	mapx;
+	double	mapy;
+	double	perpwalldist;
+	double	wallx;
+	double	raydirx;
+	double	raydiry;
+	double	xintersect;
+	double	yintersect;
+}				t_localraydata;
+
 typedef struct	s_lifebar
 {
 	t_imagedata	fullheart;
@@ -107,24 +129,26 @@ typedef struct	s_lifebar
 
 typedef struct	s_door
 {
-	t_raydata	raydata;
-	char		*posmap;
+	//t_raydata	raydata;
+	//double		doorend;
+	//char		*posmap;
 }				t_door;
 
-t_imagedata	g_ceilingimg;
-t_imagedata	g_floorimg;
-t_imagedata	g_doorrightimg;
-t_imagedata g_doorleftimg;
-t_imagedata	g_sprt3img;
-t_imagedata	g_sprt4img;
-t_imagedata	g_sprt5img;
-t_imagedata	g_sprt6img;
-t_imagedata	g_sprt7img;
-t_imagedata	g_sprt8img;
-t_imagedata	g_sprt9img;
-t_imagedata	g_potion;
-t_lifebar	g_lifebar;
-t_xraydata	g_xraydata;
+t_imagedata		g_ceilingimg;
+t_imagedata		g_floorimg;
+t_imagedata		g_doorrightimg;
+t_imagedata 	g_doorleftimg;
+t_imagedata		g_sprt3img;
+t_imagedata		g_sprt4img;
+t_imagedata		g_sprt5img;
+t_imagedata		g_sprt6img;
+t_imagedata		g_sprt7img;
+t_imagedata		g_sprt8img;
+t_imagedata		g_sprt9img;
+t_imagedata		g_potion;
+t_lifebar		g_lifebar;
+t_xraydata		g_xraydata;
+t_line			g_door;
 
 /*
 ** Bonus
@@ -153,5 +177,8 @@ void	animate(t_spritedata *sprite);
 int		doorcounter(unsigned int x, unsigned int y, char *c);
 int		findintersection(t_line *linea, t_line *lineb, double *xresult, double *yresult);
 void	ft_hypotenuse(t_triangle *triangle);
+int		hordoorhitcheck(void);
+int		verdoorhitcheck(void);
+int		hordoorslide(void);
 
 #endif

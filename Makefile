@@ -6,7 +6,7 @@
 #    By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/07/15 20:32:43 by mrosario          #+#    #+#              #
-#    Updated: 2020/09/10 17:22:38 by mrosario         ###   ########.fr        #
+#    Updated: 2020/09/11 17:11:13 by mrosario         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,7 @@ BSRC = cub3d_bonus.c rotation.c freeme_bonus.c ./toolkit_bonus.c ./config/cub_bo
 ./graphicsengine/fpscounter_bonus.c ./graphicsengine/drawceilingfloor_bonus.c \
 ./config/raycaster_start_bonus.c ./config/makeanimationimgs_bonus.c \
 ./config/animationerrors_bonus.c ./graphicsengine/modifysprite.c \
-./config/doorcounter_bonus.c
+./config/doorcounter_bonus.c ./graphicsengine/doorcaster_bonus.c
 
 LBSRC = cub3d_linux.c rotation.c freeme_bonus.c ./toolkit_bonus.c ./config/cub_bonus.c \
 ./config/getscreenres.c ./config/getwallparams.c ./config/getspriteparams_bonus.c \
@@ -60,7 +60,7 @@ LBSRC = cub3d_linux.c rotation.c freeme_bonus.c ./toolkit_bonus.c ./config/cub_b
 ./graphicsengine/fpscounter_bonus.c ./graphicsengine/drawceilingfloor_bonus.c \
 ./config/raycaster_start_bonus.c ./config/makeanimationimgs_bonus.c \
 ./config/animationerrors_bonus.c ./graphicsengine/modifysprite.c \
-./config/doorcounter_bonus.c
+./config/doorcounter_bonus.c ./graphicsengine/doorcaster_bonus.c
 
 OBJ = $(SRC:.c=.o)
 

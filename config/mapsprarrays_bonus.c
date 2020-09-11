@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mapsprarrays_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/17 19:05:43 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/06 19:49:33 by mikiencolor      ###   ########.fr       */
+/*   Updated: 2020/09/11 19:27:02 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
