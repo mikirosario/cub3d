@@ -43,7 +43,7 @@ void	sidetoside(void)
 			if (hordoorslide())
 				g_raydata.hit = 2;
 		if (g_config.map[g_raydata.mapy][g_raydata.mapx] == '|' && g_raydata.side == 0)
-			if (verdoorhitcheck())
+			if (verdoorslide())
 				g_raydata.hit = 3;
 	}
 }

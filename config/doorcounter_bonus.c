@@ -33,6 +33,6 @@ int		doorcounter(unsigned int x, unsigned int y, char *c)
 	lstptr->posy = y;
 	lstptr->spritetype = *c;
 	lstptr->dooraddr = c;
-	lstptr->doorend = 0;
+	lstptr->doorend = 0.5;
 	return (1);	
 }

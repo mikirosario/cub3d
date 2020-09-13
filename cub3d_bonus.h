@@ -180,5 +180,6 @@ void	ft_hypotenuse(t_triangle *triangle);
 int		hordoorhitcheck(void);
 int		verdoorhitcheck(void);
 int		hordoorslide(void);
+int		verdoorslide(void);
 
 #endif
