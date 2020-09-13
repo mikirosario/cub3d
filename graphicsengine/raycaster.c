@@ -14,21 +14,6 @@
 
 extern t_error	g_iamerror;
 
-void	loadsprites(void)
-{
-	t_spritedata	*sprtptr;
-
-	sprtptr = g_config.spritelist;
-	while (sprtptr)
-	{
-		if (sprtptr->spritetype == '2')
-			sprtptr->texture = (unsigned int *)\
-			mlx_get_data_addr(g_sprt2img.mlx_img, &g_sprt2img.bpp, \
-			&g_sprt2img.size_line, &g_sprt2img.endian);
-		sprtptr = sprtptr->next;
-	}
-}
-
 /*
 ** Upon starting the raycaster for the first time, we need to reserve memory
 ** for the thing to work. Everything we need to reserve is reserved here.
@@ -49,7 +34,7 @@ void	loadsprites(void)
 ** and abort the program. If they succeed, we merrily carry on.
 */
 
-char	memreserve(void)
+/*char	memreserve(void)
 {
 	char	memerror;
 
@@ -64,7 +49,7 @@ char	memreserve(void)
 	if (memerror)
 		return (0);
 	return (1);
-}
+}*/
 
 /*
 ** This function is launched before the first frame is built, the first time
@@ -93,7 +78,7 @@ char	memreserve(void)
 ** more textures for additional types, you can assign them here. :)
 */
 
-void	start(unsigned int **buf)
+/*void	start(unsigned int **buf)
 {
 	if (!memreserve())
 	{
@@ -112,7 +97,7 @@ void	start(unsigned int **buf)
 	g_eawallimg.tex_ptr = (unsigned int *)mlx_get_data_addr(g_eawallimg.mlx_img,
 	&g_eawallimg.bpp, &g_eawallimg.size_line, &g_eawallimg.endian);
 	loadsprites();
-}
+}*/
 
 /*
 ** X will be used to describe each pixel position on a given screen line, from
@@ -129,30 +114,25 @@ void	start(unsigned int **buf)
 ** interactions.
 */
 
-int		raycaster(int key, void *param)
+int		raycaster(t_raycasterdata *rdata)
 {
-	static unsigned int	*buf = NULL;
 	int					x;
 
-	(void)param;
-	(void)key;
 	x = 0;
-	if (!buf)
-		start(&buf);
 	while (x < g_config.screenw)
 	{
 		castray(x);
 		calculateframeline();
-		drawframeline(x, buf);
+		drawframeline(x, rdata->buf);
 		if (g_config.spritenum)
 			g_config.zbuffer[x] = g_raydata.perpwalldist;
 		x++;
 	}
-	castsprites(buf);
+	castsprites(rdata->buf);
 	mlx_put_image_to_window(g_screendata.mlx_ptr, g_screendata.mlx_win, \
 	g_screendata.mlx_img_buffer, 0, 0);
 	if (g_config.screenshot)
-		screenshot(buf);
+		screenshot(rdata->buf);
 	readmovementkeys();
 	return (0);
 }

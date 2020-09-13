@@ -35,6 +35,11 @@
 # define RESET "\033[0m"
 # define MAPMEMCAP 200000
 
+typedef struct	s_raycasterdata
+{
+	unsigned int	*buf;
+}				t_raycasterdata;
+
 /*
 ** This is the error flag struct. Aside from flags, it holds some data about
 ** which line in the cub file certain errors appeared in or which paths were
@@ -401,12 +406,13 @@ void			unfloodmap(char *flag);
 int				makemaplist(int fd, char *firstline);
 int				maketeximg(void);
 int				maparray(void);
+int				raycaster_start(t_raycasterdata *rdata);
 
 /*
 ** Raycaster
 */
 
-int				raycaster(int key, void *param);
+int				raycaster(t_raycasterdata *rdata);
 void			castray(int x);
 void			calculateframeline(void);
 void			drawframeline(int x, unsigned int *buf);

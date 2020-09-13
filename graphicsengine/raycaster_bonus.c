@@ -226,7 +226,7 @@ char	xmemreserve(void)
 ** interactions.
 */
 
-int		raycaster_bonus(unsigned int *buf)
+int		raycaster_bonus(t_raycasterdata *rdata)
 {
 	int					x;
 	static time_t		timestart = 0;
@@ -237,22 +237,22 @@ int		raycaster_bonus(unsigned int *buf)
 	if (g_framedata.invincibilityframes)
 			g_framedata.invincibilityframes--;
 	if (g_keydata.m != 2)
-		cast_ceiling_floor(buf);
+		cast_ceiling_floor(rdata->buf);
 	while (x < g_config.screenw)
 	{
 		castray(x);
 		calculateframeline();
-		drawframeline(x, buf);
+		drawframeline(x, rdata->buf);
 		if (g_config.spritenum)
 			g_config.zbuffer[x] = g_raydata.perpwalldist;
 		x++;
 	}
-	castsprites(buf);
-	refreshui(buf);
+	castsprites(rdata->buf);
+	refreshui(rdata->buf);
 	mlx_put_image_to_window(g_screendata.mlx_ptr, g_screendata.mlx_win, \
 	g_screendata.mlx_img_buffer, 0, 0);
 	if (g_config.screenshot)
-		screenshot(buf);
+		screenshot(rdata->buf);
 	readmovementkeys();
 	//other key presses (inventory, menu, etc.) here
 	countframes(&timestart);

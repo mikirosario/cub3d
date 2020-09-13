@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d_bonus.h"
+#include "cub3d.h"
 
 t_error g_iamerror;
 
@@ -55,7 +55,7 @@ int		ft_stop(int key, void *param)
 	return (0);
 }
 
-void	configure(unsigned int **buf, char **argv, int argc, int *success)
+void	configure(t_raycasterdata *rdata, char **argv, int argc, int *success)
 {
 	ft_printf(GREEN"\nCHECKING .CUB FILE...\n"RESET);
 	if (!(*success = argc > 3 ? 0 : 1))
@@ -72,19 +72,18 @@ void	configure(unsigned int **buf, char **argv, int argc, int *success)
 		else if (!(g_screendata.mlx_win = mlx_new_window(g_screendata.mlx_ptr, \
 		g_config.screenw, g_config.screenh, "Norminator 3D")))
 			*success = 0;
-		else if (!maketeximg() || !raycaster_start(buf))
+		else if (!maketeximg() || !raycaster_start(rdata))
 			*success = 0;
 	}
 }
 
 int		main(int argc, char **argv)
 {
-	unsigned int	*buf;
+	t_raycasterdata	rdata;
 	int				success;
 
-	buf = NULL;
 	initialize();
-	configure(&buf, argv, argc, &success);
+	configure(&rdata, argv, argc, &success);
 	printnotifications();
 	printerrors();
 	if (!success)
@@ -96,7 +95,7 @@ int		main(int argc, char **argv)
 	mlx_hook(g_screendata.mlx_win, 17, 1L << 17, ft_stop, (void*)0);
 	mlx_hook(g_screendata.mlx_win, 2, 1L << 0, keypress, (void*)0);
 	mlx_hook(g_screendata.mlx_win, 3, 1L << 1, keyrelease, (void *)0);
-	mlx_loop_hook(g_screendata.mlx_ptr, raycaster_bonus, buf);
+	mlx_loop_hook(g_screendata.mlx_ptr, raycaster, &rdata);
 	mlx_loop(g_screendata.mlx_ptr);
 	return (EXIT_SUCCESS);
 }

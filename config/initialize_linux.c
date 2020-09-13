@@ -86,12 +86,10 @@ void	initialize(void)
 {
 	g_player.rotspeed = 0.1;
 	g_player.movespeed = 0.25;
-	g_player.life = 6;
-	g_player.inventory = 0;
 	g_framedata.xfloorcolor = 0x00669999;
 	g_framedata.xceilingcolor = 0x0066004b;
+	//used?
 	g_config.spritenum = 0;
-	g_config.sprtexnum = 0;
 	g_config.spritelist = NULL;
 	g_config.maplist = NULL;
 	g_config.wallmultiplier = 1;
@@ -104,6 +102,5 @@ void	initialize(void)
 	g_keydata.r = 0;
 	g_keydata.l = 0;
 	g_keydata.m = 1;
-	g_keydata.ctrl = 0;
 	getdisplayresolution();
 }

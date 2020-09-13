@@ -148,7 +148,7 @@ int		floodleft(unsigned int x, unsigned int y)
 		else if (mapchr == ' ' || !x)
 			return (recorderrorlocation(g_iamerror.outofbounds, \
 			(mapchr == ' ' ? x + 1 : x), y, 0));
-			x--;
+		x--;
 	}
 	return (1);
 }

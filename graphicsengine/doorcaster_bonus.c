@@ -14,7 +14,7 @@
 
 /*
 ** Oh, Norminette. You so crazy. The things you make me do. ;p
-*/
+
 void	defineray(t_line *ray, double startx, double starty, double endx, double endy)
 {	
 	ray->startx = startx;
@@ -22,101 +22,38 @@ void	defineray(t_line *ray, double startx, double starty, double endx, double en
 	ray->endx = endx;
 	ray->endy = endy;
 }
+*/
 
-/* versión no local, marco de referencia mixto mapa/cuadrado
-//we came from below and exit through the side, maybe we hit the door, maybe not
-	if (g_raydata.sidedistx < g_raydata.sidedisty)
-	{	
-		perpwalldist = (g_raydata.mapy - g_player.posy + \
-		(1 - g_raydata.stepy) / 2) / g_raydata.raydiry;
-		wallx = g_player.posx + perpwalldist * g_raydata.raydirx;
-		wallx -= floor(wallx);
-
-		ray.startx = wallx;
-		ray.starty = g_raydata.stepy > 0 ? 0 : 1;
-		ray.endx = g_raydata.stepx > 0 ? 0 : 1;
-
-		mapx = g_raydata.mapx + g_raydata.stepx; //go to next square
-		perpwalldist = (mapx - g_player.posx + \
-		(1 - g_raydata.stepx) / 2) / g_raydata.raydirx; //calculate perpendicular distance to player camera
-		wallx = g_player.posy + perpwalldist * g_raydata.raydiry; //calculate where on the adjacent square edge the ray hit, this will effectively be a y axis value in our square
-		wallx -= floor(wallx); //remove the map-centric component of wallx and get the square-centric component
-	
-		ray.endy = wallx;
-		door.startx = 0;//g_raydata.stepy > 0 ? 0 : 1;
-		door.starty = 0.5;
-		door.endx = 1;//g_raydata.stepy > 0 ? 1 : 0;
-		door.endy = 0.5;
-		findintersection(&ray, &door, &x, &y);
-		//if ((wallx >= 0.5 && g_raydata.stepy > 0) || (wallx <= 0.5 && g_raydata.stepy <= 0))
-		if ((g_raydata.stepy > 0 && x > 0 && x < 1 && ray.endy>= 0.5) || (g_raydata.stepy <= 0 && x > 0 && x < 1 && ray.endy <= 0.5))
-			return (1);
-	}*/
+/*
+** Hodoor? Horror door? This took me FOREVER to figure out. The pain. The agony!
+** The maths! All to eventually discover this simple solution!
+**
+** Note that doorend tracks 'how open' a door is. 0 means 0% open. 0.1 means
+** 10% open. 0.2 means 20% open. 1 means 100% open. We follow the ray halfway
+** through the square with the door and record its landing location. Then we
+** just ask if it is less than doorend plus whatever mapx we are in. If it is,
+** it is allowed to go on its way. If not, it hits.
+*/
 
 int		hordoorslide(void)
 {
 	t_localraydata	local;
-	t_line			ray;
 	t_spritedata	**door;
 
-//versión local, marco de referencia cuadrado
-//we came from below and exit through the side, maybe we hit the door, maybe not... depends on our ray's angle... and how open or shut the door is, not complicated at all!! ;)
-	if (g_raydata.sidedistx < g_raydata.sidedisty)
-	{	
-		local.raydiry = g_raydata.raydiry < 0 ? g_raydata.raydiry * -1 : g_raydata.raydiry;
-		local.raydirx = g_raydata.stepy == -1 ? g_raydata.raydirx * -1 : g_raydata.raydirx;
 
-		local.perpwalldist = (fabs(g_raydata.mapy - g_player.posy));// + ((1 - g_raydata.stepy) / 2) / g_raydata.raydiry;
-		local.wallx = g_player.posx + local.perpwalldist * local.raydirx;
-		local.wallx -= floor(local.wallx);
+	//if we came from below
 
-		
-		defineray(&ray, local.wallx, 0, g_raydata.stepx > 0 ? 1 : 0, 0);
+		local.perpwalldist = ((double)(g_raydata.mapy + (0.5 * g_raydata.stepy)) - g_player.posy + \
+		(1 - g_raydata.stepy) / 2) / g_raydata.raydiry;
+		local.wallx = g_player.posx + local.perpwalldist * g_raydata.raydirx;
 
-		local.mapx = g_raydata.mapx + g_raydata.stepx; //go to next square
-		local.perpwalldist = (local.mapx - g_player.posx + \
-		(1 - g_raydata.stepx) / 2) / local.raydirx; //calculate perpendicular distance to player camera
-		local.wallx = g_player.posy + local.perpwalldist * local.raydiry; //calculate where on the adjacent square edge the ray hit, this will effectively be a y axis value in our square
-		local.wallx -= floor(local.wallx); //remove the map-centric component of wallx and get the square-centric component
-		if (g_raydata.stepy == -1)
-			local.wallx = 1 - local.wallx;
-	
-		ray.endy = local.wallx;
-		findintersection(&ray, &g_door, &local.xintersect, &local.yintersect);
+
 		door = g_config.door;
 		while ((*door)->dooraddr != &g_config.map[g_raydata.mapy][g_raydata.mapx])
 			door++;
-		//if ((wallx >= 0.5 && g_raydata.stepy > 0) || (wallx <= 0.5 && g_raydata.stepy <= 0))
-		if ((local.xintersect > (*door)->doorend && local.xintersect < 1 && local.yintersect == 0.5))
+		if (local.wallx > (*door)->doorend + g_raydata.mapx && local.wallx < 1 + g_raydata.mapx)
 			return (1);
-	}
-	else //if we came from below and are exiting from above, we definiely hit the door... unless... it's opening, or open. ;)
-	{
-		local.raydiry = g_raydata.raydiry < 0 ? g_raydata.raydiry * -1 : g_raydata.raydiry;
-		local.raydirx = g_raydata.stepy == -1 ? g_raydata.raydirx * -1 : g_raydata.raydirx;
-
-		local.perpwalldist = (fabs(g_raydata.mapy - g_player.posy));// + ((1 - g_raydata.stepy) / 2) / g_raydata.raydiry;
-		local.wallx = g_player.posx + local.perpwalldist * local.raydirx;
-		local.wallx -= floor(local.wallx);
-		
-		defineray(&ray, local.wallx, 0, 0, 1);
-
-		local.mapy = g_raydata.mapy + g_raydata.stepy; //go to next square
-		local.perpwalldist = (local.mapy - g_player.posy + \
-		(1 - g_raydata.stepy) / 2) / local.raydiry; //calculate perpendicular distance to player camera
-		local.wallx = g_player.posx + local.perpwalldist * local.raydirx; //calculate where on the adjacent square edge the ray hit, this will effectively be a y axis value in our square
-		local.wallx -= floor(local.wallx); //remove the map-centric component of wallx and get the square-centric component
-		if (g_raydata.stepy == -1)
-			local.wallx = 1 - local.wallx;
 	
-		ray.endx = local.wallx;
-		findintersection(&ray, &g_door, &local.xintersect, &local.yintersect);
-		door = g_config.door;
-		while ((*door)->dooraddr != &g_config.map[g_raydata.mapy][g_raydata.mapx])
-			door++;
-		if ((local.xintersect > (*door)->doorend && local.xintersect < 1 && local.yintersect == 0.5))
-			return (1);
-	}
 	return (0);
 }
 

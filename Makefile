@@ -24,7 +24,7 @@ SRC = cub3d.c rotation.c freeme.c ./toolkit.c ./config/cub.c \
 ./graphicsengine/drawsprites.c ./graphicsengine/playermovement.c \
 ./graphicsengine/keychecks.c ./config/maparray.c \
 ./graphicsengine/sortsprites.c ./graphicsengine/screenshots/bmpgenerator.c \
-./graphicsengine/screenshots/bmperror.c
+./graphicsengine/screenshots/bmperror.c ./config/raycaster_start.c
 
 BSRC = cub3d_bonus.c rotation.c freeme_bonus.c ./toolkit_bonus.c ./config/cub_bonus.c \
 ./config/getscreenres.c ./config/getwallparams.c ./config/getspriteparams_bonus.c \
@@ -44,17 +44,31 @@ BSRC = cub3d_bonus.c rotation.c freeme_bonus.c ./toolkit_bonus.c ./config/cub_bo
 ./config/animationerrors_bonus.c ./graphicsengine/modifysprite.c \
 ./config/doorcounter_bonus.c ./graphicsengine/doorcaster_bonus.c
 
-LBSRC = cub3d_linux.c rotation.c freeme_bonus.c ./toolkit_bonus.c ./config/cub_bonus.c \
+LSRC = cub3d_linux.c rotation.c freeme.c ./toolkit.c ./config/cub.c \
+./config/getscreenres.c ./config/getwallparams.c ./config/getspriteparams.c \
+./config/getceilingfloorparams.c ./config/iamerror.c \
+./config/printnotifications.c ./config/mapcheck/map_phase1.c \
+./config/maperrors.c ./config/texerrors.c ./config/mapcheck/map_phase2.c \
+./config/maplistfunctions.c ./config/spritelistfunctions.c \
+./config/spritecounter.c ./config/printlinkedlists.c ./config/initialize_linux.c \
+./config/makeimages.c ./graphicsengine/raycaster.c ./graphicsengine/dda.c \
+./graphicsengine/drawframeline.c ./graphicsengine/calculateframeline.c \
+./graphicsengine/drawsprites.c ./graphicsengine/playermovement.c \
+./graphicsengine/keychecks_linux.c ./config/maparray.c \
+./graphicsengine/sortsprites.c ./graphicsengine/screenshots/bmpgenerator.c \
+./graphicsengine/screenshots/bmperror.c ./config/raycaster_start.c
+
+LBSRC = cub3d_linux_bonus.c rotation.c freeme_bonus.c ./toolkit_bonus.c ./config/cub_bonus.c \
 ./config/getscreenres.c ./config/getwallparams.c ./config/getspriteparams_bonus.c \
 ./config/getceilingfloorparams_bonus.c ./config/iamerror_bonus.c \
 ./config/printnotifications_bonus.c ./config/mapcheck/map_phase1_bonus.c \
 ./config/maperrors.c ./config/texerrors_bonus.c ./config/mapcheck/map_phase2_bonus.c \
 ./config/maplistfunctions_bonus.c ./config/spritelistfunctions.c \
-./config/spritecounter.c ./config/printlinkedlists.c ./config/initialize_linux.c \
+./config/spritecounter.c ./config/printlinkedlists.c ./config/initialize_linux_bonus.c \
 ./config/makeimages_bonus.c ./graphicsengine/raycaster_bonus.c ./graphicsengine/dda_bonus.c \
 ./graphicsengine/drawframeline_bonus.c ./graphicsengine/calculateframeline_bonus.c \
 ./graphicsengine/drawsprites_bonus.c ./graphicsengine/playermovement_bonus.c \
-./graphicsengine/keychecks_linux.c ./config/mapsprarrays_bonus.c \
+./graphicsengine/keychecks_linux_bonus.c ./config/mapsprarrays_bonus.c \
 ./graphicsengine/sortsprites_bonus.c ./graphicsengine/screenshots/bmpgenerator.c \
 ./graphicsengine/screenshots/bmperror.c ./graphicsengine/graphicsmodes_bonus.c \
 ./graphicsengine/fpscounter_bonus.c ./graphicsengine/drawceilingfloor_bonus.c \
@@ -95,7 +109,10 @@ bdebug: $(LIBFT)
 	gcc $(CFLAG) $(LIBS) $(FRMWRK) $(BSRC) -g -o cub3d
 
 linux: $(LIBFT)
-	gcc $(CFLAG) $(LBSRC) $(LINUXLIBS) -g -o cub3d
+	gcc $(CFLAG) $(LSRC) $(LINUXLIBS) -g -o cub3d
+
+linuxbonus: $(LIBFT)
+	gcc $(CFLAG) $(LBSRC) $(LINUXLIBS) -g -O0 -o cub3d
 
 
 clean:

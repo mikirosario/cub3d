@@ -56,9 +56,9 @@ int		loadsprites(void)
 	return (1);
 }
 
-int		getimgaddresses(unsigned int **buf)
+int		getimgaddresses(t_raycasterdata *rdata)
 {
-	*buf = (unsigned int *)mlx_get_data_addr(g_screendata.mlx_img_buffer,
+	rdata->buf = (unsigned int *)mlx_get_data_addr(g_screendata.mlx_img_buffer,
 	&g_screendata.bpp, &g_screendata.size_line, &g_screendata.endian); \
 	g_floorimg.tex_ptr = (unsigned int *)mlx_get_data_addr(g_floorimg.mlx_img, \
 	&g_floorimg.bpp, &g_floorimg.size_line, &g_floorimg.endian);
@@ -148,9 +148,9 @@ char	memreserve(void)
 ** more textures for additional types, you can assign them here. :)
 */
 
-int		raycaster_start(unsigned int **buf)
+int		raycaster_start(t_raycasterdata *rdata)
 {
-	if (!memreserve() || !getimgaddresses(buf))
+	if (!memreserve() || !getimgaddresses(rdata))
 	{
 		g_iamerror.mallocfail = 1;
 		return (0);
