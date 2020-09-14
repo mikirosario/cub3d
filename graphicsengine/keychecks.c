@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   keychecks.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/17 18:44:48 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/04 19:09:21 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/14 11:52:51 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,6 @@ int	keypress(int key, void *param)
 		else
 			g_keydata.m += 1;
 	}
-	if (key == 82)
-		g_keydata.ctrl = 1;
 	return (0);
 }
 

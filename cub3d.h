@@ -6,7 +6,7 @@
 /*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/14 10:28:20 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/14 12:48:03 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -284,6 +284,7 @@ typedef struct	s_framedata
 	int				spritescreenx;
 	int				closesprite[6];
 	int				invincibilityframes;
+	double			middleraydoordist;
 }				t_framedata;
 
 /*
@@ -320,6 +321,7 @@ typedef struct	s_keydata
 	char	l : 1;
 	char	m;
 	char	ctrl : 1;
+	char	sp : 1;
 }				t_keydata;
 
 t_configdata	g_config;

@@ -1,16 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   dda_bonus.c                                        :+:      :+:    :+:   */
+/*   castoneray_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/11 18:13:54 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/14 14:51:02 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/14 14:24:09 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d_bonus.h"
+
+void	calculatedistance(void)
+{
+	if (g_raydata.side == 0)
+		{
+				g_raydata.perpwalldist = (g_raydata.mapx - g_player.posx + \
+				(1 - g_raydata.stepx) / 2) / g_raydata.raydirx;
+		}		
+		else
+		{
+				g_raydata.perpwalldist = (g_raydata.mapy - g_player.posy + \
+				(1 - g_raydata.stepy) / 2) / g_raydata.raydiry;
+		}
+}
 
 /*
 ** The hit variable will be initialized to 0 here, and will later be used to
@@ -20,7 +34,7 @@
 ** When a wall is hit, we exit.
 */
 
-void	sidetoside(void)
+void	hitdetector(void)
 {
 	char	mapchr;
 
@@ -39,15 +53,11 @@ void	sidetoside(void)
 			g_raydata.mapy += g_raydata.stepy;
 			g_raydata.side = 1;
 		}
-		mapchr = g_config.map[g_raydata.mapy][g_raydata.mapx];
-		if (mapchr == '1')
+		if ((mapchr = g_config.map[g_raydata.mapy][g_raydata.mapx]) == '-' || mapchr == '|' || mapchr == 'O' || mapchr == '1')
+		{
 			g_raydata.hit = 1;
-		if ((mapchr == '-' || mapchr == 'O') && g_raydata.side == 1)
-			if (hordoorslide())
-				g_raydata.hit = 2;
-		if ((mapchr == '|' || mapchr == 'O') && g_raydata.side == 0)
-			if (verdoorslide())
-				g_raydata.hit = 3;
+			calculatedistance();
+		}
 	}
 }
 
@@ -65,7 +75,7 @@ void	sidetoside(void)
 ** distance, however, we know we will always move from wall edge to wall edge.
 */
 
-void	stepandinitialside(void)
+void	stepandinitialside2(void)
 {
 	if (g_raydata.raydirx < 0)
 	{
@@ -122,11 +132,12 @@ void	stepandinitialside(void)
 ** Then we will call stepandinitialside.
 */
 
-void	castray(int x)
+void	castoneray(int x)
 {
-	g_player.camerax = 2 * x / (double)g_config.screenw - 1;
-	g_raydata.raydirx = g_player.dirx + g_player.planex * g_player.camerax;
-	g_raydata.raydiry = g_player.diry + g_player.planey * g_player.camerax;
+	(void)x;
+	//g_player.camerax = 2 * x / (double)g_config.screenw - 1;
+	g_raydata.raydirx = g_player.dirx + g_player.planex * 0;//g_player.camerax;
+	g_raydata.raydiry = g_player.diry + g_player.planey * 0;//g_player.camerax;
 	g_raydata.mapx = (int)g_player.posx;
 	g_raydata.mapy = (int)g_player.posy;
 	if (g_raydata.raydiry == 0)
@@ -147,6 +158,6 @@ void	castray(int x)
 		//g_raydata.deltadisty = sqrt(1 + (g_raydata.raydirx * g_raydata.raydirx)/(g_raydata.raydiry * g_raydata.raydiry));
 		g_raydata.deltadisty = fabs(1 / g_raydata.raydiry);
 	}
-	stepandinitialside();
-	sidetoside();
+	stepandinitialside2();
+	hitdetector();
 }

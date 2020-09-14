@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+         #
+#    By: miki <miki@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/07/15 20:32:43 by mrosario          #+#    #+#              #
-#    Updated: 2020/09/11 17:11:13 by mrosario         ###   ########.fr        #
+#    Updated: 2020/09/14 13:43:32 by miki             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,8 @@ BSRC = cub3d_bonus.c rotation.c freeme_bonus.c ./toolkit_bonus.c ./config/cub_bo
 ./graphicsengine/fpscounter_bonus.c ./graphicsengine/drawceilingfloor_bonus.c \
 ./config/raycaster_start_bonus.c ./config/makeanimationimgs_bonus.c \
 ./config/animationerrors_bonus.c ./graphicsengine/modifysprite.c \
-./config/doorcounter_bonus.c ./graphicsengine/doorcaster_bonus.c
+./config/doorcounter_bonus.c ./graphicsengine/doorcaster_bonus.c \
+./graphicsengine/castoneray_bonus.c
 
 LSRC = cub3d_linux.c rotation.c freeme.c ./toolkit.c ./config/cub.c \
 ./config/getscreenres.c ./config/getwallparams.c ./config/getspriteparams.c \
@@ -74,7 +75,8 @@ LBSRC = cub3d_linux_bonus.c rotation.c freeme_bonus.c ./toolkit_bonus.c ./config
 ./graphicsengine/fpscounter_bonus.c ./graphicsengine/drawceilingfloor_bonus.c \
 ./config/raycaster_start_bonus.c ./config/makeanimationimgs_bonus.c \
 ./config/animationerrors_bonus.c ./graphicsengine/modifysprite.c \
-./config/doorcounter_bonus.c ./graphicsengine/doorcaster_bonus.c
+./config/doorcounter_bonus.c ./graphicsengine/doorcaster_bonus.c \
+./graphicsengine/castoneray_bonus.c
 
 OBJ = $(SRC:.c=.o)
 

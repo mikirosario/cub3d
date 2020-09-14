@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   playermovement_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/14 20:03:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/02 17:03:44 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/14 14:41:56 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,28 +118,29 @@ void	adstrafe(void)
 {
 	double	newposx;
 	double	newposy;
+	char	mapchr;
 
 	ft_rotate_2d(g_player.dirx, g_player.diry, 90, g_player.newdirxy);
 	if (g_keydata.a)
 	{
 		newposx = (g_player.posx + g_player.newdirxy[0] * g_player.movespeed);
 		newposy = (g_player.posy + g_player.newdirxy[1] * g_player.movespeed);
-		if (g_config.map[(int)g_player.posy][(int)newposx] == '0' && \
-		!sprcollide(g_player.posy, newposx))
+		if (((mapchr = g_config.map[(int)g_player.posy][(int)newposx]) == '0' \
+		|| mapchr == 'O') && !sprcollide(g_player.posy, newposx))
 			g_player.posx = newposx;
-		if (g_config.map[(int)newposy][(int)g_player.posx] == '0' && \
-		!sprcollide(newposy, g_player.posx))
+		if (((mapchr = g_config.map[(int)newposy][(int)g_player.posx]) == '0' \
+		|| mapchr == 'O') && !sprcollide(newposy, g_player.posx))
 			g_player.posy = newposy;
 	}
 	if (g_keydata.d)
 	{
 		newposx = (g_player.posx - g_player.newdirxy[0] * g_player.movespeed);
 		newposy = (g_player.posy - g_player.newdirxy[1] * g_player.movespeed);
-		if (g_config.map[(int)g_player.posy][(int)newposx] == '0' && \
-		!sprcollide(g_player.posy, newposx))
+		if (((mapchr = g_config.map[(int)g_player.posy][(int)newposx]) == '0' \
+		|| mapchr == 'O') && !sprcollide(g_player.posy, newposx))
 			g_player.posx = newposx;
-		if (g_config.map[(int)newposy][(int)g_player.posx] == '0' && \
-		!sprcollide(newposy, g_player.posx))
+		if (((mapchr = g_config.map[(int)newposy][(int)g_player.posx]) == '0' \
+		|| mapchr == 'O') && !sprcollide(newposy, g_player.posx))
 			g_player.posy = newposy;
 	}
 }
@@ -148,27 +149,28 @@ void	wsupdown(void)
 {
 	double	newposx;
 	double	newposy;
+	char	mapchr;
 
 	if (g_keydata.w)
 	{
 		newposx = g_player.posx + g_player.dirx * g_player.movespeed;
 		newposy = g_player.posy + g_player.diry * g_player.movespeed;
-		if (g_config.map[(int)g_player.posy][(int)newposx] == '0' && \
-		!sprcollide(g_player.posy, newposx))
+		if (((mapchr = g_config.map[(int)g_player.posy][(int)newposx]) == '0' \
+		|| mapchr == 'O') && !sprcollide(g_player.posy, newposx))
 			g_player.posx = newposx;
-		if (g_config.map[(int)newposy][(int)g_player.posx] == '0' && \
-		!sprcollide(newposy, g_player.posx))
+		if (((mapchr = g_config.map[(int)newposy][(int)g_player.posx]) == '0' \
+		|| mapchr == 'O') && !sprcollide(newposy, g_player.posx))
 			g_player.posy = newposy;
 	}
 	if (g_keydata.s)
 	{
 		newposx = g_player.posx - g_player.dirx * g_player.movespeed;
 		newposy = g_player.posy - g_player.diry * g_player.movespeed;
-		if (g_config.map[(int)(g_player.posy)][(int)newposx] == '0' && \
-		!sprcollide(g_player.posy, newposx))
+		if (((mapchr = g_config.map[(int)(g_player.posy)][(int)newposx]) == '0' \
+		|| mapchr == 'O') && !sprcollide(g_player.posy, newposx))
 			g_player.posx = newposx;
-		if (g_config.map[(int)newposy][(int)g_player.posx] == '0' && \
-		!sprcollide(newposy, g_player.posx))
+		if (((mapchr = g_config.map[(int)newposy][(int)g_player.posx]) == '0' \
+		|| mapchr == 'O') && !sprcollide(newposy, g_player.posx))
 			g_player.posy = newposy;
 	}
 }

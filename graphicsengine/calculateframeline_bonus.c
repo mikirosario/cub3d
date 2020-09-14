@@ -6,7 +6,7 @@
 /*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/12 17:42:02 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/14 11:21:56 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/14 13:36:14 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,27 +44,35 @@ void	walltexparams(void)
 ** 49 - 54: Calculate distance projected on camera direction.
 ** 55 - 56: Calculate height of line to draw on screen.
 ** 57 - 63: Calculate lowest and highest pixel to fill in current line.
+**
+** Note: If the ray hit a door instead of a wall (g_raydata == 1 or 2) then
+** the special perpwalldist to the door is precalculated in doorcaster_bonus.c
+** within the hordoorslide or verdoorslide functions, so does not need to be
+** calculated here, which is why these cases aren't referenced.
 */
 
 void	walldrawparams(void)
 {
-	if (g_raydata.side == 0)
+	if (g_raydata.hit == 1)
 	{
-		if (g_raydata.hit > 1)
-			g_raydata.perpwalldist = ((double)(g_raydata.mapx + (0.5 * g_raydata.stepx)) - g_player.posx + \
-			(1 - g_raydata.stepx) / 2) / g_raydata.raydirx;
+		if (g_raydata.side == 0)
+		{
+			//if (g_raydata.hit > 1)
+			//	g_raydata.perpwalldist = ((double)(g_raydata.mapx + (0.5 * g_raydata.stepx)) - g_player.posx + 
+			//	(1 - g_raydata.stepx) / 2) / g_raydata.raydirx;
+			//else
+				g_raydata.perpwalldist = (g_raydata.mapx - g_player.posx + \
+				(1 - g_raydata.stepx) / 2) / g_raydata.raydirx;
+		}		
 		else
-			g_raydata.perpwalldist = (g_raydata.mapx - g_player.posx + \
-			(1 - g_raydata.stepx) / 2) / g_raydata.raydirx;
-	}		
-	else
-	{
-		if (g_raydata.hit > 1)
-			g_raydata.perpwalldist = ((double)(g_raydata.mapy + (0.5 * g_raydata.stepy)) - g_player.posy + \
-			(1 - g_raydata.stepy) / 2) / g_raydata.raydiry;
-		else
-			g_raydata.perpwalldist = (g_raydata.mapy - g_player.posy + \
-			(1 - g_raydata.stepy) / 2) / g_raydata.raydiry;
+		{
+			//if (g_raydata.hit > 1)
+			//	g_raydata.perpwalldist = ((double)(g_raydata.mapy + (0.5 * g_raydata.stepy)) - g_player.posy + 
+			//	(1 - g_raydata.stepy) / 2) / g_raydata.raydiry;
+			//else
+				g_raydata.perpwalldist = (g_raydata.mapy - g_player.posy + \
+				(1 - g_raydata.stepy) / 2) / g_raydata.raydiry;
+		}
 	}
 	g_framedata.lineheight = (int)(g_config.screenh * \
 	g_config.wallmultiplier / g_raydata.perpwalldist);

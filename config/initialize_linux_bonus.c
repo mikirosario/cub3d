@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialize_linux_bonus.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 16:10:16 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/04 18:10:12 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/14 11:50:58 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ void	initialize(void)
 	g_keydata.l = 0;
 	g_keydata.m = 1;
 	g_keydata.ctrl = 0;
+	g_keydata.sp = 0;
 	initializedoorline();
 	getdisplayresolution();
 }

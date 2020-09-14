@@ -6,7 +6,7 @@
 /*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/11 17:09:52 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/14 11:22:59 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/14 13:29:44 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,9 @@
 **
 ** We record the offset from the edge of the square (based on door openness) to
 ** offset the texture (walltexparams in calculateframeline_bonus.c) by the same
-** proportion.
+** proportion. We also record perpwall dist to the door if the ray is for the
+** centre of the screen, which is the distance we'll use to decide whether a
+** player is close enough to try to open a door.
 */
 
 int		hordoorslide(void)
@@ -51,6 +53,9 @@ int		hordoorslide(void)
 		if (local.wallx > (*door)->doorend + g_raydata.mapx && local.wallx <= 1 + g_raydata.mapx)
 		{
 			g_framedata.dooroffset = (*door)->doorend;
+			g_raydata.perpwalldist = local.perpwalldist;
+//			if (!g_player.camerax)
+//				g_framedata.middleraydoordist = local.perpwalldist;	
 			return (1);
 		}
 	
@@ -74,6 +79,10 @@ int		hordoorslide(void)
 ** offset the texture (walltexparams in calculateframeline_bonus.c) by the same
 ** proportion.
 **
+** We also record perpwall dist to the door if the ray is for the
+** centre of the screen, which is the distance we'll use to decide whether a
+** player is close enough to try to open a door.
+**
 ** These functions supersede and replace hordoorhitcheck and verdoorhitcheck.
 */
 
@@ -96,6 +105,9 @@ int		verdoorslide(void)
 		if (local.wallx > (*door)->doorend + g_raydata.mapy && local.wallx <= 1 + g_raydata.mapy)
 		{
 			g_framedata.dooroffset = (*door)->doorend;
+			g_raydata.perpwalldist = local.perpwalldist;
+//			if (!g_player.camerax) Do I really want 1080 comparisons more per frame...? ¬¬
+//				g_framedata.middleraydoordist = local.perpwalldist;	
 			return (1);
 		}
 	
