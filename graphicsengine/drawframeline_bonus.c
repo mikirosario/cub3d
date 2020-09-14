@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   drawframeline_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/11 19:45:47 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/09 18:22:23 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/14 11:15:50 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,9 +109,9 @@ int		texturedwalls(int x, int pixel, unsigned int *buf)
 	else if (g_raydata.hit == 3)
 	{
 		if (g_raydata.stepx > 0)
-			texptr = g_doorrightimg.tex_ptr;
+			texptr = g_doorleftimg.tex_ptr;
 		else
-			texptr = g_doorleftimg.tex_ptr;	
+			texptr = g_doorrightimg.tex_ptr;
 	}
 	else if (g_raydata.side == 1 && g_raydata.stepy > 0)
 		texptr = g_sowallimg.tex_ptr;

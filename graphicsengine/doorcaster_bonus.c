@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   doorcaster_bonus.c                                       :+:      :+:    :+:   */
+/*   doorcaster_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/11 17:09:52 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/11 17:16:00 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/14 11:22:59 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,17 @@
 **
 ** Note that doorend tracks 'how open' a door is. 0 means 0% open. 0.1 means
 ** 10% open. 0.2 means 20% open. 1 means 100% open. 1 corresponds to the west,
-** where the door begins, and 0 to the east side of the map, where it ends when
-** fully closed.
+** where the door ends when fully open, and 0 to the east side of the map, where
+** it ends when fully closed.
 **
 ** We follow the ray halfway through the square with the door and record its
 ** landing location. Then we just ask if it is less than doorend plus whatever
 ** mapx we are in. If it is, the ray is allowed to go on its merry way. If not,
 ** it hits door.
+**
+** We record the offset from the edge of the square (based on door openness) to
+** offset the texture (walltexparams in calculateframeline_bonus.c) by the same
+** proportion.
 */
 
 int		hordoorslide(void)
@@ -44,8 +48,11 @@ int		hordoorslide(void)
 		door = g_config.door;
 		while ((*door)->dooraddr != &g_config.map[g_raydata.mapy][g_raydata.mapx])
 			door++;
-		if (local.wallx > (*door)->doorend + g_raydata.mapx && local.wallx < 1 + g_raydata.mapx)
+		if (local.wallx > (*door)->doorend + g_raydata.mapx && local.wallx <= 1 + g_raydata.mapx)
+		{
+			g_framedata.dooroffset = (*door)->doorend;
 			return (1);
+		}
 	
 	return (0);
 }
@@ -55,14 +62,17 @@ int		hordoorslide(void)
 **
 ** Note that doorend tracks 'how open' a door is. 0 means 0% open. 0.1 means
 ** 10% open. 0.2 means 20% open. 1 means 100% open. In this case, 0 corresponds
-** to the north, where the door begins, and 1 to the south side of the map,
-** where it ends when fully closed, so some values have different roles than in
-** hordoor.
+** to the south, where the door ends when fully open, and 1 to the north side of
+** the map, where it ends when fully closed.
 **
 ** We follow the ray halfway through the square with the door and record its
-** landing location. Then we just ask if it is greater than doorend plus
-** whatever mapy we are in. If it is, the ray is allowed to go on its merry way.
-** If not, it hits door.
+** landing location. Then we just ask if it is less than doorend plus whatever
+** mapy we are in. If it is, the ray is allowed to go on its merry way. If not,
+** it hits door.
+**
+** We record the offset from the edge of the square (based on door openness) to
+** offset the texture (walltexparams in calculateframeline_bonus.c) by the same
+** proportion.
 **
 ** These functions supersede and replace hordoorhitcheck and verdoorhitcheck.
 */
@@ -83,8 +93,11 @@ int		verdoorslide(void)
 		door = g_config.door;
 		while ((*door)->dooraddr != &g_config.map[g_raydata.mapy][g_raydata.mapx])
 			door++;
-		if (local.wallx > 0 + g_raydata.mapy && local.wallx < (*door)->doorend + g_raydata.mapy)
+		if (local.wallx > (*door)->doorend + g_raydata.mapy && local.wallx <= 1 + g_raydata.mapy)
+		{
+			g_framedata.dooroffset = (*door)->doorend;
 			return (1);
+		}
 	
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   calculateframeline_bonus.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/12 17:42:02 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/09 18:24:07 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/14 11:21:56 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ void	walltexparams(void)
 		g_framedata.wallx = g_player.posx + \
 		g_raydata.perpwalldist * g_raydata.raydirx;
 	g_framedata.wallx -= floor((g_framedata.wallx));
+	if (g_raydata.hit > 1)
+		g_framedata.wallx -= (g_framedata.dooroffset);
 	g_framedata.texx = (int)(g_framedata.wallx * (double)g_config.texw);
 	if (g_raydata.side == 0 && g_raydata.raydirx > 0)
 		g_framedata.texx = (g_config.texw) - (g_framedata.texx) - 1;
