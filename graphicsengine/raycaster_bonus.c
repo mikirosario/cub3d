@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycaster_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/11 15:32:45 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/14 14:46:16 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/14 20:42:08 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,25 +119,59 @@ void	refreshui(unsigned int *buf)
 	}
 }
 
-void	activatedoor(void)
+void	activatedoor(t_raycasterdata *rdata)
 {
-	char	mapchr;
-	int		i;
+	static int	animationframes = 0;
+	char		mapchr;
+	int			i;
 
-	g_keydata.sp = 0;
 	i = 0;
-	castoneray((g_config.screenw - 1) / 2);
-	if ((mapchr = g_config.map[g_raydata.mapy][g_raydata.mapx]) == '-' || mapchr == '|' || mapchr == 'O')
-		if (g_raydata.perpwalldist < 0.45)
+	if (!rdata->animatedoor)
+	{
+		castoneray((g_config.screenw - 1) / 2);
+		if ((mapchr = g_config.map[g_raydata.mapy][g_raydata.mapx]) == '-' || mapchr == '|' || mapchr == 'O')
+			if (fabs(g_raydata.perpwalldist) < 1.25)
+			{
+				while (g_config.door[i]->dooraddr != &g_config.map[g_raydata.mapy][g_raydata.mapx])
+					i++;
+				rdata->animatedoor = g_config.door[i];
+				return ;
+			}
+	}
+	else
+	{			//g_config.door[i]->doorend = g_config.door[i]->doorend == 0 ? 0.8 : 0;
+		if (rdata->animationtimer && animationframes == 16)
 		{
-			while (g_config.door[i]->dooraddr != &g_config.map[g_raydata.mapy][g_raydata.mapx])
-				i++;
-			g_config.door[i]->doorend = g_config.door[i]->doorend == 0 ? 0.8 : 0;
-			if (mapchr == g_config.door[i]->spritetype)
-				g_config.map[g_raydata.mapy][g_raydata.mapx] = 'O';
-			else
-				g_config.map[g_raydata.mapy][g_raydata.mapx] = g_config.door[i]->spritetype;
+			rdata->animationtimer = 0;
+			*(rdata->animatedoor->dooraddr) = \
+			*(rdata->animatedoor->dooraddr) == 'O' ? rdata->animatedoor->spritetype : 'O';
+			rdata->animatedoor->doorend = *(rdata->animatedoor->dooraddr) == 'O' ? 0.8 : 0;
+			g_keydata.sp = 0;
+			rdata->animatedoor = NULL;
+			animationframes = 0;
+			return ;
 		}
+		if (!rdata->animationtimer)
+		{
+			if (*(rdata->animatedoor->dooraddr) != 'O')
+				rdata->animatedoor->doorend += 0.05;
+			else
+				rdata->animatedoor->doorend -= 0.05;
+			animationframes++;
+			rdata->animationtimer = msectime();
+		}
+		else if (rdata->animationtimer + 25 <= msectime())
+		{
+			if (*(rdata->animatedoor->dooraddr) != 'O')
+				rdata->animatedoor->doorend += 0.05;
+			else
+				rdata->animatedoor->doorend -= 0.05;
+			animationframes++;
+			rdata->animationtimer = msectime();
+		}
+		return ;
+	}
+	g_keydata.sp = 0;
 }
 
 /*
@@ -178,7 +212,7 @@ int		raycaster_bonus(t_raycasterdata *rdata)
 	}
 	castsprites(rdata->buf);
 	if (g_keydata.sp)
-		activatedoor();
+		activatedoor(rdata);
 	refreshui(rdata->buf);
 	mlx_put_image_to_window(g_screendata.mlx_ptr, g_screendata.mlx_win, \
 	g_screendata.mlx_img_buffer, 0, 0);

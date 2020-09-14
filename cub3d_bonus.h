@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/14 13:43:59 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/14 18:46:12 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 */
 
 # include <time.h>
+# include <sys/time.h>
 #ifdef __APPLE__
 # include <CoreGraphics/CGDisplayConfiguration.h>
 #endif
@@ -182,5 +183,6 @@ int		verdoorhitcheck(void);
 int		hordoorslide(void);
 int		verdoorslide(void);
 void	castoneray(int x);
+double	msectime(void);
 
 #endif

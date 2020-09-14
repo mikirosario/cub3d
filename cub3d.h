@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/14 12:48:03 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/14 19:11:52 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,6 @@
 # define YELLOW "\x1b[33m"
 # define RESET "\033[0m"
 # define MAPMEMCAP 200000
-
-typedef struct	s_raycasterdata
-{
-	unsigned int	*buf;
-}				t_raycasterdata;
 
 /*
 ** This is the error flag struct. Aside from flags, it holds some data about
@@ -208,6 +203,13 @@ typedef struct	s_spritedata
 	t_raydata			raydata;
 	struct s_spritedata	*next;
 }				t_spritedata;
+
+typedef struct	s_raycasterdata
+{
+	unsigned int	*buf;
+	t_spritedata	*animatedoor;
+	double			animationtimer;
+}				t_raycasterdata;
 
 /*
 ** This struct holds game configuration data. Most of it is gathered from the

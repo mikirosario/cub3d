@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: miki <miki@student.42.fr>                  +#+  +:+       +#+         #
+#    By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/07/15 20:32:43 by mrosario          #+#    #+#              #
-#    Updated: 2020/09/14 13:43:32 by miki             ###   ########.fr        #
+#    Updated: 2020/09/14 19:12:33 by mrosario         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,14 +36,14 @@ BSRC = cub3d_bonus.c rotation.c freeme_bonus.c ./toolkit_bonus.c ./config/cub_bo
 ./config/makeimages_bonus.c ./graphicsengine/raycaster_bonus.c ./graphicsengine/dda_bonus.c \
 ./graphicsengine/drawframeline_bonus.c ./graphicsengine/calculateframeline_bonus.c \
 ./graphicsengine/drawsprites_bonus.c ./graphicsengine/playermovement_bonus.c \
-./graphicsengine/keychecks.c ./config/mapsprarrays_bonus.c \
+./graphicsengine/keychecks_bonus.c ./config/mapsprarrays_bonus.c \
 ./graphicsengine/sortsprites_bonus.c ./graphicsengine/screenshots/bmpgenerator.c \
 ./graphicsengine/screenshots/bmperror.c ./graphicsengine/graphicsmodes_bonus.c \
 ./graphicsengine/fpscounter_bonus.c ./graphicsengine/drawceilingfloor_bonus.c \
 ./config/raycaster_start_bonus.c ./config/makeanimationimgs_bonus.c \
 ./config/animationerrors_bonus.c ./graphicsengine/modifysprite.c \
 ./config/doorcounter_bonus.c ./graphicsengine/doorcaster_bonus.c \
-./graphicsengine/castoneray_bonus.c
+./graphicsengine/castoneray_bonus.c ./graphicsengine/timer_bonus.c
 
 LSRC = cub3d_linux.c rotation.c freeme.c ./toolkit.c ./config/cub.c \
 ./config/getscreenres.c ./config/getwallparams.c ./config/getspriteparams.c \
@@ -76,7 +76,7 @@ LBSRC = cub3d_linux_bonus.c rotation.c freeme_bonus.c ./toolkit_bonus.c ./config
 ./config/raycaster_start_bonus.c ./config/makeanimationimgs_bonus.c \
 ./config/animationerrors_bonus.c ./graphicsengine/modifysprite.c \
 ./config/doorcounter_bonus.c ./graphicsengine/doorcaster_bonus.c \
-./graphicsengine/castoneray_bonus.c
+./graphicsengine/castoneray_bonus.c ./graphicsengine/timer_bonus.c
 
 OBJ = $(SRC:.c=.o)
 
