@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycaster_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/11 15:32:45 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/14 20:42:08 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/15 03:35:08 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,61 +117,6 @@ void	refreshui(unsigned int *buf)
 		xput_to_buffer(g_config.screenw - i, g_config.screenh - 200, buf, &g_potion);
 		i -= 25;
 	}
-}
-
-void	activatedoor(t_raycasterdata *rdata)
-{
-	static int	animationframes = 0;
-	char		mapchr;
-	int			i;
-
-	i = 0;
-	if (!rdata->animatedoor)
-	{
-		castoneray((g_config.screenw - 1) / 2);
-		if ((mapchr = g_config.map[g_raydata.mapy][g_raydata.mapx]) == '-' || mapchr == '|' || mapchr == 'O')
-			if (fabs(g_raydata.perpwalldist) < 1.25)
-			{
-				while (g_config.door[i]->dooraddr != &g_config.map[g_raydata.mapy][g_raydata.mapx])
-					i++;
-				rdata->animatedoor = g_config.door[i];
-				return ;
-			}
-	}
-	else
-	{			//g_config.door[i]->doorend = g_config.door[i]->doorend == 0 ? 0.8 : 0;
-		if (rdata->animationtimer && animationframes == 16)
-		{
-			rdata->animationtimer = 0;
-			*(rdata->animatedoor->dooraddr) = \
-			*(rdata->animatedoor->dooraddr) == 'O' ? rdata->animatedoor->spritetype : 'O';
-			rdata->animatedoor->doorend = *(rdata->animatedoor->dooraddr) == 'O' ? 0.8 : 0;
-			g_keydata.sp = 0;
-			rdata->animatedoor = NULL;
-			animationframes = 0;
-			return ;
-		}
-		if (!rdata->animationtimer)
-		{
-			if (*(rdata->animatedoor->dooraddr) != 'O')
-				rdata->animatedoor->doorend += 0.05;
-			else
-				rdata->animatedoor->doorend -= 0.05;
-			animationframes++;
-			rdata->animationtimer = msectime();
-		}
-		else if (rdata->animationtimer + 25 <= msectime())
-		{
-			if (*(rdata->animatedoor->dooraddr) != 'O')
-				rdata->animatedoor->doorend += 0.05;
-			else
-				rdata->animatedoor->doorend -= 0.05;
-			animationframes++;
-			rdata->animationtimer = msectime();
-		}
-		return ;
-	}
-	g_keydata.sp = 0;
 }
 
 /*

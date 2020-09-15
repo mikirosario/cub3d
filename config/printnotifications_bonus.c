@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   printnotifications_bonus.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/24 19:08:46 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/08 13:54:01 by mikiencolor      ###   ########.fr       */
+/*   Updated: 2020/09/15 03:40:09 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,36 +85,6 @@ void	printnotifications(void)
 			spritepathnotifications();
 		if (!g_iamerror.texpathfail)
 			texturesizenotifications();
-		double xresult;
-		double yresult;
-		t_line linea;
-		t_line lineb;
-		t_triangle triangle;
-		/*linea.startx = 0.33;
-		linea.starty = 0;
-		linea.endx = 0.66;
-		linea.endy = 1;
-		lineb.startx = 0;
-		lineb.starty = 0.5;
-		lineb.endx = 1;
-		lineb.endy = 0.51;*/
-		
-		linea.startx = 0;
-		linea.starty = 0;
-		linea.endx = 0.33;
-		linea.endy = 1;
-		lineb.startx = 0;
-		lineb.starty = 0.5;
-		lineb.endx = 1;
-		lineb.endy = 0.51;
-
-		triangle.opposite = 0.5;
-		triangle.anglealpha = (PI/2);
-		triangle.angletheta = 0.7853982;
-		findintersection(&linea, &lineb, &xresult, &yresult);
-		printf("Intersección x,y???: \n%f, %f\n", xresult, yresult);
-		ft_hypotenuse(&triangle);
-		printf("\nHypotenuse: %f\n", triangle.hypotenuse);
 	}
 	return ;
 }

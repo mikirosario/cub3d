@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/14 18:46:12 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/15 03:38:18 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,11 +178,13 @@ void	animate(t_spritedata *sprite);
 int		doorcounter(unsigned int x, unsigned int y, char *c);
 int		findintersection(t_line *linea, t_line *lineb, double *xresult, double *yresult);
 void	ft_hypotenuse(t_triangle *triangle);
+void	activatedoor(t_raycasterdata *rdata);
 int		hordoorhitcheck(void);
 int		verdoorhitcheck(void);
 int		hordoorslide(void);
 int		verdoorslide(void);
 void	castoneray(int x);
 double	msectime(void);
+double	msec_diff(struct timeval *t0, struct timeval *t1);
 
 #endif

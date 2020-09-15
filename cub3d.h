@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/14 19:11:52 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/15 03:30:36 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,7 +208,7 @@ typedef struct	s_raycasterdata
 {
 	unsigned int	*buf;
 	t_spritedata	*animatedoor;
-	double			animationtimer;
+	int				animationframes;
 }				t_raycasterdata;
 
 /*

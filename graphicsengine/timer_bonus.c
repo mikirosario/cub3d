@@ -3,18 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   timer_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/14 18:06:29 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/14 18:20:38 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/15 03:01:44 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d_bonus.h"
 
-double	msectime(void)
+/*
+** This function returns the difference in miliseconds between the times passed
+** in t0 and t1. If no t0 is passed, it returns 0. If no t1 is passed, then the
+** function will create one, use it to get the present time, and then return
+** the difference between that time and t0.
+*/
+
+double	msec_diff(struct timeval *t0, struct timeval *t1)
 {
-	struct timeval	time;
-	gettimeofday(&time, NULL);
-	return (time.tv_sec + (time.tv_usec / 1000000.0) * 1000.0);
+	struct timeval tend;
+
+	if (!t0)
+		return (0);
+	else if (!t1)
+	{
+		gettimeofday(&tend, NULL);
+		t1 = &tend;
+	}
+	   return (t1->tv_sec - t0->tv_sec) * 1000.0 + (t1->tv_usec - t0->tv_usec) / 1000.0;
 }
