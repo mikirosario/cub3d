@@ -6,11 +6,29 @@
 /*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/15 03:34:28 by miki              #+#    #+#             */
-/*   Updated: 2020/09/15 03:37:32 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/15 04:03:03 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d_bonus.h"
+
+/*
+** To continue the animation, if the timestamp hasn't been created yet (first
+** animation frame) we open/close the door (depending on its present state) by
+** 0.025 the first frame and get the timestamp. Otherwise, we check to see if
+** at least 31.25 miliseconds have elapsed since the last timestamp (31.25 * 64
+** animationframes gives us 2000 miliseconds, for our 2-second timer). If so, we
+** we open/close the door by 0.0125. In either case, we increment
+** animationframes.
+**
+** 0.0125 * 63 frames of animation + 0.025 = 0,8125, which is
+** slightly greater than the 0.8 (80%) difference between an open and closed
+** door. This creates a 'snap-back' effect when the doors are set by the
+** enddooranimation function that simulates a 'rebound'.
+**
+** If the timer is active and 31.25 miliseconds have not yet elapsed since the
+** last timestamp, we leave without doing anything.
+*/
 
 void	continuedooranimation(t_raycasterdata *rdata, struct timeval *tstart)
 {
@@ -34,6 +52,19 @@ void	continuedooranimation(t_raycasterdata *rdata, struct timeval *tstart)
 	}
 }
 
+/*
+** To end the animation loop, if the door was closed before, its character is
+** changed to 'O', a special character that the playermovement function treats
+** as a traversable square. If it was open before, its character is set back to
+** its spritetype ('-' or '|'). If it was open before and a player is inside the
+** door square, it will reset to open again to avoid players becoming trapped by
+** the door.
+**
+** Remember the doorend variable tracks door 'openness'. 0 is 0% open, 0.8 is
+** 80% open. 0.8 is maximum openness, so you can still see the door edge and
+** handle while it is open.
+*/
+
 void	enddooranimation(t_raycasterdata *rdata)
 {
 	if (*(rdata->animatedoor->dooraddr) == 'O' && \
@@ -54,8 +85,8 @@ void	enddooranimation(t_raycasterdata *rdata)
 /*
 ** The tstart structure gets the timestamp at each frame of animation. Each
 ** door animation lasts 64 frames over 2000 miliseconds (2 sec). If the tv_sec
-** variable of tstart is 0 and the number of animationframes counted is 64, the
-** animation is deemed finished. If the door was closed before, it is set as
+** variable of tstart isn't 0 and the number of animationframes counted is 64,
+** the animation is deemed finished. If the door was closed before, it is set as
 ** open. If it was open before, it is set as closed, unless the player is in the
 ** way of the door, in which case it is reset to open to prevent the player from
 ** becoming trapped. All relevant conditional variables are reset to NULL/0, and
