@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dda_bonus.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/11 18:13:54 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/14 14:51:02 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/15 17:31:39 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,12 @@ void	sidetoside(void)
 			g_raydata.side = 1;
 		}
 		mapchr = g_config.map[g_raydata.mapy][g_raydata.mapx];
-		if (mapchr == '1')
+		if (mapchr == '1' || mapchr == 'v')
 			g_raydata.hit = 1;
-		if ((mapchr == '-' || mapchr == 'O') && g_raydata.side == 1)
+		if ((mapchr == '/' || mapchr == 'O') && g_raydata.side == 1)
 			if (hordoorslide())
 				g_raydata.hit = 2;
-		if ((mapchr == '|' || mapchr == 'O') && g_raydata.side == 0)
+		if ((mapchr == '/' || mapchr == 'O') && g_raydata.side == 0)
 			if (verdoorslide())
 				g_raydata.hit = 3;
 	}

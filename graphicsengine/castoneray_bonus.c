@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   castoneray_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/11 18:13:54 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/14 14:24:09 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/15 17:44:21 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ void	hitdetector(void)
 			g_raydata.mapy += g_raydata.stepy;
 			g_raydata.side = 1;
 		}
-		if ((mapchr = g_config.map[g_raydata.mapy][g_raydata.mapx]) == '-' || mapchr == '|' || mapchr == 'O' || mapchr == '1')
+		if ((mapchr = g_config.map[g_raydata.mapy][g_raydata.mapx]) == '/' || \
+		mapchr == 'v' || mapchr == 'O' || mapchr == '1')
 		{
 			g_raydata.hit = 1;
 			calculatedistance();

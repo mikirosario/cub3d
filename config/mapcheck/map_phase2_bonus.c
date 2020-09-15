@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/03 19:10:33 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/09 16:20:49 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/15 17:32:16 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,16 @@ extern t_error	g_iamerror;
 
 /*
 ** If the mapchar represents a sprite, returns true. Otherwise, returns false.
+** In the bonus, for the purposes of floodfill, doors are treated as sprites.
+** Sprites do not impede movement through the square they occupy, so doors to
+** out of bounds locations are rejected. The playermovement function will still
+** treat closed doors as collidable.
 */
 
 int		isspr(char mapchr)
 {
-	return ((mapchr >= '2' && mapchr <= '9') || mapchr == '-' || \
-	mapchr == '|' ? 1 : 0);
+	return ((mapchr >= '2' && mapchr <= '9') || mapchr == '/' || \
+	mapchr == 'v' ? 1 : 0);
 }
 
 /*

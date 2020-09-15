@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/05 16:42:19 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/10 17:22:19 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/15 17:30:44 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int		ismap(char *line)
 	char	*mapchrs;
 
 	i = 0;
-	mapchrs = " 0123456789-|NnSsEeWw";
+	mapchrs = " 0123456789/vNnSsEeWw";
 	while (line[i] && (tmp = ft_strchr(mapchrs, line[i])))
 		i++;
 	if (i > 0 && !line[i])

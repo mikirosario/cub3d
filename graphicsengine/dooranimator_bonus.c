@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dooranimator_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/15 03:34:28 by miki              #+#    #+#             */
-/*   Updated: 2020/09/15 04:03:03 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/15 17:49:32 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,8 @@ void	activatedoor(t_raycasterdata *rdata)
 	if (!rdata->animatedoor)
 	{
 		castoneray((g_config.screenw - 1) / 2);
-		if ((mapchr = g_config.map[g_raydata.mapy][g_raydata.mapx]) == '-' || mapchr == '|' || mapchr == 'O')
+		if ((mapchr = g_config.map[g_raydata.mapy][g_raydata.mapx]) == '/' || mapchr == 'O')
+		{
 			if (fabs(g_raydata.perpwalldist) < 1.25)
 			{
 				while (g_config.door[i]->dooraddr != &g_config.map[g_raydata.mapy][g_raydata.mapx])
@@ -151,6 +152,9 @@ void	activatedoor(t_raycasterdata *rdata)
 				rdata->animatedoor = g_config.door[i];
 				return ;
 			}
+		}
+		else if (mapchr == 'v' && g_player.inventory == 3)
+			g_config.map[g_raydata.mapy][g_raydata.mapx] = '/';
 	}
 	else if (animatedoor(rdata))
 		return ;
