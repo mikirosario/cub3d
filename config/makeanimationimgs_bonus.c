@@ -6,7 +6,7 @@
 /*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 17:51:52 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/16 01:06:10 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/16 12:36:36 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,6 @@ int		getanimationptrs(t_spritedata *sprt, t_imagedata *simg)
 		&simg->animation[i]->bpp, &simg->animation[i]->size_line, \
 		&simg->animation[i]->endian)))
 			return (0);
-		if (sprt->spritetype == '4')
-		{
-			sprt->vdiv = 6;
-			sprt->udiv = 6;
-		}
-		sprt->vmove = simg->texh * sprt->vdiv;
 		i++;
 	}
 	sprt->framelimit = i - 1;

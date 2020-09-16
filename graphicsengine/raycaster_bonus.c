@@ -6,7 +6,7 @@
 /*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/11 15:32:45 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/16 02:36:07 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/16 14:01:47 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,8 +117,9 @@ void	refreshui(unsigned int *buf)
 		xput_to_buffer(g_config.screenw - i, g_config.screenh - 200, buf, &g_potion);
 		i -= 25;
 	}
+	//implement attack key
 	if (g_player.inventory.catsbane)
-		xput_to_buffer((g_config.screenw / 2) - g_catsbane.texw / 2, g_config.screenh - g_catsbane.texh - 1, buf, &g_catsbane);
+		xput_to_buffer((g_config.screenw / 2) - g_catsbane.idle.texw / 2, g_config.screenh - g_catsbane.idle.texh - 1, buf, &g_catsbane.idle);
 }
 
 /*

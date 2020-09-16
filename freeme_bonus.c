@@ -6,7 +6,7 @@
 /*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 16:44:15 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/16 02:30:31 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/16 13:59:34 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,11 +79,14 @@ void	freeimgs(void)
 	destroyimages(&g_floorimg);
 	destroyimages(&g_ceilingimg);
 	destroyimages(&g_potion);
-	destroyimages(&g_catsbane);
 	i = 0;
-	while (g_lifebar.ptr[i])
+	while (i < 3)
 		mlx_destroy_image(g_screendata.mlx_ptr, \
 		g_lifebar.ptr[i++]->mlx_img);
+	i = 0;
+	while (i < 2)
+		mlx_destroy_image(g_screendata.mlx_ptr, \
+		g_catsbane.ptr[i++]->mlx_img);
 }
 
 /*

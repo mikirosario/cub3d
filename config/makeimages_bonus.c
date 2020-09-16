@@ -6,7 +6,7 @@
 /*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 18:36:40 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/16 02:32:52 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/16 13:57:06 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ int		createhudimages(void)
 	g_lifebar.ptr[0] = &g_lifebar.fullheart;
 	g_lifebar.ptr[1] = &g_lifebar.halfheart;
 	g_lifebar.ptr[2] = &g_lifebar.emptyheart;
+	g_catsbane.ptr[0] = &g_catsbane.idle;
+	g_catsbane.ptr[1] = &g_catsbane.attack;
 	success = 1;
 	if (!(g_lifebar.fullheart.mlx_img = \
 	mlx_xpm_file_to_image(g_screendata.mlx_ptr, "./uielements/fullheart.xpm", \
@@ -38,8 +40,11 @@ int		createhudimages(void)
 	else if (!(g_potion.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, \
 	"./uielements/uipotion.xpm", &g_potion.texw, &g_potion.texh)))
 		success = 0;
-	else if (!(g_catsbane.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr,
-	"./uielements/uispray.xpm", &g_catsbane.texw, &g_catsbane.texh)))
+	else if (!(g_catsbane.idle.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr,
+	"./uielements/uispray1.xpm", &g_catsbane.idle.texw, &g_catsbane.idle.texh)))
+		success = 0;
+	else if (!(g_catsbane.attack.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr,
+	"./uielements/uispray2.xpm", &g_catsbane.attack.texw, &g_catsbane.attack.texh)))
 		success = 0;
 	if (!success)
 		g_iamerror.texpathfail = 1;

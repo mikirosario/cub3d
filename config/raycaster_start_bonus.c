@@ -6,7 +6,7 @@
 /*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/31 19:37:21 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/16 02:23:39 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/16 13:54:28 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,12 @@ void	loadui(void)
 	g_potion.tex_ptr = \
 	(unsigned int *)mlx_get_data_addr(g_potion.mlx_img, \
 	&g_potion.bpp, &g_potion.size_line, &g_potion.endian);
-	g_catsbane.tex_ptr = \
-	(unsigned int *)mlx_get_data_addr(g_catsbane.mlx_img, \
-	&g_catsbane.bpp, &g_catsbane.size_line, &g_catsbane.endian);
+	g_catsbane.idle.tex_ptr = \
+	(unsigned int *)mlx_get_data_addr(g_catsbane.idle.mlx_img, \
+	&g_catsbane.idle.bpp, &g_catsbane.idle.size_line, &g_catsbane.idle.endian);
+	g_catsbane.attack.tex_ptr = \
+	(unsigned int *)mlx_get_data_addr(g_catsbane.attack.mlx_img, \
+	&g_catsbane.attack.bpp, &g_catsbane.attack.size_line, &g_catsbane.attack.endian);
 }
 
 int		loadsprites(void)
@@ -54,12 +57,20 @@ int		loadsprites(void)
 		if (g_simg[stype]->animation[1])
 			if (!(getanimationptrs(sprtptr, g_simg[stype])))
 				return (0);
+		if (sprtptr->spritetype == '4')
+		{
+			sprtptr->vdiv = 4;
+			sprtptr->udiv = 4;
+			sprtptr->vmove = (g_config.screenh + (sprtptr->vdiv * g_simg[stype]->texh)) / sprtptr->vdiv; 
+			//sprt->vmove = simg->texh * sprt->vdiv;
+		}
 		if (sprtptr->spritetype == '5')
 		{
 			sprtptr->vdiv = 4;
 			sprtptr->udiv = 3;
-			sprtptr->vmove = 342;
+			sprtptr->vmove = (g_config.screenh + g_simg[stype]->texh) / sprtptr->vdiv; 
 		}
+//g_simg[stype]->texh * (sprtptr->vdiv / 2);
 		sprtptr = sprtptr->next;
 	}
 	return (1);

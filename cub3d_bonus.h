@@ -6,7 +6,7 @@
 /*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/16 02:18:41 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/16 13:52:27 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,14 @@ typedef struct	s_lifebar
 	t_imagedata	*ptr[3];
 }				t_lifebar;
 
+typedef struct	s_catsbane
+{
+	t_imagedata	idle;
+	t_imagedata	attack;
+	t_imagedata	*ptr[2];
+}				t_catsbane;
+
+
 typedef struct	s_door
 {
 	//t_raydata	raydata;
@@ -148,7 +156,7 @@ t_imagedata		g_sprt8img;
 t_imagedata		g_sprt9img;
 t_imagedata		g_potion;
 t_lifebar		g_lifebar;
-t_imagedata		g_catsbane;
+t_catsbane		g_catsbane;
 t_xraydata		g_xraydata;
 t_line			g_door;
 
