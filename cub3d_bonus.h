@@ -6,7 +6,7 @@
 /*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/15 03:38:18 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/16 02:18:41 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,7 @@ t_imagedata		g_sprt8img;
 t_imagedata		g_sprt9img;
 t_imagedata		g_potion;
 t_lifebar		g_lifebar;
+t_imagedata		g_catsbane;
 t_xraydata		g_xraydata;
 t_line			g_door;
 

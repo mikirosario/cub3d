@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dooranimator_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/15 03:34:28 by miki              #+#    #+#             */
-/*   Updated: 2020/09/15 17:49:32 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/15 22:19:26 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,7 @@ void	activatedoor(t_raycasterdata *rdata)
 				return ;
 			}
 		}
-		else if (mapchr == 'v' && g_player.inventory == 3)
+		else if (mapchr == 'v' && g_player.inventory.potions == 3)
 			g_config.map[g_raydata.mapy][g_raydata.mapx] = '/';
 	}
 	else if (animatedoor(rdata))

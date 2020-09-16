@@ -6,7 +6,7 @@
 /*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/15 03:30:36 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/16 02:16:34 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,14 @@ typedef struct	s_screendata
 	int		endian;
 }				t_screendata;
 
+typedef struct	s_inventory
+{
+	int		potions;
+	int		rubies;
+	char	catsbane : 1;
+}				t_inventory;
+
+
 /*
 ** This struct holds data about the player, such as position (pos), orientation
 ** (dir), or camera position (plane). Rotspeed is used by Lode's method for
@@ -147,7 +155,7 @@ typedef struct	s_player
 	double	movespeed;
 	double	rotspeed;
 	int		life;
-	int		inventory;
+	t_inventory	inventory;
 }				t_player;
 
 /*

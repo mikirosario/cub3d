@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sortsprites_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 18:24:16 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/04 18:06:09 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/16 02:42:53 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,15 @@
 ** .33 of an enemy sprite, the player will lose 1 health per
 ** invincibilityframes frames per enemy at that distance.
 **
-** If the player is within .33 of a healing sprite, the player will gain life
-** at a rate of 1 per frame.
+** If the player is within .33 of a potion, the player will gain a potion in
+** their inventory and the potion will be flagged for removal from the map.
+**
+** Similarly, if the player is within .33 of the weapon of cats destruction,
+** Catsbane, it will pass into the player's inventory and be flagged for removal
+** from the map.
 */
 
-void	getplayerdamage(int sprnum)
+void	doplayerinteraction(int sprnum)
 {
 	//si si no tenemos invincibility frames y es enemigo
 	if (!g_framedata.invincibilityframes && g_config.sprt[sprnum]->spritetype == '2')
@@ -29,13 +33,16 @@ void	getplayerdamage(int sprnum)
 			if (g_player.life && (g_framedata.invincibilityframes = 15))
 				g_player.life--;
 	}
-	if (g_config.sprt[sprnum]->spritetype == '4' && g_player.inventory < 3)
+	if (g_config.sprt[sprnum]->spritetype == '4' && g_player.inventory.potions < 3)
 	{
-			g_config.sprt[sprnum]->remove = 1;
-			g_player.inventory++;
+		g_config.sprt[sprnum]->remove = 1;
+		g_player.inventory.potions++;
 	}
-	//	if (g_player.life < 6)
-	//		g_player.life++;
+	if (g_config.sprt[sprnum]->spritetype == '5' && !g_player.inventory.catsbane)
+	{
+		g_config.sprt[sprnum]->remove = 1;
+		g_player.inventory.catsbane = 1;
+	}
 }
 
 /*
@@ -106,7 +113,7 @@ void	getdistances(double *distance, int *spriteorder)
 		if (distance[i] <= 0.33)
 		{
 			g_framedata.closesprite[s] = i;
-			getplayerdamage(i);
+			doplayerinteraction(i);
 			s++;
 		}
 		i++;

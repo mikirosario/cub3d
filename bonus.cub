@@ -1,11 +1,11 @@
-R  1920 1080
-** R 1280 720
-** R 600 x 400
+** R  1920 1080
+R 1280 720
+**R 600 x 400
 no ./blueMetal.XPM
 SO ./yellowMetal.XPM
 WE ./greenMetal.XPM
 EA ./pinkMetal.XPM
-S 2./normiSprite.XPM 3./bricks.XPM 4./redpotion.xpm 4./redpotion1.xpm 4./redpotion2.xpm 4./redpotion3.xpm 4./redpotion4.xpm 4./redpotion5.xpm 4./redpotion6.xpm 4./redpotion6.xpm 
+S 2./normiSprite.XPM 3./bricks.XPM 4./redpotion.xpm 4./redpotion1.xpm 4./redpotion2.xpm 4./redpotion3.xpm 4./redpotion4.xpm 4./redpotion5.xpm 4./redpotion6.xpm 4./redpotion6.xpm 5./spray.xpm
 F ./experimentos/newBricks.XPM
 c ./sandbrick.XPM
 
@@ -25,7 +25,7 @@ l33t hacker
 10000011/110000101010001    1000000000000001
 100000000000000000000001    1000000000000001
 100000000000000000000001111110001000001000001
-10000000000300000002000v0000/00000000000000001
+10000000000300000002000v0000/00000000000000051
 100000000400000000000001111110001000001000001
 100000000000000004000001    1000000000000001
 100000000000000004000001    1000000000000001

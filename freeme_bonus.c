@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   freeme_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 16:44:15 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/04 19:52:46 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/16 02:30:31 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,11 +79,11 @@ void	freeimgs(void)
 	destroyimages(&g_floorimg);
 	destroyimages(&g_ceilingimg);
 	destroyimages(&g_potion);
+	destroyimages(&g_catsbane);
 	i = 0;
-	while (i < 3)
-		if (g_lifebar.ptr[i])
-			mlx_destroy_image(g_screendata.mlx_ptr, \
-			g_lifebar.ptr[i++]->mlx_img);
+	while (g_lifebar.ptr[i])
+		mlx_destroy_image(g_screendata.mlx_ptr, \
+		g_lifebar.ptr[i++]->mlx_img);
 }
 
 /*
@@ -103,8 +103,8 @@ void	freeme(void)
 			del(g_screendata.mlx_ptr);
 		else
 		{
-			mlx_destroy_window(g_screendata.mlx_ptr, g_screendata.mlx_win);
 			freeimgs();
+			mlx_destroy_window(g_screendata.mlx_ptr, g_screendata.mlx_win);
 			del(g_screendata.mlx_ptr);
 		}
 	}

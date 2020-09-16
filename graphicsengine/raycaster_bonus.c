@@ -6,7 +6,7 @@
 /*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/11 15:32:45 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/15 03:35:08 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/16 02:36:07 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,10 @@ void	yput_to_buffer(int x, int y, unsigned int *buf, t_imagedata *img)
 
 int		usepotion(void)
 {
-	if (g_player.inventory && g_player.life < 6)
+	if (g_player.inventory.potions && g_player.life < 6)
 	{
-		g_player.inventory--;
-		g_player.life++;
+		g_player.inventory.potions--;
+		g_player.life += g_player.life == 5 ? 1 : 2;
 		return (1);
 	}
 	return (0);
@@ -111,12 +111,14 @@ void	refreshui(unsigned int *buf)
 	while (empty--)
 		xput_to_buffer((10 + 36) * i++, 10, buf, &g_lifebar.emptyheart);
 	i = 300;
-	inventory = g_player.inventory;
+	inventory = g_player.inventory.potions;
 	while (inventory--)
 	{
 		xput_to_buffer(g_config.screenw - i, g_config.screenh - 200, buf, &g_potion);
 		i -= 25;
 	}
+	if (g_player.inventory.catsbane)
+		xput_to_buffer((g_config.screenw / 2) - g_catsbane.texw / 2, g_config.screenh - g_catsbane.texh - 1, buf, &g_catsbane);
 }
 
 /*

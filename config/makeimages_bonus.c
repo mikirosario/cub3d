@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   makeimages_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 18:36:40 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/09 18:10:08 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/16 02:32:52 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,9 @@ int		createhudimages(void)
 		success = 0;
 	else if (!(g_potion.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, \
 	"./uielements/uipotion.xpm", &g_potion.texw, &g_potion.texh)))
+		success = 0;
+	else if (!(g_catsbane.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr,
+	"./uielements/uispray.xpm", &g_catsbane.texw, &g_catsbane.texh)))
 		success = 0;
 	if (!success)
 		g_iamerror.texpathfail = 1;
