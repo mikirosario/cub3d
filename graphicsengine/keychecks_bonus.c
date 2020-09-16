@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/17 18:44:48 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/14 17:10:49 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/16 18:55:19 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ int	keypress(int key, void *param)
 		g_keydata.ctrl = 1;
 	if (key == 0x31)
 		g_keydata.sp = 1;
+	if (key == 0x24)
+		g_keydata.enter = 1;
 	return (0);
 }
 

@@ -3,14 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   timer_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/14 18:06:29 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/15 03:01:44 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/16 20:00:17 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d_bonus.h"
+
+void	reset_timer(struct timeval *t)
+{
+	t->tv_sec = 0;
+	t->tv_usec= 0;
+}
 
 /*
 ** This function returns the difference in miliseconds between the times passed

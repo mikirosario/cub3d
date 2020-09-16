@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/16 13:52:27 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/16 20:00:33 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,5 +195,6 @@ int		verdoorslide(void);
 void	castoneray(int x);
 double	msectime(void);
 double	msec_diff(struct timeval *t0, struct timeval *t1);
+void	reset_timer(struct timeval *t);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sortsprites_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 18:24:16 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/16 02:42:53 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/16 20:48:03 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,13 @@
 ** Similarly, if the player is within .33 of the weapon of cats destruction,
 ** Catsbane, it will pass into the player's inventory and be flagged for removal
 ** from the map.
+**
+** This could be any close sprite, so further on we need to check them when we
+** have their screenx and screeny parameters, which are put in a local struct
+** called prms in the castsprites function. I also need to control for the timer
+** here somehow... anyway campus closing, so time to leave! :p
+**
+** Like I said, bit quick and dirty. :p
 */
 
 void	doplayerinteraction(int sprnum)
@@ -43,6 +50,8 @@ void	doplayerinteraction(int sprnum)
 		g_config.sprt[sprnum]->remove = 1;
 		g_player.inventory.catsbane = 1;
 	}
+	if (g_player.inventory.catsbane && g_keydata.enter)
+		g_config.sprt[sprnum]->checkdamage = 1;
 }
 
 /*

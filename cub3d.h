@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/16 02:16:34 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/16 20:44:26 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,6 +208,7 @@ typedef struct	s_spritedata
 	unsigned char		remove : 1;
 	char				*dooraddr;
 	double				doorend;
+	char				checkdamage : 1;
 	t_raydata			raydata;
 	struct s_spritedata	*next;
 }				t_spritedata;
@@ -217,6 +218,8 @@ typedef struct	s_raycasterdata
 	unsigned int	*buf;
 	t_spritedata	*animatedoor;
 	int				animationframes;
+	//time_t			catsbanetimer;
+	struct timeval	catsbanetimer;
 }				t_raycasterdata;
 
 /*
@@ -332,6 +335,7 @@ typedef struct	s_keydata
 	char	m;
 	char	ctrl : 1;
 	char	sp : 1;
+	char	enter : 1;
 }				t_keydata;
 
 t_configdata	g_config;

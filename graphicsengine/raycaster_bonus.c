@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycaster_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/11 15:32:45 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/16 14:01:47 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/16 20:04:06 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,12 +86,13 @@ int		usepotion(void)
 	return (0);
 }
 
-void	refreshui(unsigned int *buf)
+void	refreshui(unsigned int *buf, t_raycasterdata *rdata)
 {
 	int	full;
 	int half;
 	int empty;
 	int	inventory;
+	
 	int	i;
 
 	if (g_keydata.ctrl)
@@ -119,7 +120,23 @@ void	refreshui(unsigned int *buf)
 	}
 	//implement attack key
 	if (g_player.inventory.catsbane)
-		xput_to_buffer((g_config.screenw / 2) - g_catsbane.idle.texw / 2, g_config.screenh - g_catsbane.idle.texh - 1, buf, &g_catsbane.idle);
+	{
+		if (!g_keydata.enter)
+			xput_to_buffer((g_config.screenw / 2) - g_catsbane.idle.texw / 2, \
+			g_config.screenh - g_catsbane.idle.texh - 1, buf, &g_catsbane.idle);
+		else
+		{
+			if (!rdata->catsbanetimer.tv_sec)
+				gettimeofday(&rdata->catsbanetimer, NULL);
+			xput_to_buffer((g_config.screenw / 2) - g_catsbane.idle.texw / 2, \
+			g_config.screenh - g_catsbane.idle.texh - 1, buf, &g_catsbane.attack);
+			if (msec_diff(&rdata->catsbanetimer, NULL) > 500)
+			{
+				g_keydata.enter = 0;
+				reset_timer(&rdata->catsbanetimer);
+			}
+		}
+	}
 }
 
 /*
@@ -161,7 +178,7 @@ int		raycaster_bonus(t_raycasterdata *rdata)
 	castsprites(rdata->buf);
 	if (g_keydata.sp)
 		activatedoor(rdata);
-	refreshui(rdata->buf);
+	refreshui(rdata->buf, rdata);
 	mlx_put_image_to_window(g_screendata.mlx_ptr, g_screendata.mlx_win, \
 	g_screendata.mlx_img_buffer, 0, 0);
 	if (g_config.screenshot)
