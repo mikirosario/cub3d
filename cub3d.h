@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/16 20:44:26 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/17 19:05:05 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,7 @@ typedef struct	s_player
 	double	movespeed;
 	double	rotspeed;
 	int		life;
+	char	attack : 1;
 	t_inventory	inventory;
 }				t_player;
 
@@ -209,6 +210,8 @@ typedef struct	s_spritedata
 	char				*dooraddr;
 	double				doorend;
 	char				checkdamage : 1;
+	int					life;
+	int					hitanimationframes;
 	t_raydata			raydata;
 	struct s_spritedata	*next;
 }				t_spritedata;
@@ -218,7 +221,6 @@ typedef struct	s_raycasterdata
 	unsigned int	*buf;
 	t_spritedata	*animatedoor;
 	int				animationframes;
-	//time_t			catsbanetimer;
 	struct timeval	catsbanetimer;
 }				t_raycasterdata;
 

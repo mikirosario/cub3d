@@ -6,16 +6,21 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 18:24:16 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/16 20:48:03 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/17 19:30:47 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d_bonus.h"
 
 /*
-** This function will control the player's health bar. If the player is within
-** .33 of an enemy sprite, the player will lose 1 health per
-** invincibilityframes frames per enemy at that distance.
+** This function will control the player's health bar and the enemy's health
+** bar. If the player is within 2.5 of an enemy sprite, the player will lose 1
+** health per invincibilityframes frames per enemy at that distance, but will
+** also be within range to spray the enemy with Catsbane, causing damage. If
+** quick enough you can get in a shot before the damage kicks in. ;)
+**
+** Like I said, bit quick and janky, and I'd obviously prefer something more
+** elegant, but I REALLY need to finish this project already. :p
 **
 ** If the player is within .33 of a potion, the player will gain a potion in
 ** their inventory and the potion will be flagged for removal from the map.
@@ -24,34 +29,34 @@
 ** Catsbane, it will pass into the player's inventory and be flagged for removal
 ** from the map.
 **
-** This could be any close sprite, so further on we need to check them when we
-** have their screenx and screeny parameters, which are put in a local struct
-** called prms in the castsprites function. I also need to control for the timer
-** here somehow... anyway campus closing, so time to leave! :p
-**
-** Like I said, bit quick and dirty. :p
 */
 
-void	doplayerinteraction(int sprnum)
+void	doplayerinteraction(int sprnum, double playerdistance)
 {
 	//si si no tenemos invincibility frames y es enemigo
-	if (!g_framedata.invincibilityframes && g_config.sprt[sprnum]->spritetype == '2')
+	if (playerdistance <= 0.33)
 	{
+		if (g_config.sprt[sprnum]->spritetype == '4' && g_player.inventory.potions < 3)
+		{
+			g_config.sprt[sprnum]->remove = 1;
+			g_player.inventory.potions++;
+		}
+		if (g_config.sprt[sprnum]->spritetype == '5' && !g_player.inventory.catsbane)
+		{
+			g_config.sprt[sprnum]->remove = 1;
+			g_player.inventory.catsbane = 1;
+		}
+	}
+	if (playerdistance <= 2.5)
+	{
+		if (!g_framedata.invincibilityframes && g_config.sprt[sprnum]->spritetype == '2')
+		{
 			if (g_player.life && (g_framedata.invincibilityframes = 15))
-				g_player.life--;
+					g_player.life--;
+		}
+		if (g_player.inventory.catsbane && g_keydata.enter)
+			g_config.sprt[sprnum]->checkdamage = 1;
 	}
-	if (g_config.sprt[sprnum]->spritetype == '4' && g_player.inventory.potions < 3)
-	{
-		g_config.sprt[sprnum]->remove = 1;
-		g_player.inventory.potions++;
-	}
-	if (g_config.sprt[sprnum]->spritetype == '5' && !g_player.inventory.catsbane)
-	{
-		g_config.sprt[sprnum]->remove = 1;
-		g_player.inventory.catsbane = 1;
-	}
-	if (g_player.inventory.catsbane && g_keydata.enter)
-		g_config.sprt[sprnum]->checkdamage = 1;
 }
 
 /*
@@ -122,9 +127,9 @@ void	getdistances(double *distance, int *spriteorder)
 		if (distance[i] <= 0.33)
 		{
 			g_framedata.closesprite[s] = i;
-			doplayerinteraction(i);
 			s++;
 		}
+		doplayerinteraction(i, distance[i]);
 		i++;
 	}
 }

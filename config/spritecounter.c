@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   spritecounter.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/05 16:53:56 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/06 18:43:38 by mikiencolor      ###   ########.fr       */
+/*   Updated: 2020/09/17 19:06:02 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,4 +124,7 @@ void			spritecounter(double x, double y, char c)
 	lstptr->posx = (double)x + 0.5;
 	lstptr->posy = (double)y + 0.5;
 	lstptr->spritetype = c;
+	lstptr->checkdamage = 0;
+	lstptr->life = 6;
+	lstptr->hitanimationframes = 0;
 }

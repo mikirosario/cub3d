@@ -5,7 +5,7 @@ no ./blueMetal.XPM
 SO ./yellowMetal.XPM
 WE ./greenMetal.XPM
 EA ./pinkMetal.XPM
-S 2./normiSprite.XPM 3./bricks.XPM 4./redpotion.xpm 4./redpotion1.xpm 4./redpotion2.xpm 4./redpotion3.xpm 4./redpotion4.xpm 4./redpotion5.xpm 4./redpotion6.xpm 4./redpotion6.xpm 5./spray.xpm
+S 2./normiSprite.XPM 2./normiDamaged.XPM 3./bricks.XPM 4./redpotion.xpm 4./redpotion1.xpm 4./redpotion2.xpm 4./redpotion3.xpm 4./redpotion4.xpm 4./redpotion5.xpm 4./redpotion6.xpm 4./redpotion6.xpm 5./spray.xpm
 F ./experimentos/newBricks.XPM
 c ./sandbrick.XPM
 

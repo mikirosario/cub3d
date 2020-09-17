@@ -6,11 +6,11 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/16 20:12:45 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/16 20:26:39 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/17 20:25:12 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cub3d.h"
+#include "../cub3d_bonus.h"
 
 /*
 ** This is a bit of a janky solution, but I'm kind of in a rush to turn this
@@ -30,7 +30,25 @@
 ** next project at this point... I spent way too long on the sliding doors! xD
 */
 
-int		spraycat()
+void	spraycat(t_spritedata *sprite)
 {
-	
+	int	pid;
+
+	if (g_player.attack) 
+	{
+		if (--sprite->life < 1) //enemy loses life, dies if at zero
+			sprite->remove = 1;
+		//enemy damage anim/colour flag
+		pid = fork();
+		if (!pid)
+		{
+			system("afplay ./meow.wav");
+			return ;
+		}
+		//shrill meow sound effect
+		g_player.attack = 0;
+		sprite->checkdamage = 0;
+		sprite->texture = sprite->animtex[1];
+		sprite->hitanimationframes = 15;
+	}
 }

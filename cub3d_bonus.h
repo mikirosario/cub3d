@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/16 20:00:33 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/17 19:54:35 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 
 # include <time.h>
 # include <sys/time.h>
+# include <stdlib.h>
 #ifdef __APPLE__
 # include <CoreGraphics/CGDisplayConfiguration.h>
 #endif
@@ -182,6 +183,7 @@ int		companimsizes(t_imagedata **simg);
 void	ft_copysprtlst(t_spritedata *copyto, t_spritedata *copyfrom);
 void	ft_movesprttoback(t_spritedata *firstmem, t_spritedata *lstmem);
 int		usepotion(void);
+void	animate(t_spritedata *sprite);
 void	removesprite(t_spritedata *sprite);
 void	animate(t_spritedata *sprite);
 int		doorcounter(unsigned int x, unsigned int y, char *c);
@@ -196,5 +198,6 @@ void	castoneray(int x);
 double	msectime(void);
 double	msec_diff(struct timeval *t0, struct timeval *t1);
 void	reset_timer(struct timeval *t);
+void	spraycat(t_spritedata *sprite);
 
 #endif

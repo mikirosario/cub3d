@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialize_linux_bonus.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 16:10:16 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/15 22:06:54 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/17 18:12:43 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ void	initialize(void)
 	g_player.life = 6;
 	g_player.inventory.potions = 0;
 	g_player.inventory.rubies = 0;
+	g_player.attack = 0;
 	g_framedata.xfloorcolor = 0x00669999;
 	g_framedata.xceilingcolor = 0x0066004b;
 	g_config.spritenum = 0;

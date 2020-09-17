@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/12 18:46:59 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/16 20:40:43 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/17 19:10:28 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,11 @@ t_spritedata *sprite)
 		if (prms->transformy > 0 && prms->scrnx > 0 && \
 		prms->scrnx < g_config.screenw && \
 		prms->transformy < g_config.zbuffer[prms->scrnx])
+		{
+			if (sprite->checkdamage && prms->scrnx == g_config.screenw / 2 - 1) //if checkdamage flag true and the stripe to be drawn is down the middle of the screen
+				spraycat(sprite);
 			drawspriteline(prms, buf, sprite);
+		}
 		prms->scrnx++;
 	}
 }
@@ -296,7 +300,11 @@ void	castsprites(unsigned int *buf)
 	while (i < g_config.spritenum)
 	{
 		sprite = g_config.sprt[g_config.spriteorder[i]];
-		animate(sprite);
+		if (sprite->spritetype == '4')
+		 animate(sprite);
+		if (sprite->hitanimationframes && sprite->spritetype == '2')
+			if (!(--sprite->hitanimationframes))
+				sprite->texture = sprite->animtex[0];
 		spriteposition(&prms, sprite);
 		spritesize(&prms, sprite);
 		drawsprite(&prms, buf, sprite);

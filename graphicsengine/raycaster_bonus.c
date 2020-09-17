@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/11 15:32:45 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/16 20:04:06 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/17 19:08:41 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,12 +127,16 @@ void	refreshui(unsigned int *buf, t_raycasterdata *rdata)
 		else
 		{
 			if (!rdata->catsbanetimer.tv_sec)
+			{
 				gettimeofday(&rdata->catsbanetimer, NULL);
+				g_player.attack = 1;
+			}
 			xput_to_buffer((g_config.screenw / 2) - g_catsbane.idle.texw / 2, \
 			g_config.screenh - g_catsbane.idle.texh - 1, buf, &g_catsbane.attack);
 			if (msec_diff(&rdata->catsbanetimer, NULL) > 500)
 			{
 				g_keydata.enter = 0;
+				g_player.attack = 0;
 				reset_timer(&rdata->catsbanetimer);
 			}
 		}
