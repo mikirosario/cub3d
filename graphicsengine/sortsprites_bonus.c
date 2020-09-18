@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 18:24:16 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/17 19:30:47 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/18 17:41:07 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,9 @@
 ** Catsbane, it will pass into the player's inventory and be flagged for removal
 ** from the map.
 **
+** Sound attribution (gotitem.wav): grunz, freesound.org.
+** Sound attribution (gotcatsbane.wav): HenryRichard, freesound.org.
+**
 */
 
 void	doplayerinteraction(int sprnum, double playerdistance)
@@ -40,11 +43,13 @@ void	doplayerinteraction(int sprnum, double playerdistance)
 		{
 			g_config.sprt[sprnum]->remove = 1;
 			g_player.inventory.potions++;
+			system("afplay ./gotitem.wav &");
 		}
 		if (g_config.sprt[sprnum]->spritetype == '5' && !g_player.inventory.catsbane)
 		{
 			g_config.sprt[sprnum]->remove = 1;
 			g_player.inventory.catsbane = 1;
+			system("afplay ./gotcatsbane.wav &");
 		}
 	}
 	if (playerdistance <= 2.5)

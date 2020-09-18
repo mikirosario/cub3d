@@ -3,14 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   freeme_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 16:44:15 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/16 13:59:34 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/18 20:29:56 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
+
+void	sighandler(pid_t signum)
+{
+	if (signum == SIGTERM)
+		killpg(g_config.musicpid, SIGTERM);
+}
 
 /*
 ** This function handles the new imagedata structs, that may hold animation

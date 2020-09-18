@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/07 20:24:05 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/04 19:53:42 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/18 20:03:58 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,13 @@ void	configure(t_raycasterdata *rdata, char **argv, int argc, int *success)
 			*success = 0;
 	}
 }
+
+/*
+** Sound attribution (theme.mp3): HAPPY by texasradiofish (c) copyright 2020
+** Licensed under a Creative Commons Noncommercial Sampling Plus license.
+** http://dig.ccmixter.org/files/texasradiofish/62035 Ft: Haskel,
+** Martijn de Boer, Apoxode, Stefan Kartenberg, Subhashish, boboshin.
+*/
 
 int		main(int argc, char **argv)
 {

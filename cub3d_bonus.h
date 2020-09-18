@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/17 19:54:35 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/18 19:36:42 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 # include <time.h>
 # include <sys/time.h>
 # include <stdlib.h>
+# include <signal.h>
 #ifdef __APPLE__
 # include <CoreGraphics/CGDisplayConfiguration.h>
 #endif
@@ -199,5 +200,6 @@ double	msectime(void);
 double	msec_diff(struct timeval *t0, struct timeval *t1);
 void	reset_timer(struct timeval *t);
 void	spraycat(t_spritedata *sprite);
+void	sighandler(pid_t signum);
 
 #endif

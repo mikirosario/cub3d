@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/17 19:05:05 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/18 18:28:23 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@
 # include "./libft/libft.h"
 # include "iamerror.h"
 # include "printnotifications.h"
-
 # define BLUE "\033[1;34m"
 # define GREEN "\033[0;32m"
 # define MAGENTA "\033[1;35m"
@@ -259,6 +258,7 @@ typedef struct	s_configdata
 	char			*spritetexpath;
 	int				sprtexnum;
 	char			screenshot;
+	int				musicpid;
 }				t_configdata;
 
 /*

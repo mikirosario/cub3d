@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/16 20:12:45 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/17 20:25:12 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/18 17:33:40 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,23 +28,30 @@
 **
 ** So... yeah. Bit of a quick and dirty solution, but I am really ready for the
 ** next project at this point... I spent way too long on the sliding doors! xD
+**
+** For the sound, rather than forking the program I'm sending the '&' command to
+** system (which already forks the terminal, if I understand it right), so when
+** the command is execute the resulting process is 'pushed to background'. This
+** allows the calling program to continue while the command is executed.
+**
+** Sound attribution (meow.wav): Mike Koenig, soundbible.com.
 */
 
 void	spraycat(t_spritedata *sprite)
 {
-	int	pid;
+	//int	pid;
 
 	if (g_player.attack) 
 	{
 		if (--sprite->life < 1) //enemy loses life, dies if at zero
 			sprite->remove = 1;
 		//enemy damage anim/colour flag
-		pid = fork();
-		if (!pid)
-		{
-			system("afplay ./meow.wav");
-			return ;
-		}
+		//pid = fork();
+		//if (!pid)
+		//{
+			system("afplay ./meow.wav &");
+		//	exit(EXIT_SUCCESS);
+		//}
 		//shrill meow sound effect
 		g_player.attack = 0;
 		sprite->checkdamage = 0;
