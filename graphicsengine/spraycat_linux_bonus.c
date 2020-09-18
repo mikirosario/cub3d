@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   spraycat_bonus.c                                   :+:      :+:    :+:   */
+/*   spraycat_linux_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/16 20:12:45 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/18 12:10:25 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/18 12:30:22 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	spraycat(t_spritedata *sprite)
 		if (!pid)
 		{
 			system("aplay ./meow.wav");
-			return ;
+			exit(EXIT_SUCCESS);
 		}
 		//shrill meow sound effect
 		g_player.attack = 0;

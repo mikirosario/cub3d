@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   keychecks_linux_bonus.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/17 18:44:48 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/16 18:54:18 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/18 12:06:32 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ int	keypress(int key, void *param)
 		g_keydata.ctrl = 1;
 	if (key == 0x20)
 		g_keydata.sp = 1;
+	if (key == 0xff0d)
+		g_keydata.enter = 1;
 	return (0);
 }
 

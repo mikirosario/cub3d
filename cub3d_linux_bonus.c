@@ -6,7 +6,7 @@
 /*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/07 20:24:05 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/15 22:48:27 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/18 12:13:19 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ int		main(int argc, char **argv)
 	}
 	rdata.animatedoor = NULL;
 	rdata.animationframes = 0;
+	reset_timer(&rdata.catsbanetimer);
 	mlx_do_key_autorepeatoff(g_screendata.mlx_ptr);
 	mlx_hook(g_screendata.mlx_win, 17, 1L << 17, ft_stop, (void*)0);
 	mlx_hook(g_screendata.mlx_win, 2, 1L << 0, keypress, (void*)0);
