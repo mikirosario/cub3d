@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/07 20:24:05 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/18 20:51:16 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/18 20:56:23 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,13 @@ void	configure(t_raycasterdata *rdata, char **argv, int argc, int *success)
 	}
 }
 
+/*
+** Sound attribution (theme.mp3): HAPPY by texasradiofish (c) copyright 2020
+** Licensed under a Creative Commons Noncommercial Sampling Plus license.
+** http://dig.ccmixter.org/files/texasradiofish/62035 Ft: Haskel,
+** Martijn de Boer, Apoxode, Stefan Kartenberg, Subhashish, boboshin.
+*/
+
 int		main(int argc, char **argv)
 {
 	t_raycasterdata	rdata;
@@ -116,7 +123,7 @@ int		main(int argc, char **argv)
 	{
 		system("while :; do afplay ./theme.mp3; done");
 		//if original parent dies, parent becomes 1. child polls to see if parent is 1.
-		system("while :; do afplay ./theme.mp3; done &");
+		//system("while :; do afplay ./theme.mp3; done &");
 		//ppid = getppid();
 		//while (ppid != 1)
 		//	ppid = getppid();
