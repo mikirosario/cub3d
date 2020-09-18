@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 16:10:16 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/17 18:52:45 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/18 18:30:24 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ void	initialize(void)
 	g_config.wallmultiplier = 1;
 	g_config.udiv = 1;
 	g_config.vdiv = 1;
+	g_config.musicpid = 0;
 	g_keydata.w = 0;
 	g_keydata.a = 0;
 	g_keydata.s = 0;
@@ -102,6 +103,7 @@ void	initialize(void)
 	g_keydata.m = 1;
 	g_keydata.ctrl = 0;
 	g_keydata.sp = 0;
+	g_keydata.enter = 0;
 	initializedoorline();
 	getdisplayresolution();
 }

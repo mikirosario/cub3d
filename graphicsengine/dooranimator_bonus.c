@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dooranimator_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/15 03:34:28 by miki              #+#    #+#             */
-/*   Updated: 2020/09/15 22:19:26 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/18 17:55:13 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,11 @@
 **
 ** If the timer is active and 31.25 miliseconds have not yet elapsed since the
 ** last timestamp, we leave without doing anything.
+**
+** The door.wav launches on the first animation frame and plays back at reduced
+** speed to match the animation.
+**
+** Sound attribution (door.wav): Daniel Simion, soundbible.com.
 */
 
 void	continuedooranimation(t_raycasterdata *rdata, struct timeval *tstart)
@@ -39,6 +44,7 @@ void	continuedooranimation(t_raycasterdata *rdata, struct timeval *tstart)
 		else
 			rdata->animatedoor->doorend -= 0.025;
 		rdata->animationframes++;
+		system("afplay -r 0.65 ./door.wav &");
 		gettimeofday(tstart, NULL);
 	}
 	else if (msec_diff(tstart, NULL) > 31.25)
@@ -132,6 +138,8 @@ int		animatedoor(t_raycasterdata *rdata)
 ** door animation. If animatedoor returns 1, animation is ongoing, and we again
 ** leave the function without resetting the spacebar key. If it returns 0, then
 ** animation has finished, and we reset the spacebar key before exiting.
+**
+** Sound attribution (discovery.wav): gsb1039, freesound.org.
 */
 
 void	activatedoor(t_raycasterdata *rdata)
@@ -154,7 +162,10 @@ void	activatedoor(t_raycasterdata *rdata)
 			}
 		}
 		else if (mapchr == 'v' && g_player.inventory.potions == 3)
+		{
 			g_config.map[g_raydata.mapy][g_raydata.mapx] = '/';
+			system("afplay -t 2 ./discovery.wav &");
+		}
 	}
 	else if (animatedoor(rdata))
 		return ;
