@@ -6,7 +6,7 @@
 /*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/16 20:12:45 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/18 12:30:22 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/18 23:45:34 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,19 +32,12 @@
 
 void	spraycat(t_spritedata *sprite)
 {
-	int	pid;
-
 	if (g_player.attack) 
 	{
 		if (--sprite->life < 1) //enemy loses life, dies if at zero
 			sprite->remove = 1;
 		//enemy damage anim/colour flag
-		pid = fork();
-		if (!pid)
-		{
-			system("aplay ./meow.wav");
-			exit(EXIT_SUCCESS);
-		}
+		system("aplay -q ./meow.wav &");
 		//shrill meow sound effect
 		g_player.attack = 0;
 		sprite->checkdamage = 0;

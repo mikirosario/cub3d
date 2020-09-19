@@ -6,7 +6,7 @@
 /*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/07 20:24:05 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/18 12:13:19 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/19 02:36:43 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ int		ft_stop(int key, void *param)
 	{
 		freeme();
 		ft_printf(GREEN"\n**** THANKS FOR PLAYING! :D ****\n\n"RESET);
+		kill(0, SIGTERM);
 		exit(EXIT_SUCCESS);
 	}
 	return (0);
@@ -77,10 +78,18 @@ void	configure(t_raycasterdata *rdata, char **argv, int argc, int *success)
 	}
 }
 
+/*
+** Sound attribution (theme.mp3): HAPPY by texasradiofish (c) copyright 2020
+** Licensed under a Creative Commons Noncommercial Sampling Plus license.
+** http://dig.ccmixter.org/files/texasradiofish/62035 Ft: Haskel,
+** Martijn de Boer, Apoxode, Stefan Kartenberg, Subhashish, boboshin.
+*/
+
 int		main(int argc, char **argv)
 {
 	t_raycasterdata	rdata;
 	int				success;
+	//pid_t			ppid;
 
 	initialize();
 	configure(&rdata, argv, argc, &success);
@@ -94,6 +103,17 @@ int		main(int argc, char **argv)
 	rdata.animatedoor = NULL;
 	rdata.animationframes = 0;
 	reset_timer(&rdata.catsbanetimer);
+	g_config.musicpid = fork();
+	if (!g_config.musicpid)
+	{
+		system("mpg123 -q -f 10000 ./theme.mp3");
+		//if original parent dies, parent becomes 1. child polls to see if parent is 1.
+		//system("while :; do afplay ./theme.mp3; done &");
+		//ppid = getppid();
+		//while (ppid != 1)
+		//	ppid = getppid();
+		//kill (0, SIGTERM);
+	}
 	mlx_do_key_autorepeatoff(g_screendata.mlx_ptr);
 	mlx_hook(g_screendata.mlx_win, 17, 1L << 17, ft_stop, (void*)0);
 	mlx_hook(g_screendata.mlx_win, 2, 1L << 0, keypress, (void*)0);

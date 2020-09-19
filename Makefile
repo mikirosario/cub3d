@@ -6,7 +6,7 @@
 #    By: miki <miki@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/07/15 20:32:43 by mrosario          #+#    #+#              #
-#    Updated: 2020/09/18 12:03:28 by miki             ###   ########.fr        #
+#    Updated: 2020/09/18 23:23:10 by miki             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -71,14 +71,14 @@ LBSRC = cub3d_linux_bonus.c rotation.c freeme_bonus.c ./toolkit_bonus.c ./config
 ./graphicsengine/drawframeline_bonus.c ./graphicsengine/calculateframeline_bonus.c \
 ./graphicsengine/drawsprites_bonus.c ./graphicsengine/playermovement_bonus.c \
 ./graphicsengine/keychecks_linux_bonus.c ./config/mapsprarrays_bonus.c \
-./graphicsengine/sortsprites_bonus.c ./graphicsengine/screenshots/bmpgenerator.c \
+./graphicsengine/sortsprites_linux_bonus.c ./graphicsengine/screenshots/bmpgenerator.c \
 ./graphicsengine/screenshots/bmperror.c ./graphicsengine/graphicsmodes_bonus.c \
 ./graphicsengine/fpscounter_bonus.c ./graphicsengine/drawceilingfloor_bonus.c \
 ./config/raycaster_start_bonus.c ./config/makeanimationimgs_bonus.c \
 ./config/animationerrors_bonus.c ./graphicsengine/modifysprite.c \
 ./config/doorcounter_bonus.c ./graphicsengine/doorcaster_bonus.c \
 ./graphicsengine/castoneray_bonus.c ./graphicsengine/timer_bonus.c \
-./graphicsengine/dooranimator_bonus.c ./graphicsengine/spraycat_linux_bonus.c
+./graphicsengine/dooranimator_linux_bonus.c ./graphicsengine/spraycat_linux_bonus.c
 
 OBJ = $(SRC:.c=.o)
 
