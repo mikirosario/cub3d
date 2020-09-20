@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: miki <miki@student.42.fr>                  +#+  +:+       +#+         #
+#    By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/07/15 20:32:43 by mrosario          #+#    #+#              #
-#    Updated: 2020/09/18 23:23:10 by miki             ###   ########.fr        #
+#    Updated: 2020/09/20 04:46:52 by mikiencolor      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -78,7 +78,8 @@ LBSRC = cub3d_linux_bonus.c rotation.c freeme_bonus.c ./toolkit_bonus.c ./config
 ./config/animationerrors_bonus.c ./graphicsengine/modifysprite.c \
 ./config/doorcounter_bonus.c ./graphicsengine/doorcaster_bonus.c \
 ./graphicsengine/castoneray_bonus.c ./graphicsengine/timer_bonus.c \
-./graphicsengine/dooranimator_linux_bonus.c ./graphicsengine/spraycat_linux_bonus.c
+./graphicsengine/dooranimator_linux_bonus.c ./graphicsengine/spraycat_linux_bonus.c \
+./config/mapcheck/specialdoors_bonus.c ./graphicsengine/teleportplayer_bonus.c
 
 OBJ = $(SRC:.c=.o)
 

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   map_phase2_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/03 19:10:33 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/15 17:32:16 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/20 02:07:29 by mikiencolor      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../cub3d.h"
+#include "../../cub3d_bonus.h"
 
 extern t_error	g_iamerror;
 
@@ -266,5 +266,6 @@ int		floodfill(void)
 		}
 	}
 	unfloodmap("play");
+	mapspecialdoors();
 	return (1);
 }

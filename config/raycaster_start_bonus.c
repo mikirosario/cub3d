@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycaster_start_bonus.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/31 19:37:21 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/19 01:59:59 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/20 02:58:22 by mikiencolor      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,8 @@ int		getimgaddresses(t_raycasterdata *rdata)
 	&g_wewallimg.bpp, &g_wewallimg.size_line, &g_wewallimg.endian);
 	g_eawallimg.tex_ptr = (unsigned int *)mlx_get_data_addr(g_eawallimg.mlx_img,
 	&g_eawallimg.bpp, &g_eawallimg.size_line, &g_eawallimg.endian);
+	g_oren.tex_ptr = (unsigned int *)mlx_get_data_addr(g_oren.mlx_img, \
+	&g_oren.bpp, &g_oren.size_line, &g_oren.endian);
 	loadsprites();
 	loadui();
 	return (1);

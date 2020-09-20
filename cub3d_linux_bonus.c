@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_linux_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/07 20:24:05 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/19 02:36:43 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/19 22:08:23 by mikiencolor      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int		main(int argc, char **argv)
 	g_config.musicpid = fork();
 	if (!g_config.musicpid)
 	{
-		system("mpg123 -q -f 10000 ./theme.mp3");
+		system("mpg123 -q -f 10000 -l 0 ./theme.mp3");
 		//if original parent dies, parent becomes 1. child polls to see if parent is 1.
 		//system("while :; do afplay ./theme.mp3; done &");
 		//ppid = getppid();

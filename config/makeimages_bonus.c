@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   makeimages_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 18:36:40 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/16 13:57:06 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/20 02:56:15 by mikiencolor      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,6 +179,8 @@ int		getteximg(void)
 	g_wewallimg.texpath, &g_wewallimg.texw, &g_wewallimg.texh);
 	g_eawallimg.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, \
 	g_eawallimg.texpath, &g_eawallimg.texw, &g_eawallimg.texh);
+	g_oren.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, "oren.xpm", \
+	&g_oren.texw, &g_oren.texh);
 	if (g_config.spritenum)
 		while (i > 1)
 		{

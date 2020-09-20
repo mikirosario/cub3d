@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   doorcounter_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/06 18:28:59 by mikiencolor       #+#    #+#             */
-/*   Updated: 2020/09/15 17:17:44 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/20 02:26:10 by mikiencolor      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,10 @@ int		doorcounter(unsigned int x, unsigned int y, char *c)
 		return (0);
 	lstptr->posx = x;
 	lstptr->posy = y;
-	lstptr->spritetype = *c;
+	if ((lstptr->spritetype = *c) == '*')
+		*c = 'A';
 	lstptr->dooraddr = c;
+	lstptr->destaddr = 0;
 	lstptr->doorend = 0;
 	return (1);	
 }

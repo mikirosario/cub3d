@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/19 02:46:42 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/20 02:22:03 by mikiencolor      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,6 +207,7 @@ typedef struct	s_spritedata
 	int					vmove;
 	unsigned char		remove : 1;
 	char				*dooraddr;
+	struct s_spritedata	*destaddr;
 	double				doorend;
 	char				checkdamage : 1;
 	int					life;

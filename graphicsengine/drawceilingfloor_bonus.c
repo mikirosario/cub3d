@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   drawceilingfloor_bonus.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/28 16:41:58 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/19 03:30:49 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/20 05:20:44 by mikiencolor      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ void	draw_floor(unsigned int *buf, int x, int y)
 		xcolor = (xcolor >> 1) & 8355711;
 	if (g_framedata.invincibilityframes % 2)
 		xcolor = xcolor >> 1 & 0x7F0000;
-	buf[((g_config.screenh - y - 1) * g_config.screenw) + x] = \
-	xcolor;
+	buf[(y * g_config.screenw) + x] = xcolor;
+
 }
 
 void	draw_ceiling(unsigned int *buf, int x, int y)
@@ -40,7 +40,8 @@ void	draw_ceiling(unsigned int *buf, int x, int y)
 		xcolor = (xcolor >> 1) & 8355711;
 	if (g_framedata.invincibilityframes % 2)
 		xcolor = xcolor >> 1 & 0x7F0000;
-	buf[(y * g_config.screenw) + x] = xcolor;
+	buf[((g_config.screenh - y - 1) * g_config.screenw) + x] = \
+	xcolor;
 }
 
 void	setpixelparams(void)
@@ -80,15 +81,15 @@ void	cast_ceiling_floor(unsigned int *buf)
 	int				x;
 
 	y = 0;
-	while (y < g_config.screenh / 2)
+	while (y < g_config.screenh)
 	{
 		setrowparams(y);
 		x = 0;
 		while (x < g_config.screenw)
 		{
 			setpixelparams();
-			draw_ceiling(buf, x, y);
 			draw_floor(buf, x, y);
+			draw_ceiling(buf, x, y);
 			x++;
 		}
 		y++;

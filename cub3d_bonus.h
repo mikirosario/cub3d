@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/19 02:46:39 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/20 03:49:51 by mikiencolor      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,6 +159,7 @@ t_imagedata		g_sprt9img;
 t_imagedata		g_potion;
 t_lifebar		g_lifebar;
 t_catsbane		g_catsbane;
+t_imagedata		g_oren;
 t_xraydata		g_xraydata;
 t_line			g_door;
 
@@ -201,5 +202,8 @@ double	msec_diff(struct timeval *t0, struct timeval *t1);
 void	reset_timer(struct timeval *t);
 void	spraycat(t_spritedata *sprite);
 void	sighandler(pid_t signum);
+void	mapspecialdoors(void);
+int		teleporter(char *mapchr);
+t_spritedata	*finddoor(int x, int y);
 
 #endif

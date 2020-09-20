@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dda_bonus.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/11 18:13:54 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/18 20:22:02 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/20 03:25:20 by mikiencolor      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,12 @@ void	sidetoside(void)
 		mapchr = g_config.map[g_raydata.mapy][g_raydata.mapx];
 		if (mapchr == '1' || mapchr == 'v')
 			g_raydata.hit = 1;
-		if ((mapchr == '/' || mapchr == 'O') && g_raydata.side == 1)
+		if ((mapchr == '/' || mapchr == 'O' || mapchr == '*') && g_raydata.side == 1)
 			if (hordoorslide())
-				g_raydata.hit = 2;
-		if ((mapchr == '/' || mapchr == 'O') && g_raydata.side == 0)
+				g_raydata.hit = mapchr == '*' ? 4 : 2;
+		if ((mapchr == '/' || mapchr == 'O' || mapchr == '*') && g_raydata.side == 0)
 			if (verdoorslide())
-				g_raydata.hit = 3;
+				g_raydata.hit = mapchr == '*' ? 4 : 3;
 	}
 }
 

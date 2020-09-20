@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dooranimator_linux_bonus.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/15 03:34:28 by miki              #+#    #+#             */
-/*   Updated: 2020/09/18 23:44:36 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/20 03:05:05 by mikiencolor      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,6 +164,9 @@ void	activatedoor(t_raycasterdata *rdata)
 		else if (mapchr == 'v' && g_player.inventory.potions == 3)
 		{
 			g_config.map[g_raydata.mapy][g_raydata.mapx] = '/';
+			while (g_config.door[i]->dooraddr != &g_config.map[g_raydata.mapy][g_raydata.mapx])
+				i++;
+			g_config.door[i]->spritetype = '/';
 			system("aplay -d 2 -q ./discovery.wav &");
 		}
 	}
