@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sortsprites_linux_bonus.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 18:24:16 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/18 23:44:58 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/20 08:06:08 by mikiencolor      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@
 
 void	doplayerinteraction(int sprnum, double playerdistance)
 {
+	static char stayout = 0;
+
 	//si si no tenemos invincibility frames y es enemigo
 	if (playerdistance <= 0.33)
 	{
@@ -52,9 +54,14 @@ void	doplayerinteraction(int sprnum, double playerdistance)
 			system("aplay -q ./gotcatsbane.wav &");
 		}
 	}
-	if (playerdistance <= 2.5)
+	if (!stayout && playerdistance <= 1.0 && g_config.sprt[sprnum]->spritetype == '6')
 	{
-		if (!g_framedata.invincibilityframes && g_config.sprt[sprnum]->spritetype == '2')
+		g_framedata.phrase = 1;
+		stayout = 1;
+	}
+	if (playerdistance <= 2.5 && g_config.sprt[sprnum]->spritetype == '2')
+	{
+		if (!g_framedata.invincibilityframes)// && g_config.sprt[sprnum]->spritetype == '2')
 		{
 			if (g_player.life && (g_framedata.invincibilityframes = 15))
 					g_player.life--;

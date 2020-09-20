@@ -6,7 +6,7 @@
 /*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/20 02:22:03 by mikiencolor      ###   ########.fr       */
+/*   Updated: 2020/09/20 07:35:33 by mikiencolor      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,6 +222,7 @@ typedef struct	s_raycasterdata
 	t_spritedata	*animatedoor;
 	int				animationframes;
 	struct timeval	catsbanetimer;
+	struct timeval	phrasetimer;
 }				t_raycasterdata;
 
 /*
@@ -301,6 +302,7 @@ typedef struct	s_framedata
 	int				closesprite[6];
 	int				invincibilityframes;
 	double			middleraydoordist;
+	int				phrase;
 }				t_framedata;
 
 /*

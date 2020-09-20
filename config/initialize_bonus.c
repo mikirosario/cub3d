@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialize_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 16:10:16 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/18 18:30:24 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/20 07:47:33 by mikiencolor      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ void	initialize(void)
 	g_player.attack = 0;
 	g_framedata.xfloorcolor = 0x00669999;
 	g_framedata.xceilingcolor = 0x0066004b;
+	g_framedata.phrase = 0;
 	g_config.spritenum = 0;
 	g_config.doornum = 0;
 	g_config.sprtexnum = 0;

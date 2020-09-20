@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   drawsprites_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/12 18:46:59 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/17 19:10:28 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/20 07:51:27 by mikiencolor      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

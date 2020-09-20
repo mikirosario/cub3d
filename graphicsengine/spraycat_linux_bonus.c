@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   spraycat_linux_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/16 20:12:45 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/18 23:45:34 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/20 07:50:23 by mikiencolor      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 
 void	spraycat(t_spritedata *sprite)
 {
-	if (g_player.attack) 
+	if (g_player.attack)
 	{
 		if (--sprite->life < 1) //enemy loses life, dies if at zero
 			sprite->remove = 1;

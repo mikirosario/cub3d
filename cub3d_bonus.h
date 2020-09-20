@@ -6,7 +6,7 @@
 /*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/20 03:49:51 by mikiencolor      ###   ########.fr       */
+/*   Updated: 2020/09/20 07:36:40 by mikiencolor      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,7 +168,7 @@ t_line			g_door;
 */
 
 void	countframes(time_t *timestart);
-void	displaygraphicsmode(void);
+void	displaygraphicsmode(t_raycasterdata *rdata);
 void	cls(void);
 void	cast_ceiling_floor(unsigned int *buf);
 int		getftex(const char *line, unsigned int linenum);

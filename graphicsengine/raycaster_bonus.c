@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycaster_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/11 15:32:45 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/19 03:13:10 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/20 07:36:47 by mikiencolor      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,6 +190,6 @@ int		raycaster_bonus(t_raycasterdata *rdata)
 	readmovementkeys();
 	//other key presses (inventory, menu, etc.) here
 	countframes(&timestart);
-	displaygraphicsmode();
+	displaygraphicsmode(rdata);
 	return (0);
 }
