@@ -6,7 +6,7 @@
 /*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/31 19:37:21 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/20 02:58:22 by mikiencolor      ###   ########.fr       */
+/*   Updated: 2020/09/21 02:54:47 by mikiencolor      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,25 @@
 
 extern t_error	g_iamerror;
 extern t_imagedata *g_simg[10];
+
+
+
+void	getalltexpointers(t_imagedata *img, int animations)
+{
+	int	i;
+
+	i = 0;
+	img->tex_ptr = (unsigned int *)mlx_get_data_addr(img->mlx_img, \
+	&img->bpp, &img->size_line, &img->endian);
+	while (i < animations)
+	{
+		img->animation[i]->tex_ptr = \
+		(unsigned int *)mlx_get_data_addr(img->animation[i]->mlx_img, \
+		&img->animation[i]->bpp, &img->animation[i]->size_line, \
+		&img->animation[i]->endian);
+		i++;
+	}
+}
 
 void	loadui(void)
 {
@@ -38,6 +57,15 @@ void	loadui(void)
 	g_catsbane.attack.tex_ptr = \
 	(unsigned int *)mlx_get_data_addr(g_catsbane.attack.mlx_img, \
 	&g_catsbane.attack.bpp, &g_catsbane.attack.size_line, &g_catsbane.attack.endian);
+	g_ruby.tex_ptr = (unsigned int *)mlx_get_data_addr(g_ruby.mlx_img, &g_ruby.bpp, \
+	&g_ruby.size_line, &g_ruby.endian);
+	g_chisme.idle.tex_ptr = \
+	(unsigned int *)mlx_get_data_addr(g_chisme.idle.mlx_img, \
+	&g_chisme.idle.bpp, &g_chisme.idle.size_line, &g_chisme.idle.endian);
+	g_chisme.active.tex_ptr = \
+	(unsigned int *)mlx_get_data_addr(g_chisme.active.mlx_img, \
+	&g_chisme.active.bpp, &g_chisme.active.size_line, &g_chisme.active.endian);
+	
 }
 
 int		loadsprites(void)
@@ -57,7 +85,7 @@ int		loadsprites(void)
 		if (g_simg[stype]->animation[1])
 			if (!(getanimationptrs(sprtptr, g_simg[stype])))
 				return (0);
-		if (sprtptr->spritetype == '4')
+		if (sprtptr->spritetype == '4' || sprtptr->spritetype == '7')
 		{
 			sprtptr->vdiv = 4;
 			sprtptr->udiv = 4;
@@ -99,8 +127,9 @@ int		getimgaddresses(t_raycasterdata *rdata)
 	&g_wewallimg.bpp, &g_wewallimg.size_line, &g_wewallimg.endian);
 	g_eawallimg.tex_ptr = (unsigned int *)mlx_get_data_addr(g_eawallimg.mlx_img,
 	&g_eawallimg.bpp, &g_eawallimg.size_line, &g_eawallimg.endian);
-	g_oren.tex_ptr = (unsigned int *)mlx_get_data_addr(g_oren.mlx_img, \
-	&g_oren.bpp, &g_oren.size_line, &g_oren.endian);
+	getalltexpointers(&g_portal, 8);
+	getalltexpointers(&g_phrases, 4);
+	getalltexpointers(&g_ending, 7);
 	loadsprites();
 	loadui();
 	return (1);
@@ -129,6 +158,7 @@ int		getimgaddresses(t_raycasterdata *rdata)
 char	memreserve(void)
 {
 	char	memerror;
+	//int		i;
 
 	memerror = 0;
 	if (!(g_screendata.mlx_img_buffer = mlx_new_image(g_screendata.mlx_ptr, \

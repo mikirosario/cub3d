@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/07 20:24:05 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/18 20:56:23 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/21 03:14:39 by mikiencolor      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,11 @@ int		main(int argc, char **argv)
 	}
 	rdata.animatedoor = NULL;
 	rdata.animationframes = 0;
+	rdata.portalanimframes = 0;
 	reset_timer(&rdata.catsbanetimer);
+	reset_timer(&rdata.phrasetimer);
+	reset_timer(&rdata.chismetimer);
+	reset_timer(&rdata.endingtimer);
 	g_config.musicpid = fork();
 	if (!g_config.musicpid)
 	{

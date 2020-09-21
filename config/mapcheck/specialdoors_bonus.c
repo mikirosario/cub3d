@@ -6,7 +6,7 @@
 /*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/20 01:42:34 by mikiencolor       #+#    #+#             */
-/*   Updated: 2020/09/20 05:58:24 by mikiencolor      ###   ########.fr       */
+/*   Updated: 2020/09/21 04:12:48 by mikiencolor      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,5 +80,7 @@ void	mapspecialdoors(void)
 	t_spritedata	*origin;
 
 	origin = linkdoors(44, 11, 29, 21);
-	origin->texture = g_oren.tex_ptr;
+	origin->texture = g_portal.tex_ptr;
+	origin = linkdoors(29, 17, 33, 17);
+	origin->texture = g_portal.tex_ptr;
 }

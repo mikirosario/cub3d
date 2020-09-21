@@ -6,7 +6,7 @@
 /*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/11 19:45:47 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/20 03:29:35 by mikiencolor      ###   ########.fr       */
+/*   Updated: 2020/09/21 06:19:22 by mikiencolor      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ void	drawfloor(int x, int pixel, unsigned int *buf)
 	}
 }
 
+
+
 /*
 ** This function assigns the texture based on the side we are facing as we look
 ** at the exposed wall. If side == 1 and stepY (ray direction in the Y or
@@ -95,34 +97,11 @@ void	drawfloor(int x, int pixel, unsigned int *buf)
 ** It returns the pixel after the drawEnd pixel position.
 */
 
-int		texturedwalls(int x, int pixel, unsigned int *buf)
+int		texturedwalls(int x, int pixel, t_raycasterdata *rdata)
 {
 	unsigned int	*texptr;
 
-	if (g_raydata.hit == 2)
-	{
-		if (g_raydata.stepy > 0)
-			texptr = g_doorrightimg.tex_ptr;
-		else
-			texptr = g_doorleftimg.tex_ptr;
-	}
-	else if (g_raydata.hit == 3)
-	{
-		if (g_raydata.stepx > 0)
-			texptr = g_doorleftimg.tex_ptr;
-		else
-			texptr = g_doorrightimg.tex_ptr;
-	}
-	else if (g_raydata.hit == 4)
-		texptr = g_oren.tex_ptr;
-	else if (g_raydata.side == 1 && g_raydata.stepy > 0)
-		texptr = g_sowallimg.tex_ptr;
-	else if (g_raydata.side == 1 && g_raydata.stepy < 0)
-		texptr = g_nowallimg.tex_ptr;
-	else if (g_raydata.side == 0 && g_raydata.stepx > 0)
-		texptr = g_eawallimg.tex_ptr;
-	else if (g_raydata.side == 0 && g_raydata.stepx < 0)
-		texptr = g_wewallimg.tex_ptr;
+	texptr = choosetexture(rdata);
 	while (pixel <= (x + g_framedata.drawend * g_config.screenw))
 	{
 		g_framedata.texy = (int)(g_framedata.texpos) & (g_config.texh - 1);
@@ -132,7 +111,7 @@ int		texturedwalls(int x, int pixel, unsigned int *buf)
 			g_framedata.xcolor = (g_framedata.xcolor >> 1) & 0x7F7F7F;
 		if (g_framedata.invincibilityframes % 2)
 			g_framedata.xcolor = g_framedata.xcolor >> 1 & 0x7F0000;
-		buf[pixel] = g_framedata.xcolor;
+		rdata->buf[pixel] = g_framedata.xcolor;
 		g_framedata.texpos += g_framedata.step;
 		pixel += g_config.screenw;
 	}
@@ -208,20 +187,20 @@ int		drawceiling(int x, int pixel, unsigned int *buf)
 ** from which this function is called (see raycaster.c).
 */
 
-void	drawframeline(int x, unsigned int *buf)
+void	drawframeline(int x, t_raycasterdata *rdata)
 {
 	int	pixel;
 
 	if (g_keydata.m == 2)
 	{
 		pixel = x;
-		pixel = drawceiling(x, pixel, buf);
-		pixel = solidcolorwalls(x, pixel, buf);
-		drawfloor(x, pixel, buf);
+		pixel = drawceiling(x, pixel, rdata->buf);
+		pixel = solidcolorwalls(x, pixel, rdata->buf);
+		drawfloor(x, pixel, rdata->buf);
 	}
 	else
 	{
 		pixel = (g_framedata.drawstart * g_config.screenw) + x;
-		pixel = texturedwalls(x, pixel, buf);
+		pixel = texturedwalls(x, pixel, rdata);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/20 07:35:33 by mikiencolor      ###   ########.fr       */
+/*   Updated: 2020/09/21 05:56:44 by mikiencolor      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,7 @@ typedef struct	s_inventory
 {
 	int		potions;
 	int		rubies;
+	char	chisme : 1;
 	char	catsbane : 1;
 }				t_inventory;
 
@@ -202,6 +203,7 @@ typedef struct	s_spritedata
 	unsigned int		*animtex[8];
 	int					frame;
 	int					framelimit;
+	int					animspeed;
 	int					udiv;
 	int					vdiv;
 	int					vmove;
@@ -221,8 +223,12 @@ typedef struct	s_raycasterdata
 	unsigned int	*buf;
 	t_spritedata	*animatedoor;
 	int				animationframes;
+	int				portalanimframes;
+	char			portalvisible : 1;
 	struct timeval	catsbanetimer;
 	struct timeval	phrasetimer;
+	struct timeval	chismetimer;
+	struct timeval	endingtimer;
 }				t_raycasterdata;
 
 /*
@@ -261,6 +267,7 @@ typedef struct	s_configdata
 	int				sprtexnum;
 	char			screenshot;
 	int				musicpid;
+	unsigned char	ending : 2;
 }				t_configdata;
 
 /*
@@ -303,6 +310,7 @@ typedef struct	s_framedata
 	int				invincibilityframes;
 	double			middleraydoordist;
 	int				phrase;
+	int				secretwallcompass;
 }				t_framedata;
 
 /*
@@ -408,7 +416,7 @@ t_list			*maplistmem(unsigned int y);
 ** Game Config
 */
 
-void			initialize(void);
+void			initialize(t_raycasterdata *rdata);
 int				getres(const char *line, unsigned int linenum);
 int				getno(const char *line, unsigned int linenum);
 int				getso(const char *line, unsigned int linenum);
@@ -437,7 +445,7 @@ int				raycaster_start(t_raycasterdata *rdata);
 int				raycaster(t_raycasterdata *rdata);
 void			castray(int x);
 void			calculateframeline(void);
-void			drawframeline(int x, unsigned int *buf);
+void			drawframeline(int x, t_raycasterdata *rdata);
 void			sortsprites(int *spriteorder);
 void			castsprites(unsigned int *buf);
 int				keypress(int key, void *param);

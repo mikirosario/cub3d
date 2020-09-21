@@ -6,7 +6,7 @@
 /*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 18:24:16 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/20 07:56:27 by mikiencolor      ###   ########.fr       */
+/*   Updated: 2020/09/20 23:36:17 by mikiencolor      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,12 @@ void	doplayerinteraction(int sprnum, double playerdistance)
 			g_config.sprt[sprnum]->remove = 1;
 			g_player.inventory.catsbane = 1;
 			system("afplay ./gotcatsbane.wav &");
+		}
+		if (g_config.sprt[sprnum]->spritetype == '7' && g_player.inventory.rubies < 3)
+		{
+			g_config.sprt[sprnum]->remove = 1;
+			g_player.inventory.rubies++;
+			system("afplay ./gotitem.wav &");
 		}
 	}
 	if (!stayout && playerdistance <= 1.0 && g_config.sprt[sprnum]->spritetype == '6')

@@ -6,7 +6,7 @@
 #    By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/07/15 20:32:43 by mrosario          #+#    #+#              #
-#    Updated: 2020/09/20 04:46:52 by mikiencolor      ###   ########.fr        #
+#    Updated: 2020/09/21 06:19:56 by mikiencolor      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,10 +41,12 @@ BSRC = cub3d_bonus.c rotation.c freeme_bonus.c ./toolkit_bonus.c ./config/cub_bo
 ./graphicsengine/screenshots/bmperror.c ./graphicsengine/graphicsmodes_bonus.c \
 ./graphicsengine/fpscounter_bonus.c ./graphicsengine/drawceilingfloor_bonus.c \
 ./config/raycaster_start_bonus.c ./config/makeanimationimgs_bonus.c \
-./config/animationerrors_bonus.c ./graphicsengine/modifysprite.c \
+./config/animationerrors_bonus.c ./graphicsengine/modifysprite_bonus.c \
 ./config/doorcounter_bonus.c ./graphicsengine/doorcaster_bonus.c \
 ./graphicsengine/castoneray_bonus.c ./graphicsengine/timer_bonus.c \
-./graphicsengine/dooranimator_bonus.c ./graphicsengine/spraycat_bonus.c
+./graphicsengine/dooranimator_bonus.c ./graphicsengine/spraycat_bonus.c \
+./graphicsengine/ending_bonus.c ./graphicsengine/castwall_bonus.c\
+./graphicsengine/hud_bonus.c ./graphicsengine/choosetexture_bonus.c
 
 LSRC = cub3d_linux.c rotation.c freeme.c ./toolkit.c ./config/cub.c \
 ./config/getscreenres.c ./config/getwallparams.c ./config/getspriteparams.c \
@@ -69,17 +71,20 @@ LBSRC = cub3d_linux_bonus.c rotation.c freeme_bonus.c ./toolkit_bonus.c ./config
 ./config/spritecounter.c ./config/printlinkedlists.c ./config/initialize_linux_bonus.c \
 ./config/makeimages_bonus.c ./graphicsengine/raycaster_bonus.c ./graphicsengine/dda_bonus.c \
 ./graphicsengine/drawframeline_bonus.c ./graphicsengine/calculateframeline_bonus.c \
-./graphicsengine/drawsprites_bonus.c ./graphicsengine/playermovement_bonus.c \
+./graphicsengine/drawsprites_bonus.c ./graphicsengine/playermovement_bonus_leaveafterteleport.c \
 ./graphicsengine/keychecks_linux_bonus.c ./config/mapsprarrays_bonus.c \
 ./graphicsengine/sortsprites_linux_bonus.c ./graphicsengine/screenshots/bmpgenerator.c \
 ./graphicsengine/screenshots/bmperror.c ./graphicsengine/graphicsmodes_bonus.c \
 ./graphicsengine/fpscounter_bonus.c ./graphicsengine/drawceilingfloor_bonus.c \
 ./config/raycaster_start_bonus.c ./config/makeanimationimgs_bonus.c \
-./config/animationerrors_bonus.c ./graphicsengine/modifysprite.c \
+./config/animationerrors_bonus.c ./graphicsengine/modifysprite_bonus.c \
 ./config/doorcounter_bonus.c ./graphicsengine/doorcaster_bonus.c \
 ./graphicsengine/castoneray_bonus.c ./graphicsengine/timer_bonus.c \
 ./graphicsengine/dooranimator_linux_bonus.c ./graphicsengine/spraycat_linux_bonus.c \
-./config/mapcheck/specialdoors_bonus.c ./graphicsengine/teleportplayer_bonus.c
+./config/mapcheck/specialdoors_bonus.c ./graphicsengine/teleportplayer_bonus.c \
+./config/makespecialanimationimgs_bonus.c ./graphicsengine/monologue_bonus.c \
+./graphicsengine/ending_bonus.c ./graphicsengine/castwall_bonus.c \
+./graphicsengine/hud_bonus.c ./graphicsengine/choosetexture_bonus.c
 
 OBJ = $(SRC:.c=.o)
 

@@ -6,7 +6,7 @@
 /*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 16:10:16 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/20 07:47:33 by mikiencolor      ###   ########.fr       */
+/*   Updated: 2020/09/21 06:06:45 by mikiencolor      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,21 +21,6 @@ void	initializedoorline(void)
 }
 
 /*
-** This function used a system call to retrieve the native display resolution
-** on MacOSX because our stripped-down version of X11 can't do that for us. :p
-** I just use awk to find the Resolution in the system profiler and retrieve
-** the relevant fields, then atoi to pass them to the variables where I store
-** them. popen returns a stream and read uses file numbers, so I need to use
-** fileno to convert it.
-**
-** It seemed like a good idea at the time, but we're not even allowed to use
-** popen/pclose functions. :_( Anyway it doesn't matter, because the
-** resolution MacOSX is reporting just does not agree with empirical
-** observation. :p It gets the possible physical resolution but not the scaled
-** resolution. There is an osascript that works, but it causes a confirmation
-** window to pop up that will just confuse the user. There are a bunch
-** programs that do it, but they can break depending on OS version.
-**
 ** Bonus privilege. I use Core Graphics library to set the native display size.
 ** Now we're talking!
 */
@@ -49,6 +34,31 @@ void	getdisplayresolution(void)
 	g_config.nativedisplayh = CGDisplayPixelsHigh(displayid);
 }
 
+/*
+** I am not even pretending this is anything other than what it is. :p
+*/
+
+void	initialize2(t_raycasterdata *rdata)
+{
+	g_keydata.w = 0;
+	g_keydata.a = 0;
+	g_keydata.s = 0;
+	g_keydata.d = 0;
+	g_keydata.r = 0;
+	g_keydata.l = 0;
+	g_keydata.m = 1;
+	g_keydata.ctrl = 0;
+	g_keydata.sp = 0;
+	g_keydata.enter = 0;
+	rdata->animatedoor = NULL;
+	rdata->animationframes = 0;
+	rdata->portalanimframes = 0;
+	reset_timer(&rdata->catsbanetimer);
+	reset_timer(&rdata->phrasetimer);
+	reset_timer(&rdata->chismetimer);
+	reset_timer(&rdata->endingtimer);
+	initializedoorline();
+}
 /*
 ** Initial variable values. Note: many values are left uninitialized because
 ** they are defined during configuration, and never accessed before then.
@@ -74,7 +84,7 @@ void	getdisplayresolution(void)
 ** so you'll have to fiddle with the divisors to get it to look right. ;)
 */
 
-void	initialize(void)
+void	initialize(t_raycasterdata *rdata)
 {
 	g_player.rotspeed = 0.1;
 	g_player.movespeed = 0.25;
@@ -82,6 +92,7 @@ void	initialize(void)
 	g_player.inventory.potions = 0;
 	g_player.inventory.rubies = 0;
 	g_player.inventory.catsbane = 0;
+	g_player.inventory.chisme = 0;
 	g_player.attack = 0;
 	g_framedata.xfloorcolor = 0x00669999;
 	g_framedata.xceilingcolor = 0x0066004b;
@@ -95,16 +106,7 @@ void	initialize(void)
 	g_config.udiv = 1;
 	g_config.vdiv = 1;
 	g_config.musicpid = 0;
-	g_keydata.w = 0;
-	g_keydata.a = 0;
-	g_keydata.s = 0;
-	g_keydata.d = 0;
-	g_keydata.r = 0;
-	g_keydata.l = 0;
-	g_keydata.m = 1;
-	g_keydata.ctrl = 0;
-	g_keydata.sp = 0;
-	g_keydata.enter = 0;
-	initializedoorline();
+	g_config.ending = 0;
+	initialize2(rdata);
 	getdisplayresolution();
 }

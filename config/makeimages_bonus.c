@@ -6,7 +6,7 @@
 /*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 18:36:40 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/20 02:56:15 by mikiencolor      ###   ########.fr       */
+/*   Updated: 2020/09/21 02:53:38 by mikiencolor      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ int		createhudimages(void)
 	g_lifebar.ptr[2] = &g_lifebar.emptyheart;
 	g_catsbane.ptr[0] = &g_catsbane.idle;
 	g_catsbane.ptr[1] = &g_catsbane.attack;
+	g_chisme.ptr[0] = &g_chisme.idle;
+	g_chisme.ptr[1] = &g_chisme.active;
 	success = 1;
 	if (!(g_lifebar.fullheart.mlx_img = \
 	mlx_xpm_file_to_image(g_screendata.mlx_ptr, "./uielements/fullheart.xpm", \
@@ -45,6 +47,15 @@ int		createhudimages(void)
 		success = 0;
 	else if (!(g_catsbane.attack.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr,
 	"./uielements/uispray2.xpm", &g_catsbane.attack.texw, &g_catsbane.attack.texh)))
+		success = 0;
+	else if (!(g_ruby.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, \
+	"./uielements/ruby.xpm", &g_ruby.texw, &g_ruby.texh)))
+		success = 0;
+	else if (!(g_chisme.idle.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, \
+	"./uielements/chisme1.xpm", &g_chisme.idle.texw, &g_chisme.idle.texh)))
+		success = 0;
+	else if (!(g_chisme.active.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, \
+	"./uielements/chisme2.xpm", &g_chisme.active.texw, &g_chisme.active.texh)))
 		success = 0;
 	if (!success)
 		g_iamerror.texpathfail = 1;
@@ -179,8 +190,12 @@ int		getteximg(void)
 	g_wewallimg.texpath, &g_wewallimg.texw, &g_wewallimg.texh);
 	g_eawallimg.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, \
 	g_eawallimg.texpath, &g_eawallimg.texw, &g_eawallimg.texh);
-	g_oren.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, "oren.xpm", \
-	&g_oren.texw, &g_oren.texh);
+	g_portal.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, "./portalanimation/portal1.xpm", \
+	&g_portal.texw, &g_portal.texh);
+	g_phrases.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, "./textboxes/orenline1.xpm", \
+	&g_phrases.texw, &g_phrases.texh);
+	g_ending.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, "./textboxes/ending1.xpm", \
+	&g_ending.texw, &g_ending.texh);
 	if (g_config.spritenum)
 		while (i > 1)
 		{
@@ -190,6 +205,12 @@ int		getteximg(void)
 				getanimationimgs(g_simg[i]);
 			i--;
 		}
+	if (!makeportalanimation(&g_portal))
+		return (0);
+	if (!makephrases(&g_phrases))
+		return (0);
+	if (!makeending(&g_ending))
+		return (0);
 	return (checkimgs());
 }
 
