@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycaster_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/11 15:32:45 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/21 05:46:14 by mikiencolor      ###   ########.fr       */
+/*   Updated: 2020/09/21 16:04:58 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,11 @@ void	gameloop(t_raycasterdata *rdata, time_t *timestart)
 	if (g_config.screenshot)
 		screenshot(rdata->buf);
 	refreshui(rdata->buf, rdata);
+	displaygraphicsmode(rdata);
 	mlx_put_image_to_window(g_screendata.mlx_ptr, g_screendata.mlx_win, \
 	g_screendata.mlx_img_buffer, 0, 0);
 	readmovementkeys();
 	countframes(timestart);
-	displaygraphicsmode(rdata);
 }
 
 void	endingloop(t_raycasterdata *rdata)

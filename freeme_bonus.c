@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   freeme_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 16:44:15 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/21 01:14:50 by mikiencolor      ###   ########.fr       */
+/*   Updated: 2020/09/21 20:43:18 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,4 +131,6 @@ void	freeme(void)
 		del(g_config.zbuffer);
 	//if (g_framedata.secretzbuffer)
 	//	del(g_framedata.secretzbuffer);
+	if (g_config.musicpid)
+		kill(g_config.musicpid, 15);
 }

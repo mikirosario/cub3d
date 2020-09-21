@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/07 20:24:05 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/21 03:14:39 by mikiencolor      ###   ########.fr       */
+/*   Updated: 2020/09/21 20:45:17 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int		ft_stop(int key, void *param)
 		freeme();
 		ft_printf(GREEN"\n**** THANKS FOR PLAYING! :D ****\n\n"RESET);
 		//kill parent and all children
-		kill(0, SIGTERM);
+		//kill(0, SIGTERM);
 		exit(EXIT_SUCCESS);
 	}
 	return (0);
@@ -104,9 +104,10 @@ int		main(int argc, char **argv)
 {
 	t_raycasterdata	rdata;
 	int				success;
+	char *args[] = {"afplay", "./theme.mp3", NULL};
 	//pid_t			ppid;
 
-	initialize();
+	initialize(&rdata);
 	configure(&rdata, argv, argc, &success);
 	printnotifications();
 	printerrors();
@@ -115,28 +116,22 @@ int		main(int argc, char **argv)
 		freeme();
 		return (EXIT_FAILURE);
 	}
-	rdata.animatedoor = NULL;
-	rdata.animationframes = 0;
-	rdata.portalanimframes = 0;
-	reset_timer(&rdata.catsbanetimer);
-	reset_timer(&rdata.phrasetimer);
-	reset_timer(&rdata.chismetimer);
-	reset_timer(&rdata.endingtimer);
 	g_config.musicpid = fork();
 	if (!g_config.musicpid)
 	{
-		system("while :; do afplay ./theme.mp3; done");
-		//if original parent dies, parent becomes 1. child polls to see if parent is 1.
-		//system("while :; do afplay ./theme.mp3; done &");
-		//ppid = getppid();
-		//while (ppid != 1)
-		//	ppid = getppid();
-		//kill (0, SIGTERM);
+		//YES!! Execvp turns forked process into afplay process,
+		//now I can kill it gracefully upon program termination!
+		//No more messy system call.
+		//system("while :; do afplay ./theme.mp3; done");
+		execvp(args[0], args);
 	}
 	mlx_do_key_autorepeatoff(g_screendata.mlx_ptr);
 	mlx_hook(g_screendata.mlx_win, 17, 1L << 17, ft_stop, (void*)0);
 	mlx_hook(g_screendata.mlx_win, 2, 1L << 0, keypress, (void*)0);
 	mlx_hook(g_screendata.mlx_win, 3, 1L << 1, keyrelease, (void *)0);
+	mlx_hook(g_screendata.mlx_win, 4, 1L << 2, mousepress, (void *)0);
+	mlx_hook(g_screendata.mlx_win, 5, 1L << 3, mouserelease, (void *)0);
+	mlx_hook(g_screendata.mlx_win, 6, 1L << 6, mousemove, (void *)0);
 	mlx_loop_hook(g_screendata.mlx_ptr, raycaster_bonus, &rdata);
 	mlx_loop(g_screendata.mlx_ptr);
 	return (EXIT_SUCCESS);

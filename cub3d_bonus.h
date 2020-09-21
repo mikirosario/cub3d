@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/21 06:10:40 by mikiencolor      ###   ########.fr       */
+/*   Updated: 2020/09/21 19:50:34 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,5 +224,8 @@ void	refreshcatsbane(unsigned int *buf, t_raycasterdata *rdata);
 
 unsigned int	*choosetexture(t_raycasterdata *rdata);
 
+int		mousepress(int button, int x, int y, void *param);
+int		mouserelease(int button, int x, int y, void *param);
+int		mousemove(int x, int y, void *param);
 
 #endif

@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   spraycat_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/16 20:12:45 by mrosario          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2020/09/18 12:10:25 by miki             ###   ########.fr       */
-=======
-/*   Updated: 2020/09/18 17:33:40 by mrosario         ###   ########.fr       */
->>>>>>> c8bf4796169bb3b0ce19f961bdbf896e28675dca
+/*   Updated: 2020/09/21 16:12:30 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +44,10 @@ void	spraycat(t_spritedata *sprite)
 	if (g_player.attack) 
 	{
 		if (--sprite->life < 1) //enemy loses life, dies if at zero
+		{
 			sprite->remove = 1;
+			g_config.ending = 1;
+		}
 		//enemy damage anim/colour flag
 		//pid = fork();
 		//if (!pid)

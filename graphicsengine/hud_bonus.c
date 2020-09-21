@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hud_bonus.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/21 05:27:18 by mikiencolor       #+#    #+#             */
-/*   Updated: 2020/09/21 05:46:44 by mikiencolor      ###   ########.fr       */
+/*   Updated: 2020/09/21 16:15:02 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	refreshcatsbane(unsigned int *buf, t_raycasterdata *rdata)
 	{
 		if (!g_keydata.enter)
 			xput_to_buffer((g_config.screenw / 2) - g_catsbane.idle.texw / 2, \
-			g_config.screenh - g_catsbane.idle.texh - 50, buf, \
+			g_config.screenh - g_catsbane.idle.texh - 1, buf, \
 			&g_catsbane.idle);
 		else
 		{
@@ -40,7 +40,7 @@ void	refreshcatsbane(unsigned int *buf, t_raycasterdata *rdata)
 				g_player.attack = 1;
 			}
 			xput_to_buffer((g_config.screenw / 2) - g_catsbane.idle.texw / 2, \
-			g_config.screenh - g_catsbane.idle.texh - 50, buf, \
+			g_config.screenh - g_catsbane.idle.texh - 1, buf, \
 			&g_catsbane.attack);
 			if (msec_diff(&rdata->catsbanetimer, NULL) > 500)
 			{

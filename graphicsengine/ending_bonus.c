@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ending_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/21 03:00:07 by mikiencolor       #+#    #+#             */
-/*   Updated: 2020/09/21 06:24:04 by mikiencolor      ###   ########.fr       */
+/*   Updated: 2020/09/21 18:56:55 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	playending(t_raycasterdata *rdata)
 {
 	static int i = 0;
 
-	xput_to_buffer((g_config.screenw / 2 - g_ending.texw / 2) - 1, \
+	yput_to_buffer((g_config.screenw / 2 - g_ending.texw / 2) - 1, \
 	(g_config.screenh / 2 - g_ending.texh / 2) - 1, rdata->buf, \
 	g_ending.animation[i]);
 	if (msec_diff(&rdata->endingtimer, NULL) > 2000)

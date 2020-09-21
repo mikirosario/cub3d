@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/21 05:56:44 by mikiencolor      ###   ########.fr       */
+/*   Updated: 2020/09/21 20:43:34 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -266,7 +266,7 @@ typedef struct	s_configdata
 	char			*spritetexpath;
 	int				sprtexnum;
 	char			screenshot;
-	int				musicpid;
+	pid_t			musicpid;
 	unsigned char	ending : 2;
 }				t_configdata;
 
@@ -333,22 +333,40 @@ typedef struct	s_imagedata
 	char					*texpaths[8];
 }				t_imagedata;
 
+typedef struct	s_mouseclick
+{
+	char	status : 1;
+	int		startx;
+	int		starty;
+	int		endx;
+	int		endy;
+	int		currentx;
+	int		currenty;
+}				t_mouseclick;
+
 /*
 ** This holds all the key flags.
 */
 
 typedef struct	s_keydata
 {
-	char	w : 1;
-	char	a : 1;
-	char	s : 1;
-	char	d : 1;
-	char	r : 1;
-	char	l : 1;
-	char	m;
-	char	ctrl : 1;
-	char	sp : 1;
-	char	enter : 1;
+	char			w : 1;
+	char			a : 1;
+	char			s : 1;
+	char			d : 1;
+	char			r : 1;
+	char			l : 1;
+	char			m;
+	char			ctrl : 1;
+	char			sp : 1;
+	char			enter : 1;
+	t_mouseclick	lbutton;
+	t_mouseclick	rbutton;
+	t_mouseclick	wheel;
+	int				mouseposx;
+	int				mouseposy;
+	char			mousedragr : 1;
+	char			mousedragl : 1;
 }				t_keydata;
 
 t_configdata	g_config;

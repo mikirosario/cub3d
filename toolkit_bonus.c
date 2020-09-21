@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   toolkit_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 18:37:36 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/21 05:16:43 by mikiencolor      ###   ########.fr       */
+/*   Updated: 2020/09/21 18:44:46 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@
 ** A channel 00, and on Linux by making it FF. :p I don't know why that is.
 **
 ** It's unprotected, so make sure your image will fit into your buffer. :p
+**
+** This function has a bug that for some reason causes the game to crash with
+** images without transparency O_O. Using yput for everything now.
 */
 
 void	xput_to_buffer(int x, int y, unsigned int *buf, t_imagedata *img)
@@ -28,7 +31,7 @@ void	xput_to_buffer(int x, int y, unsigned int *buf, t_imagedata *img)
 	int	ty;
 
 	ty = 0;
-	while (ty < img->texh - 1)
+	while (ty < img->texh)
 	{
 		bx = x + (y * g_config.screenw);
 		tx = ty * img->texw;

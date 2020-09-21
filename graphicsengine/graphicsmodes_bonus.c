@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   graphicsmodes_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/17 17:36:34 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/21 05:53:28 by mikiencolor      ###   ########.fr       */
+/*   Updated: 2020/09/21 18:40:27 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ void	displayspeech(t_raycasterdata *rdata)
 			g_framedata.phrase = 0;
 			reset_timer(&rdata->phrasetimer);
 		}
-		else
-			xput_to_buffer(g_config.screenw / 2 - g_phrases.texw / 2, \
-			g_config.screenh / 2 - g_phrases.texh / 2, rdata->buf, \
-			g_phrases.animation[g_framedata.phrase - 1]);
+		yput_to_buffer(g_config.screenw / 2 - g_phrases.texw / 2, 
+		g_config.screenh / 2 - g_phrases.texh / 2, rdata->buf, 
+		g_phrases.animation[g_framedata.phrase - 1]);
+		//mlx_string_put(g_screendata.mlx_ptr, g_screendata.mlx_win, 200, 200, 0x00FF0000, "TEST");
 	}	
 }
 

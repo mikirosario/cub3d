@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   choosetexture_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/21 06:08:28 by mikiencolor       #+#    #+#             */
-/*   Updated: 2020/09/21 06:18:43 by mikiencolor      ###   ########.fr       */
+/*   Updated: 2020/09/21 15:20:13 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ unsigned int	*choosetexture(t_raycasterdata *rdata)
 {
 	unsigned int *texptr;
 
+	texptr = NULL;
 	if (g_raydata.hit == 2)
 		texptr = hordoor();
 	else if (g_raydata.hit == 3)
