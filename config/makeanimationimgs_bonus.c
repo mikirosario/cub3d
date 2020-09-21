@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   makeanimationimgs_bonus.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 17:51:52 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/16 12:36:36 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/20 13:21:12 by mikiencolor      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ int		checkanimations(t_imagedata *simg)
 			return (0);
 	return (1);
 }
+
+
 
 void	getanimationimgs(t_imagedata *simg)
 {

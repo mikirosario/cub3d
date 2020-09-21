@@ -6,7 +6,7 @@
 /*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/12 18:46:59 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/20 07:51:27 by mikiencolor      ###   ########.fr       */
+/*   Updated: 2020/09/20 22:32:33 by mikiencolor      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -300,7 +300,7 @@ void	castsprites(unsigned int *buf)
 	while (i < g_config.spritenum)
 	{
 		sprite = g_config.sprt[g_config.spriteorder[i]];
-		if (sprite->spritetype == '4')
+		if (sprite->spritetype == '4' || sprite->spritetype == '7')
 		 animate(sprite);
 		if (sprite->hitanimationframes && sprite->spritetype == '2')
 			if (!(--sprite->hitanimationframes))

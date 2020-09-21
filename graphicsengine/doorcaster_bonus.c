@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   doorcaster_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/11 17:09:52 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/14 13:29:44 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/21 05:02:37 by mikiencolor      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,4 +112,26 @@ int		verdoorslide(void)
 		}
 	
 	return (0);
+}
+
+void	animateportal(t_raycasterdata *rdata)
+{
+	static int i = 0;
+	if (rdata->portalvisible)
+	{
+		if (!rdata->portalanimframes--)
+		{
+			if (i > 7)
+				i = 0;
+			g_portal.tex_ptr = g_portal.animation[i++]->tex_ptr;
+			rdata->portalanimframes = 2;
+		}
+	}
+}
+
+void	castdoors(t_raycasterdata *rdata)
+{
+	if (g_keydata.sp)
+		activatedoor(rdata);
+	animateportal(rdata);
 }

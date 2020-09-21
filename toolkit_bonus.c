@@ -3,56 +3,77 @@
 /*                                                        :::      ::::::::   */
 /*   toolkit_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 18:37:36 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/08 13:29:06 by mikiencolor      ###   ########.fr       */
+/*   Updated: 2020/09/21 18:44:46 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
+/*
+** This function will draw lines of pixels to the buffer starting at the x, y
+** position passed as arguments, from top to bottom row by row, excluding
+** transparent colors. Note that on MAC this seems to be marked by making the
+** A channel 00, and on Linux by making it FF. :p I don't know why that is.
+**
+** It's unprotected, so make sure your image will fit into your buffer. :p
+**
+** This function has a bug that for some reason causes the game to crash with
+** images without transparency O_O. Using yput for everything now.
+*/
 
-void	ft_hypotenuse(t_triangle *triangle)
+void	xput_to_buffer(int x, int y, unsigned int *buf, t_imagedata *img)
 {
-	triangle->anglebeta = PI - triangle->angletheta - triangle->anglealpha;
-	triangle->hypotenuse = (sin(triangle->anglealpha) * 0.5) / sin(triangle->anglebeta);
+	int bx;
+	int	tx;
+	int	ty;
+
+	ty = 0;
+	while (ty < img->texh)
+	{
+		bx = x + (y * g_config.screenw);
+		tx = ty * img->texw;
+		while (tx < ty * img->texw + img->texw)
+		{
+			if (img->tex_ptr[tx] != 0xff000000)
+				buf[bx] = img->tex_ptr[tx];
+			bx++;
+			tx++;
+		}
+		y++;
+		ty++;
+	}
 }
 
 /*
-** Line intersect detector, finds where two lines intersect. Mathematic hell.
+** Like xput_to_buffer, but draws lines vertically column by column instead of
+** horizontally row by row.
 */
 
-int		findintersection(t_line *linea, t_line *lineb, double *xresult, double *yresult)
+void	yput_to_buffer(int x, int y, unsigned int *buf, t_imagedata *img)
 {
-	double	a1;
-	double	b1;
-	double	c1;
-	double	a2;
-	double	b2;
-	double	c2;
-	double	det;
-	double	xintersect;
-	double	yintersect;
+	int bx;
+	int	tx;
+	int	ty;
 
-	a1 = linea->endy - linea->starty;
-	b1 = linea->startx - linea->endx;
-	c1 = (a1 * linea->startx + b1 * linea->starty);
-	a2 = (lineb->endy - lineb->starty);
-	b2 = (lineb->startx - lineb->endx);
-	c2 = (a2 * lineb->startx + b2 * lineb->starty);
-	det = a1 * b2 - a2 * b1;
-	if (det)
+	tx = 0;
+	while (tx < img->texw)
 	{
-		xintersect = (b2 * c1 - b1 * c2)/det;
-		yintersect = (a1 * c2 - a2 * c1)/det;
-		*xresult = xintersect;
-		*yresult = yintersect;
-		return (1);
+		bx = x + y * g_config.screenw;
+		ty = tx;
+		while (ty < tx + img->texh * img->texw)
+		{
+			if (img->tex_ptr[ty] != 0xff000000)
+				buf[bx] = img->tex_ptr[ty];
+			bx += g_config.screenw;
+			ty += img->texw;
+		}
+		x++;
+		tx++;
 	}
-	return (0);
 }
-
 
 /*
 ** Simple function to tell you whether a given bit is set in a byte. Another

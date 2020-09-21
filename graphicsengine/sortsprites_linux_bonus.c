@@ -6,7 +6,7 @@
 /*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 18:24:16 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/20 08:06:08 by mikiencolor      ###   ########.fr       */
+/*   Updated: 2020/09/20 23:36:47 by mikiencolor      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@
 
 void	doplayerinteraction(int sprnum, double playerdistance)
 {
-	static char stayout = 0;
-
 	//si si no tenemos invincibility frames y es enemigo
 	if (playerdistance <= 0.33)
 	{
@@ -53,12 +51,15 @@ void	doplayerinteraction(int sprnum, double playerdistance)
 			g_player.inventory.catsbane = 1;
 			system("aplay -q ./gotcatsbane.wav &");
 		}
+		if (g_config.sprt[sprnum]->spritetype == '7' && g_player.inventory.rubies < 3)
+		{
+			g_config.sprt[sprnum]->remove = 1;
+			g_player.inventory.rubies++;
+			system("aplay -q ./gotitem.wav &");
+		}
 	}
-	if (!stayout && playerdistance <= 1.0 && g_config.sprt[sprnum]->spritetype == '6')
-	{
-		g_framedata.phrase = 1;
-		stayout = 1;
-	}
+	orentalk(sprnum, playerdistance);
+	marvintalk(sprnum, playerdistance);
 	if (playerdistance <= 2.5 && g_config.sprt[sprnum]->spritetype == '2')
 	{
 		if (!g_framedata.invincibilityframes)// && g_config.sprt[sprnum]->spritetype == '2')

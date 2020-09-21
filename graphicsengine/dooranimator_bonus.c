@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dooranimator_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/15 03:34:28 by miki              #+#    #+#             */
-/*   Updated: 2020/09/18 22:17:34 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/21 00:36:52 by mikiencolor      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,9 +161,12 @@ void	activatedoor(t_raycasterdata *rdata)
 				return ;
 			}
 		}
-		else if (mapchr == 'v' && g_player.inventory.potions == 3)
+		else if (mapchr == 'v' && g_player.inventory.chisme)
 		{
 			g_config.map[g_raydata.mapy][g_raydata.mapx] = '/';
+			while (g_config.door[i]->dooraddr != &g_config.map[g_raydata.mapy][g_raydata.mapx])
+				i++;
+			g_config.door[i]->spritetype = '/';
 			system("afplay -t 2 ./discovery.wav &");
 		}
 	}

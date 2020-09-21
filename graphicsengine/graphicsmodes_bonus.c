@@ -3,14 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   graphicsmodes_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/17 17:36:34 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/20 07:46:20 by mikiencolor      ###   ########.fr       */
+/*   Updated: 2020/09/21 18:40:27 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d_bonus.h"
+
+void	displayspeech(t_raycasterdata *rdata)
+{
+	if (g_framedata.phrase)
+	{
+		if (!rdata->phrasetimer.tv_sec)
+			gettimeofday(&rdata->phrasetimer, NULL);
+		else if ((msec_diff(&rdata->phrasetimer, NULL)) > 5000)
+		{
+			g_framedata.phrase = 0;
+			reset_timer(&rdata->phrasetimer);
+		}
+		yput_to_buffer(g_config.screenw / 2 - g_phrases.texw / 2, 
+		g_config.screenh / 2 - g_phrases.texh / 2, rdata->buf, 
+		g_phrases.animation[g_framedata.phrase - 1]);
+		//mlx_string_put(g_screendata.mlx_ptr, g_screendata.mlx_win, 200, 200, 0x00FF0000, "TEST");
+	}	
+}
 
 void	displaygraphicsmode(t_raycasterdata *rdata)
 {
@@ -23,22 +41,5 @@ void	displaygraphicsmode(t_raycasterdata *rdata)
 	else if (g_keydata.m == 2)
 		mlx_string_put(g_screendata.mlx_ptr, g_screendata.mlx_win, \
 		g_config.screenw / 2, 10, 0x0000ff00, "Mode 2 Grafx");
-	if (g_framedata.phrase)
-	{
-		if (!rdata->phrasetimer.tv_sec)
-			gettimeofday(&rdata->phrasetimer, NULL);
-		else if ((msec_diff(&rdata->phrasetimer, NULL)) > 2000)
-		{
-			g_framedata.phrase = 0;
-			reset_timer(&rdata->phrasetimer);
-		}
-		else if (g_framedata.phrase == 1)
-		{
-			mlx_string_put(g_screendata.mlx_ptr, g_screendata.mlx_win, \
-			g_config.screenw / 2, (g_config.screenh / 2) - 10, 0x0000ff00, "IT'S DANGEROUS TO GO ALONE");
-			mlx_string_put(g_screendata.mlx_ptr, g_screendata.mlx_win, \
-			g_config.screenw / 2, (g_config.screenh / 2) + 10, 0x0000ff00, "TAKE THIS");
-		}
-		
-	}
+	displayspeech(rdata);
 }

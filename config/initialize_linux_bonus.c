@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialize_linux_bonus.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 16:10:16 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/17 18:12:43 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/21 06:03:18 by mikiencolor      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,31 @@ void	getdisplayresolution(void)
 }
 
 /*
+** I am not even pretending this is anything other than what it is. :p
+*/
+
+void	initialize2(t_raycasterdata *rdata)
+{
+	g_keydata.w = 0;
+	g_keydata.a = 0;
+	g_keydata.s = 0;
+	g_keydata.d = 0;
+	g_keydata.r = 0;
+	g_keydata.l = 0;
+	g_keydata.m = 1;
+	g_keydata.ctrl = 0;
+	g_keydata.sp = 0;
+	g_keydata.enter = 0;
+	rdata->animatedoor = NULL;
+	rdata->animationframes = 0;
+	rdata->portalanimframes = 0;
+	reset_timer(&rdata->catsbanetimer);
+	reset_timer(&rdata->phrasetimer);
+	reset_timer(&rdata->chismetimer);
+	reset_timer(&rdata->endingtimer);
+	initializedoorline();
+}
+/*
 ** Initial variable values. Note: many values are left uninitialized because
 ** they are defined during configuration, and never accessed before then.
 **
@@ -90,32 +115,29 @@ void	getdisplayresolution(void)
 ** so you'll have to fiddle with the divisors to get it to look right. ;)
 */
 
-void	initialize(void)
+void	initialize(t_raycasterdata *rdata)
 {
 	g_player.rotspeed = 0.1;
 	g_player.movespeed = 0.25;
 	g_player.life = 6;
 	g_player.inventory.potions = 0;
 	g_player.inventory.rubies = 0;
+	g_player.inventory.catsbane = 0;
+	g_player.inventory.chisme = 0;
 	g_player.attack = 0;
 	g_framedata.xfloorcolor = 0x00669999;
 	g_framedata.xceilingcolor = 0x0066004b;
+	g_framedata.phrase = 0;
 	g_config.spritenum = 0;
+	g_config.doornum = 0;
 	g_config.sprtexnum = 0;
 	g_config.spritelist = NULL;
 	g_config.maplist = NULL;
 	g_config.wallmultiplier = 1;
 	g_config.udiv = 1;
 	g_config.vdiv = 1;
-	g_keydata.w = 0;
-	g_keydata.a = 0;
-	g_keydata.s = 0;
-	g_keydata.d = 0;
-	g_keydata.r = 0;
-	g_keydata.l = 0;
-	g_keydata.m = 1;
-	g_keydata.ctrl = 0;
-	g_keydata.sp = 0;
-	initializedoorline();
+	g_config.musicpid = 0;
+	g_config.ending = 0;
+	initialize2(rdata);
 	getdisplayresolution();
 }

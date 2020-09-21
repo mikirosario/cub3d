@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycaster.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/11 15:32:45 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/27 18:26:31 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/20 12:02:20 by mikiencolor      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ int		raycaster(t_raycasterdata *rdata)
 	{
 		castray(x);
 		calculateframeline();
-		drawframeline(x, rdata->buf);
+		drawframeline(x, rdata);
 		if (g_config.spritenum)
 			g_config.zbuffer[x] = g_raydata.perpwalldist;
 		x++;

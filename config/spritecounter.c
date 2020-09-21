@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   spritecounter.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/05 16:53:56 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/17 19:06:02 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/20 23:19:40 by mikiencolor      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ t_spritedata	*ft_sprtlstnew(void const *content)
 		tmp->vdiv = 1;
 		tmp->vmove = 0;
 		tmp->remove = 0;
+		tmp->animspeed = 0;
 		if (content)
 			tmp->texture = (void *)content;
 		else

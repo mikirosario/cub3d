@@ -6,7 +6,7 @@
 /*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/04 20:37:22 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/13 02:33:02 by mikiencolor      ###   ########.fr       */
+/*   Updated: 2020/09/20 23:23:54 by mikiencolor      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,18 @@
 
 void	animate(t_spritedata *sprite)
 {
-	if (sprite->framelimit)
+	int speed;
+
+	speed = 1;
+
+	if (sprite->animspeed++ == speed && sprite->framelimit)
 	{
-		sprite->texture = sprite->animtex[sprite->frame];
+		sprite->animspeed = 0;
 		if (sprite->frame < sprite->framelimit)
 			sprite->frame++;
 		else
 			sprite->frame = 0;
+		sprite->texture = sprite->animtex[sprite->frame];
 	}
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/20 07:36:40 by mikiencolor      ###   ########.fr       */
+/*   Updated: 2020/09/21 19:50:34 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,6 @@
 # include "iamerror_bonus.h"
 # include "printnotifications_bonus.h"
 
-#define PI 3.1415926535 
-
 typedef	struct	s_line
 {
 	double	startx;
@@ -49,16 +47,6 @@ typedef	struct	s_line
 	double	endx;
 	double	endy;
 }				t_line;
-
-typedef struct	s_triangle
-{
-	double	hypotenuse;
-	double	angletheta;
-	double	adjacent;
-	double	anglealpha;
-	double	opposite;
-	double	anglebeta;
-}				t_triangle;
 
 /*
 ** Raydir for leftmost ray (x = 0) and rightmost ray (x = w).
@@ -137,6 +125,13 @@ typedef struct	s_catsbane
 	t_imagedata	*ptr[2];
 }				t_catsbane;
 
+typedef struct	s_chisme
+{
+	t_imagedata	idle;
+	t_imagedata	active;
+	t_imagedata	*ptr[2];
+}				t_chisme;
+
 
 typedef struct	s_door
 {
@@ -157,9 +152,13 @@ t_imagedata		g_sprt7img;
 t_imagedata		g_sprt8img;
 t_imagedata		g_sprt9img;
 t_imagedata		g_potion;
+t_imagedata		g_ruby;
+t_imagedata		g_phrases;
+t_imagedata		g_ending;
+t_imagedata		g_portal;
 t_lifebar		g_lifebar;
 t_catsbane		g_catsbane;
-t_imagedata		g_oren;
+t_chisme		g_chisme;
 t_xraydata		g_xraydata;
 t_line			g_door;
 
@@ -178,6 +177,7 @@ int		sprarray(t_spritedata *list, t_spritedata ***array);
 int		raycaster_start(t_raycasterdata *rdata);
 int		raycaster_bonus(t_raycasterdata *rdata);
 void	getanimationimgs(t_imagedata *simg);
+int		makeportalanimation(t_imagedata *portal);
 int		checkanimations(t_imagedata *simg);
 void	animationtexerrors(t_imagedata *simg);
 int		getanimationptrs(t_spritedata *sprt, t_imagedata *simg);
@@ -189,8 +189,6 @@ void	animate(t_spritedata *sprite);
 void	removesprite(t_spritedata *sprite);
 void	animate(t_spritedata *sprite);
 int		doorcounter(unsigned int x, unsigned int y, char *c);
-int		findintersection(t_line *linea, t_line *lineb, double *xresult, double *yresult);
-void	ft_hypotenuse(t_triangle *triangle);
 void	activatedoor(t_raycasterdata *rdata);
 int		hordoorhitcheck(void);
 int		verdoorhitcheck(void);
@@ -205,5 +203,29 @@ void	sighandler(pid_t signum);
 void	mapspecialdoors(void);
 int		teleporter(char *mapchr);
 t_spritedata	*finddoor(int x, int y);
+int		makeportalanimation(t_imagedata *portal);
+int		makephrases(t_imagedata *phrases);
+int		makeending(t_imagedata *ending);
+void	xput_to_buffer(int x, int y, unsigned int *buf, t_imagedata *img);
+void	orentalk(int sprnum, double playerdistance);
+void	marvintalk(int sprnum, double playerdistance);
+void	ending(t_raycasterdata *rdata);
+
+void	castwall(t_raycasterdata *rdata);
+void	castdoors(t_raycasterdata *rdata);
+
+void	yput_to_buffer(int x, int y, unsigned int *buf, t_imagedata *img);
+void	xput_to_buffer(int x, int y, unsigned int *buf, t_imagedata *img);
+
+void	refreshpotions(unsigned int *buf);
+void	refreshrubies(unsigned int *buf);
+void	refreshchisme(unsigned int *buf, t_raycasterdata *rdata);
+void	refreshcatsbane(unsigned int *buf, t_raycasterdata *rdata);
+
+unsigned int	*choosetexture(t_raycasterdata *rdata);
+
+int		mousepress(int button, int x, int y, void *param);
+int		mouserelease(int button, int x, int y, void *param);
+int		mousemove(int x, int y, void *param);
 
 #endif

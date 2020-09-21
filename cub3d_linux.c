@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_linux.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/07 20:24:05 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/19 01:01:21 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/21 05:59:29 by mikiencolor      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int		main(int argc, char **argv)
 	t_raycasterdata	rdata;
 	int				success;
 
-	initialize();
+	initialize(&rdata);
 	configure(&rdata, argv, argc, &success);
 	printnotifications();
 	printerrors();

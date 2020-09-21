@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   calculateframeline_bonus.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/12 17:42:02 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/14 13:36:14 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/21 01:19:55 by mikiencolor      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ void	walldrawparams(void)
 				g_raydata.perpwalldist = (g_raydata.mapy - g_player.posy + \
 				(1 - g_raydata.stepy) / 2) / g_raydata.raydiry;
 		}
+		if (g_config.map[g_raydata.mapy][g_raydata.mapx] == 'v')
+			g_framedata.secretwallcompass++;
 	}
 	g_framedata.lineheight = (int)(g_config.screenh * \
 	g_config.wallmultiplier / g_raydata.perpwalldist);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   playermovement_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/14 20:03:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/20 05:27:38 by mikiencolor      ###   ########.fr       */
+/*   Updated: 2020/09/21 20:13:50 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int		sprcollide(double y, double x)
 
 void	rlrotate(void)
 {
-	if (g_keydata.r)
+	if (g_keydata.r || g_keydata.mousedragr)
 	{
 		ft_rotate_2d(g_player.dirx, g_player.diry, -3, g_player.newdirxy);
 		g_player.dirx = g_player.newdirxy[0];
@@ -93,7 +93,7 @@ void	rlrotate(void)
 		g_player.planex = g_player.newdirxy[0];
 		g_player.planey = g_player.newdirxy[1];
 	}
-	if (g_keydata.l)
+	if (g_keydata.l || g_keydata.mousedragl)
 	{
 		ft_rotate_2d(g_player.dirx, g_player.diry, 3, g_player.newdirxy);
 		g_player.dirx = g_player.newdirxy[0];
@@ -112,13 +112,9 @@ void	rlrotate(void)
 ** the player's new location to be within a traversable square ('0') on the map
 ** we also require it to be outside the hit circle of any collidable sprite
 ** (sprcollide is false).
-**
-** Teleporter will intercept if any movement takes the player to within a
-** teleportation square, and teleport the player to the destination assigned
-** to that square.
 */
 
-void	adstrafe(void)
+int	adstrafe(void)
 {
 	double	newposx;
 	double	newposy;
@@ -130,11 +126,15 @@ void	adstrafe(void)
 		newposx = (g_player.posx + g_player.newdirxy[0] * g_player.movespeed);
 		newposy = (g_player.posy + g_player.newdirxy[1] * g_player.movespeed);
 		mapchr = &g_config.map[(int)g_player.posy][(int)newposx];
-		if (!teleporter(mapchr) && (*mapchr == '0' || *mapchr == 'O') && \
+		if (teleporter(mapchr))
+			return (0);
+		if ((*mapchr == '0' || *mapchr == 'O') && \
 		!sprcollide(g_player.posy, newposx))
 			g_player.posx = newposx;
 		mapchr = &g_config.map[(int)newposy][(int)g_player.posx];
-		if (!teleporter(mapchr) && (*mapchr == '0' || *mapchr == 'O') && \
+		if (teleporter(mapchr))
+			return (0);
+		if ((*mapchr == '0' || *mapchr == 'O') && \
 		!sprcollide(newposy, g_player.posx))
 			g_player.posy = newposy;
 	}
@@ -143,17 +143,22 @@ void	adstrafe(void)
 		newposx = (g_player.posx - g_player.newdirxy[0] * g_player.movespeed);
 		newposy = (g_player.posy - g_player.newdirxy[1] * g_player.movespeed);
 		mapchr = &g_config.map[(int)g_player.posy][(int)newposx];
-		if (!teleporter(mapchr) && (*mapchr == '0' || *mapchr == 'O') && \
+		if (teleporter(mapchr))
+			return (0);
+		if ((*mapchr == '0' || *mapchr == 'O') && \
 		!sprcollide(g_player.posy, newposx))
 			g_player.posx = newposx;
 		mapchr = &g_config.map[(int)newposy][(int)g_player.posx];
-		if (!teleporter(mapchr) && (*mapchr == '0' || *mapchr == 'O') && \
+		if (teleporter(mapchr))
+			return (0);
+		if ((*mapchr == '0' || *mapchr == 'O') && \
 		!sprcollide(newposy, g_player.posx))
 			g_player.posy = newposy;
 	}
+	return (1);
 }
 
-void	wsupdown(void)
+int	wsupdown(void)
 {
 	double	newposx;
 	double	newposy;
@@ -164,11 +169,15 @@ void	wsupdown(void)
 		newposx = g_player.posx + g_player.dirx * g_player.movespeed;
 		newposy = g_player.posy + g_player.diry * g_player.movespeed;
 		mapchr = &g_config.map[(int)g_player.posy][(int)newposx];
-		if (!teleporter(mapchr) && (*mapchr == '0' || *mapchr == 'O') && \
+		if (teleporter(mapchr))
+			return (0);
+		if ((*mapchr == '0' || *mapchr == 'O') && \
 		!sprcollide(g_player.posy, newposx))
 			g_player.posx = newposx;
 		mapchr = &g_config.map[(int)newposy][(int)g_player.posx];
-		if (!teleporter(mapchr) && (*mapchr == '0' || *mapchr == 'O') && \
+		if (teleporter(mapchr))
+			return (0);
+		if ((*mapchr == '0' || *mapchr == 'O') && \
 		!sprcollide(newposy, g_player.posx))
 			g_player.posy = newposy;
 	}
@@ -177,14 +186,19 @@ void	wsupdown(void)
 		newposx = g_player.posx - g_player.dirx * g_player.movespeed;
 		newposy = g_player.posy - g_player.diry * g_player.movespeed;
 		mapchr = &g_config.map[(int)(g_player.posy)][(int)newposx];
-		if (!teleporter(mapchr) && (*mapchr == '0' || *mapchr == 'O') && \
+		if (teleporter(mapchr))
+			return (0);
+		if ((*mapchr == '0' || *mapchr == 'O') && \
 		!sprcollide(g_player.posy, newposx))
 			g_player.posx = newposx;
 		mapchr = &g_config.map[(int)newposy][(int)g_player.posx];
-		if (!teleporter(mapchr) && (*mapchr == '0' || *mapchr == 'O') && \
+		if (teleporter(mapchr))
+			return (0);
+		if ((*mapchr == '0' || *mapchr == 'O') && \
 		!sprcollide(newposy, g_player.posx))
 			g_player.posy = newposy;
 	}
+	return (1);
 }
 
 /*
@@ -198,7 +212,9 @@ void	wsupdown(void)
 
 void	readmovementkeys(void)
 {
-	wsupdown();
-	adstrafe();
+	if (!wsupdown())
+		return ;
+	if (!adstrafe())
+		return ;
 	rlrotate();
 }

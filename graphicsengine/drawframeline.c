@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   drawframeline.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/11 19:45:47 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/28 17:54:05 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/20 12:00:45 by mikiencolor      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,15 +192,15 @@ int		drawceiling(int x, int pixel, unsigned int *buf)
 ** from which this function is called (see raycaster.c).
 */
 
-void	drawframeline(int x, unsigned int *buf)
+void	drawframeline(int x, t_raycasterdata *rdata)
 {
 	int	pixel;
 
 	pixel = x;
-	pixel = drawceiling(x, pixel, buf);
+	pixel = drawceiling(x, pixel, rdata->buf);
 	if (g_keydata.m == 2)
-		pixel = solidcolorwalls(x, pixel, buf);
+		pixel = solidcolorwalls(x, pixel, rdata->buf);
 	else
-		pixel = texturedwalls(x, pixel, buf);
-	drawfloor(x, pixel, buf);
+		pixel = texturedwalls(x, pixel, rdata->buf);
+	drawfloor(x, pixel, rdata->buf);
 }

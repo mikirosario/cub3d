@@ -6,7 +6,7 @@
 /*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/07 20:24:05 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/20 07:47:03 by mikiencolor      ###   ########.fr       */
+/*   Updated: 2020/09/21 05:57:32 by mikiencolor      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int		main(int argc, char **argv)
 	int				success;
 	//pid_t			ppid;
 
-	initialize();
+	initialize(&rdata);
 	configure(&rdata, argv, argc, &success);
 	printnotifications();
 	printerrors();
@@ -100,10 +100,6 @@ int		main(int argc, char **argv)
 		freeme();
 		return (EXIT_FAILURE);
 	}
-	rdata.animatedoor = NULL;
-	rdata.animationframes = 0;
-	reset_timer(&rdata.catsbanetimer);
-	reset_timer(&rdata.phrasetimer);
 	g_config.musicpid = fork();
 	if (!g_config.musicpid)
 	{
