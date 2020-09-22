@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/07 20:24:05 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/21 05:59:40 by mikiencolor      ###   ########.fr       */
+/*   Updated: 2020/09/22 04:15:00 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,58 +15,19 @@
 t_error g_iamerror;
 
 /*
-** These functions will respectively create and put the g_clsimg.mlx_img image
-** to window. It was originally meant to be clear screen function, until I
-** realized I don't really need a clear screen function. I might find another
-** use for it, though, so I'm leaving it here. ;)
-**
-** I might repurpose it for overlays or something in the bonus. :)
-**
-**
-** void makeclsimg(void)
-** {
-**    g_clsimg.mlx_img = mlx_new_image(g_screendata.mlx_ptr, g_config.screenw, \
-**	  g_config.screenh);
-** }
-**
-** void    cls()
-** {
-**   mlx_put_image_to_window(g_screendata.mlx_ptr, g_screendata.mlx_win, \
-** 	 g_clsimg.mlx_img, 0, 0);
-** }
+** I needed a strcmp for this, so here it is. Definitely going into libft.
 */
 
-/*
-** This function is launched when the user exits normally, by pressing escape
-** or by clicking the X on the upper left of the window.
-**
-** Linux version:
-**
-** int   ft_stop(int key, void *param)
-** {
-**	(void)param;
-**	if (key == 0xff1b || key == 0)
-**	{
-**		freeme();
-**		ft_printf(GREEN"\n**** THANKS FOR PLAYING! :D ****\n\n"RESET);
-**		exit(EXIT_SUCCESS);
-**	}
-**	return (0);
-** }
-**
-** Mac:
-*/
-
-int		ft_stop(int key, void *param)
+int		ft_strcmp(const char *s1, const char *s2)
 {
-	(void)param;
-	if (key == 0x35 || key == 0x00)
+    while(*s1 == *s2)
 	{
-		freeme();
-		ft_printf(GREEN"\n**** THANKS FOR PLAYING! :D ****\n\n"RESET);
-		exit(EXIT_SUCCESS);
+		if (!(*s1))
+			return (0);
+		s1++;
+		s2++;
 	}
-	return (0);
+    return ((*(unsigned char *)s1 < *(unsigned char *)s2) ? -1 : 1);
 }
 
 void	configure(t_raycasterdata *rdata, char **argv, int argc, int *success)
@@ -75,7 +36,7 @@ void	configure(t_raycasterdata *rdata, char **argv, int argc, int *success)
 	if (!(*success = argc > 3 ? 0 : 1))
 		g_iamerror.toomanyargs = 1;
 	else if (argc == 3)
-		if (!(ft_strncmp("--save", argv[2], ft_strlen(argv[2]))))
+		if (!(ft_strcmp("--save", argv[2])))
 			g_config.screenshot = 1;
 	if (*success && (*success = cubhandler(argv[1])))
 	{

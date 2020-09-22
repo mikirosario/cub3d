@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   spraycat_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/16 20:12:45 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/21 16:12:30 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/22 03:55:23 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,8 @@ void	spraycat(t_spritedata *sprite)
 			sprite->remove = 1;
 			g_config.ending = 1;
 		}
-		//enemy damage anim/colour flag
-		//pid = fork();
-		//if (!pid)
-		//{
-			system("afplay ./meow.wav &");
-		//	exit(EXIT_SUCCESS);
-		//}
-		//shrill meow sound effect
+		//system("afplay ./meow.wav &");
+		playsound(MEOW);
 		g_player.attack = 0;
 		sprite->checkdamage = 0;
 		sprite->texture = sprite->animtex[1];

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialize_linux.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 16:10:16 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/04 18:10:12 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/22 04:17:29 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,9 @@ void	getdisplayresolution(void)
 ** so you'll have to fiddle with the divisors to get it to look right. ;)
 */
 
-void	initialize(void)
+void	initialize(t_raycasterdata *rdata)
 {
+	(void)rdata;
 	g_player.rotspeed = 0.1;
 	g_player.movespeed = 0.25;
 	g_framedata.xfloorcolor = 0x00669999;

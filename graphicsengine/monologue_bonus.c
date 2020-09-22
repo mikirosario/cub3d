@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   monologue_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/20 20:16:48 by mikiencolor       #+#    #+#             */
-/*   Updated: 2020/09/21 15:37:47 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/22 04:01:53 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ void	marvintalk(int sprnum, double playerdistance)
 		{
 			g_player.inventory.rubies = 0;
 			g_player.inventory.chisme = 1;
-			system("afplay ./gotchisme.wav &");
+			//system("afplay ./gotchisme.wav &")		}
+			playsound(CHISME);
 		}
 	}
 }

@@ -3,16 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/07 20:24:05 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/21 20:45:17 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/22 04:14:07 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
 t_error g_iamerror;
+
+/*
+** I needed a strcmp for this, so here it is. Definitely going into libft.
+*/
+
+int		ft_strcmp(const char *s1, const char *s2)
+{
+    while(*s1 == *s2)
+	{
+		if (!(*s1))
+			return (0);
+		s1++;
+		s2++;
+	}
+    return ((*(unsigned char *)s1 < *(unsigned char *)s2) ? -1 : 1);
+}
 
 /*
 ** These functions will respectively create and put the g_clsimg.mlx_img image
@@ -38,38 +54,9 @@ t_error g_iamerror;
 
 /*
 ** This function is launched when the user exits normally, by pressing escape
-** or by clicking the X on the upper left of the window.
-**
-** Linux version:
-**
-** int   ft_stop(int key, void *param)
-** {
-**	(void)param;
-**	if (key == 0xff1b || key == 0)
-**	{
-**		freeme();
-**		ft_printf(GREEN"\n**** THANKS FOR PLAYING! :D ****\n\n"RESET);
-**		exit(EXIT_SUCCESS);
-**	}
-**	return (0);
-** }
-**
-** Mac:
+** or by clicking the X on the upper left of the window, by beating the game,
+** or because it's game over, man, game over.
 */
-
-int		ft_stop(int key, void *param)
-{
-	(void)param;
-	if (key == 0x35 || key == 0x00)
-	{
-		freeme();
-		ft_printf(GREEN"\n**** THANKS FOR PLAYING! :D ****\n\n"RESET);
-		//kill parent and all children
-		//kill(0, SIGTERM);
-		exit(EXIT_SUCCESS);
-	}
-	return (0);
-}
 
 void	configure(t_raycasterdata *rdata, char **argv, int argc, int *success)
 {
@@ -77,7 +64,7 @@ void	configure(t_raycasterdata *rdata, char **argv, int argc, int *success)
 	if (!(*success = argc > 3 ? 0 : 1))
 		g_iamerror.toomanyargs = 1;
 	else if (argc == 3)
-		if (!(ft_strncmp("--save", argv[2], ft_strlen(argv[2]))))
+		if (!(ft_strcmp("--save", argv[2])))
 			g_config.screenshot = 1;
 	if (*success && (*success = cubhandler(argv[1])))
 	{
@@ -104,7 +91,7 @@ int		main(int argc, char **argv)
 {
 	t_raycasterdata	rdata;
 	int				success;
-	char *args[] = {"afplay", "./theme.mp3", NULL};
+//	char *args[] = {"afplay", "./theme.mp3", NULL};
 	//pid_t			ppid;
 
 	initialize(&rdata);
@@ -123,7 +110,8 @@ int		main(int argc, char **argv)
 		//now I can kill it gracefully upon program termination!
 		//No more messy system call.
 		//system("while :; do afplay ./theme.mp3; done");
-		execvp(args[0], args);
+		//execvp(args[0], args);
+		playtrack(MAIN_THEME);
 	}
 	mlx_do_key_autorepeatoff(g_screendata.mlx_ptr);
 	mlx_hook(g_screendata.mlx_win, 17, 1L << 17, ft_stop, (void*)0);

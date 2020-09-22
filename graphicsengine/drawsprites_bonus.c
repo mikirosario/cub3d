@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   drawsprites_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/12 18:46:59 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/20 22:32:33 by mikiencolor      ###   ########.fr       */
+/*   Updated: 2020/09/22 04:39:01 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ t_spritedata *sprite)
 		prms->scrnx < g_config.screenw && \
 		prms->transformy < g_config.zbuffer[prms->scrnx])
 		{
+			bossmusic(sprite->spritetype);
 			if (sprite->checkdamage && prms->scrnx == g_config.screenw / 2 - 1) //if checkdamage flag true and the stripe to be drawn is down the middle of the screen
 				spraycat(sprite);
 			drawspriteline(prms, buf, sprite);

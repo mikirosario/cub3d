@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/21 19:50:34 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/22 05:52:46 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@
 # include "cub3d.h"
 # include "iamerror_bonus.h"
 # include "printnotifications_bonus.h"
+# include "music_bonus.h"
 
 typedef	struct	s_line
 {
@@ -166,6 +167,8 @@ t_line			g_door;
 ** Bonus
 */
 
+int		ft_strcmp(const char *s1, const char *s2);
+
 void	countframes(time_t *timestart);
 void	displaygraphicsmode(t_raycasterdata *rdata);
 void	cls(void);
@@ -227,5 +230,11 @@ unsigned int	*choosetexture(t_raycasterdata *rdata);
 int		mousepress(int button, int x, int y, void *param);
 int		mouserelease(int button, int x, int y, void *param);
 int		mousemove(int x, int y, void *param);
+
+void	playtrack(char *track);
+int		playsound(char *sound);
+void	bossmusic(char sprite);
+
+unsigned int	fogger(unsigned int argb, double fog);
 
 #endif

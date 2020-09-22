@@ -3,14 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   teleportplayer_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/20 03:33:44 by mikiencolor       #+#    #+#             */
-/*   Updated: 2020/09/20 03:55:54 by mikiencolor      ###   ########.fr       */
+/*   Updated: 2020/09/22 04:43:23 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d_bonus.h"
+
+/*
+** Music
+** "Sewer Monsters Town Hall Meeting" by Eric Matyas
+** www.soundimage.org
+*/
+
+void	lastlevel(void)
+{
+	g_framedata.phrase = 4;
+	kill(g_config.musicpid, 15);
+	g_config.musicpid = fork();
+	if (!g_config.musicpid)
+		playtrack(HALL_THEME);
+}
 
 int		teleporter(char *mapchr)
 {
@@ -23,5 +38,7 @@ int		teleporter(char *mapchr)
 		i++;
 	g_player.posx = g_config.door[i]->destaddr->posx + 0.5;
 	g_player.posy = g_config.door[i]->destaddr->posy + 0.5;
+	if (g_config.door[i]->destaddr->posx == 29 && g_config.door[i]->destaddr->posy == 21)
+		lastlevel();
 	return(1);
 }

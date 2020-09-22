@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dooranimator_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/15 03:34:28 by miki              #+#    #+#             */
-/*   Updated: 2020/09/21 00:36:52 by mikiencolor      ###   ########.fr       */
+/*   Updated: 2020/09/22 03:45:47 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ void	continuedooranimation(t_raycasterdata *rdata, struct timeval *tstart)
 		else
 			rdata->animatedoor->doorend -= 0.025;
 		rdata->animationframes++;
-		system("afplay -r 0.65 ./door.wav &");
+		//system("afplay -r 0.65 ./door.wav &");
+		playsound(DOOR);
 		gettimeofday(tstart, NULL);
 	}
 	else if (msec_diff(tstart, NULL) > 31.25)
@@ -167,7 +168,8 @@ void	activatedoor(t_raycasterdata *rdata)
 			while (g_config.door[i]->dooraddr != &g_config.map[g_raydata.mapy][g_raydata.mapx])
 				i++;
 			g_config.door[i]->spritetype = '/';
-			system("afplay -t 2 ./discovery.wav &");
+			//system("afplay -t 2 ./discovery.wav &");
+			playsound(DISCOVERY);
 		}
 	}
 	else if (animatedoor(rdata))

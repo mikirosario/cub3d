@@ -3,19 +3,65 @@
 /*                                                        :::      ::::::::   */
 /*   ending_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/21 03:00:07 by mikiencolor       #+#    #+#             */
-/*   Updated: 2020/09/21 18:56:55 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/22 05:15:01 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d_bonus.h"
 
+/*
+** Sound attribution for ending fanfare:
+** eardeer, freesound.org.
+*/
+
+void	endingsounds(int frame)
+{
+	static char	stayout = 0;
+
+	if (!stayout)
+	{
+		if (g_config.musicpid)
+			kill(g_config.musicpid, 15);
+		g_config.musicpid = 0;
+		playsound(END);
+		stayout = 1;
+	}
+	if (frame == 6 && stayout == 1)
+	{
+		stayout = 2;
+		playsound(MEOW);
+	}
+}
+
+/*
+** Music
+** "Into Battle" by Eric Matyas
+** www.soundimage.org
+*/
+
+void	bossmusic(char spritetype)
+{
+	static char stayout = 0;
+
+	if (!stayout && spritetype == '2')
+	{
+		if (g_config.musicpid)
+			kill(g_config.musicpid, 15);
+		g_config.musicpid = fork();
+		if (!g_config.musicpid)
+			playtrack(BOSS_THEME);
+		stayout = 1;
+	}
+}
+
 void	playending(t_raycasterdata *rdata)
 {
-	static int i = 0;
+	static int	i = 0;
 
+	endingsounds(i);
 	yput_to_buffer((g_config.screenw / 2 - g_ending.texw / 2) - 1, \
 	(g_config.screenh / 2 - g_ending.texh / 2) - 1, rdata->buf, \
 	g_ending.animation[i]);

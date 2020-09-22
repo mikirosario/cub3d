@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sortsprites_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 18:24:16 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/21 15:34:17 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/22 03:52:43 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,19 +43,22 @@ void	doplayerinteraction(int sprnum, double playerdistance)
 		{
 			g_config.sprt[sprnum]->remove = 1;
 			g_player.inventory.potions++;
-			system("afplay ./gotitem.wav &");
+			//system("afplay ./gotitem.wav &");
+			playsound(ITEM);
 		}
 		if (g_config.sprt[sprnum]->spritetype == '5' && !g_player.inventory.catsbane)
 		{
 			g_config.sprt[sprnum]->remove = 1;
 			g_player.inventory.catsbane = 1;
-			system("afplay ./gotcatsbane.wav &");
+			//system("afplay ./gotcatsbane.wav &");
+			playsound(CATSBANE);
 		}
 		if (g_config.sprt[sprnum]->spritetype == '7' && g_player.inventory.rubies < 3)
 		{
 			g_config.sprt[sprnum]->remove = 1;
 			g_player.inventory.rubies++;
-			system("afplay ./gotitem.wav &");
+			//system("afplay ./gotitem.wav &");
+			playsound(ITEM);
 		}
 	}
 	orentalk(sprnum, playerdistance);

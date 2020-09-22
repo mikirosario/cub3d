@@ -3,14 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   keychecks_linux.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/17 18:44:48 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/31 17:18:16 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/22 04:18:29 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
+
+
+/*
+** This function is launched when the user exits normally, by pressing escape
+** or by clicking the X on the upper left of the window.
+**
+** Linux version:
+*/
+
+int		ft_stop(int key, void *param)
+{
+	(void)param;
+	if (key == 0xff1b || key == 0)
+	{
+		freeme();
+		ft_printf(GREEN"\n**** THANKS FOR PLAYING! :D ****\n\n"RESET);
+		exit(EXIT_SUCCESS);
+	}
+	return (0);
+}
 
 /*
 ** If a key is being pressed, a bit is flipped to 1 to store this information.

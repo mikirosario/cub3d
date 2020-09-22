@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   drawceilingfloor_bonus.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/28 16:41:58 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/20 05:20:44 by mikiencolor      ###   ########.fr       */
+/*   Updated: 2020/09/22 05:53:25 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	draw_floor(unsigned int *buf, int x, int y)
 		xcolor = (xcolor >> 1) & 8355711;
 	if (g_framedata.invincibilityframes % 2)
 		xcolor = xcolor >> 1 & 0x7F0000;
-	buf[(y * g_config.screenw) + x] = xcolor;
+	buf[(y * g_config.screenw) + x] = fogger(xcolor, 0.75);
 
 }
 
