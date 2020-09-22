@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ending_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/21 03:00:07 by mikiencolor       #+#    #+#             */
-/*   Updated: 2020/09/22 05:15:01 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/22 20:50:44 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,12 +78,12 @@ void	playending(t_raycasterdata *rdata)
 
 void	teleport(void)
 {
-		g_player.posx = 29.5;
-		g_player.posy = 18.2;
-		g_player.dirx = (double)0;
-		g_player.diry = (double)-1;
-		g_player.planex = (double)0.66;
-		g_player.planey = (double)0;
+	g_player.posx = 29.5;
+	g_player.posy = 18.2;
+	g_player.dirx = (double)0;
+	g_player.diry = (double)-1;
+	g_player.planex = (double)0.66;
+	g_player.planey = (double)0;
 }
 
 /*
@@ -96,6 +96,8 @@ void	ending(t_raycasterdata *rdata)
 
 	if (!stayout)
 	{
+		g_keydata.m = 1;
+		g_framedata.lastlevel = 0;
 		teleport();
 		stayout = 1;
 		gettimeofday(&rdata->endingtimer, NULL);

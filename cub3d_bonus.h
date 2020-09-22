@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/22 05:52:46 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/22 19:41:15 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,7 +170,8 @@ t_line			g_door;
 int		ft_strcmp(const char *s1, const char *s2);
 
 void	countframes(time_t *timestart);
-void	displaygraphicsmode(t_raycasterdata *rdata);
+void	displaygraphicsmode(void);
+void	displayspeech(t_raycasterdata *rdata);
 void	cls(void);
 void	cast_ceiling_floor(unsigned int *buf);
 int		getftex(const char *line, unsigned int linenum);
@@ -197,7 +198,7 @@ int		hordoorhitcheck(void);
 int		verdoorhitcheck(void);
 int		hordoorslide(void);
 int		verdoorslide(void);
-void	castoneray(int x);
+void	castoneray(void);
 double	msectime(void);
 double	msec_diff(struct timeval *t0, struct timeval *t1);
 void	reset_timer(struct timeval *t);
@@ -236,5 +237,7 @@ int		playsound(char *sound);
 void	bossmusic(char sprite);
 
 unsigned int	fogger(unsigned int argb, double fog);
+
+void	drawtobuffer_bonus(unsigned int *buf, int pixel, unsigned int xcolor);
 
 #endif

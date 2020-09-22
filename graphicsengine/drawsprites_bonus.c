@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   drawsprites_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/12 18:46:59 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/22 04:39:01 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/22 20:49:36 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ t_spritedata *sprite)
 		prms->transformy < g_config.zbuffer[prms->scrnx])
 		{
 			bossmusic(sprite->spritetype);
-			if (sprite->checkdamage && prms->scrnx == g_config.screenw / 2 - 1) //if checkdamage flag true and the stripe to be drawn is down the middle of the screen
+			if (sprite->checkdamage && prms->scrnx == g_config.screenw / 2 - 1)
 				spraycat(sprite);
 			drawspriteline(prms, buf, sprite);
 		}
@@ -302,7 +302,7 @@ void	castsprites(unsigned int *buf)
 	{
 		sprite = g_config.sprt[g_config.spriteorder[i]];
 		if (sprite->spritetype == '4' || sprite->spritetype == '7')
-		 animate(sprite);
+			animate(sprite);
 		if (sprite->hitanimationframes && sprite->spritetype == '2')
 			if (!(--sprite->hitanimationframes))
 				sprite->texture = sprite->animtex[0];

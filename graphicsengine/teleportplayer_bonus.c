@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   teleportplayer_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/20 03:33:44 by mikiencolor       #+#    #+#             */
-/*   Updated: 2020/09/22 04:43:23 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/22 18:36:33 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 void	lastlevel(void)
 {
 	g_framedata.phrase = 4;
+	g_framedata.lastlevel = 1;
 	kill(g_config.musicpid, 15);
 	g_config.musicpid = fork();
 	if (!g_config.musicpid)

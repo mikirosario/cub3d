@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   keychecks_linux_bonus.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/17 18:44:48 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/22 04:11:46 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/22 18:48:45 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ int	keypress(int key, void *param)
 	(void)param;
 	if (key == 0xff1b)
 		ft_stop(key, (void *)0);
+	if (g_config.ending == 2)
+		return (0);
 	if (key == 0x77)
 		g_keydata.w = 1;
 	if (key == 0x73)

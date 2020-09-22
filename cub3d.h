@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/21 20:43:34 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/22 18:37:02 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -311,6 +311,7 @@ typedef struct	s_framedata
 	double			middleraydoordist;
 	int				phrase;
 	int				secretwallcompass;
+	char			lastlevel : 1;
 }				t_framedata;
 
 /*

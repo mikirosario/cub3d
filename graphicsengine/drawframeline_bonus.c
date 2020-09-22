@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   drawframeline_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/11 19:45:47 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/21 06:19:22 by mikiencolor      ###   ########.fr       */
+/*   Updated: 2020/09/22 20:47:58 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,10 @@ void	drawfloor(int x, int pixel, unsigned int *buf)
 {
 	while (pixel < (x + (g_config.screenh - 1) * g_config.screenw))
 	{
-		buf[pixel] = g_framedata.xfloorcolor;
+		drawtobuffer_bonus(buf, pixel, g_framedata.xfloorcolor);
 		pixel += g_config.screenw;
 	}
 }
-
-
 
 /*
 ** This function assigns the texture based on the side we are facing as we look
@@ -107,11 +105,9 @@ int		texturedwalls(int x, int pixel, t_raycasterdata *rdata)
 		g_framedata.texy = (int)(g_framedata.texpos) & (g_config.texh - 1);
 		g_framedata.xcolor = texptr[g_framedata.texx + \
 		g_framedata.texy * g_config.texw];
-		if (g_keydata.m == 1 && g_raydata.side == 1)
-			g_framedata.xcolor = (g_framedata.xcolor >> 1) & 0x7F7F7F;
-		if (g_framedata.invincibilityframes % 2)
-			g_framedata.xcolor = g_framedata.xcolor >> 1 & 0x7F0000;
-		rdata->buf[pixel] = g_framedata.xcolor;
+		if (g_keydata.m != 0 && g_raydata.side == 1)
+			g_framedata.xcolor = (g_framedata.xcolor >> 1) & 0x007F7F7F;
+		drawtobuffer_bonus(rdata->buf, pixel, g_framedata.xcolor);
 		g_framedata.texpos += g_framedata.step;
 		pixel += g_config.screenw;
 	}
@@ -141,11 +137,11 @@ int		solidcolorwalls(int x, int pixel, unsigned int *buf)
 		g_framedata.xcolor = 0x000000ff;
 	else if (g_raydata.side == 0 && g_raydata.stepx < 0)
 		g_framedata.xcolor = 0x00ffff00;
-	if (g_raydata.side == 1)
-		g_framedata.xcolor = (g_framedata.xcolor >> 1) & 8355711;
+	if (g_keydata.m != 0 && g_raydata.side == 1)
+		g_framedata.xcolor = (g_framedata.xcolor >> 1) & 0x007F7F7F;
 	while (pixel <= (x + g_framedata.drawend * g_config.screenw))
 	{
-		buf[pixel] = g_framedata.xcolor;
+		drawtobuffer_bonus(buf, pixel, g_framedata.xcolor);
 		pixel += g_config.screenw;
 	}
 	return (pixel);
@@ -172,7 +168,7 @@ int		drawceiling(int x, int pixel, unsigned int *buf)
 {
 	while (pixel < (x + g_framedata.drawstart * g_config.screenw))
 	{
-		buf[pixel] = g_framedata.xceilingcolor;
+		drawtobuffer_bonus(buf, pixel, g_framedata.xceilingcolor);
 		pixel += g_config.screenw;
 	}
 	return (pixel);

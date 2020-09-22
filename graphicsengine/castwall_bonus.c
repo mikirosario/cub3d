@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   castwall_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/21 04:54:32 by mikiencolor       #+#    #+#             */
-/*   Updated: 2020/09/21 04:56:13 by mikiencolor      ###   ########.fr       */
+/*   Updated: 2020/09/22 19:41:37 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

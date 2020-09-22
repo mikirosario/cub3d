@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   keychecks_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/17 18:44:48 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/22 04:11:37 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/22 19:03:58 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ int	keypress(int key, void *param)
 	(void)param;
 	if (key == 0x35)
 		ft_stop(key, (void *)0);
+	if (g_config.ending == 2)
+		return (0);
 	if (key == 0xD)
 		g_keydata.w = 1;
 	if (key == 0x1)
@@ -61,7 +63,7 @@ int	keypress(int key, void *param)
 		else
 			g_keydata.m += 1;
 	}
-	if (key == 0x52)
+	if (key == 0x10D)
 		g_keydata.ctrl = 1;
 	if (key == 0x31)
 		g_keydata.sp = 1;

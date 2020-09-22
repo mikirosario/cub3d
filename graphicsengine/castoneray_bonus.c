@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/11 18:13:54 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/15 17:44:21 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/22 19:37:53 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,15 @@
 void	calculatedistance(void)
 {
 	if (g_raydata.side == 0)
-		{
-				g_raydata.perpwalldist = (g_raydata.mapx - g_player.posx + \
-				(1 - g_raydata.stepx) / 2) / g_raydata.raydirx;
-		}		
-		else
-		{
-				g_raydata.perpwalldist = (g_raydata.mapy - g_player.posy + \
-				(1 - g_raydata.stepy) / 2) / g_raydata.raydiry;
-		}
+	{
+		g_raydata.perpwalldist = (g_raydata.mapx - g_player.posx + \
+		(1 - g_raydata.stepx) / 2) / g_raydata.raydirx;
+	}
+	else
+	{
+		g_raydata.perpwalldist = (g_raydata.mapy - g_player.posy + \
+		(1 - g_raydata.stepy) / 2) / g_raydata.raydiry;
+	}
 }
 
 /*
@@ -48,7 +48,7 @@ void	hitdetector(void)
 			g_raydata.side = 0;
 		}
 		else
-		{	
+		{
 			g_raydata.sidedisty += g_raydata.deltadisty;
 			g_raydata.mapy += g_raydata.stepy;
 			g_raydata.side = 1;
@@ -105,40 +105,21 @@ void	stepandinitialside2(void)
 }
 
 /*
-** The ray starts at the player's position. Here we determine in which
-** direction or orientation it is travelling on the map.
+** Similar to the normal raycaster, except castoneray will only be called for
+** camerax == 0, that is, the ray that comes from the centre of the player,
+** crosses the camera plane in the middle and goes through the center of the
+** screen.
 **
-** For a given orientation (depending on which way it's pointing), a ray will
-** always have a set distance from the edge of one wall to the edge of the
-** next. We call top and bottom walls y-facing walls and left or right walls
-** x-facing walls. The distance from the edge of a wall to the edge of another
-** x-facing or y-facing wall is a function of the ray's orientation, that is,
-** how much far it travels along one axis versus how far it travels along the
-** other. We just need to know whether the next wall it hits will be x-facing
-** or y-facing so we know which to paint on screen, and its distance from the
-** player so we know how many pixels tall to paint it.
-**
-** First we will determine these distances, taking the ray's orientation,
-** which will, of course, depend on the player's orientation. They will be used
-** later by the DDA algorithm to trace the ray's path wall by wall across the
-** map to determine where it will first hit a wall.
-**
-** We calculate the ray's position and direction. Then we determine which box
-** of the map we are in (mapX and mapY). Then we calculate the distance the ray
-** must travel to go from one x-facing side to the next x-facing side, or one
-** y-facing side to the next y-facing side as a function of its orientation.
-** Unless facing perfectly west, east, north or south, this will be a
-** fractional number.
-**
-** Then we will call stepandinitialside.
+** We are basically only interested in whether it hits a door or not and, if
+** so, how far away that door is. We store that distance immediately in
+** g_raydata.perpwalldist and can the use it to decide what to do with the door
+** depending on any other flags (spacebar pressed, for example).
 */
 
-void	castoneray(int x)
+void	castoneray(void)
 {
-	(void)x;
-	//g_player.camerax = 2 * x / (double)g_config.screenw - 1;
-	g_raydata.raydirx = g_player.dirx + g_player.planex * 0;//g_player.camerax;
-	g_raydata.raydiry = g_player.diry + g_player.planey * 0;//g_player.camerax;
+	g_raydata.raydirx = g_player.dirx;
+	g_raydata.raydiry = g_player.diry;
 	g_raydata.mapx = (int)g_player.posx;
 	g_raydata.mapy = (int)g_player.posy;
 	if (g_raydata.raydiry == 0)
@@ -146,19 +127,13 @@ void	castoneray(int x)
 	else if (g_raydata.raydirx == 0)
 		g_raydata.deltadistx = 1;
 	else
-	{
 		g_raydata.deltadistx = fabs(1 / g_raydata.raydirx);
-		//g_raydata.deltadistx = sqrt(1 + (g_raydata.raydiry*g_raydata.raydiry)/(g_raydata.raydirx*g_raydata.raydirx));
-	}
 	if (g_raydata.raydirx == 0)
 		g_raydata.deltadisty = 0;
 	else if (g_raydata.raydiry == 0)
 		g_raydata.deltadisty = 1;
 	else
-	{
-		//g_raydata.deltadisty = sqrt(1 + (g_raydata.raydirx * g_raydata.raydirx)/(g_raydata.raydiry * g_raydata.raydiry));
 		g_raydata.deltadisty = fabs(1 / g_raydata.raydiry);
-	}
 	stepandinitialside2();
 	hitdetector();
 }

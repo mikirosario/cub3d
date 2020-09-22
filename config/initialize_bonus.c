@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialize_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 16:10:16 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/21 06:06:45 by mikiencolor      ###   ########.fr       */
+/*   Updated: 2020/09/22 18:38:27 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ void	initialize(t_raycasterdata *rdata)
 	g_framedata.xfloorcolor = 0x00669999;
 	g_framedata.xceilingcolor = 0x0066004b;
 	g_framedata.phrase = 0;
+	g_framedata.lastlevel = 0;
 	g_config.spritenum = 0;
 	g_config.doornum = 0;
 	g_config.sprtexnum = 0;

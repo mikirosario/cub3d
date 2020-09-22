@@ -3,14 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   dda_bonus.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/11 18:13:54 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/20 03:25:20 by mikiencolor      ###   ########.fr       */
+/*   Updated: 2020/09/22 19:50:50 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d_bonus.h"
+
+int		detecthit(char mapchr)
+{
+	if (mapchr == '1' || mapchr == 'v')
+		return (1);
+	if ((mapchr == '/' || mapchr == 'O' || mapchr == '*') && \
+	g_raydata.side == 1)
+		if (hordoorslide())
+			return (mapchr == '*' ? 4 : 2);
+	if ((mapchr == '/' || mapchr == 'O' || mapchr == '*') && \
+	g_raydata.side == 0)
+		if (verdoorslide())
+			return (mapchr == '*' ? 4 : 3);
+	return (0);
+}
 
 /*
 ** The hit variable will be initialized to 0 here, and will later be used to
@@ -34,20 +49,13 @@ void	sidetoside(void)
 			g_raydata.side = 0;
 		}
 		else
-		{	
+		{
 			g_raydata.sidedisty += g_raydata.deltadisty;
 			g_raydata.mapy += g_raydata.stepy;
 			g_raydata.side = 1;
 		}
 		mapchr = g_config.map[g_raydata.mapy][g_raydata.mapx];
-		if (mapchr == '1' || mapchr == 'v')
-			g_raydata.hit = 1;
-		if ((mapchr == '/' || mapchr == 'O' || mapchr == '*') && g_raydata.side == 1)
-			if (hordoorslide())
-				g_raydata.hit = mapchr == '*' ? 4 : 2;
-		if ((mapchr == '/' || mapchr == 'O' || mapchr == '*') && g_raydata.side == 0)
-			if (verdoorslide())
-				g_raydata.hit = mapchr == '*' ? 4 : 3;
+		g_raydata.hit = detecthit(mapchr);
 	}
 }
 
@@ -134,19 +142,13 @@ void	castray(int x)
 	else if (g_raydata.raydirx == 0)
 		g_raydata.deltadistx = 1;
 	else
-	{
 		g_raydata.deltadistx = fabs(1 / g_raydata.raydirx);
-		//g_raydata.deltadistx = sqrt(1 + (g_raydata.raydiry*g_raydata.raydiry)/(g_raydata.raydirx*g_raydata.raydirx));
-	}
 	if (g_raydata.raydirx == 0)
 		g_raydata.deltadisty = 0;
 	else if (g_raydata.raydiry == 0)
 		g_raydata.deltadisty = 1;
 	else
-	{
-		//g_raydata.deltadisty = sqrt(1 + (g_raydata.raydirx * g_raydata.raydirx)/(g_raydata.raydiry * g_raydata.raydiry));
 		g_raydata.deltadisty = fabs(1 / g_raydata.raydiry);
-	}
 	stepandinitialside();
 	sidetoside();
 }

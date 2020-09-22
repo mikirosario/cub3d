@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/21 05:27:18 by mikiencolor       #+#    #+#             */
-/*   Updated: 2020/09/21 16:15:02 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/22 20:53:25 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	refreshchisme(unsigned int *buf, t_raycasterdata *rdata)
 			}
 			xput_to_buffer(g_config.screenw - g_chisme.idle.texw - 1, \
 			g_config.screenh - g_chisme.idle.texh - 1, buf, g_chisme.ptr[bit]);
-		}		
+		}
 	}
 }
 

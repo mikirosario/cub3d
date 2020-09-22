@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   calculateframeline_bonus.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/12 17:42:02 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/21 01:19:55 by mikiencolor      ###   ########.fr       */
+/*   Updated: 2020/09/22 19:19:36 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,23 +56,11 @@ void	walldrawparams(void)
 	if (g_raydata.hit == 1)
 	{
 		if (g_raydata.side == 0)
-		{
-			//if (g_raydata.hit > 1)
-			//	g_raydata.perpwalldist = ((double)(g_raydata.mapx + (0.5 * g_raydata.stepx)) - g_player.posx + 
-			//	(1 - g_raydata.stepx) / 2) / g_raydata.raydirx;
-			//else
-				g_raydata.perpwalldist = (g_raydata.mapx - g_player.posx + \
-				(1 - g_raydata.stepx) / 2) / g_raydata.raydirx;
-		}		
+			g_raydata.perpwalldist = (g_raydata.mapx - g_player.posx + \
+			(1 - g_raydata.stepx) / 2) / g_raydata.raydirx;
 		else
-		{
-			//if (g_raydata.hit > 1)
-			//	g_raydata.perpwalldist = ((double)(g_raydata.mapy + (0.5 * g_raydata.stepy)) - g_player.posy + 
-			//	(1 - g_raydata.stepy) / 2) / g_raydata.raydiry;
-			//else
-				g_raydata.perpwalldist = (g_raydata.mapy - g_player.posy + \
-				(1 - g_raydata.stepy) / 2) / g_raydata.raydiry;
-		}
+			g_raydata.perpwalldist = (g_raydata.mapy - g_player.posy + \
+			(1 - g_raydata.stepy) / 2) / g_raydata.raydiry;
 		if (g_config.map[g_raydata.mapy][g_raydata.mapx] == 'v')
 			g_framedata.secretwallcompass++;
 	}

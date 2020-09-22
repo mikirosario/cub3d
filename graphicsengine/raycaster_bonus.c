@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/11 15:32:45 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/21 16:04:58 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/22 18:51:00 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ void	gameloop(t_raycasterdata *rdata, time_t *timestart)
 	if (g_config.screenshot)
 		screenshot(rdata->buf);
 	refreshui(rdata->buf, rdata);
-	displaygraphicsmode(rdata);
+	displayspeech(rdata);
 	mlx_put_image_to_window(g_screendata.mlx_ptr, g_screendata.mlx_win, \
 	g_screendata.mlx_img_buffer, 0, 0);
-	readmovementkeys();
+	displaygraphicsmode();
 	countframes(timestart);
 }
 
@@ -45,7 +45,7 @@ void	endingloop(t_raycasterdata *rdata)
 			g_config.ending = 2;
 	}
 	else if (g_config.ending == 2)
-		ending(rdata);	
+		ending(rdata);
 }
 
 /*
@@ -82,5 +82,6 @@ int		raycaster_bonus(t_raycasterdata *rdata)
 		gameloop(rdata, &timestart);
 	if (g_config.ending)
 		endingloop(rdata);
+	readmovementkeys();
 	return (0);
 }

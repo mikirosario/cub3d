@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dooranimator_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/15 03:34:28 by miki              #+#    #+#             */
-/*   Updated: 2020/09/22 03:45:47 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/22 20:42:41 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@
 ** Sound attribution (door.wav): Daniel Simion, soundbible.com.
 */
 
-void	continuedooranimation(t_raycasterdata *rdata, struct timeval *tstart)
+void			continuedooranimation(t_raycasterdata *rdata, \
+struct timeval *tstart)
 {
 	if (!tstart->tv_sec)
 	{
@@ -44,7 +45,6 @@ void	continuedooranimation(t_raycasterdata *rdata, struct timeval *tstart)
 		else
 			rdata->animatedoor->doorend -= 0.025;
 		rdata->animationframes++;
-		//system("afplay -r 0.65 ./door.wav &");
 		playsound(DOOR);
 		gettimeofday(tstart, NULL);
 	}
@@ -72,7 +72,7 @@ void	continuedooranimation(t_raycasterdata *rdata, struct timeval *tstart)
 ** handle while it is open.
 */
 
-void	enddooranimation(t_raycasterdata *rdata)
+void			enddooranimation(t_raycasterdata *rdata)
 {
 	if (*(rdata->animatedoor->dooraddr) == 'O' && \
 	&(g_config.map[(int)g_player.posy][(int)g_player.posx]) == \
@@ -86,7 +86,6 @@ void	enddooranimation(t_raycasterdata *rdata)
 		rdata->animatedoor->doorend = *(rdata->animatedoor->dooraddr) == 'O' ? \
 		0.8 : 0;
 	}
-
 }
 
 /*
@@ -109,7 +108,7 @@ void	enddooranimation(t_raycasterdata *rdata)
 ** unusable until the animation finishes.
 */
 
-int		animatedoor(t_raycasterdata *rdata)
+int				animatedoor(t_raycasterdata *rdata)
 {
 	static struct timeval	tstart = {0};
 
@@ -124,7 +123,22 @@ int		animatedoor(t_raycasterdata *rdata)
 	}
 	continuedooranimation(rdata, &tstart);
 	return (1);
+}
 
+/*
+** Find the door struct associated with this map address. Returns NULL
+** no match was found.
+*/
+
+t_spritedata	*finddoorbyaddr(int mapx, int mapy)
+{
+	int	i;
+
+	i = 0;
+	while (i < g_config.doornum && \
+	g_config.door[i]->dooraddr != &g_config.map[mapy][mapx])
+		i++;
+	return (i < g_config.doornum ? g_config.door[i] : NULL);
 }
 
 /*
@@ -140,35 +154,33 @@ int		animatedoor(t_raycasterdata *rdata)
 ** leave the function without resetting the spacebar key. If it returns 0, then
 ** animation has finished, and we reset the spacebar key before exiting.
 **
+** If the door is a secret door and the player has the secret door detector in
+** their inventory we change its spritetype to a regular door, and we even do it
+** safely by protecting from NULL pointers! I was really feeling generous that
+** day. ;p
+**
 ** Sound attribution (discovery.wav): gsb1039, freesound.org.
 */
 
-void	activatedoor(t_raycasterdata *rdata)
+void			activatedoor(t_raycasterdata *rdata)
 {
-	char		mapchr;
-	int			i;
+	char			mapchr;
+	t_spritedata	*res;
 
-	i = 0;
 	if (!rdata->animatedoor)
 	{
-		castoneray((g_config.screenw - 1) / 2);
-		if ((mapchr = g_config.map[g_raydata.mapy][g_raydata.mapx]) == '/' || mapchr == 'O')
+		castoneray();
+		if (((mapchr = g_config.map[g_raydata.mapy][g_raydata.mapx]) == '/' || \
+		mapchr == 'O') && fabs(g_raydata.perpwalldist) < 1.25)
 		{
-			if (fabs(g_raydata.perpwalldist) < 1.25)
-			{
-				while (g_config.door[i]->dooraddr != &g_config.map[g_raydata.mapy][g_raydata.mapx])
-					i++;
-				rdata->animatedoor = g_config.door[i];
-				return ;
-			}
+			rdata->animatedoor = finddoorbyaddr(g_raydata.mapx, g_raydata.mapy);
+			return ;
 		}
 		else if (mapchr == 'v' && g_player.inventory.chisme)
 		{
 			g_config.map[g_raydata.mapy][g_raydata.mapx] = '/';
-			while (g_config.door[i]->dooraddr != &g_config.map[g_raydata.mapy][g_raydata.mapx])
-				i++;
-			g_config.door[i]->spritetype = '/';
-			//system("afplay -t 2 ./discovery.wav &");
+			if ((res = finddoorbyaddr(g_raydata.mapx, g_raydata.mapy)))
+				res->spritetype = '/';
 			playsound(DISCOVERY);
 		}
 	}

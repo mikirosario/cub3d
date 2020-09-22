@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   drawceilingfloor_bonus.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/28 16:41:58 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/22 05:53:25 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/22 20:46:42 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,7 @@ void	draw_floor(unsigned int *buf, int x, int y)
 	+ g_xraydata.texx];
 	if (g_keydata.m == 1)
 		xcolor = (xcolor >> 1) & 8355711;
-	if (g_framedata.invincibilityframes % 2)
-		xcolor = xcolor >> 1 & 0x7F0000;
-	buf[(y * g_config.screenw) + x] = fogger(xcolor, 0.75);
-
+	drawtobuffer_bonus(buf, y * g_config.screenw + x, xcolor);
 }
 
 void	draw_ceiling(unsigned int *buf, int x, int y)
@@ -38,10 +35,8 @@ void	draw_ceiling(unsigned int *buf, int x, int y)
 	+ g_xraydata.texx];
 	if (g_keydata.m == 1)
 		xcolor = (xcolor >> 1) & 8355711;
-	if (g_framedata.invincibilityframes % 2)
-		xcolor = xcolor >> 1 & 0x7F0000;
-	buf[((g_config.screenh - y - 1) * g_config.screenw) + x] = \
-	xcolor;
+	drawtobuffer_bonus(buf, (g_config.screenh - y - 1) * g_config.screenw + x, \
+	xcolor);
 }
 
 void	setpixelparams(void)

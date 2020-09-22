@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: miki <miki@student.42.fr>                  +#+  +:+       +#+         #
+#    By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/07/15 20:32:43 by mrosario          #+#    #+#              #
-#    Updated: 2020/09/22 05:53:04 by miki             ###   ########.fr        #
+#    Updated: 2020/09/22 20:51:53 by mrosario         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,7 +49,7 @@ BSRC = cub3d_bonus.c rotation.c freeme_bonus.c ./toolkit_bonus.c ./config/cub_bo
 ./config/makespecialanimationimgs_bonus.c ./graphicsengine/monologue_bonus.c \
 ./graphicsengine/ending_bonus.c ./graphicsengine/castwall_bonus.c \
 ./graphicsengine/hud_bonus.c ./graphicsengine/choosetexture_bonus.c \
-./mouse_bonus.c ./music_bonus.c
+./mouse_bonus.c ./music_bonus.c ./graphicsengine/drawtobuffer_bonus.c
 
 LSRC = cub3d.c rotation.c freeme.c ./toolkit.c ./config/cub.c \
 ./config/getscreenres.c ./config/getwallparams.c ./config/getspriteparams.c \
@@ -88,7 +88,7 @@ LBSRC = cub3d_bonus.c rotation.c freeme_bonus.c ./toolkit_bonus.c ./config/cub_b
 ./config/makespecialanimationimgs_bonus.c ./graphicsengine/monologue_bonus.c \
 ./graphicsengine/ending_bonus.c ./graphicsengine/castwall_bonus.c \
 ./graphicsengine/hud_bonus.c ./graphicsengine/choosetexture_bonus.c \
-./mouse_bonus.c ./music_bonus_linux.c ./graphicsengine/fogger_bonus.c
+./mouse_bonus.c ./music_bonus_linux.c
 
 OBJ = $(SRC:.c=.o)
 
