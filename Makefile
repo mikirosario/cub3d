@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+         #
+#    By: miki <miki@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/07/15 20:32:43 by mrosario          #+#    #+#              #
-#    Updated: 2020/09/22 20:51:53 by mrosario         ###   ########.fr        #
+#    Updated: 2020/09/23 13:20:56 by miki             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -88,7 +88,8 @@ LBSRC = cub3d_bonus.c rotation.c freeme_bonus.c ./toolkit_bonus.c ./config/cub_b
 ./config/makespecialanimationimgs_bonus.c ./graphicsengine/monologue_bonus.c \
 ./graphicsengine/ending_bonus.c ./graphicsengine/castwall_bonus.c \
 ./graphicsengine/hud_bonus.c ./graphicsengine/choosetexture_bonus.c \
-./mouse_bonus.c ./music_bonus_linux.c
+./mouse_bonus.c ./music_bonus_linux.c ./graphicsengine/drawtobuffer_bonus.c \
+./graphicsengine/skybox_bonus.c
 
 OBJ = $(SRC:.c=.o)
 

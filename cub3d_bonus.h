@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/22 19:41:15 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/23 13:29:50 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,7 @@ t_imagedata		g_ruby;
 t_imagedata		g_phrases;
 t_imagedata		g_ending;
 t_imagedata		g_portal;
+t_imagedata		g_skybox;
 t_lifebar		g_lifebar;
 t_catsbane		g_catsbane;
 t_chisme		g_chisme;
@@ -239,5 +240,6 @@ void	bossmusic(char sprite);
 unsigned int	fogger(unsigned int argb, double fog);
 
 void	drawtobuffer_bonus(unsigned int *buf, int pixel, unsigned int xcolor);
+int		drawskybox(int x, int pixel, t_raycasterdata *rdata);
 
 #endif

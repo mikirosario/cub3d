@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   drawframeline_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/11 19:45:47 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/22 20:47:58 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/23 14:52:44 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,6 +191,7 @@ void	drawframeline(int x, t_raycasterdata *rdata)
 	{
 		pixel = x;
 		pixel = drawceiling(x, pixel, rdata->buf);
+		//pixel = drawskybox(x, pixel, rdata);
 		pixel = solidcolorwalls(x, pixel, rdata->buf);
 		drawfloor(x, pixel, rdata->buf);
 	}

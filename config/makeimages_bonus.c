@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   makeimages_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 18:36:40 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/21 02:53:38 by mikiencolor      ###   ########.fr       */
+/*   Updated: 2020/09/22 23:11:27 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,12 +190,14 @@ int		getteximg(void)
 	g_wewallimg.texpath, &g_wewallimg.texw, &g_wewallimg.texh);
 	g_eawallimg.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, \
 	g_eawallimg.texpath, &g_eawallimg.texw, &g_eawallimg.texh);
-	g_portal.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, "./portalanimation/portal1.xpm", \
-	&g_portal.texw, &g_portal.texh);
-	g_phrases.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, "./textboxes/orenline1.xpm", \
-	&g_phrases.texw, &g_phrases.texh);
-	g_ending.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, "./textboxes/ending1.xpm", \
-	&g_ending.texw, &g_ending.texh);
+	g_portal.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, \
+	"./portalanimation/portal1.xpm",	&g_portal.texw, &g_portal.texh);
+	g_phrases.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, \
+	"./textboxes/orenline1.xpm", &g_phrases.texw, &g_phrases.texh);
+	g_ending.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, \
+	"./textboxes/ending1.xpm", &g_ending.texw, &g_ending.texh);
+	g_skybox.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, \
+	"./skybox.xpm", &g_skybox.texw, &g_skybox.texh);
 	if (g_config.spritenum)
 		while (i > 1)
 		{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycaster_start_bonus.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/31 19:37:21 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/21 02:54:47 by mikiencolor      ###   ########.fr       */
+/*   Updated: 2020/09/22 23:23:18 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,14 +111,14 @@ int		getimgaddresses(t_raycasterdata *rdata)
 	g_floorimg.tex_ptr = (unsigned int *)mlx_get_data_addr(g_floorimg.mlx_img, \
 	&g_floorimg.bpp, &g_floorimg.size_line, &g_floorimg.endian);
 	g_ceilingimg.tex_ptr = \
-	(unsigned int *)mlx_get_data_addr(g_ceilingimg.mlx_img, &g_ceilingimg.bpp, \
-	&g_ceilingimg.size_line, &g_ceilingimg.endian);
+	(unsigned int *)mlx_get_data_addr(g_ceilingimg.mlx_img, \
+	&g_ceilingimg.bpp, &g_ceilingimg.size_line, &g_ceilingimg.endian);
 	g_doorrightimg.tex_ptr = \
-	(unsigned int *)mlx_get_data_addr(g_doorrightimg.mlx_img, &g_doorrightimg.bpp, \
-	&g_doorrightimg.size_line, &g_doorrightimg.endian);
+	(unsigned int *)mlx_get_data_addr(g_doorrightimg.mlx_img, \
+	&g_doorrightimg.bpp, &g_doorrightimg.size_line, &g_doorrightimg.endian);
 	g_doorleftimg.tex_ptr = \
-	(unsigned int *)mlx_get_data_addr(g_doorleftimg.mlx_img, &g_doorleftimg.bpp, \
-	&g_doorleftimg.size_line, &g_doorleftimg.endian);
+	(unsigned int *)mlx_get_data_addr(g_doorleftimg.mlx_img, \
+	&g_doorleftimg.bpp, &g_doorleftimg.size_line, &g_doorleftimg.endian);
 	g_nowallimg.tex_ptr = (unsigned int *)mlx_get_data_addr(g_nowallimg.mlx_img,
 	&g_nowallimg.bpp, &g_nowallimg.size_line, &g_nowallimg.endian);
 	g_sowallimg.tex_ptr = (unsigned int *)mlx_get_data_addr(g_sowallimg.mlx_img,
@@ -127,6 +127,8 @@ int		getimgaddresses(t_raycasterdata *rdata)
 	&g_wewallimg.bpp, &g_wewallimg.size_line, &g_wewallimg.endian);
 	g_eawallimg.tex_ptr = (unsigned int *)mlx_get_data_addr(g_eawallimg.mlx_img,
 	&g_eawallimg.bpp, &g_eawallimg.size_line, &g_eawallimg.endian);
+	g_skybox.tex_ptr = (unsigned int *)mlx_get_data_addr(g_skybox.mlx_img, \
+	&g_skybox.bpp, &g_skybox.size_line, &g_skybox.endian);
 	getalltexpointers(&g_portal, 8);
 	getalltexpointers(&g_phrases, 4);
 	getalltexpointers(&g_ending, 7);
