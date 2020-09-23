@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/23 12:26:28 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/23 17:58:14 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -390,7 +390,8 @@ t_keydata		g_keydata;
 void			del(void *freethis);
 char			*getnextnum(char *num);
 void			freeme(void);
-int				isbitset(unsigned char byte, int bit);
+int				isbitset(unsigned int byte, int bit);
+unsigned int	setbit(unsigned int byte, int bit);
 int				ft_stop(int key, void *param);
 
 /*
@@ -468,7 +469,7 @@ void			calculateframeline(void);
 void			drawframeline(int x, t_raycasterdata *rdata);
 void			sortsprites(int *spriteorder);
 void			castsprites(unsigned int *buf);
-int				keypress(int key, void *param);
+int				keypress(int key, t_configdata *param);
 int				keyrelease(int key, void *param);
 void			readmovementkeys(void);
 

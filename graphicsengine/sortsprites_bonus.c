@@ -3,14 +3,48 @@
 /*                                                        :::      ::::::::   */
 /*   sortsprites_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 18:24:16 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/22 03:52:43 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/23 20:33:49 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d_bonus.h"
+
+void	itemcollection(int sprnum)
+{
+	if (g_config.sprt[sprnum]->spritetype == '4' && \
+	g_player.inventory.potions < 3)
+	{
+		g_config.sprt[sprnum]->remove = 1;
+		g_player.inventory.potions++;
+		playsound(ITEM);
+	}
+	if (g_config.sprt[sprnum]->spritetype == '5' && \
+	!g_player.inventory.catsbane)
+	{
+		g_config.sprt[sprnum]->remove = 1;
+		g_player.inventory.catsbane = 1;
+		playsound(CATSBANE);
+	}
+	if (g_config.sprt[sprnum]->spritetype == '7' && \
+	g_player.inventory.rubies < 3)
+	{
+		g_config.sprt[sprnum]->remove = 1;
+		g_player.inventory.rubies++;
+		playsound(ITEM);
+	}
+}
+
+void	enemydamage(int sprnum)
+{
+	if (!g_framedata.invincibilityframes)
+		if (g_player.life && (g_framedata.invincibilityframes = 15))
+			g_player.life--;
+	if (g_player.inventory.catsbane && g_keydata.enter)
+		g_config.sprt[sprnum]->checkdamage = 1;
+}
 
 /*
 ** This function will control the player's health bar and the enemy's health
@@ -31,48 +65,16 @@
 **
 ** Sound attribution (gotitem.wav): grunz, freesound.org.
 ** Sound attribution (gotcatsbane.wav): HenryRichard, freesound.org.
-**
 */
 
 void	doplayerinteraction(int sprnum, double playerdistance)
 {
-	//si si no tenemos invincibility frames y es enemigo
 	if (playerdistance <= 0.33)
-	{
-		if (g_config.sprt[sprnum]->spritetype == '4' && g_player.inventory.potions < 3)
-		{
-			g_config.sprt[sprnum]->remove = 1;
-			g_player.inventory.potions++;
-			//system("afplay ./gotitem.wav &");
-			playsound(ITEM);
-		}
-		if (g_config.sprt[sprnum]->spritetype == '5' && !g_player.inventory.catsbane)
-		{
-			g_config.sprt[sprnum]->remove = 1;
-			g_player.inventory.catsbane = 1;
-			//system("afplay ./gotcatsbane.wav &");
-			playsound(CATSBANE);
-		}
-		if (g_config.sprt[sprnum]->spritetype == '7' && g_player.inventory.rubies < 3)
-		{
-			g_config.sprt[sprnum]->remove = 1;
-			g_player.inventory.rubies++;
-			//system("afplay ./gotitem.wav &");
-			playsound(ITEM);
-		}
-	}
+		itemcollection(sprnum);
 	orentalk(sprnum, playerdistance);
 	marvintalk(sprnum, playerdistance);
 	if (playerdistance <= 2.5 && g_config.sprt[sprnum]->spritetype == '2')
-	{
-		if (!g_framedata.invincibilityframes)// && g_config.sprt[sprnum]->spritetype == '2')
-		{
-			if (g_player.life && (g_framedata.invincibilityframes = 15))
-					g_player.life--;
-		}
-		if (g_player.inventory.catsbane && g_keydata.enter)
-			g_config.sprt[sprnum]->checkdamage = 1;
-	}
+		enemydamage(sprnum);
 }
 
 /*

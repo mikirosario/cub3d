@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/14 18:06:29 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/16 20:00:17 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/23 20:39:26 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	reset_timer(struct timeval *t)
 {
 	t->tv_sec = 0;
-	t->tv_usec= 0;
+	t->tv_usec = 0;
 }
 
 /*
@@ -36,5 +36,6 @@ double	msec_diff(struct timeval *t0, struct timeval *t1)
 		gettimeofday(&tend, NULL);
 		t1 = &tend;
 	}
-	   return (t1->tv_sec - t0->tv_sec) * 1000.0 + (t1->tv_usec - t0->tv_usec) / 1000.0;
+	return (t1->tv_sec - t0->tv_sec) * 1000.0 + \
+	(t1->tv_usec - t0->tv_usec) / 1000.0;
 }

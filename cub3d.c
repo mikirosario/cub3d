@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/07 20:24:05 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/22 04:15:00 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/23 18:05:23 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int		main(int argc, char **argv)
 	mlx_do_key_autorepeatoff(g_screendata.mlx_ptr);
 	mlx_hook(g_screendata.mlx_win, 17, 1L << 17, ft_stop, (void*)0);
 	mlx_hook(g_screendata.mlx_win, 2, 1L << 0, keypress, (void*)0);
-	mlx_hook(g_screendata.mlx_win, 3, 1L << 1, keyrelease, (void *)0);
+	mlx_hook(g_screendata.mlx_win, 3, 1L << 1, keyrelease, (t_configdata *)0);
 	mlx_loop_hook(g_screendata.mlx_ptr, raycaster, &rdata);
 	mlx_loop(g_screendata.mlx_ptr);
 	return (EXIT_SUCCESS);

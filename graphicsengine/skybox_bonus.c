@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   skybox_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/22 23:23:56 by miki              #+#    #+#             */
-/*   Updated: 2020/09/23 14:53:13 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/23 20:22:47 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 int	drawskybox(int x, int pixel, t_raycasterdata *rdata)
 {
-	double	step;
-	int		texx;
-	int		texy;
-	double	texpos;
-	unsigned int xcolor;
-	int		invlineheight;
+	double			step;
+	int				texx;
+	int				texy;
+	double			texpos;
+	unsigned int 	xcolor;
+	int				invlineheight;
 
 	invlineheight = g_config.screenh - g_framedata.lineheight - 1;
 

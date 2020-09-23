@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   modifysprite_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/04 20:37:22 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/20 23:23:54 by mikiencolor      ###   ########.fr       */
+/*   Updated: 2020/09/23 18:10:19 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	animate(t_spritedata *sprite)
 	int speed;
 
 	speed = 1;
-
 	if (sprite->animspeed++ == speed && sprite->framelimit)
 	{
 		sprite->animspeed = 0;

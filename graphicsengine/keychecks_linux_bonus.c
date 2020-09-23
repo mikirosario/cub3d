@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/17 18:44:48 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/22 18:48:45 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/23 18:08:01 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 ** Linux version:
 */
 
-int		ft_stop(int key, void *param)
+int	ft_stop(int key, void *param)
 {
 	(void)param;
 	if (key == 0xff1b || key == 0)
@@ -41,12 +41,11 @@ int		ft_stop(int key, void *param)
 ** Keypress for Xubuntu Linux:
 */
 
-int	keypress(int key, void *param)
+int	keypress(int key, t_configdata *config)
 {
-	(void)param;
 	if (key == 0xff1b)
 		ft_stop(key, (void *)0);
-	if (g_config.ending == 2)
+	if (config->ending == 2)
 		return (0);
 	if (key == 0x77)
 		g_keydata.w = 1;
@@ -61,12 +60,7 @@ int	keypress(int key, void *param)
 	if (key == 0xff51)
 		g_keydata.l = 1;
 	if (key == 0x6d)
-	{
-		if (g_keydata.m == 2)
-			g_keydata.m = 0;
-		else
-			g_keydata.m += 1;
-	}
+		g_keydata.m = g_keydata.m == 2 ? 0 : g_keydata.m + 1;
 	if (key == 0xffe4)
 		g_keydata.ctrl = 1;
 	if (key == 0x20)

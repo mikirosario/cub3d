@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   spraycat_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/16 20:12:45 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/22 03:55:23 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/23 20:37:05 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,16 +39,13 @@
 
 void	spraycat(t_spritedata *sprite)
 {
-	//int	pid;
-
-	if (g_player.attack) 
+	if (g_player.attack)
 	{
-		if (--sprite->life < 1) //enemy loses life, dies if at zero
+		if (--sprite->life < 1)
 		{
 			sprite->remove = 1;
 			g_config.ending = 1;
 		}
-		//system("afplay ./meow.wav &");
 		playsound(MEOW);
 		g_player.attack = 0;
 		sprite->checkdamage = 0;

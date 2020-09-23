@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   keychecks.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/17 18:44:48 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/22 04:19:06 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/23 18:08:35 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 ** or by clicking the X on the upper left of the window.
 */
 
-int		ft_stop(int key, void *param)
+int	ft_stop(int key, void *param)
 {
 	(void)param;
 	if (key == 0x35 || key == 0x00)
@@ -37,7 +37,7 @@ int		ft_stop(int key, void *param)
 ** their namesakes in keydata.
 */
 
-int	keypress(int key, void *param)
+int	keypress(int key, t_configdata *param)
 {
 	(void)param;
 	if (key == 0x35)

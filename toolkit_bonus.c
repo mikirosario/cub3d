@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 18:37:36 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/21 18:44:46 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/23 17:37:19 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,15 +77,28 @@ void	yput_to_buffer(int x, int y, unsigned int *buf, t_imagedata *img)
 
 /*
 ** Simple function to tell you whether a given bit is set in a byte. Another
-** libft candidate. ;) Bit 0 is the rightmost bit.
+** libft candidate. ;) Bit 0 is the rightmost bit. Returns 1 if bit is set,
+** otherwise returns 0.
 */
 
-int				isbitset(unsigned char byte, int bit)
+int				isbitset(unsigned int byte, int bit)
 {
 	unsigned char	mask;
 
 	mask = (unsigned char)1 << bit;
 	return (mask & byte);
+}
+
+/*
+** Function to set a bit to 1.
+*/
+
+unsigned int	setbit(unsigned int byte, int bit)
+{
+	unsigned char	mask;
+
+	mask = (unsigned char)1 << bit;
+	return (mask | byte);
 }
 
 /*

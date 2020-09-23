@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 16:10:16 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/22 18:38:21 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/23 20:43:19 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ void	initialize2(t_raycasterdata *rdata)
 	reset_timer(&rdata->endingtimer);
 	initializedoorline();
 }
+
 /*
 ** Initial variable values. Note: many values are left uninitialized because
 ** they are defined during configuration, and never accessed before then.

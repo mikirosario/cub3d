@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/17 18:44:48 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/22 19:03:58 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/23 17:58:33 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 ** or by clicking the X on the upper left of the window.
 */
 
-int		ft_stop(int key, void *param)
+int	ft_stop(int key, void *param)
 {
 	(void)param;
 	if (key == 0x35 || key == 0x00)
@@ -37,12 +37,11 @@ int		ft_stop(int key, void *param)
 ** their namesakes in keydata.
 */
 
-int	keypress(int key, void *param)
+int	keypress(int key, t_configdata *config)
 {
-	(void)param;
 	if (key == 0x35)
 		ft_stop(key, (void *)0);
-	if (g_config.ending == 2)
+	if (config->ending == 2)
 		return (0);
 	if (key == 0xD)
 		g_keydata.w = 1;
@@ -57,12 +56,7 @@ int	keypress(int key, void *param)
 	if (key == 0x7B)
 		g_keydata.l = 1;
 	if (key == 0x2E)
-	{
-		if (g_keydata.m == 2)
-			g_keydata.m = 0;
-		else
-			g_keydata.m += 1;
-	}
+		g_keydata.m = g_keydata.m == 2 ? 0 : g_keydata.m + 1;
 	if (key == 0x10D)
 		g_keydata.ctrl = 1;
 	if (key == 0x31)

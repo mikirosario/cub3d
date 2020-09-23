@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 16:10:16 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/21 05:59:06 by mikiencolor      ###   ########.fr       */
+/*   Updated: 2020/09/23 18:06:26 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	getdisplayresolution(void)
 
 void	initialize(t_raycasterdata *rdata)
 {
-	(void *)rdata;
+	(void)rdata;
 	g_player.rotspeed = 0.1;
 	g_player.movespeed = 0.25;
 	g_framedata.xfloorcolor = 0x00669999;

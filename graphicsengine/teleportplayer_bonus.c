@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/20 03:33:44 by mikiencolor       #+#    #+#             */
-/*   Updated: 2020/09/22 18:36:33 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/23 20:38:15 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ int		teleporter(char *mapchr)
 		i++;
 	g_player.posx = g_config.door[i]->destaddr->posx + 0.5;
 	g_player.posy = g_config.door[i]->destaddr->posy + 0.5;
-	if (g_config.door[i]->destaddr->posx == 29 && g_config.door[i]->destaddr->posy == 21)
+	if (g_config.door[i]->destaddr->posx == 29 && \
+	g_config.door[i]->destaddr->posy == 21)
 		lastlevel();
-	return(1);
+	return (1);
 }

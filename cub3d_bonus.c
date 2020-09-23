@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/07 20:24:05 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/22 18:55:30 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/23 18:00:20 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ int		main(int argc, char **argv)
 	}
 	mlx_do_key_autorepeatoff(g_screendata.mlx_ptr);
 	mlx_hook(g_screendata.mlx_win, 17, 1L << 17, ft_stop, (void*)0);
-	mlx_hook(g_screendata.mlx_win, 2, 1L << 0, keypress, (void*)0);
+	mlx_hook(g_screendata.mlx_win, 2, 1L << 0, keypress, &g_config);
 	mlx_hook(g_screendata.mlx_win, 3, 1L << 1, keyrelease, (void *)0);
 	mlx_hook(g_screendata.mlx_win, 4, 1L << 2, mousepress, (void *)0);
 	mlx_hook(g_screendata.mlx_win, 5, 1L << 3, mouserelease, (void *)0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dda_bonus.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/11 18:13:54 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/23 12:30:25 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/23 17:01:25 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,8 @@ void	castray(int x)
 		g_raydata.deltadisty = 1;
 	else
 		g_raydata.deltadisty = fabs(1 / g_raydata.raydiry);
-	g_framedata.skyx = fabs(atan2(g_raydata.raydiry, g_raydata.raydirx) * 180 / M_PI - 180) / 360;
+	g_framedata.skyx = fabs(atan2(g_raydata.raydiry, g_raydata.raydirx) * \
+	180 / M_PI - 180) / 360;
 	stepandinitialside();
 	sidetoside();
 }

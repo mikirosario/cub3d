@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   keychecks_linux.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/17 18:44:48 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/22 04:18:29 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/23 18:08:54 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
-
 
 /*
 ** This function is launched when the user exits normally, by pressing escape
@@ -20,7 +19,7 @@
 ** Linux version:
 */
 
-int		ft_stop(int key, void *param)
+int	ft_stop(int key, void *param)
 {
 	(void)param;
 	if (key == 0xff1b || key == 0)
@@ -42,7 +41,7 @@ int		ft_stop(int key, void *param)
 ** Keypress for Xubuntu Linux:
 */
 
-int	keypress(int key, void *param)
+int	keypress(int key, t_configdata *param)
 {
 	(void)param;
 	if (key == 0xff1b)

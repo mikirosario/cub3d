@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/14 20:03:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/21 20:13:50 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/23 20:20:13 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,34 +52,12 @@ int		sprcollide(double y, double x)
 /*
 ** Lode has another method for doing this, but by the time I read it I had
 ** already come up with my own matrix rotation function and became attached
-** to my way of doing it. :P Anyway here is the Lode method, which also
-** works, and below that my method, which just applies 3 degrees of rotation to
-** the player/camera for every frame the l (anticlockwise) or r (clockwise)
-** keys are depressed):
+** to my way of doing it. :P
 **
-** Lode method clockwise (r) rotation
-**	g_player.oldDirX = g_player.dirx;
-**	g_player.dirx = g_player.dirx * cos(-g_player.rotspeed) - \
-**	g_player.diry * sin(-g_player.rotspeed);
-**	g_player.diry = g_player.oldDirX * sin(-g_player.rotspeed) + \
-**	g_player.diry * cos(-g_player.rotspeed);
-**	g_player.oldPlaneX = g_player.planex;
-**	g_player.planex = g_player.planex * cos(-g_player.rotspeed) - \
-**	g_player.planey * sin(-g_player.rotspeed);
-**	g_player.planey = g_player.oldPlaneX * sin(-g_player.rotspeed) + \
-**	g_player.planey * cos(-g_player.rotspeed);
-**
-** Lode method anticlockwise rotation (l)
-**	g_player.oldDirX = g_player.dirx;
-**	g_player.dirx = g_player.dirx * cos(g_player.rotspeed) - \
-**	g_player.diry * sin(g_player.rotspeed);
-**	g_player.diry = g_player.oldDirX * sin(g_player.rotspeed) + \
-**	g_player.diry * cos(g_player.rotspeed);
-**	g_player.oldPlaneX = g_player.planex;
-**	g_player.planex = g_player.planex * cos(g_player.rotspeed) - \
-**	g_player.planey * sin(g_player.rotspeed);
-**	g_player.planey = g_player.oldPlaneX * sin(g_player.rotspeed) + \
-**	g_player.planey * cos(g_player.rotspeed);
+** My method, just applies 3 degrees of rotation to the player/camera for every
+** frame the l (anticlockwise) or r (clockwise) keys are depressed). For the
+** bonus compilation r and l will also be triggered by dragging the mouse in the
+** desired direction of rotation.
 */
 
 void	rlrotate(void)
@@ -111,94 +89,49 @@ void	rlrotate(void)
 ** collisions. They still say the same thing, except in addition to requiring
 ** the player's new location to be within a traversable square ('0') on the map
 ** we also require it to be outside the hit circle of any collidable sprite
-** (sprcollide is false).
+** (sprcollide is false). They also substitute player movement for teleportation
+** if the player moves into a teleportation square.
 */
 
-int	adstrafe(void)
+int		movecheck(double newposx, double newposy)
 {
-	double	newposx;
-	double	newposy;
-	char	*mapchr;
+	char *mapchr[2];
 
-	ft_rotate_2d(g_player.dirx, g_player.diry, 90, g_player.newdirxy);
-	if (g_keydata.a)
-	{
-		newposx = (g_player.posx + g_player.newdirxy[0] * g_player.movespeed);
-		newposy = (g_player.posy + g_player.newdirxy[1] * g_player.movespeed);
-		mapchr = &g_config.map[(int)g_player.posy][(int)newposx];
-		if (teleporter(mapchr))
-			return (0);
-		if ((*mapchr == '0' || *mapchr == 'O') && \
-		!sprcollide(g_player.posy, newposx))
-			g_player.posx = newposx;
-		mapchr = &g_config.map[(int)newposy][(int)g_player.posx];
-		if (teleporter(mapchr))
-			return (0);
-		if ((*mapchr == '0' || *mapchr == 'O') && \
-		!sprcollide(newposy, g_player.posx))
-			g_player.posy = newposy;
-	}
-	if (g_keydata.d)
-	{
-		newposx = (g_player.posx - g_player.newdirxy[0] * g_player.movespeed);
-		newposy = (g_player.posy - g_player.newdirxy[1] * g_player.movespeed);
-		mapchr = &g_config.map[(int)g_player.posy][(int)newposx];
-		if (teleporter(mapchr))
-			return (0);
-		if ((*mapchr == '0' || *mapchr == 'O') && \
-		!sprcollide(g_player.posy, newposx))
-			g_player.posx = newposx;
-		mapchr = &g_config.map[(int)newposy][(int)g_player.posx];
-		if (teleporter(mapchr))
-			return (0);
-		if ((*mapchr == '0' || *mapchr == 'O') && \
-		!sprcollide(newposy, g_player.posx))
-			g_player.posy = newposy;
-	}
+	mapchr[0] = &g_config.map[(int)g_player.posy][(int)newposx];
+	mapchr[1] = &g_config.map[(int)newposy][(int)g_player.posx];
+	if (teleporter(mapchr[0]) || teleporter(mapchr[1]))
+		return (0);
+	if ((*mapchr[0] == '0' || *mapchr[0] == 'O') && \
+	!sprcollide(g_player.posy, newposx))
+		g_player.posx = newposx;
+	if ((*mapchr[1] == '0' || *mapchr[1] == 'O') && \
+	!sprcollide(newposy, g_player.posx))
+		g_player.posy = newposy;
 	return (1);
 }
 
-int	wsupdown(void)
+void	getmovedir(int key, double *dirxy)
 {
-	double	newposx;
-	double	newposy;
-	char	*mapchr;
-
-	if (g_keydata.w)
+	if (key == 0)
 	{
-		newposx = g_player.posx + g_player.dirx * g_player.movespeed;
-		newposy = g_player.posy + g_player.diry * g_player.movespeed;
-		mapchr = &g_config.map[(int)g_player.posy][(int)newposx];
-		if (teleporter(mapchr))
-			return (0);
-		if ((*mapchr == '0' || *mapchr == 'O') && \
-		!sprcollide(g_player.posy, newposx))
-			g_player.posx = newposx;
-		mapchr = &g_config.map[(int)newposy][(int)g_player.posx];
-		if (teleporter(mapchr))
-			return (0);
-		if ((*mapchr == '0' || *mapchr == 'O') && \
-		!sprcollide(newposy, g_player.posx))
-			g_player.posy = newposy;
+		dirxy[0] = g_player.dirx;
+		dirxy[1] = g_player.diry;
 	}
-	if (g_keydata.s)
+	else if (key == 1)
 	{
-		newposx = g_player.posx - g_player.dirx * g_player.movespeed;
-		newposy = g_player.posy - g_player.diry * g_player.movespeed;
-		mapchr = &g_config.map[(int)(g_player.posy)][(int)newposx];
-		if (teleporter(mapchr))
-			return (0);
-		if ((*mapchr == '0' || *mapchr == 'O') && \
-		!sprcollide(g_player.posy, newposx))
-			g_player.posx = newposx;
-		mapchr = &g_config.map[(int)newposy][(int)g_player.posx];
-		if (teleporter(mapchr))
-			return (0);
-		if ((*mapchr == '0' || *mapchr == 'O') && \
-		!sprcollide(newposy, g_player.posx))
-			g_player.posy = newposy;
+		dirxy[0] = -g_player.dirx;
+		dirxy[1] = -g_player.diry;
 	}
-	return (1);
+	else if (key == 2)
+	{
+		dirxy[0] = g_player.newdirxy[0];
+		dirxy[1] = g_player.newdirxy[1];
+	}
+	else if (key == 3)
+	{
+		dirxy[0] = -g_player.newdirxy[0];
+		dirxy[1] = -g_player.newdirxy[1];
+	}
 }
 
 /*
@@ -212,9 +145,29 @@ int	wsupdown(void)
 
 void	readmovementkeys(void)
 {
-	if (!wsupdown())
-		return ;
-	if (!adstrafe())
-		return ;
+	char	wsad[4];
+	double	movedirxy[2];
+	double	newposxy[2];
+	int		i;
+
+	wsad[0] = g_keydata.w;
+	wsad[1] = g_keydata.s;
+	wsad[2] = g_keydata.a;
+	wsad[3] = g_keydata.d;
+	if (wsad[2] || wsad[3])
+		ft_rotate_2d(g_player.dirx, g_player.diry, 90, g_player.newdirxy);
+	i = 0;
+	while (i < 4)
+	{
+		if (wsad[i])
+		{
+			getmovedir(i, movedirxy);
+			newposxy[0] = g_player.posx + movedirxy[0] * g_player.movespeed;
+			newposxy[1] = g_player.posy + movedirxy[1] * g_player.movespeed;
+			if (!(movecheck(newposxy[0], newposxy[1])))
+				return ;
+		}
+		i++;
+	}
 	rlrotate();
 }

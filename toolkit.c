@@ -6,18 +6,30 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 18:37:36 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/07 19:34:30 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/23 17:40:05 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 /*
+** Function to set a bit to 1.
+*/
+
+unsigned int	setbit(unsigned int byte, int bit)
+{
+	unsigned char	mask;
+
+	mask = (unsigned char)1 << bit;
+	return (mask | byte);
+}
+
+/*
 ** Simple function to tell you whether a given bit is set in a byte. Another
 ** libft candidate. ;) Bit 0 is the rightmost bit.
 */
 
-int				isbitset(unsigned char byte, int bit)
+int				isbitset(unsigned int byte, int bit)
 {
 	unsigned char	mask;
 
