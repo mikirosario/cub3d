@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/07 20:24:05 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/23 18:05:23 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/24 18:44:27 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,14 @@ t_error g_iamerror;
 
 int		ft_strcmp(const char *s1, const char *s2)
 {
-    while(*s1 == *s2)
+	while (*s1 == *s2)
 	{
 		if (!(*s1))
 			return (0);
 		s1++;
 		s2++;
 	}
-    return ((*(unsigned char *)s1 < *(unsigned char *)s2) ? -1 : 1);
+	return ((*(unsigned char *)s1 < *(unsigned char *)s2) ? -1 : 1);
 }
 
 void	configure(t_raycasterdata *rdata, char **argv, int argc, int *success)

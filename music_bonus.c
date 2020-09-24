@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   music_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/22 03:25:32 by miki              #+#    #+#             */
-/*   Updated: 2020/09/22 03:45:08 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/24 18:51:11 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@
 
 int		playsound(char *sound)
 {
-	char cmd[50];
-	char *afplay[3];
-	int	i;
+	char	cmd[50];
+	char	*afplay[3];
+	int		i;
 
 	afplay[0] = "afplay ";
 	afplay[1] = "afplay -r 0.65 ";

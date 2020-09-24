@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialize_linux.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 16:10:16 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/22 04:17:29 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/24 18:41:20 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ void	initialize(t_raycasterdata *rdata)
 	g_player.movespeed = 0.25;
 	g_framedata.xfloorcolor = 0x00669999;
 	g_framedata.xceilingcolor = 0x0066004b;
-	//used?
 	g_config.spritenum = 0;
 	g_config.spritelist = NULL;
 	g_config.maplist = NULL;

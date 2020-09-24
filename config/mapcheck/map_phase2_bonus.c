@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_phase2_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/03 19:10:33 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/20 02:07:29 by mikiencolor      ###   ########.fr       */
+/*   Updated: 2020/09/24 20:32:09 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,60 +26,6 @@ int		isspr(char mapchr)
 {
 	return ((mapchr >= '2' && mapchr <= '9') || mapchr == '/' || \
 	mapchr == 'v' ? 1 : 0);
-}
-
-/*
-** This function will take the map left by the floodfill function, which fills
-** all traversable spaces in the map with 'A' and/or 'T' characters until all
-** spaces reachable by the player are filled or an out of bounds position is
-** reached, and change all the 'A' and/or 'T' character to '0' so that the
-** raycaster can read the map.
-**
-** The function has two modes, normal mode, which is launched by default, and
-** 'error' mode. In normal mode filled characters are changed to '0'. In error
-** mode, filled characters are changed to '.', to show the user where the
-** floodfill checked before discovering the error in the map.
-**
-** To launch error mode, pass the function "error" as its only argument. To
-** launch normal mode, pass it any other string (including an empty string).
-*/
-
-void	unfloodmap(char *flag)
-{
-	t_list	*mapptr;
-	char	*mapchr;
-	char	mode;
-	int		i;
-	int		d;
-
-	mapptr = g_config.maplist;
-	mode = 'p';
-	if (!(ft_strncmp(flag, "error", 5)))
-		mode = 'e';
-	while (mapptr)
-	{
-		i = 0;
-		while ((*(mapchr = (char *)(mapptr->content + i))))
-		{
-			if (*mapchr == 'T' || *mapchr == 'A')
-			{
-				if (mode == 'p')
-				{
-					d = 0;
-					while (d < g_config.doornum && g_config.door[d]->dooraddr != mapchr)
-						d++;
-					if (d < g_config.doornum)
-							*mapchr = g_config.door[d]->spritetype;
-					else
-						*mapchr = '0';
-				}
-				else
-					*mapchr = '.';
-			}
-			i++;
-		}
-		mapptr = mapptr->next;
-	}
 }
 
 /*
@@ -239,6 +185,9 @@ int		floodright(unsigned int x, unsigned int y)
 **
 ** When successful, the algorithm returns 1. When it fails, it returns 0, which
 ** signals the 'out of bounds' error.
+**
+** For the bonus, the map will automatically link certain doors if present at
+** certain spaces for my special game map.
 */
 
 int		floodfill(void)

@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 18:36:40 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/23 20:44:29 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/24 17:43:51 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,53 +14,6 @@
 
 extern t_error	g_iamerror;
 extern t_imagedata *g_simg[10];
-
-int		createhudimages(void)
-{
-	char	success;
-
-	g_lifebar.ptr[0] = &g_lifebar.fullheart;
-	g_lifebar.ptr[1] = &g_lifebar.halfheart;
-	g_lifebar.ptr[2] = &g_lifebar.emptyheart;
-	g_catsbane.ptr[0] = &g_catsbane.idle;
-	g_catsbane.ptr[1] = &g_catsbane.attack;
-	g_chisme.ptr[0] = &g_chisme.idle;
-	g_chisme.ptr[1] = &g_chisme.active;
-	success = 1;
-	if (!(g_lifebar.fullheart.mlx_img = \
-	mlx_xpm_file_to_image(g_screendata.mlx_ptr, "./uielements/fullheart.xpm", \
-	&g_lifebar.fullheart.texw, &g_lifebar.fullheart.texh)))
-		success = 0;
-	else if (!(g_lifebar.halfheart.mlx_img = \
-	mlx_xpm_file_to_image(g_screendata.mlx_ptr, "./uielements/halfheart.xpm", \
-	&g_lifebar.halfheart.texw, &g_lifebar.halfheart.texh)))
-		success = 0;
-	else if (!(g_lifebar.emptyheart.mlx_img = \
-	mlx_xpm_file_to_image(g_screendata.mlx_ptr, "./uielements/emptyheart.xpm", \
-	&g_lifebar.emptyheart.texw, &g_lifebar.emptyheart.texh)))
-		success = 0;
-	else if (!(g_potion.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, \
-	"./uielements/uipotion.xpm", &g_potion.texw, &g_potion.texh)))
-		success = 0;
-	else if (!(g_catsbane.idle.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr,
-	"./uielements/uispray1.xpm", &g_catsbane.idle.texw, &g_catsbane.idle.texh)))
-		success = 0;
-	else if (!(g_catsbane.attack.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr,
-	"./uielements/uispray2.xpm", &g_catsbane.attack.texw, &g_catsbane.attack.texh)))
-		success = 0;
-	else if (!(g_ruby.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, \
-	"./uielements/ruby.xpm", &g_ruby.texw, &g_ruby.texh)))
-		success = 0;
-	else if (!(g_chisme.idle.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, \
-	"./uielements/chisme1.xpm", &g_chisme.idle.texw, &g_chisme.idle.texh)))
-		success = 0;
-	else if (!(g_chisme.active.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, \
-	"./uielements/chisme2.xpm", &g_chisme.active.texw, &g_chisme.active.texh)))
-		success = 0;
-	if (!success)
-		g_iamerror.texpathfail = 1;
-	return (success ? 1 : 0);
-}
 
 /*
 ** The variable g_config.sprtexnum states the highest sprite type number for
@@ -167,21 +120,20 @@ int		comptexres(int *firstwallsize)
 **
 ** We NEVER want to go through THIS again, so we'll use the texpathfail flag
 ** to remember the result of all these checks in the future. xD
+**
+** Regarding memory allocation, for all creations from getanimationimgs to
+** makeending some mallocing is required. As a result if getanimationimgs aborts
+** with the mallocfail flag set, or any subsequent functions abort, we return 0.
+**
+** Note checkimgs assumes all of my files are in the right place, and only
+** checks for the existence of files passed by the player. So move or rename any
+** files that you aren't passing to the program via the .cub and you will cause
+** a segfault. :p I know it's not the cleanest implementation, I just really
+** wanted to turn this project in already. :p
 */
 
 int		getteximg(void)
 {
-	int i;
-
-	i = g_config.sprtexnum;
-	g_floorimg.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, \
-	g_floorimg.texpath, &g_floorimg.texw, &g_floorimg.texh);
-	g_ceilingimg.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, \
-	g_ceilingimg.texpath, &g_ceilingimg.texw, &g_ceilingimg.texh);
-	g_doorrightimg.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, \
-	"doorright.XPM", &g_doorrightimg.texw, &g_doorrightimg.texh);
-	g_doorleftimg.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, \
-	"doorleft.XPM", &g_doorleftimg.texw, &g_doorleftimg.texh);
 	g_nowallimg.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, \
 	g_nowallimg.texpath, &g_nowallimg.texw, &g_nowallimg.texh);
 	g_sowallimg.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, \
@@ -190,28 +142,10 @@ int		getteximg(void)
 	g_wewallimg.texpath, &g_wewallimg.texw, &g_wewallimg.texh);
 	g_eawallimg.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, \
 	g_eawallimg.texpath, &g_eawallimg.texw, &g_eawallimg.texh);
-	g_portal.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, \
-	"./portalanimation/portal1.xpm",	&g_portal.texw, &g_portal.texh);
-	g_phrases.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, \
-	"./textboxes/orenline1.xpm", &g_phrases.texw, &g_phrases.texh);
-	g_ending.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, \
-	"./textboxes/ending1.xpm", &g_ending.texw, &g_ending.texh);
-	g_skybox.mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, \
-	"./skybox.xpm", &g_skybox.texw, &g_skybox.texh);
-	if (g_config.spritenum)
-		while (i > 1)
-		{
-			g_simg[i]->mlx_img = mlx_xpm_file_to_image(g_screendata.mlx_ptr, \
-			g_simg[i]->texpaths[0], &g_simg[i]->texw, &g_simg[i]->texh);
-			if (&g_simg[i]->texpaths[1])
-				getanimationimgs(g_simg[i]);
-			i--;
-		}
-	if (!makeportalanimation(&g_portal))
-		return (0);
-	if (!makephrases(&g_phrases))
-		return (0);
-	if (!makeending(&g_ending))
+	getbonusteximg();
+	getbonussprites();
+	if (g_iamerror.mallocfail || !makeportalanimation(&g_portal) || \
+	!makephrases(&g_phrases) || !makeending(&g_ending))
 		return (0);
 	return (checkimgs());
 }
@@ -263,7 +197,8 @@ int		maketeximg(void)
 		return (0);
 	g_config.texw = size[0];
 	g_config.texh = size[1];
-	if (!(companimsizes(g_simg)) || !(createhudimages()))
+	if (!(companimsizes(g_simg)))
 		return (0);
+	createhudimages();
 	return (1);
 }

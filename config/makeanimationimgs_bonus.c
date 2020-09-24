@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 17:51:52 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/23 20:43:51 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/24 18:23:18 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,24 +35,6 @@ int		companimsizes(t_imagedata **simg)
 		}
 		i--;
 	}
-	return (1);
-}
-
-int		getanimationptrs(t_spritedata *sprt, t_imagedata *simg)
-{
-	int	i;
-
-	i = 1;
-	while (i < 8 && simg->animation[i])
-	{
-		if (!(sprt->animtex[i] = \
-		(unsigned int *)mlx_get_data_addr(simg->animation[i]->mlx_img, \
-		&simg->animation[i]->bpp, &simg->animation[i]->size_line, \
-		&simg->animation[i]->endian)))
-			return (0);
-		i++;
-	}
-	sprt->framelimit = i - 1;
 	return (1);
 }
 

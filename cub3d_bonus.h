@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/23 17:39:18 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/24 20:47:01 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@
 ** For cub3d bonus I do a whole bunch of things I don't do in the basic
 ** version. To start with, let's remember this cardinal rule, from the project
 ** description:
-** 
+**
 ** "You are allowed to use other functions to complete the bonus part as long
 ** as their use is justified during your evaluation. You are also allowed to
 ** modify the expected scene file format to fit your needs. Be smart!"
-** 
+**
 ** With that, we invoke the following new libraries for the bonus part:
 **
 ** <time.h>, for the frame counter. The MacOS core graphics library
@@ -33,9 +33,9 @@
 # include <sys/time.h>
 # include <stdlib.h>
 # include <signal.h>
-#ifdef __APPLE__
-# include <CoreGraphics/CGDisplayConfiguration.h>
-#endif
+# ifdef __APPLE__
+#  include <CoreGraphics/CGDisplayConfiguration.h>
+# endif
 # include "cub3d.h"
 # include "iamerror_bonus.h"
 # include "printnotifications_bonus.h"
@@ -86,7 +86,6 @@ typedef struct	s_horizontalraydata
 	int		celly;
 	int		texx;
 	int		texy;
-	
 }				t_xraydata;
 
 /*
@@ -133,18 +132,10 @@ typedef struct	s_chisme
 	t_imagedata	*ptr[2];
 }				t_chisme;
 
-
-typedef struct	s_door
-{
-	//t_raydata	raydata;
-	//double		doorend;
-	//char		*posmap;
-}				t_door;
-
 t_imagedata		g_ceilingimg;
 t_imagedata		g_floorimg;
 t_imagedata		g_doorrightimg;
-t_imagedata 	g_doorleftimg;
+t_imagedata		g_doorleftimg;
 t_imagedata		g_sprt3img;
 t_imagedata		g_sprt4img;
 t_imagedata		g_sprt5img;
@@ -168,78 +159,88 @@ t_line			g_door;
 ** Bonus
 */
 
-int		ft_strcmp(const char *s1, const char *s2);
+int				ft_strcmp(const char *s1, const char *s2);
 
-void	countframes(time_t *timestart);
-void	displaygraphicsmode(void);
-void	displayspeech(t_raycasterdata *rdata);
-void	cls(void);
-void	cast_ceiling_floor(unsigned int *buf);
-int		getftex(const char *line, unsigned int linenum);
-int		getctex(const char *line, unsigned int linenum);
-void	gettexfail(void);
-int		sprarray(t_spritedata *list, t_spritedata ***array);
-int		raycaster_start(t_raycasterdata *rdata);
-int		raycaster_bonus(t_raycasterdata *rdata);
-void	getanimationimgs(t_imagedata *simg);
-int		makeportalanimation(t_imagedata *portal);
-int		checkanimations(t_imagedata *simg);
-void	animationtexerrors(t_imagedata *simg);
-int		getanimationptrs(t_spritedata *sprt, t_imagedata *simg);
-int		companimsizes(t_imagedata **simg);
-void	ft_copysprtlst(t_spritedata *copyto, t_spritedata *copyfrom);
-void	ft_movesprttoback(t_spritedata *firstmem, t_spritedata *lstmem);
-int		usepotion(void);
-void	animate(t_spritedata *sprite);
-void	removesprite(t_spritedata *sprite);
-void	animate(t_spritedata *sprite);
-int		doorcounter(unsigned int x, unsigned int y, char *c);
-void	activatedoor(t_raycasterdata *rdata);
-int		hordoorhitcheck(void);
-int		verdoorhitcheck(void);
-int		hordoorslide(void);
-int		verdoorslide(void);
-void	castoneray(void);
-double	msectime(void);
-double	msec_diff(struct timeval *t0, struct timeval *t1);
-void	reset_timer(struct timeval *t);
-void	spraycat(t_spritedata *sprite);
-void	sighandler(pid_t signum);
-void	mapspecialdoors(void);
-int		teleporter(char *mapchr);
+void			countframes(time_t *timestart);
+void			displaygraphicsmode(void);
+void			displayspeech(t_raycasterdata *rdata);
+void			cls(void);
+void			cast_ceiling_floor(unsigned int *buf);
+int				getftex(const char *line, unsigned int linenum);
+int				getctex(const char *line, unsigned int linenum);
+void			gettexfail(void);
+int				sprarray(t_spritedata *list, t_spritedata ***array);
+int				raycaster_start(t_raycasterdata *rdata);
+int				raycaster_bonus(t_raycasterdata *rdata);
+void			getanimationimgs(t_imagedata *simg);
+void			getbonusteximg(void);
+void			getbonussprites(void);
+void			createhudimages(void);
+int				makeportalanimation(t_imagedata *portal);
+int				checkanimations(t_imagedata *simg);
+void			animationtexerrors(t_imagedata *simg);
+void			getbonusimgaddresses(void);
+void			loadui(void);
+int				getanimationptrs(t_spritedata *sprt, t_imagedata *simg);
+void			getalltexpointers(t_imagedata *img, int animations);
+int				companimsizes(t_imagedata **simg);
+void			ft_copysprtlst(t_spritedata *copyto, t_spritedata *copyfrom);
+void			ft_movesprttoback(t_spritedata *firstmem, t_spritedata *lstmem);
+int				usepotion(void);
+void			animate(t_spritedata *sprite);
+void			removesprite(t_spritedata *sprite);
+void			animate(t_spritedata *sprite);
+int				doorcounter(unsigned int x, unsigned int y, char *c);
+void			activatedoor(t_raycasterdata *rdata);
+int				hordoorhitcheck(void);
+int				verdoorhitcheck(void);
+int				hordoorslide(void);
+int				verdoorslide(void);
+void			castoneray(void);
+double			msectime(void);
+double			msec_diff(struct timeval *t0, struct timeval *t1);
+void			reset_timer(struct timeval *t);
+void			spraycat(t_spritedata *sprite);
+void			sighandler(pid_t signum);
+void			mapspecialdoors(void);
+int				teleporter(char *mapchr);
 t_spritedata	*finddoor(int x, int y);
-int		makeportalanimation(t_imagedata *portal);
-int		makephrases(t_imagedata *phrases);
-int		makeending(t_imagedata *ending);
-void	xput_to_buffer(int x, int y, unsigned int *buf, t_imagedata *img);
-void	orentalk(int sprnum, double playerdistance);
-void	marvintalk(int sprnum, double playerdistance);
-void	ending(t_raycasterdata *rdata);
+int				makeportalanimation(t_imagedata *portal);
+int				makephrases(t_imagedata *phrases);
+int				makeending(t_imagedata *ending);
+void			orentalk(int sprnum, double playerdistance);
+void			marvintalk(int sprnum, double playerdistance);
+void			ending(t_raycasterdata *rdata);
 
-void	castwall(t_raycasterdata *rdata);
-void	castdoors(t_raycasterdata *rdata);
+void			castwall(t_raycasterdata *rdata);
+void			castdoors(t_raycasterdata *rdata);
 
-void	yput_to_buffer(int x, int y, unsigned int *buf, t_imagedata *img);
-void	xput_to_buffer(int x, int y, unsigned int *buf, t_imagedata *img);
+void			yput_to_buffer(int x, int y, unsigned int *buf, \
+				t_imagedata *img);
+void			xput_to_buffer(int x, int y, unsigned int *buf, \
+				t_imagedata *img);
 
-void	refreshpotions(unsigned int *buf);
-void	refreshrubies(unsigned int *buf);
-void	refreshchisme(unsigned int *buf, t_raycasterdata *rdata);
-void	refreshcatsbane(unsigned int *buf, t_raycasterdata *rdata);
+void			refreshpotions(unsigned int *buf);
+void			refreshrubies(unsigned int *buf);
+void			refreshchisme(unsigned int *buf, t_raycasterdata *rdata);
+void			refreshcatsbane(unsigned int *buf, t_raycasterdata *rdata);
 
 unsigned int	*choosetexture(t_raycasterdata *rdata);
 
-int		mousepress(int button, int x, int y, void *param);
-int		mouserelease(int button, int x, int y, void *param);
-int		mousemove(int x, int y, void *param);
+int				mousepress(int button, int x, int y, void *param);
+int				mouserelease(int button, int x, int y, void *param);
+int				mousemove(int x, int y, void *param);
 
-void	playtrack(char *track);
-int		playsound(char *sound);
-void	bossmusic(char sprite);
+void			playtrack(char *track);
+int				playsound(char *sound);
+void			bossmusic(char sprite);
 
 unsigned int	fogger(unsigned int argb, double fog);
 
-void	drawtobuffer_bonus(unsigned int *buf, int pixel, unsigned int xcolor);
-int		drawskybox(int x, int pixel, t_raycasterdata *rdata);
+void			drawtobuffer_bonus(unsigned int *buf, int pixel, \
+				unsigned int xcolor);
+int				drawskybox(int x, int pixel, t_raycasterdata *rdata);
+
+void			unfloodmap(char *flag);
 
 #endif

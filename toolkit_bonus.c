@@ -6,53 +6,18 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 18:37:36 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/23 17:37:19 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/24 19:01:37 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
 /*
-** This function will draw lines of pixels to the buffer starting at the x, y
-** position passed as arguments, from top to bottom row by row, excluding
-** transparent colors. Note that on MAC this seems to be marked by making the
-** A channel 00, and on Linux by making it FF. :p I don't know why that is.
-**
-** It's unprotected, so make sure your image will fit into your buffer. :p
-**
-** This function has a bug that for some reason causes the game to crash with
-** images without transparency O_O. Using yput for everything now.
+** Draws lines vertically to the buffer column by column.
 */
 
-void	xput_to_buffer(int x, int y, unsigned int *buf, t_imagedata *img)
-{
-	int bx;
-	int	tx;
-	int	ty;
-
-	ty = 0;
-	while (ty < img->texh)
-	{
-		bx = x + (y * g_config.screenw);
-		tx = ty * img->texw;
-		while (tx < ty * img->texw + img->texw)
-		{
-			if (img->tex_ptr[tx] != 0xff000000)
-				buf[bx] = img->tex_ptr[tx];
-			bx++;
-			tx++;
-		}
-		y++;
-		ty++;
-	}
-}
-
-/*
-** Like xput_to_buffer, but draws lines vertically column by column instead of
-** horizontally row by row.
-*/
-
-void	yput_to_buffer(int x, int y, unsigned int *buf, t_imagedata *img)
+void			yput_to_buffer(int x, int y, unsigned int *buf, \
+t_imagedata *img)
 {
 	int bx;
 	int	tx;
@@ -87,18 +52,6 @@ int				isbitset(unsigned int byte, int bit)
 
 	mask = (unsigned char)1 << bit;
 	return (mask & byte);
-}
-
-/*
-** Function to set a bit to 1.
-*/
-
-unsigned int	setbit(unsigned int byte, int bit)
-{
-	unsigned char	mask;
-
-	mask = (unsigned char)1 << bit;
-	return (mask | byte);
 }
 
 /*

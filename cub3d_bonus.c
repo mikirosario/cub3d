@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/07 20:24:05 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/23 18:00:20 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/24 18:45:23 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,14 @@ t_error g_iamerror;
 
 int		ft_strcmp(const char *s1, const char *s2)
 {
-    while(*s1 == *s2)
+	while (*s1 == *s2)
 	{
 		if (!(*s1))
 			return (0);
 		s1++;
 		s2++;
 	}
-    return ((*(unsigned char *)s1 < *(unsigned char *)s2) ? -1 : 1);
+	return ((*(unsigned char *)s1 < *(unsigned char *)s2) ? -1 : 1);
 }
 
 /*
@@ -91,8 +91,6 @@ int		main(int argc, char **argv)
 {
 	t_raycasterdata	rdata;
 	int				success;
-//	char *args[] = {"afplay", "./theme.mp3", NULL};
-	//pid_t			ppid;
 
 	initialize(&rdata);
 	configure(&rdata, argv, argc, &success);
@@ -105,14 +103,7 @@ int		main(int argc, char **argv)
 	}
 	g_config.musicpid = fork();
 	if (!g_config.musicpid)
-	{
-		//YES!! Execvp turns forked process into afplay process,
-		//now I can kill it gracefully upon program termination!
-		//No more messy system call.
-		//system("while :; do afplay ./theme.mp3; done");
-		//execvp(args[0], args);
 		playtrack(MAIN_THEME);
-	}
 	mlx_do_key_autorepeatoff(g_screendata.mlx_ptr);
 	mlx_hook(g_screendata.mlx_win, 17, 1L << 17, ft_stop, (void*)0);
 	mlx_hook(g_screendata.mlx_win, 2, 1L << 0, keypress, &g_config);

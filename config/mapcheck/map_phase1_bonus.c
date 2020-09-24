@@ -3,104 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   map_phase1_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 18:31:22 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/20 01:31:17 by mikiencolor      ###   ########.fr       */
+/*   Updated: 2020/09/24 19:56:26 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../cub3d_bonus.h"
 
 extern t_error	g_iamerror;
-
-/*
-** This function assigns the player's starting position and configures the
-** associated initial data set - player position (posx, posy), relative camera
-** plane position and orientation (planeX, planeY), player orientation (dirX,
-** dirY).
-**
-** Initial player position is simply the location where the player was found
-** in map, offset by 0.5 in both axes to bring the player to the centre of the
-** square. The rest of the data will depend on initial player orientation,
-** which is encoded in the letter representing the player character, where N
-** is for north facing, S is for south facing, E is for east facing, and W is
-** for west facing. Each orientation has its own set of starting data.
-**
-** Finally, after the starting position data is set, the character in the map
-** is changed to A. This will tell the floodfill function, which will be used
-** subsequently to check whether the player is within an area bounded by walls
-** or not, that this spot needs to be checked.
-**
-** As for why this function looks like an it was run over by a car, there is
-** is a simple answer for that. Norminette made me do it. This is a 42 school
-** project, and we are limited to functions of no more than 25 lines. I had to
-** mutilate this function to the form you see here to get it to fit. The 'real'
-** clean function it is based off of is very straightforward and looks like
-** this (^_^):
-**
-** void		configureplayer(unsigned int x, unsigned int y, char *playerchar)
-** {
-**	g_player.posx = (double)x + 0.5;
-**	g_player.posy = (double)y + 0.5;
-**	if (*playerchar == 'N' || *playerchar == 'n')
-**	{
-**		g_player.dirx = (double)0;
-**		g_player.diry = (double)-1;
-**		g_player.planex = (double)0.66;
-**		g_player.planey = (double)0;
-**	}
-**	else if (*playerchar == 'S' || *playerchar == 's')
-**	{
-**		g_player.dirx = (double)0;
-**		g_player.diry = (double)1;
-**		g_player.planex = (double)-0.66;
-**		g_player.planey = (double)0;
-**	}
-**	else if (*playerchar == 'E' || *playerchar == 'e')
-**	{
-**		g_player.dirx = (double)1;
-**		g_player.diry = (double)0;
-**		g_player.planex = (double)0;
-**		g_player.planey = (double)0.66;
-**	}
-**	else if (*playerchar == 'W' || *playerchar == 'w')
-**	{
-**		g_player.dirx = (double)-1;
-**		g_player.diry = (double)0;
-**		g_player.planex = (double)0;
-**		g_player.planey = (double)-0.66;
-**	}
-**	*playerchar = 'A';
-** }
-*/
-
-void	configureplayer(unsigned int x, unsigned int y, char *playerchar)
-{
-	g_player.posx = (double)x + 0.5;
-	g_player.posy = (double)y + 0.5;
-	if (*playerchar == 'N' || *playerchar == 'n' || \
-	*playerchar == 'S' || *playerchar == 's')
-	{
-		g_player.dirx = (double)0;
-		g_player.planey = (double)0;
-		g_player.diry = *playerchar == 'N' || *playerchar == 'n' ? \
-		(double)-1 : (double)1;
-		g_player.planex = *playerchar == 'N' || *playerchar == 'n' ? \
-		(double)0.66 : (double)-0.66;
-	}
-	else if (*playerchar == 'E' || *playerchar == 'e' || \
-	*playerchar == 'W' || *playerchar == 'w')
-	{
-		g_player.diry = (double)0;
-		g_player.planex = (double)0;
-		g_player.dirx = *playerchar == 'E' || *playerchar == 'e' ? \
-		(double)1 : (double)-1;
-		g_player.planey = *playerchar == 'E' || *playerchar == 'e' ? \
-		(double)0.66 : (double)-0.66;
-	}
-	*playerchar = 'A';
-}
 
 /*
 ** This function checks each map line for sprites ('2') or players ('NSEW').
@@ -111,40 +23,6 @@ void	configureplayer(unsigned int x, unsigned int y, char *playerchar)
 ** players function for error management, and the function then aborts and
 ** returns the number of players to the calling function.
 **
-** This function had to be needlessly split in two due to being normed. :p
-** Here is the original function:
-**
-** {
-**	t_list			*map;
-**	unsigned int	x;
-**	unsigned int	y;
-**	char			c;
-**
-**	y = 0;
-**	while ((map = maplistmem(y)))
-**	{
-**		x = 0;
-**		while ((c = (*(char *)(map->content + x))))
-**		{
-**			if (c == '2')
-**				spriteCounter((double)x, (double)y, c);
-**			else if ((ft_strchr(mapchrs, c)) >= mapchrs + 4)
-**			{
-**				if ((foundplayer += 1) > 1)
-**				{
-**					g_iamerror.toomanyplayers[0] = x;
-**					g_iamerror.toomanyplayers[1] = y;
-**					return (foundplayer);
-**				}
-**				else
-**					configureplayer(x, y, maplistdir(x, y));
-**			}
-**			x++;
-**		}
-**		y++;
-**	}
-**	return (foundplayer);
-** }
 ** I've updated this for the bonus. Now to know where the mapchars indicating
 ** a player begin in the mapchrs string I use ft_chrcmp with the first player
 ** char, which will always be 'N'. This way I can expand the list of valid
@@ -167,16 +45,12 @@ char	playerandspritescheck(char foundplayer, char *mapchrs)
 		{
 			if (c > 49 && c < 58)
 				spritecounter((double)x, (double)y, c);
-			if (c == '/' || c == 'v' || c == '*')
+			else if (c == '/' || c == 'v' || c == '*')
 				doorcounter(x, y, maplistdir(x, y));
 			else if ((ft_strchr(mapchrs, c)) >= mapchrs + \
 			ft_chrcmp(mapchrs, 'N'))
-			{
-				if ((foundplayer += 1) > 1)
-					return (toomanyplayers(x, y, foundplayer));
-				else
-					configureplayer(x, y, maplistdir(x, y));
-			}
+				if (!(playercounter(x, y, ++foundplayer)))
+					return (foundplayer);
 			x++;
 		}
 		y++;

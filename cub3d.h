@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/23 17:58:14 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/24 20:41:46 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,6 @@ typedef struct	s_inventory
 	char	catsbane : 1;
 }				t_inventory;
 
-
 /*
 ** This struct holds data about the player, such as position (pos), orientation
 ** (dir), or camera position (plane). Rotspeed is used by Lode's method for
@@ -144,18 +143,18 @@ typedef struct	s_inventory
 
 typedef struct	s_player
 {
-	double	posx;
-	double	posy;
-	double	dirx;
-	double	diry;
-	double	newdirxy[2];
-	double	planex;
-	double	planey;
-	double	camerax;
-	double	movespeed;
-	double	rotspeed;
-	int		life;
-	char	attack : 1;
+	double		posx;
+	double		posy;
+	double		dirx;
+	double		diry;
+	double		newdirxy[2];
+	double		planex;
+	double		planey;
+	double		camerax;
+	double		movespeed;
+	double		rotspeed;
+	int			life;
+	char		attack : 1;
 	t_inventory	inventory;
 }				t_player;
 
@@ -410,7 +409,7 @@ void			printnotifications(void);
 
 void			generalmaperrors(void);
 void			localizedmaperrors(void);
-char			toomanyplayers(unsigned int x, unsigned y, char foundplayer);
+char			toomanyplayers(unsigned int x, unsigned y);
 int				recorderrorlocation(unsigned int *errorarray, unsigned int x, \
 unsigned int y, int returnvalue);
 void			geterrorlocation(unsigned int *errorarray, unsigned int *x, \
@@ -448,6 +447,7 @@ unsigned int	create_trgb(int t, int r, int g, int b);
 int				getfcolor(const char *line, unsigned int linenum);
 int				getccolor(const char *line, unsigned int linenum);
 void			spritecounter(double x, double y, char c);
+char			playercounter(int x, int y, char foundplayer);
 int				ismap(char *line);
 int				cubhandler(const char *ptr);
 void			cubread(int *result, char **line, int fd, int linenum);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   makespecialanimationimgs_bonus.c                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/20 13:19:47 by mikiencolor       #+#    #+#             */
-/*   Updated: 2020/09/21 02:52:21 by mikiencolor      ###   ########.fr       */
+/*   Updated: 2020/09/24 17:45:55 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ extern t_error g_iamerror;
 
 int		makeending(t_imagedata *ending)
 {
-	int i;
-	char *p[7];
+	int		i;
+	char	*p[7];
 
 	p[0] = "./textboxes/ending1.xpm";
 	p[1] = "./textboxes/ending2.xpm";
@@ -44,14 +44,13 @@ int		makeending(t_imagedata *ending)
 
 int		makephrases(t_imagedata *phrases)
 {
-	int i;
-	char *p[4];
+	int		i;
+	char	*p[4];
 
 	p[0] = "./textboxes/orenline1.xpm";
 	p[1] = "./textboxes/marvinline1.xpm";
 	p[2] = "./textboxes/marvinline2.xpm";
 	p[3] = "./textboxes/normiannounce.xpm";
-
 	i = 0;
 	while (i < 4)
 	{
@@ -70,8 +69,8 @@ int		makephrases(t_imagedata *phrases)
 
 int		makeportalanimation(t_imagedata *portal)
 {
-	int i;
-	char *p[8];
+	int		i;
+	char	*p[8];
 
 	p[0] = "./portalanimation/portal1.xpm";
 	p[1] = "./portalanimation/portal2.xpm";

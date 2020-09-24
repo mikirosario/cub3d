@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   specialdoors_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikiencolor <mikiencolor@student.42.fr>    +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/20 01:42:34 by mikiencolor       #+#    #+#             */
-/*   Updated: 2020/09/21 04:12:48 by mikiencolor      ###   ########.fr       */
+/*   Updated: 2020/09/24 20:37:18 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 ** Find a doorlist door by its x and y coordinates on the map. Helpful. :)
 */
 
-	t_spritedata	*finddoor(int x, int y)
+t_spritedata	*finddoor(int x, int y)
 {
 	int i;
 
@@ -43,9 +43,11 @@ t_spritedata	*linkdoors(int originx, int originy, int destx, int desty)
 {
 	t_spritedata *origin;
 	t_spritedata *destination;
-	
-	if ((origin = finddoor(originx, originy)))
-	if ((destination = finddoor(destx, desty)) && destination->spritetype == '*')
+
+	if (!(origin = finddoor(originx, originy)))
+		return (NULL);
+	if ((destination = finddoor(destx, desty)) && \
+	destination->spritetype == '*')
 	{
 		origin->spritetype = '*';
 		*(origin->dooraddr) = '*';
@@ -55,6 +57,7 @@ t_spritedata	*linkdoors(int originx, int originy, int destx, int desty)
 	}
 	return (NULL);
 }
+
 /*
 ** This function exists to point certain special doors to otherwise inaccessible
 ** map tiles and function as teleportation devices. You can pair them with any
@@ -75,12 +78,12 @@ t_spritedata	*linkdoors(int originx, int originy, int destx, int desty)
 ** by calling the same function again with the doors reversed.
 */
 
-void	mapspecialdoors(void)
+void			mapspecialdoors(void)
 {
 	t_spritedata	*origin;
 
-	origin = linkdoors(44, 11, 29, 21);
-	origin->texture = g_portal.tex_ptr;
-	origin = linkdoors(29, 17, 33, 17);
-	origin->texture = g_portal.tex_ptr;
+	if ((origin = linkdoors(44, 11, 29, 21)))
+		origin->texture = g_portal.tex_ptr;
+	if ((origin = linkdoors(29, 17, 33, 17)))
+		origin->texture = g_portal.tex_ptr;
 }

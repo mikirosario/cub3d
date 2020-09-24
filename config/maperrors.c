@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/31 17:47:38 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/27 19:08:21 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/24 19:38:31 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,11 @@ unsigned int y, int returnvalue)
 ** do this put me over norminette's line limit by ONE BEEPING LINE.
 */
 
-char	toomanyplayers(unsigned int x, unsigned int y, char foundplayer)
+char	toomanyplayers(unsigned int x, unsigned int y)
 {
 	g_iamerror.toomanyplayers[0] = x;
 	g_iamerror.toomanyplayers[1] = y;
-	return (foundplayer);
+	return (0);
 }
 
 /*

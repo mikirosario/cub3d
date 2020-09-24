@@ -6,16 +6,28 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 16:44:15 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/21 20:43:18 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/24 18:59:02 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
-void	sighandler(pid_t signum)
+void	destroyobjectimages(void)
 {
-	if (signum == SIGTERM)
-		killpg(g_config.musicpid, SIGTERM);
+	int	i;
+
+	i = 0;
+	while (i < 3 && g_lifebar.ptr[i]->mlx_img)
+		mlx_destroy_image(g_screendata.mlx_ptr, \
+		g_lifebar.ptr[i++]->mlx_img);
+	i = 0;
+	while (i < 2 && g_catsbane.ptr[i]->mlx_img)
+		mlx_destroy_image(g_screendata.mlx_ptr, \
+		g_catsbane.ptr[i++]->mlx_img);
+	i = 0;
+	while (i < 2 && g_chisme.ptr[i]->mlx_img)
+		mlx_destroy_image(g_screendata.mlx_ptr, \
+		g_chisme.ptr[i++]->mlx_img);
 }
 
 /*
@@ -66,8 +78,6 @@ void	freelists(void)
 
 void	freeimgs(void)
 {
-	int	i;
-
 	if (g_screendata.mlx_img_buffer)
 		mlx_destroy_image(g_screendata.mlx_ptr, g_screendata.mlx_img_buffer);
 	destroyimages(&g_nowallimg);
@@ -88,18 +98,7 @@ void	freeimgs(void)
 	destroyimages(&g_ruby);
 	destroyimages(&g_portal);
 	destroyimages(&g_phrases);
-	i = 0;
-	while (i < 3 && g_lifebar.ptr[i]->mlx_img)
-		mlx_destroy_image(g_screendata.mlx_ptr, \
-		g_lifebar.ptr[i++]->mlx_img);
-	i = 0;
-	while (i < 2 && g_catsbane.ptr[i]->mlx_img)
-		mlx_destroy_image(g_screendata.mlx_ptr, \
-		g_catsbane.ptr[i++]->mlx_img);
-	i = 0;
-	while (i < 2 && g_chisme.ptr[i]->mlx_img)
-		mlx_destroy_image(g_screendata.mlx_ptr, \
-		g_chisme.ptr[i++]->mlx_img);
+	destroyobjectimages();
 }
 
 /*
@@ -129,8 +128,6 @@ void	freeme(void)
 		del(g_config.spriteorder);
 	if (g_config.zbuffer)
 		del(g_config.zbuffer);
-	//if (g_framedata.secretzbuffer)
-	//	del(g_framedata.secretzbuffer);
 	if (g_config.musicpid)
 		kill(g_config.musicpid, 15);
 }

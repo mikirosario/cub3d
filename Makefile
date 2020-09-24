@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: miki <miki@student.42.fr>                  +#+  +:+       +#+         #
+#    By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/07/15 20:32:43 by mrosario          #+#    #+#              #
-#    Updated: 2020/09/23 13:20:56 by miki             ###   ########.fr        #
+#    Updated: 2020/09/24 20:33:16 by mrosario         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,8 @@ SRC = cub3d.c rotation.c freeme.c ./toolkit.c ./config/cub.c \
 ./graphicsengine/drawsprites.c ./graphicsengine/playermovement.c \
 ./graphicsengine/keychecks.c ./config/maparray.c \
 ./graphicsengine/sortsprites.c ./graphicsengine/screenshots/bmpgenerator.c \
-./graphicsengine/screenshots/bmperror.c ./config/raycaster_start.c
+./graphicsengine/screenshots/bmperror.c ./config/raycaster_start.c \
+./config/playercounter.c
 
 BSRC = cub3d_bonus.c rotation.c freeme_bonus.c ./toolkit_bonus.c ./config/cub_bonus.c \
 ./config/getscreenres.c ./config/getwallparams.c ./config/getspriteparams_bonus.c \
@@ -49,7 +50,9 @@ BSRC = cub3d_bonus.c rotation.c freeme_bonus.c ./toolkit_bonus.c ./config/cub_bo
 ./config/makespecialanimationimgs_bonus.c ./graphicsengine/monologue_bonus.c \
 ./graphicsengine/ending_bonus.c ./graphicsengine/castwall_bonus.c \
 ./graphicsengine/hud_bonus.c ./graphicsengine/choosetexture_bonus.c \
-./mouse_bonus.c ./music_bonus.c ./graphicsengine/drawtobuffer_bonus.c
+./mouse_bonus.c ./music_bonus.c ./graphicsengine/drawtobuffer_bonus.c \
+./config/makemoreimages_bonus.c ./config/getbonusimgaddresses_bonus.c \
+./config/playercounter.c ./config/mapcheck/unflood_bonus.c
 
 LSRC = cub3d.c rotation.c freeme.c ./toolkit.c ./config/cub.c \
 ./config/getscreenres.c ./config/getwallparams.c ./config/getspriteparams.c \
@@ -63,7 +66,8 @@ LSRC = cub3d.c rotation.c freeme.c ./toolkit.c ./config/cub.c \
 ./graphicsengine/drawsprites.c ./graphicsengine/playermovement.c \
 ./graphicsengine/keychecks_linux.c ./config/maparray.c \
 ./graphicsengine/sortsprites.c ./graphicsengine/screenshots/bmpgenerator.c \
-./graphicsengine/screenshots/bmperror.c ./config/raycaster_start.c
+./graphicsengine/screenshots/bmperror.c ./config/raycaster_start.c \
+./config/playercounter.c
 
 LBSRC = cub3d_bonus.c rotation.c freeme_bonus.c ./toolkit_bonus.c ./config/cub_bonus.c \
 ./config/getscreenres.c ./config/getwallparams.c ./config/getspriteparams_bonus.c \
@@ -89,7 +93,9 @@ LBSRC = cub3d_bonus.c rotation.c freeme_bonus.c ./toolkit_bonus.c ./config/cub_b
 ./graphicsengine/ending_bonus.c ./graphicsengine/castwall_bonus.c \
 ./graphicsengine/hud_bonus.c ./graphicsengine/choosetexture_bonus.c \
 ./mouse_bonus.c ./music_bonus_linux.c ./graphicsengine/drawtobuffer_bonus.c \
-./graphicsengine/skybox_bonus.c
+./graphicsengine/skybox_bonus.c ./config/makemoreimages_bonus.c \
+./config/getbonusimgaddresses_bonus.c ./config/playercounter.c \
+./config/mapcheck/unflood_bonus.c
 
 OBJ = $(SRC:.c=.o)
 

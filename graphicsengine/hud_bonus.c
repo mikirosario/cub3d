@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/21 05:27:18 by mikiencolor       #+#    #+#             */
-/*   Updated: 2020/09/22 20:53:25 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/24 18:55:24 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	refreshcatsbane(unsigned int *buf, t_raycasterdata *rdata)
 	if (g_player.inventory.catsbane)
 	{
 		if (!g_keydata.enter)
-			xput_to_buffer((g_config.screenw / 2) - g_catsbane.idle.texw / 2, \
+			yput_to_buffer((g_config.screenw / 2) - g_catsbane.idle.texw / 2, \
 			g_config.screenh - g_catsbane.idle.texh - 1, buf, \
 			&g_catsbane.idle);
 		else
@@ -39,7 +39,7 @@ void	refreshcatsbane(unsigned int *buf, t_raycasterdata *rdata)
 				gettimeofday(&rdata->catsbanetimer, NULL);
 				g_player.attack = 1;
 			}
-			xput_to_buffer((g_config.screenw / 2) - g_catsbane.idle.texw / 2, \
+			yput_to_buffer((g_config.screenw / 2) - g_catsbane.idle.texw / 2, \
 			g_config.screenh - g_catsbane.idle.texh - 1, buf, \
 			&g_catsbane.attack);
 			if (msec_diff(&rdata->catsbanetimer, NULL) > 500)
@@ -59,7 +59,7 @@ void	refreshchisme(unsigned int *buf, t_raycasterdata *rdata)
 	if (g_player.inventory.chisme)
 	{
 		if (g_framedata.secretwallcompass < 20)
-			xput_to_buffer(g_config.screenw - g_chisme.idle.texw - 1, \
+			yput_to_buffer(g_config.screenw - g_chisme.idle.texw - 1, \
 			g_config.screenh - g_chisme.idle.texh - 1, buf, g_chisme.ptr[0]);
 		else
 		{
@@ -71,7 +71,7 @@ void	refreshchisme(unsigned int *buf, t_raycasterdata *rdata)
 				bit ^= 1;
 				reset_timer(&rdata->chismetimer);
 			}
-			xput_to_buffer(g_config.screenw - g_chisme.idle.texw - 1, \
+			yput_to_buffer(g_config.screenw - g_chisme.idle.texw - 1, \
 			g_config.screenh - g_chisme.idle.texh - 1, buf, g_chisme.ptr[bit]);
 		}
 	}
@@ -86,7 +86,7 @@ void	refreshrubies(unsigned int *buf)
 	i = 44;
 	while (inventory--)
 	{
-		xput_to_buffer(g_config.screenw - i, 10, buf, &g_ruby);
+		yput_to_buffer(g_config.screenw - i, 10, buf, &g_ruby);
 		i += 44;
 	}
 }
@@ -106,16 +106,16 @@ void	refreshpotions(unsigned int *buf)
 	empty = 3 - (full + half);
 	i = 0;
 	while (full--)
-		xput_to_buffer((10 + 36) * i++, 10, buf, &g_lifebar.fullheart);
+		yput_to_buffer((10 + 36) * i++, 10, buf, &g_lifebar.fullheart);
 	while (half--)
-		xput_to_buffer((10 + 36) * i++, 10, buf, &g_lifebar.halfheart);
+		yput_to_buffer((10 + 36) * i++, 10, buf, &g_lifebar.halfheart);
 	while (empty--)
-		xput_to_buffer((10 + 36) * i++, 10, buf, &g_lifebar.emptyheart);
+		yput_to_buffer((10 + 36) * i++, 10, buf, &g_lifebar.emptyheart);
 	i = 0;
 	inventory = g_player.inventory.potions;
 	while (inventory--)
 	{
-		xput_to_buffer(i, g_config.screenh - 200, buf, &g_potion);
+		yput_to_buffer(i, g_config.screenh - 200, buf, &g_potion);
 		i += 25;
 	}
 }

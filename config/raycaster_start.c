@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/31 19:37:21 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/09 18:11:46 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/24 17:48:54 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 extern t_error	g_iamerror;
 extern t_imagedata *g_simg[10];
 
-int     loadsprites(void)
+int		loadsprites(void)
 {
 	t_spritedata	*sprtptr;
 
@@ -23,13 +23,13 @@ int     loadsprites(void)
 	while (sprtptr)
 	{
 		if (sprtptr->spritetype == '2')
-            if(!(sprtptr->texture = (unsigned int *)\
-                mlx_get_data_addr(g_sprt2img.mlx_img, &g_sprt2img.bpp, \
-                &g_sprt2img.size_line, &g_sprt2img.endian)))
-                    return (0);
+			if (!(sprtptr->texture = (unsigned int *)\
+			mlx_get_data_addr(g_sprt2img.mlx_img, &g_sprt2img.bpp, \
+			&g_sprt2img.size_line, &g_sprt2img.endian)))
+				return (0);
 		sprtptr = sprtptr->next;
 	}
-    return (1);
+	return (1);
 }
 
 int		getimgaddresses(t_raycasterdata *rdata)

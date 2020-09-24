@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   music_bonus_linux.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/22 00:07:26 by miki              #+#    #+#             */
-/*   Updated: 2020/09/24 04:09:58 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/24 18:51:59 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,13 @@
 
 int		playsound(char *sound)
 {
-	char cmd[50];
-	char *aplay[2];
-	int	i;
+	char	cmd[50];
+	char	*aplay[2];
+	int		i;
 
 	aplay[0] = "aplay -q ";
 	aplay[1] = "aplay -d 2 -q ";
 	i = !(ft_strcmp(DISCOVERY, sound)) ? 1 : 0;
-
 	ft_strlcpy(cmd, aplay[i], 51);
 	if (ft_strlcat(cmd, sound, 51) >= 51)
 		return (0);
