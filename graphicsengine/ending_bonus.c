@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ending_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/21 03:00:07 by mikiencolor       #+#    #+#             */
-/*   Updated: 2020/09/22 20:50:44 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/23 22:17:38 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	playending(t_raycasterdata *rdata)
 	yput_to_buffer((g_config.screenw / 2 - g_ending.texw / 2) - 1, \
 	(g_config.screenh / 2 - g_ending.texh / 2) - 1, rdata->buf, \
 	g_ending.animation[i]);
-	if (msec_diff(&rdata->endingtimer, NULL) > 2000)
+	if (msec_diff(&rdata->endingtimer, NULL) > 3000)
 	{
 		i++;
 		gettimeofday(&rdata->endingtimer, NULL);
