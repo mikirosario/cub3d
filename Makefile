@@ -3,14 +3,14 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: miki <miki@student.42.fr>                  +#+  +:+       +#+         #
+#    By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/07/15 20:32:43 by mrosario          #+#    #+#              #
-#    Updated: 2020/09/25 16:06:33 by miki             ###   ########.fr        #
+#    Updated: 2020/09/25 20:28:15 by mrosario         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = cub3d
+NAME = Cub3d
 
 SRC = cub3d.c rotation.c freeme.c ./toolkit.c ./config/cub.c \
 ./config/getscreenres.c ./config/getwallparams.c ./config/getspriteparams.c \
@@ -113,7 +113,7 @@ LIBS = -I /usr/local/include/ -I ./libft/ -L./libft/ -lft -L /usr/local/lib/ -lm
 LINUXLIBS = -I ./ -I ./libft/ -L. -lmlx_Linux -lm -lXext -lX11 -lbsd -L ./libft -lft
 
 $(NAME): $(LIBFT)
-	gcc $(CFLAG) $(LIBS) $(FRMWRK) $(SRC) -o cub3d
+	gcc $(CFLAG) $(LIBS) $(FRMWRK) $(SRC) -o Cub3d
 
 $(LIBFT):
 	make -C ./libft
@@ -122,19 +122,19 @@ $(LIBFT):
 all: $(NAME)
 
 debug: $(LIBFT)
-	gcc $(CFLAG) $(LIBS) $(FRMWRK) $(SRC) -g -o cub3d
+	gcc $(CFLAG) $(LIBS) $(FRMWRK) $(SRC) -g -o Cub3d
 
 bonus: $(LIBFT)
-	gcc $(CFLAG) $(LIBS) $(FRMWRK) $(BSRC) -o cub3d
+	gcc $(CFLAG) $(LIBS) $(FRMWRK) $(BSRC) -o Cub3d
 
 bdebug: $(LIBFT)
-	gcc $(CFLAG) $(LIBS) $(FRMWRK) $(BSRC) -g -o cub3d
+	gcc $(CFLAG) $(LIBS) $(FRMWRK) $(BSRC) -g -o Cub3d
 
 linux: $(LIBFT)
-	gcc $(CFLAG) $(LSRC) $(LINUXLIBS) -g -o cub3d
+	gcc $(CFLAG) $(LSRC) $(LINUXLIBS) -g -o Cub3d
 
 linuxbonus: $(LIBFT)
-	gcc $(CFLAG) $(LBSRC) $(LINUXLIBS) -g -O0 -o cub3d
+	gcc $(CFLAG) $(LBSRC) $(LINUXLIBS) -g -O0 -o Cub3d
 
 
 clean:

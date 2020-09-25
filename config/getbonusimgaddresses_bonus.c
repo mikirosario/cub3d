@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/24 17:51:23 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/24 18:40:35 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/25 19:39:29 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void	loadui(void)
 	loadmoreui();
 }
 
-void	getbonusimgaddresses(void)
+void	getbonusimgaddresses(t_raycasterdata *rdata)
 {
 	g_floorimg.tex_ptr = (unsigned int *)mlx_get_data_addr(g_floorimg.mlx_img, \
 	&g_floorimg.bpp, &g_floorimg.size_line, &g_floorimg.endian);
@@ -110,4 +110,5 @@ void	getbonusimgaddresses(void)
 	&g_doorleftimg.bpp, &g_doorleftimg.size_line, &g_doorleftimg.endian);
 	g_skybox.tex_ptr = (unsigned int *)mlx_get_data_addr(g_skybox.mlx_img, \
 	&g_skybox.bpp, &g_skybox.size_line, &g_skybox.endian);
+	rdata->skyboxsidewidth = g_skybox.texw / 4;
 }

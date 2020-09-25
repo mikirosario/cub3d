@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/31 19:37:21 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/24 18:39:22 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/25 20:10:04 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	getimgaddresses(t_raycasterdata *rdata)
 	&g_wewallimg.bpp, &g_wewallimg.size_line, &g_wewallimg.endian);
 	g_eawallimg.tex_ptr = (unsigned int *)mlx_get_data_addr(g_eawallimg.mlx_img,
 	&g_eawallimg.bpp, &g_eawallimg.size_line, &g_eawallimg.endian);
-	getbonusimgaddresses();
+	getbonusimgaddresses(rdata);
 	getalltexpointers(&g_portal, 8);
 	getalltexpointers(&g_phrases, 4);
 	getalltexpointers(&g_ending, 7);

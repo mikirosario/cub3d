@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/24 20:47:01 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/25 19:38:08 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,7 +179,7 @@ void			createhudimages(void);
 int				makeportalanimation(t_imagedata *portal);
 int				checkanimations(t_imagedata *simg);
 void			animationtexerrors(t_imagedata *simg);
-void			getbonusimgaddresses(void);
+void			getbonusimgaddresses(t_raycasterdata *rdata);
 void			loadui(void);
 int				getanimationptrs(t_spritedata *sprt, t_imagedata *simg);
 void			getalltexpointers(t_imagedata *img, int animations);

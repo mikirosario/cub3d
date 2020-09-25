@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/24 20:41:46 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/25 19:36:21 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,6 +228,7 @@ typedef struct	s_raycasterdata
 	struct timeval	phrasetimer;
 	struct timeval	chismetimer;
 	struct timeval	endingtimer;
+	int				skyboxsidewidth;
 }				t_raycasterdata;
 
 /*
