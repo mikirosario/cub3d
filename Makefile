@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+         #
+#    By: miki <miki@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/07/15 20:32:43 by mrosario          #+#    #+#              #
-#    Updated: 2020/09/24 20:33:16 by mrosario         ###   ########.fr        #
+#    Updated: 2020/09/25 16:06:33 by miki             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,8 +51,9 @@ BSRC = cub3d_bonus.c rotation.c freeme_bonus.c ./toolkit_bonus.c ./config/cub_bo
 ./graphicsengine/ending_bonus.c ./graphicsengine/castwall_bonus.c \
 ./graphicsengine/hud_bonus.c ./graphicsengine/choosetexture_bonus.c \
 ./mouse_bonus.c ./music_bonus.c ./graphicsengine/drawtobuffer_bonus.c \
-./config/makemoreimages_bonus.c ./config/getbonusimgaddresses_bonus.c \
-./config/playercounter.c ./config/mapcheck/unflood_bonus.c
+./graphicsengine/skybox_bonus.c ./config/makemoreimages_bonus.c \
+./config/getbonusimgaddresses_bonus.c ./config/playercounter.c \
+./config/mapcheck/unflood_bonus.c
 
 LSRC = cub3d.c rotation.c freeme.c ./toolkit.c ./config/cub.c \
 ./config/getscreenres.c ./config/getwallparams.c ./config/getspriteparams.c \

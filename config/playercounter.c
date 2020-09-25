@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   playercounter.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/24 19:15:39 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/24 19:45:23 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/24 23:43:26 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,30 +73,26 @@
 ** }
 */
 
+void	orientplayer(double dirx, double diry, double planex, double planey)
+{
+	g_player.dirx = dirx;
+	g_player.diry = diry;
+	g_player.planex = planex;
+	g_player.planey = planey;
+}
+
 void	configureplayer(unsigned int x, unsigned int y, char *playerchar)
 {
 	g_player.posx = (double)x + 0.5;
 	g_player.posy = (double)y + 0.5;
-	if (*playerchar == 'N' || *playerchar == 'n' || \
-	*playerchar == 'S' || *playerchar == 's')
-	{
-		g_player.dirx = (double)0;
-		g_player.planey = (double)0;
-		g_player.diry = *playerchar == 'N' || *playerchar == 'n' ? \
-		(double)-1 : (double)1;
-		g_player.planex = *playerchar == 'N' || *playerchar == 'n' ? \
-		(double)0.66 : (double)-0.66;
-	}
-	else if (*playerchar == 'E' || *playerchar == 'e' || \
-	*playerchar == 'W' || *playerchar == 'w')
-	{
-		g_player.diry = (double)0;
-		g_player.planex = (double)0;
-		g_player.dirx = *playerchar == 'E' || *playerchar == 'e' ? \
-		(double)1 : (double)-1;
-		g_player.planey = *playerchar == 'E' || *playerchar == 'e' ? \
-		(double)0.66 : (double)-0.66;
-	}
+	if (*playerchar == 'N' || *playerchar == 'n')
+		orientplayer(0, -1, 0.66, 0);
+	else if (*playerchar == 'S' || *playerchar == 's')
+		orientplayer(0, 1, -0.66, 0);
+	else if (*playerchar == 'E' || *playerchar == 'e')
+		orientplayer(1, 0, 0, 0.66);
+	else if (*playerchar == 'W' || *playerchar == 'w')
+		orientplayer(-1, 0, 0, -0.66);
 	*playerchar = 'A';
 }
 

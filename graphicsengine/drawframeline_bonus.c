@@ -6,7 +6,7 @@
 /*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/11 19:45:47 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/24 15:48:57 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/24 23:45:01 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,8 +190,8 @@ void	drawframeline(int x, t_raycasterdata *rdata)
 	if (g_keydata.m == 2)
 	{
 		pixel = x;
-		pixel = drawceiling(x, pixel, rdata->buf);
-		//pixel = drawskybox(x, pixel, rdata);
+		//pixel = drawceiling(x, pixel, rdata->buf);
+		pixel = drawskybox(x, pixel, rdata);
 		pixel = solidcolorwalls(x, pixel, rdata->buf);
 		drawfloor(x, pixel, rdata->buf);
 	}
