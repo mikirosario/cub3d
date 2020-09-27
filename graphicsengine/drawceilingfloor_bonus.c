@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   drawceilingfloor_bonus.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/28 16:41:58 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/22 20:46:42 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/27 00:30:29 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,8 @@ void	cast_ceiling_floor(unsigned int *buf)
 		{
 			setpixelparams();
 			draw_floor(buf, x, y);
-			draw_ceiling(buf, x, y);
+			if (!g_framedata.lastlevel)
+				draw_ceiling(buf, x, y);
 			x++;
 		}
 		y++;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycaster_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/11 15:32:45 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/22 18:51:00 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/27 00:52:42 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	gameloop(t_raycasterdata *rdata, time_t *timestart)
 	g_screendata.mlx_img_buffer, 0, 0);
 	displaygraphicsmode();
 	countframes(timestart);
+	readmovementkeys();
 }
 
 void	endingloop(t_raycasterdata *rdata)
@@ -82,6 +83,5 @@ int		raycaster_bonus(t_raycasterdata *rdata)
 		gameloop(rdata, &timestart);
 	if (g_config.ending)
 		endingloop(rdata);
-	readmovementkeys();
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   skybox_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/22 23:23:56 by miki              #+#    #+#             */
-/*   Updated: 2020/09/25 20:50:35 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/27 00:25:32 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	find_texx(double walldir, double angledir, t_raycasterdata *rdata)
 	double	perpwalldist;
 	double	wallx;
 	double	texx;
-	
+
 	perpwalldist = 1 / walldir;
 	wallx = perpwalldist * fabs(angledir);
 	texx = (int)(wallx * (double)rdata->skyboxsidewidth);
@@ -81,8 +81,9 @@ int	get_texx(t_raycasterdata *rdata)
 {
 	double	x;
 	double	y;
-	int		sw = rdata->skyboxsidewidth;
+	int		sw;
 
+	sw = rdata->skyboxsidewidth;
 	x = g_raydata.raydirx;
 	y = g_raydata.raydiry;
 	if (y + x >= 0 && y - x < 0)
@@ -109,7 +110,7 @@ int	drawskybox(int x, int pixel, t_raycasterdata *rdata)
 	int				texx;
 	int				texy;
 	double			texpos;
-	unsigned int 	xcolor;
+	unsigned int	xcolor;
 
 	texx = get_texx(rdata);
 	step = 1.0 * g_skybox.texh / g_config.screenh / 1.0;

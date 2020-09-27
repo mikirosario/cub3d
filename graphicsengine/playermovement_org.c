@@ -6,7 +6,7 @@
 /*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/14 20:03:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/27 06:16:03 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/27 04:27:17 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,75 +67,50 @@ void	rlrotate(void)
 	}
 }
 
-/*
-** These movement functions closely follow the Lode tutorial, even though they
-** are a tad redundant. (In the bonus I reduced the code). One significant
-** modification I do make is to add a bit of padding to the wall check, so
-** you'll actually detect a wall slightly before you reach the very edge of it.
-** This will prevent you from potentially being able to put the camera through
-** the wall. People have been bugging me about that since the beginning. ;)
-** See, I told you all I'd fix it before the evaluation. Sheesh. ;p
-**
-** Depending on whether we are gaining or losing number on our axis, for the
-** check we'll want to add or subtract a bit. If we're gaining we want to add
-** and if we're losing we want to subtract, so that we gain/lose even more,
-** and 'see' the wall ahead of time, before we're at the very edge.
-*/
-
 void	adstrafe(void)
 {
-	double	newposxy[2];
-
-	ft_rotate_2d(g_player.dirx, g_player.diry, 90, g_player.newdirxy);
 	if (g_keydata.a)
 	{
-		newposxy[0] = g_player.posx + g_player.newdirxy[0] * g_player.movespeed;
-		newposxy[1] = g_player.posy + g_player.newdirxy[1] * g_player.movespeed;
-		if (g_config.map[(int)g_player.posy][(int)(newposxy[0] + \
-		(newposxy[0] < g_player.posx ? -0.1 : 0.1))] == '0')
-			g_player.posx = newposxy[0];
-		if (g_config.map[(int)(newposxy[1] + \
-		(newposxy[1] < g_player.posy ? -0.1 : 0.1))][(int)g_player.posx] == '0')
-			g_player.posy = newposxy[1];
+		ft_rotate_2d(g_player.dirx, g_player.diry, 90, g_player.newdirxy);
+		if (g_config.map[(int)g_player.posy][(int)(g_player.posx + \
+		g_player.newdirxy[0] * g_player.movespeed)] == '0')
+			g_player.posx += g_player.newdirxy[0] * g_player.movespeed;
+		if (g_config.map[(int)(g_player.posy + g_player.newdirxy[1] * \
+		g_player.movespeed)][(int)g_player.posx] == '0')
+			g_player.posy += g_player.newdirxy[1] * g_player.movespeed;
 	}
 	if (g_keydata.d)
 	{
-		newposxy[0] = g_player.posx - g_player.newdirxy[0] * g_player.movespeed;
-		newposxy[1] = g_player.posy - g_player.newdirxy[1] * g_player.movespeed;
-		if (g_config.map[(int)g_player.posy][(int)(newposxy[0] + \
-		(newposxy[0] < g_player.posx ? -0.1 : 0.1))] == '0')
-			g_player.posx = newposxy[0];
-		if (g_config.map[(int)(newposxy[1] + \
-		(newposxy[1] < g_player.posy ? -0.1 : 0.1))][(int)g_player.posx] == '0')
-			g_player.posy = newposxy[1];
+		ft_rotate_2d(g_player.dirx, g_player.diry, 90, \
+		(double *)(&g_player.newdirxy));
+		if (g_config.map[(int)g_player.posy][(int)(g_player.posx - \
+		g_player.newdirxy[0] * g_player.movespeed)] == '0')
+			g_player.posx -= g_player.newdirxy[0] * g_player.movespeed;
+		if (g_config.map[(int)(g_player.posy - g_player.newdirxy[1] * \
+		g_player.movespeed)][(int)g_player.posx] == '0')
+			g_player.posy -= g_player.newdirxy[1] * g_player.movespeed;
 	}
 }
 
 void	wsupdown(void)
 {
-	double	newposxy[2];
-
 	if (g_keydata.w)
 	{
-		newposxy[0] = g_player.posx + g_player.dirx * g_player.movespeed;
-		newposxy[1] = g_player.posy + g_player.diry * g_player.movespeed;
-		if (g_config.map[(int)g_player.posy][(int)(newposxy[0] + \
-		(newposxy[0] < g_player.posx ? -0.1 : 0.1))] == '0')
-			g_player.posx = newposxy[0];
-		if (g_config.map[(int)(newposxy[1] + \
-		(newposxy[1] < g_player.posy ? -0.1 : 0.1))][(int)g_player.posx] == '0')
-			g_player.posy = newposxy[1];
+		if (g_config.map[(int)g_player.posy][(int)(g_player.posx + \
+		g_player.dirx * g_player.movespeed)] == '0')
+			g_player.posx += g_player.dirx * g_player.movespeed;
+		if (g_config.map[(int)(g_player.posy + g_player.diry * \
+		g_player.movespeed)][(int)g_player.posx] == '0')
+			g_player.posy += g_player.diry * g_player.movespeed;
 	}
 	if (g_keydata.s)
 	{
-		newposxy[0] = g_player.posx - g_player.dirx * g_player.movespeed;
-		newposxy[1] = g_player.posy - g_player.diry * g_player.movespeed;
-		if (g_config.map[(int)(g_player.posy)][(int)(newposxy[0] + \
-		(newposxy[0] < g_player.posx ? -0.1 : 0.1))] == '0')
-			g_player.posx = newposxy[0];
-		if (g_config.map[(int)(newposxy[1] + \
-		(newposxy[1] < g_player.posy ? -0.1 : 0.1))][(int)g_player.posx] == '0')
-			g_player.posy = newposxy[1];
+		if (g_config.map[(int)(g_player.posy)][(int)(g_player.posx - \
+		g_player.dirx * g_player.movespeed)] == '0')
+			g_player.posx -= g_player.dirx * g_player.movespeed;
+		if (g_config.map[(int)(g_player.posy - g_player.diry * \
+		g_player.movespeed)][(int)g_player.posx] == '0')
+			g_player.posy -= g_player.diry * g_player.movespeed;
 	}
 }
 

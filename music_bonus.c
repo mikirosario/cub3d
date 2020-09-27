@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   music_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/22 03:25:32 by miki              #+#    #+#             */
-/*   Updated: 2020/09/24 18:51:11 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/27 02:20:51 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,8 @@ int		playsound(char *sound)
 }
 
 /*
-** Execvp turns the forked process into an mpg123 process, with the flags
-** quiet and infinite loop. Now it can be killed by the parent program using
-** the child pid. No more messy system call. :D
+** Execvp turns the forked process into an afplay process. Now it can be killed
+** by the parent program using the child pid. No more messy system call. :D
 **
 ** Playtrack plays mp3 files at the paths referenced in music_bonus.h.
 **

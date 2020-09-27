@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   freeme_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 16:44:15 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/24 18:59:02 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/27 01:59:54 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,4 +130,5 @@ void	freeme(void)
 		del(g_config.zbuffer);
 	if (g_config.musicpid)
 		kill(g_config.musicpid, 15);
+	system("stty sane");
 }

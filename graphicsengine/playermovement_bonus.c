@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   playermovement_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/14 20:03:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/23 20:20:13 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/27 06:17:17 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,14 +91,24 @@ void	rlrotate(void)
 ** we also require it to be outside the hit circle of any collidable sprite
 ** (sprcollide is false). They also substitute player movement for teleportation
 ** if the player moves into a teleportation square.
+**
+** To stop players from ever being able to get close enough to a wall to 'see
+** through' it I add a bit of padding to the wall check, so you'll actually
+** detect a wall and be denied further movement a bit before you get to the
+** very quantum edge of it. ;p See, I told you all I'd fix it before the
+** evaluation. Sheesh. ;p
 */
 
 int		movecheck(double newposx, double newposy)
 {
-	char *mapchr[2];
+	char	*mapchr[2];
+	double	padx;
+	double	pady;
 
-	mapchr[0] = &g_config.map[(int)g_player.posy][(int)newposx];
-	mapchr[1] = &g_config.map[(int)newposy][(int)g_player.posx];
+	padx = newposx < g_player.posx ? -0.1 : 0.1;
+	pady = newposy < g_player.posy ? -0.1 : 0.1;
+	mapchr[0] = &g_config.map[(int)g_player.posy][(int)(newposx + padx)];
+	mapchr[1] = &g_config.map[(int)(newposy + pady)][(int)g_player.posx];
 	if (teleporter(mapchr[0]) || teleporter(mapchr[1]))
 		return (0);
 	if ((*mapchr[0] == '0' || *mapchr[0] == 'O') && \

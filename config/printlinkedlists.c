@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   printlinkedlists.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/05 18:32:52 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/26 18:24:13 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/27 06:49:09 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	printsprites(void)
 			sprtlistptr = sprtlistptr->next;
 			y++;
 		}
-		ft_printf(YELLOW"\nTotal Number of Sprites: %d\n"RESET, y + 1);
+		ft_printf(YELLOW"\nTotal Number of Sprites: %d\n"RESET, y);
 	}
 }
 
