@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_phase1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 18:31:22 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/29 14:46:42 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/29 21:58:29 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,11 +175,13 @@ int		linecheck(char *line, unsigned int y, char *mapchrs)
 	return (1);
 }
 
-int		checkmap(char *mapchrs)
+int		checkmap(char *mapchrs, char endfile)
 {
 	char foundplayer;
 
 	foundplayer = 0;
+	if (!endfile)
+		return(-7);
 	if (g_iamerror.mallocfail)
 		return (-6);
 	if (g_iamerror.memusage > MAPMEMCAP)
@@ -201,12 +203,22 @@ int		checkmap(char *mapchrs)
 	return (1);
 }
 
+/*
+** If we end the maplist maker with lnchk, it means we ended the map at EOF,
+** because the last line we checked was a valid mapline and so only endfile
+** could have terminated the while.
+**
+** If we end with !lnchk, it means we ended the map before EOF and there are
+** still lines below it. The new gatekeeper regime will analyse these lines to
+** determine whether or not they are acceptable.
+*/
+
 int		makemaplist(int fd, char *firstline)
 {
 	unsigned int	y;
 	char			*line;
 	char			endfile;
-	char			lnchk;
+	int				lnchk;
 
 	y = 0;
 	endfile = 0;
@@ -215,14 +227,16 @@ int		makemaplist(int fd, char *firstline)
 	{
 		del(line);
 		if (!(ft_get_next_line(fd, &line)))
-			endfile = 49;
+			endfile = 1;
 		if (!line)
 			g_iamerror.mallocfail = 1;
 		y++;
 	}
+	if(!lnchk)
+		endfile = endcub(line, endfile);
 	line ? del(line) : line;
 	g_config.maph = !lnchk || g_iamerror.memusage > MAPMEMCAP ? --y : y;
 	if (!maparray())
 		g_iamerror.mallocfail = 1;
-	return (checkmap(MAPCHRS));
+	return (checkmap(MAPCHRS, endfile));
 }

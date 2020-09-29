@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   iamerror_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/21 19:17:09 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/27 12:06:32 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/29 17:54:44 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,6 +203,8 @@ void	printerrors(void)
 		maperrors();
 	else if (texerrorconditions())
 		texerrors();
+	if (g_iamerror.mallocfail)
+		ft_printf(RED"%s%s"RESET, REDERROR, MALLOCFAIL);
 	write(1, "\n", 1);
 	return ;
 }

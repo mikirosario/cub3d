@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/16 18:38:05 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/27 11:21:07 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/29 22:31:42 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	cubread(int *result, char **line, int fd, int linenum)
 		if (!(*line))
 			g_iamerror.mallocfail = 1;
 		if (result[0] < 1)
-			result[0] = getres(*line, linenum);
+			result[0] = getres(*line, linenum/*, result[0]*/);
 		if (result[1] < 1)
 			result[1] = getno(*line, linenum);
 		if (result[2] < 1)
@@ -166,9 +166,7 @@ int		maphandler(int fd, char *line)
 	i = makemaplist(fd, line);
 	if (i < 0)
 	{
-		if (i == -5)
-			g_iamerror.maptoobig = 1;
-		else if (i == -1)
+		if (i == -1)
 			g_iamerror.outofbounds[2] = 1;
 		else if (i == -2)
 			g_iamerror.badmap3line = 1;
@@ -176,6 +174,10 @@ int		maphandler(int fd, char *line)
 			g_iamerror.noplayer = 1;
 		else if (i == -4)
 			g_iamerror.toomanyplayers[2] = 1;
+		else if (i == -5)
+			g_iamerror.maptoobig = 1;
+		else if (i == -7)
+			g_iamerror.cubpolice = 1;
 		return (0);
 	}
 	return (1);
@@ -276,7 +278,7 @@ int		cubhandler(const char *ptr)
 		line = NULL;
 		cubread(result, &line, fd, (linenum = 0));
 		if ((cuberrorhandler(result)) && (maphandler(fd, line)) && \
-		(!g_config.spritenum || !g_iamerror.getsprfail))
+		(!g_config.spritenum || !g_iamerror.getsprfail) && !g_iamerror.duplicateparam[0])
 			success = 1;
 		free(result);
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/29 14:25:02 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/29 22:31:06 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,8 @@ typedef	struct	s_error
 	unsigned int	mapsweeps;
 	char			*couldnotopenxpm;
 	unsigned char	maptoobig : 1;
+	unsigned char	cubpolice : 1;
+	unsigned char	duplicateparam[8];
 	unsigned int	memusage;
 }				t_error;
 
@@ -397,7 +399,9 @@ char			*getnextnum(char *num);
 void			freeme(void);
 int				isbitset(unsigned int byte, int bit);
 unsigned int	setbit(unsigned int byte, int bit);
+int				endcub(char *line, int endfile);
 int				ft_stop(int key, void *param);
+int				duplicateparam(int linenum, int param);
 
 /*
 ** Command Line Notifications

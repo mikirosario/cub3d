@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub_bonus.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/16 18:38:05 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/27 12:06:32 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/29 20:29:57 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,9 +166,7 @@ int		maphandler(int fd, char *line)
 	i = makemaplist(fd, line);
 	if (i < 0)
 	{
-		if (i == -5)
-			g_iamerror.maptoobig = 1;
-		else if (i == -1)
+		if (i == -1)
 			g_iamerror.outofbounds[2] = 1;
 		else if (i == -2)
 			g_iamerror.badmap3line = 1;
@@ -176,6 +174,10 @@ int		maphandler(int fd, char *line)
 			g_iamerror.noplayer = 1;
 		else if (i == -4)
 			g_iamerror.toomanyplayers[2] = 1;
+		else if (i == -5)
+			g_iamerror.maptoobig = 1;
+		else if (1 == -7)
+			g_iamerror.cubpolice = 1;
 		return (0);
 	}
 	return (1);

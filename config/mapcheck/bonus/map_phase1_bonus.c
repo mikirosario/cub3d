@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_phase1_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 18:31:22 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/29 14:46:15 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/29 20:28:44 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,7 @@ int		linecheck(char *line, unsigned int y, char *mapchrs)
 	return (1);
 }
 
-int		checkmap(unsigned int y, char *mapchrs)
+int		checkmap(unsigned int y, char *mapchrs, char endfile)
 {
 	char foundplayer;
 
@@ -167,6 +167,8 @@ int		checkmap(unsigned int y, char *mapchrs)
 		g_iamerror.mallocfail = 1;
 	if (g_iamerror.mallocfail)
 		return (-6);
+	if (!endfile)
+		return (-7);
 	ft_printf(MAGENTA"\n**** MAP RETRIEVED ****\n"RESET);
 	printmapbytes();
 	ft_printf(MAGENTA"\n**** SPRITES RETRIEVED ****\n"RESET);
@@ -183,7 +185,7 @@ int		makemaplist(int fd, char *firstline)
 	unsigned int	y;
 	char			*line;
 	char			endfile;
-	char			lnchk;
+	int				lnchk;
 
 	y = 0;
 	endfile = 0;
@@ -197,9 +199,11 @@ int		makemaplist(int fd, char *firstline)
 			g_iamerror.mallocfail = 1;
 		y++;
 	}
+	if(!lnchk)
+		endfile = endcub(line, endfile);
 	line ? del(line) : line;
 	g_config.maph = !lnchk || g_iamerror.memusage > MAPMEMCAP ? --y : y;
 	if (!maparray())
 		g_iamerror.mallocfail = 1;
-	return (checkmap(y, BONUSMAPCHRS));
+	return (checkmap(y, BONUSMAPCHRS, endfile));
 }
