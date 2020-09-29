@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+         #
+#    By: miki <miki@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/07/15 20:32:43 by mrosario          #+#    #+#              #
-#    Updated: 2020/09/25 20:28:15 by mrosario         ###   ########.fr        #
+#    Updated: 2020/09/29 00:53:35 by miki             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = Cub3d
 
-SRC = cub3d.c rotation.c freeme.c ./toolkit.c ./config/cub.c \
+SRC = cub3d.c ./utils/rotation.c ./utils/freeme.c ./utils/toolkit.c ./config/cub.c \
 ./config/getscreenres.c ./config/getwallparams.c ./config/getspriteparams.c \
 ./config/getceilingfloorparams.c ./config/iamerror.c \
 ./config/printnotifications.c ./config/mapcheck/map_phase1.c \
@@ -27,35 +27,36 @@ SRC = cub3d.c rotation.c freeme.c ./toolkit.c ./config/cub.c \
 ./graphicsengine/screenshots/bmperror.c ./config/raycaster_start.c \
 ./config/playercounter.c
 
-BSRC = cub3d_bonus.c rotation.c freeme_bonus.c ./toolkit_bonus.c ./config/cub_bonus.c \
-./config/getscreenres.c ./config/getwallparams.c ./config/getspriteparams_bonus.c \
-./config/getceilingfloorparams_bonus.c ./config/iamerror_bonus.c \
-./config/printnotifications_bonus.c ./config/mapcheck/map_phase1_bonus.c \
-./config/maperrors.c ./config/texerrors_bonus.c ./config/mapcheck/map_phase2_bonus.c \
-./config/maplistfunctions_bonus.c ./config/spritelistfunctions.c \
-./config/spritecounter.c ./config/printlinkedlists.c ./config/initialize_bonus.c \
-./config/makeimages_bonus.c ./graphicsengine/raycaster_bonus.c ./graphicsengine/dda_bonus.c \
-./graphicsengine/drawframeline_bonus.c ./graphicsengine/calculateframeline_bonus.c \
-./graphicsengine/drawsprites_bonus.c ./graphicsengine/playermovement_bonus.c \
-./graphicsengine/keychecks_bonus.c ./config/mapsprarrays_bonus.c \
-./graphicsengine/sortsprites_bonus.c ./graphicsengine/screenshots/bmpgenerator.c \
-./graphicsengine/screenshots/bmperror.c ./graphicsengine/graphicsmodes_bonus.c \
-./graphicsengine/fpscounter_bonus.c ./graphicsengine/drawceilingfloor_bonus.c \
-./config/raycaster_start_bonus.c ./config/makeanimationimgs_bonus.c \
-./config/animationerrors_bonus.c ./graphicsengine/modifysprite_bonus.c \
-./config/doorcounter_bonus.c ./graphicsengine/doorcaster_bonus.c \
-./graphicsengine/castoneray_bonus.c ./graphicsengine/timer_bonus.c \
-./graphicsengine/dooranimator_bonus.c ./graphicsengine/spraycat_bonus.c \
-./config/mapcheck/specialdoors_bonus.c ./graphicsengine/teleportplayer_bonus.c \
-./config/makespecialanimationimgs_bonus.c ./graphicsengine/monologue_bonus.c \
-./graphicsengine/ending_bonus.c ./graphicsengine/castwall_bonus.c \
-./graphicsengine/hud_bonus.c ./graphicsengine/choosetexture_bonus.c \
-./mouse_bonus.c ./music_bonus.c ./graphicsengine/drawtobuffer_bonus.c \
-./graphicsengine/skybox_bonus.c ./config/makemoreimages_bonus.c \
-./config/getbonusimgaddresses_bonus.c ./config/playercounter.c \
-./config/mapcheck/unflood_bonus.c
+BSRC = cub3d_bonus.c ./utils/rotation.c ./utils/bonus/freeme_bonus.c \
+./utils/bonus/toolkit_bonus.c ./config/bonus/cub_bonus.c \
+./config/getscreenres.c ./config/getwallparams.c ./config/bonus/getspriteparams_bonus.c \
+./config/bonus/getceilingfloorparams_bonus.c ./config/bonus/iamerror_bonus.c \
+./config/bonus/printnotifications_bonus.c ./config/mapcheck/bonus/map_phase1_bonus.c \
+./config/maperrors.c ./config/bonus/texerrors_bonus.c ./config/mapcheck/bonus/map_phase2_bonus.c \
+./config/bonus/maplistfunctions_bonus.c ./config/spritelistfunctions.c \
+./config/spritecounter.c ./config/printlinkedlists.c ./config/bonus/initialize_bonus.c \
+./config/bonus/makeimages_bonus.c ./graphicsengine/bonus/raycaster_bonus.c ./graphicsengine/bonus/dda_bonus.c \
+./graphicsengine/bonus/drawframeline_bonus.c ./graphicsengine/bonus/calculateframeline_bonus.c \
+./graphicsengine/bonus/drawsprites_bonus.c ./graphicsengine/bonus/playermovement_bonus.c \
+./graphicsengine/bonus/keychecks_bonus.c ./config/bonus/mapsprarrays_bonus.c \
+./graphicsengine/bonus/sortsprites_bonus.c ./graphicsengine/screenshots/bmpgenerator.c \
+./graphicsengine/screenshots/bmperror.c ./graphicsengine/bonus/graphicsmodes_bonus.c \
+./graphicsengine/bonus/fpscounter_bonus.c ./graphicsengine/bonus/drawceilingfloor_bonus.c \
+./config/bonus/raycaster_start_bonus.c ./config/bonus/makeanimationimgs_bonus.c \
+./config/bonus/animationerrors_bonus.c ./graphicsengine/bonus/modifysprite_bonus.c \
+./config/bonus/doorcounter_bonus.c ./graphicsengine/bonus/doorcaster_bonus.c \
+./graphicsengine/bonus/castoneray_bonus.c ./graphicsengine/bonus/timer_bonus.c \
+./graphicsengine/bonus/dooranimator_bonus.c ./graphicsengine/bonus/spraycat_bonus.c \
+./config/mapcheck/bonus/specialdoors_bonus.c ./graphicsengine/bonus/teleportplayer_bonus.c \
+./config/bonus/makespecialanimationimgs_bonus.c ./graphicsengine/bonus/monologue_bonus.c \
+./graphicsengine/bonus/ending_bonus.c ./graphicsengine/bonus/castwall_bonus.c \
+./graphicsengine/bonus/hud_bonus.c ./graphicsengine/bonus/choosetexture_bonus.c \
+./graphicsengine/bonus/mouse_bonus.c ./sounds/music_bonus.c ./graphicsengine/bonus/drawtobuffer_bonus.c \
+./graphicsengine/bonus/skybox_bonus.c ./config/bonus/makemoreimages_bonus.c \
+./config/bonus/getbonusimgaddresses_bonus.c ./config/playercounter.c \
+./config/mapcheck/bonus/unflood_bonus.c
 
-LSRC = cub3d.c rotation.c freeme.c ./toolkit.c ./config/cub.c \
+LSRC = cub3d.c ./utils/rotation.c ./utils/freeme.c ./utils/toolkit.c ./config/cub.c \
 ./config/getscreenres.c ./config/getwallparams.c ./config/getspriteparams.c \
 ./config/getceilingfloorparams.c ./config/iamerror.c \
 ./config/printnotifications.c ./config/mapcheck/map_phase1.c \
@@ -70,33 +71,34 @@ LSRC = cub3d.c rotation.c freeme.c ./toolkit.c ./config/cub.c \
 ./graphicsengine/screenshots/bmperror.c ./config/raycaster_start.c \
 ./config/playercounter.c
 
-LBSRC = cub3d_bonus.c rotation.c freeme_bonus.c ./toolkit_bonus.c ./config/cub_bonus.c \
-./config/getscreenres.c ./config/getwallparams.c ./config/getspriteparams_bonus.c \
-./config/getceilingfloorparams_bonus.c ./config/iamerror_bonus.c \
-./config/printnotifications_bonus.c ./config/mapcheck/map_phase1_bonus.c \
-./config/maperrors.c ./config/texerrors_bonus.c ./config/mapcheck/map_phase2_bonus.c \
-./config/maplistfunctions_bonus.c ./config/spritelistfunctions.c \
-./config/spritecounter.c ./config/printlinkedlists.c ./config/initialize_linux_bonus.c \
-./config/makeimages_bonus.c ./graphicsengine/raycaster_bonus.c ./graphicsengine/dda_bonus.c \
-./graphicsengine/drawframeline_bonus.c ./graphicsengine/calculateframeline_bonus.c \
-./graphicsengine/drawsprites_bonus.c ./graphicsengine/playermovement_bonus.c \
-./graphicsengine/keychecks_linux_bonus.c ./config/mapsprarrays_bonus.c \
-./graphicsengine/sortsprites_bonus.c ./graphicsengine/screenshots/bmpgenerator.c \
-./graphicsengine/screenshots/bmperror.c ./graphicsengine/graphicsmodes_bonus.c \
-./graphicsengine/fpscounter_bonus.c ./graphicsengine/drawceilingfloor_bonus.c \
-./config/raycaster_start_bonus.c ./config/makeanimationimgs_bonus.c \
-./config/animationerrors_bonus.c ./graphicsengine/modifysprite_bonus.c \
-./config/doorcounter_bonus.c ./graphicsengine/doorcaster_bonus.c \
-./graphicsengine/castoneray_bonus.c ./graphicsengine/timer_bonus.c \
-./graphicsengine/dooranimator_bonus.c ./graphicsengine/spraycat_bonus.c \
-./config/mapcheck/specialdoors_bonus.c ./graphicsengine/teleportplayer_bonus.c \
-./config/makespecialanimationimgs_bonus.c ./graphicsengine/monologue_bonus.c \
-./graphicsengine/ending_bonus.c ./graphicsengine/castwall_bonus.c \
-./graphicsengine/hud_bonus.c ./graphicsengine/choosetexture_bonus.c \
-./mouse_bonus.c ./music_bonus_linux.c ./graphicsengine/drawtobuffer_bonus.c \
-./graphicsengine/skybox_bonus.c ./config/makemoreimages_bonus.c \
-./config/getbonusimgaddresses_bonus.c ./config/playercounter.c \
-./config/mapcheck/unflood_bonus.c
+LBSRC = cub3d_bonus.c ./utils/rotation.c ./utils/bonus/freeme_bonus.c \
+./utils/bonus/toolkit_bonus.c ./config/bonus/cub_bonus.c \
+./config/getscreenres.c ./config/getwallparams.c ./config/bonus/getspriteparams_bonus.c \
+./config/bonus/getceilingfloorparams_bonus.c ./config/bonus/iamerror_bonus.c \
+./config/bonus/printnotifications_bonus.c ./config/mapcheck/bonus/map_phase1_bonus.c \
+./config/maperrors.c ./config/bonus/texerrors_bonus.c ./config/mapcheck/bonus/map_phase2_bonus.c \
+./config/bonus/maplistfunctions_bonus.c ./config/spritelistfunctions.c \
+./config/spritecounter.c ./config/printlinkedlists.c ./config/bonus/initialize_linux_bonus.c \
+./config/bonus/makeimages_bonus.c ./graphicsengine/bonus/raycaster_bonus.c ./graphicsengine/bonus/dda_bonus.c \
+./graphicsengine/bonus/drawframeline_bonus.c ./graphicsengine/bonus/calculateframeline_bonus.c \
+./graphicsengine/bonus/drawsprites_bonus.c ./graphicsengine/bonus/playermovement_bonus.c \
+./graphicsengine/bonus/keychecks_linux_bonus.c ./config/bonus/mapsprarrays_bonus.c \
+./graphicsengine/bonus/sortsprites_bonus.c ./graphicsengine/screenshots/bmpgenerator.c \
+./graphicsengine/screenshots/bmperror.c ./graphicsengine/bonus/graphicsmodes_bonus.c \
+./graphicsengine/bonus/fpscounter_bonus.c ./graphicsengine/bonus/drawceilingfloor_bonus.c \
+./config/bonus/raycaster_start_bonus.c ./config/bonus/makeanimationimgs_bonus.c \
+./config/bonus/animationerrors_bonus.c ./graphicsengine/bonus/modifysprite_bonus.c \
+./config/bonus/doorcounter_bonus.c ./graphicsengine/bonus/doorcaster_bonus.c \
+./graphicsengine/bonus/castoneray_bonus.c ./graphicsengine/bonus/timer_bonus.c \
+./graphicsengine/bonus/dooranimator_bonus.c ./graphicsengine/bonus/spraycat_bonus.c \
+./config/mapcheck/bonus/specialdoors_bonus.c ./graphicsengine/bonus/teleportplayer_bonus.c \
+./config/bonus/makespecialanimationimgs_bonus.c ./graphicsengine/bonus/monologue_bonus.c \
+./graphicsengine/bonus/ending_bonus.c ./graphicsengine/bonus/castwall_bonus.c \
+./graphicsengine/bonus/hud_bonus.c ./graphicsengine/bonus/choosetexture_bonus.c \
+./graphicsengine/bonus/mouse_bonus.c ./sounds/music_bonus_linux.c ./graphicsengine/bonus/drawtobuffer_bonus.c \
+./graphicsengine/bonus/skybox_bonus.c ./config/bonus/makemoreimages_bonus.c \
+./config/bonus/getbonusimgaddresses_bonus.c ./config/playercounter.c \
+./config/mapcheck/bonus/unflood_bonus.c
 
 OBJ = $(SRC:.c=.o)
 
@@ -108,12 +110,12 @@ CFLAG = -Wall -Werror -Wextra
 
 FRMWRK = -framework OpenGL -framework AppKit
 
-LIBS = -I /usr/local/include/ -I ./libft/ -L./libft/ -lft -L /usr/local/lib/ -lmlx
+LIBS = -I ./Includes -I /usr/local/include/ -I ./libft/ -L./libft/ -lft -L /usr/local/lib/ -lmlx
 
-LINUXLIBS = -I ./ -I ./libft/ -L. -lmlx_Linux -lm -lXext -lX11 -lbsd -L ./libft -lft
+LINUXLIBS = -I ./Includes -I ./libft/ -L. -lmlx_Linux -lm -lXext -lX11 -lbsd -L ./libft -lft
 
 $(NAME): $(LIBFT)
-	gcc $(CFLAG) $(LIBS) $(FRMWRK) $(SRC) -o Cub3d
+	gcc $(CFLAG) $(LIBS) $(FRMWRK) $(SRC) -o cub3D
 
 $(LIBFT):
 	make -C ./libft
@@ -122,19 +124,19 @@ $(LIBFT):
 all: $(NAME)
 
 debug: $(LIBFT)
-	gcc $(CFLAG) $(LIBS) $(FRMWRK) $(SRC) -g -o Cub3d
+	gcc $(CFLAG) $(LIBS) $(FRMWRK) $(SRC) -g -o cub3D
 
 bonus: $(LIBFT)
-	gcc $(CFLAG) $(LIBS) $(FRMWRK) $(BSRC) -o Cub3d
+	gcc $(CFLAG) $(LIBS) $(FRMWRK) $(BSRC) -o cub3D
 
 bdebug: $(LIBFT)
-	gcc $(CFLAG) $(LIBS) $(FRMWRK) $(BSRC) -g -o Cub3d
+	gcc $(CFLAG) $(LIBS) $(FRMWRK) $(BSRC) -g -o cub3D
 
 linux: $(LIBFT)
-	gcc $(CFLAG) $(LSRC) $(LINUXLIBS) -g -o Cub3d
+	gcc $(CFLAG) $(LSRC) $(LINUXLIBS) -g -o cub3D
 
 linuxbonus: $(LIBFT)
-	gcc $(CFLAG) $(LBSRC) $(LINUXLIBS) -g -O0 -o Cub3d
+	gcc $(CFLAG) $(LBSRC) $(LINUXLIBS) -g -O0 -o cub3D
 
 
 clean:

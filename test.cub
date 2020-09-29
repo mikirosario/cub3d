@@ -1,29 +1,22 @@
 ** INSTRUCTIONS
 ** R    screenWidth screenHeight
-** NO   absolute or relative path to .XPM texture for north wall
-** SO   absolute or relative path to .XPM texture for south wall
-** WE   absolute or relative path to .XPM texture for west wall
-** EA   absolute or relative path to .XPM texture for east wall
-** S    absolute or relative path to .XPM texture for sprite
+** NO   relative path to .XPM texture for north wall
+** SO   relative path to .XPM texture for south wall
+** WE   relative path to .XPM texture for west wall
+** EA   relative path to .XPM texture for east wall
+** S    relative path to .XPM texture for sprite
 ** F    R,G,B color value for floor
 ** C    R,G,B color value for ceiling
 ** MAP ARRAY
 
-** No saltan bien errores de 'incorrect specifier', limpiar buscadores
-** getCColor es tolerante a falta de especificador pero tira un error, (o_O) Comportamiento deseado: intolerante.
-** getFColor no es tolerante ni tira el error. (o_O) Comportamiento deseado: que tire el error.
-** Hay que encontrar la diferencia. R es intolerante y tira bien el error, lo cual es correcto. ;)
-
 R  1920 1080
-no ./blueMetal.XPM
-SO ./yellowMetal.XPM
-WE ./greenMetal.XPM
-EA ./pinkMetal.XPM
-S ./normiSprite.XPM
-** F 	102 , 153,153
-F ./experimentos/newBricks.XPM
-** C	102,0,255
-c ./sandbrick.XPM
+no ./textures/blueMetal.xpm
+SO ./textures/yellowMetal.xpm
+WE ./textures/greenMetal.xpm
+EA ./textures/pinkMetal.xpm
+S ./sprites/normiSprite.xpm
+F 102,153,153
+C 102,0,255
 
 basurilla
 l33t hacker
@@ -54,6 +47,8 @@ l33t hacker
 110000000000000000000001
 100000000000000000000001
 111111111111111111111111
+101
+101111111111111111111111
 
 ** Mapa Válido **
 

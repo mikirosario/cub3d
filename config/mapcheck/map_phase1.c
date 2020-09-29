@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   map_phase1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 18:31:22 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/24 19:56:42 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/29 14:46:42 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../cub3d.h"
+#include "../../Includes/cub3d.h"
 
 extern t_error	g_iamerror;
 
@@ -163,7 +163,7 @@ int		linecheck(char *line, unsigned int y, char *mapchrs)
 		return (0);
 	while (x <= MAPMEMCAP && line[x] && (match = ft_strchr(mapchrs, line[x])))
 		x++;
-	if (((g_iamerror.memusage += x + 1) <= MAPMEMCAP) && x > 0 && !line[x])
+	if ((g_iamerror.memusage += x + 1) <= MAPMEMCAP && x > 0 && !line[x])
 	{
 		listptr = ft_lstnew(((char *)ft_strdup(line)));
 		listptr->len = ft_strlen((const char *)line);
@@ -175,7 +175,7 @@ int		linecheck(char *line, unsigned int y, char *mapchrs)
 	return (1);
 }
 
-int		checkmap(unsigned int y, char *mapchrs)
+int		checkmap(char *mapchrs)
 {
 	char foundplayer;
 
@@ -184,7 +184,7 @@ int		checkmap(unsigned int y, char *mapchrs)
 		return (-6);
 	if (g_iamerror.memusage > MAPMEMCAP)
 		return (-5);
-	if (y < 2)
+	if (g_config.maph < 2)
 		return (-2);
 	if ((foundplayer = playerandspritescheck(foundplayer, mapchrs)) > 1)
 		return (-4);
@@ -206,13 +206,12 @@ int		makemaplist(int fd, char *firstline)
 	unsigned int	y;
 	char			*line;
 	char			endfile;
-	char			*mapchrs;
+	char			lnchk;
 
 	y = 0;
 	endfile = 0;
 	line = firstline;
-	mapchrs = " 012NnSsEeWw";
-	while (linecheck(line, y, mapchrs) && !endfile)
+	while ((lnchk = linecheck(line, y, MAPCHRS)) && !endfile)
 	{
 		del(line);
 		if (!(ft_get_next_line(fd, &line)))
@@ -222,9 +221,8 @@ int		makemaplist(int fd, char *firstline)
 		y++;
 	}
 	line ? del(line) : line;
-	g_config.maph = !endfile || !line || \
-	g_iamerror.memusage > MAPMEMCAP ? --y : y;
+	g_config.maph = !lnchk || g_iamerror.memusage > MAPMEMCAP ? --y : y;
 	if (!maparray())
 		g_iamerror.mallocfail = 1;
-	return (checkmap(y, mapchrs));
+	return (checkmap(MAPCHRS));
 }

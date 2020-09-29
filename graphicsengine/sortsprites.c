@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   sortsprites.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 18:24:16 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/26 20:05:10 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/27 11:21:07 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cub3d.h"
+#include "../Includes/cub3d.h"
 
 /*
 ** Here we get the distance from the player position of each sprite. I really

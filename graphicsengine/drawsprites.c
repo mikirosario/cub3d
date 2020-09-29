@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   drawsprites.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/12 18:46:59 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/26 20:05:10 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/29 00:58:23 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cub3d.h"
+#include "../Includes/cub3d.h"
 
 /*
 ** As with the wall texture, we use Lode-provided mathemagics to determine
@@ -40,7 +40,7 @@ t_spritedata *sprite)
 		((prms->d * g_config.spriteh) / g_framedata.spriteheight) / 256;
 		g_framedata.xcolor = \
 		sprite->texture[g_config.spritew * prms->texy + prms->texx];
-		if (g_framedata.xcolor != 0xff000000)
+		if (g_framedata.xcolor != TRANSPARENCY)
 			buf[prms->scrnx + (g_config.screenw * prms->scrny)] = \
 			g_framedata.xcolor;
 		prms->scrny++;

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   maparray.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/17 19:05:43 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/26 18:25:02 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/27 11:21:07 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cub3d.h"
+#include "../Includes/cub3d.h"
 
 /*
 ** I discovered all too late that iterating through linked lists 60 times a

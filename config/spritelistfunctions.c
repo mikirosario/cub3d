@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   spritelistfunctions.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/05 16:47:39 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/26 18:18:46 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/27 11:21:07 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cub3d.h"
+#include "../Includes/cub3d.h"
 
 void			freesprtlist(t_spritedata **alst)
 {

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   keychecks_linux.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/17 18:44:48 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/23 18:08:54 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/27 11:21:07 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cub3d.h"
+#include "../Includes/cub3d.h"
 
 /*
 ** This function is launched when the user exits normally, by pressing escape

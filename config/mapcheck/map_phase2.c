@@ -3,16 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   map_phase2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/03 19:10:33 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/04 20:27:23 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/29 14:14:02 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../cub3d.h"
+#include "../../Includes/cub3d.h"
 
 extern t_error	g_iamerror;
+
+void		makemaplistarray(t_list **maplistarray)
+{
+	unsigned int	i;
+	
+	i = 0;
+	while (i <= g_config.maph + 1)
+	{
+		maplistarray[i] = maplistmem(i);
+		i++;
+	}
+}
 
 /*
 ** This function will take the map left by the floodfill function, which fills
@@ -55,22 +67,51 @@ void	unfloodmap(char *flag)
 }
 
 /*
-** These functions (floodright and floodleft) are auxiliary to the floodfill
-** function. They are essentially identical and do a horizontal sweep of the
-** line from the position they are passed, except floodright will check the line
-** from the position to the right of the position it is passed and rightward,
-** while floodleft will check the line from (and including) the position it is
-** passed and leftward.
+** Check map square transitability. If the squares above and below the passed
+** square are either transitable, potentially transitable (pending their own
+** check against their neighbours), or walls, the map square is transitable.
+**
+** If the map square neighbours a space ' ', a NULL (here considered as
+** !mapchr) or the map edge (!x, !y or y > maph), or a line that is shorter
+** than the map square's position, it is intransitable and the map is rejected.
+*/
+
+int		check_transitability(unsigned int x, unsigned int y, char mapchr, \
+t_list **maplistarray)
+{
+	if ((y + 1 <= g_config.maph) && (maplistarray[y + 1])->len >= x \
+	&& (mapchr = g_config.map[y + 1][x]) && (mapchr == '0' || mapchr == '2'))
+		g_config.map[y + 1][x] = 'A';
+	else if (y + 1 > g_config.maph || (maplistarray[y + 1])->len < x || mapchr == ' ' || !mapchr)
+		return (recorderrorlocation(g_iamerror.outofbounds, x, y, 0));
+	if (y && (maplistarray[y - 1])->len >= x && \
+	(mapchr = g_config.map[y - 1][x]) && (mapchr == '0' || mapchr == '2'))
+		g_config.map[y - 1][x] = 'A';
+	else if (!y || (maplistarray[y - 1])->len < x || mapchr == ' ' || !mapchr)
+		return (recorderrorlocation(g_iamerror.outofbounds, x, y, 0));
+	(g_config.map[y][x] = 'T');
+	return (1);
+}
+
+/*
+** This function (floodline) is auxiliary to the floodfill function. It
+** essentially does a horizontal sweep of the line from the position it is
+** passed, first from the right of the position and rightward (floodright),
+** then from the left of (and including) the position and leftward (floodleft).
+** This occurs in two consecutive whiles.
 **
 ** Every traversable space found on the horizontal sweep that is contiguous to
 ** the space being checked is itself also checked against the spaces immediately
 ** above and below it on the vertical axis. For vertical axis checks the
 ** function will first verify that something exists in the map at the specified
-** line, either because line->next exists for the line below or because y is
-** greater than 0 for the line above. The function will then check to ensure
-** that the length of the line below or above is at least equal to x. These
-** checks MUST be successful before any memory is addressed or dereferenced,
-** otherwise there would be a segmentation fault!
+** line, either because y + 1 is not greater than the map height or because y is
+** greater than 0. Once certain that a line does exist above or below the
+** character being checked, the function will then refer to the maplist to check
+** that the length of that line is at least equal to x. These checks MUST be
+** successful before any memory is addressed or dereferenced, otherwise there
+** would be a segmentation fault!
+**
+** Here is a diagram (the starting position is A):
 **
 **					floodright
 **					---->
@@ -87,7 +128,7 @@ void	unfloodmap(char *flag)
 ** as valid, while if the contiguous spaces in the vertical axis (above and
 ** below it) are traversable, they are in turn marked 'A' signalling that they
 ** are reachable by the player and thus must themselves be checked on all axes.
-** If a wall is fond on the vertical axis, it is left alone and the function
+** If a wall is found on the vertical axis, it is left alone and the function
 ** continues. If an out of bounds space is found on the vertical axis, the
 ** function terminates and the check fails and returns a 0 error signal.
 **
@@ -118,64 +159,52 @@ void	unfloodmap(char *flag)
 ** recorded as the error position.
 **
 ** NOTE that since the NULL terminator in floodright and the x == 0 position in
-** loodleft are also invalid map conditions, they are respectively handled
-** within their function's while rather than as a while condition. The only
-** while conditions are thus encountering a wall or a 'T' (already checked
-** character).
+** floodleft are also invalid map conditions, they are respectively handled
+** by ifs within their whiles that terminate the while by returning 0 for the
+** whole function, rather than as a while condition merely terminating the
+** while. The only while conditions are thus those that are not invalid map
+** condition, such as encountering a wall or a 'T' (map square already checked
+** and labelled traversable).
 */
 
-int		floodleft(unsigned int x, unsigned int y)
-{
-	t_list	*row;
-	char	mapchr;
+//ifs que cambio para conversión maplist a maplistarray.
+// maplistarray						maplist
+// (y + 1 < g_config.maph)			----> row = maplistmem(y))->next
+// (maplistarray[y + 1])->len >= x	----> ((maplistmem(y + 1))->len) >= x
+// mapchr = map[y + 1][x]			----> maplist(x, y + 1)
+// map[y + 1][x]					----> (*(maplistdir(x, y + 1)))
+// y + 1 > g_config.maph			----> !row->next
+// (maplistarray[y + 1])->len < x	----> ((maplistmem(y + 1))->len) < x
+// y 								----> row != g_config.maplist
+// (maplistarray[y - 1])->len >= x	----> ((maplistmem(y - 1))->len)
+// mapchr = map[y - 1][x]			----> maplist(x, y - 1)
+// map[y - 1][x]					----> (*(maplistdir(x, y - 1)))
+// map[y][x] 						----> *(maplistdir(x, y))
 
-	while ((mapchr = maplist(x, y)) && mapchr != '1' && mapchr != 'T')
+int		floodline(unsigned int x, unsigned int y, t_list **maplistarray)
+{
+	char	mapchr;
+	int		orgx;
+
+	orgx = x;
+	while ((mapchr = g_config.map[y][++x]) != '1' && mapchr != 'T')
 	{
-		if (x > 0 && (mapchr == '0' || mapchr == '2' || mapchr == 'A'))
-		{
-			if ((row = maplistmem(y))->next && ((maplistmem(y + 1))->len) >= x \
-			&& (mapchr = maplist(x, y + 1)) && (mapchr == '0' || mapchr == '2'))
-				(*(maplistdir(x, y + 1)) = 'A');
-			else if (!row->next || mapchr == ' ' || !mapchr)
-				return (recorderrorlocation(g_iamerror.outofbounds, x, y, 0));
-			if (row != g_config.maplist && ((maplistmem(y - 1))->len) >= x && \
-			(mapchr = maplist(x, y - 1)) && (mapchr == '0' || mapchr == '2'))
-				(*(maplistdir(x, y - 1)) = 'A');
-			else if (row == g_config.maplist || mapchr == ' ' || !mapchr)
-				return (recorderrorlocation(g_iamerror.outofbounds, x, y, 0));
-			(*(maplistdir(x, y)) = 'T');
-		}
+		if ((mapchr == '0' || mapchr == '2' || mapchr == 'A') && \
+		!check_transitability(x, y, mapchr, maplistarray))
+			return (0);
+		else if (mapchr == ' ' || !mapchr)
+			return (recorderrorlocation(g_iamerror.outofbounds, x - 1, y, 0));
+	}
+	x = orgx;
+	while ((mapchr = g_config.map[y][x]) && mapchr != '1' && mapchr != 'T')
+	{
+		if ((x > 0 && (mapchr == '0' || mapchr == '2' || mapchr == 'A')) && \
+		!check_transitability(x, y, mapchr, maplistarray))
+			return (0);
 		else if (mapchr == ' ' || !x)
 			return (recorderrorlocation(g_iamerror.outofbounds, \
 			(mapchr == ' ' ? x + 1 : x), y, 0));
 		x--;
-	}
-	return (1);
-}
-
-int		floodright(unsigned int x, unsigned int y)
-{
-	t_list	*row;
-	char	mapchr;
-
-	while ((mapchr = maplist(++x, y)) != '1' && mapchr != 'T')
-	{
-		if (mapchr == '0' || mapchr == '2' || mapchr == 'A')
-		{
-			if ((row = maplistmem(y))->next && ((maplistmem(y + 1))->len) >= x \
-			&& (mapchr = maplist(x, y + 1)) && (mapchr == '0' || mapchr == '2'))
-				(*(maplistdir(x, y + 1)) = 'A');
-			else if (!row->next || mapchr == ' ' || !mapchr)
-				return (recorderrorlocation(g_iamerror.outofbounds, x, y, 0));
-			if (row != g_config.maplist && ((maplistmem(y - 1))->len) >= x && \
-			(mapchr = maplist(x, y - 1)) && (mapchr == '0' || mapchr == '2'))
-				(*(maplistdir(x, y - 1)) = 'A');
-			else if (row == g_config.maplist || mapchr == ' ' || !mapchr)
-				return (recorderrorlocation(g_iamerror.outofbounds, x, y, 0));
-			(*(maplistdir(x, y)) = 'T');
-		}
-		else if (mapchr == ' ' || !mapchr)
-			return (recorderrorlocation(g_iamerror.outofbounds, x - 1, y, 0));
 	}
 	return (1);
 }
@@ -219,18 +248,19 @@ int		floodfill(void)
 	char			founda;
 	unsigned int	x;
 	unsigned int	y;
+	t_list			*maplistarray[g_config.maph + 1];
 
+	makemaplistarray(maplistarray);
 	founda = '1';
 	while (founda && (!(y = 0)))
 	{
 		founda = 0;
-		while (y <= g_config.maph && (!(x = 0)))
+		while (y <= g_config.maph && (!(x = 0)) && ++g_iamerror.mapsweeps)
 		{
-			g_iamerror.mapsweeps++;
-			while ((mapchr = maplist(x, y)))
+			while ((mapchr = g_config.map[y][x]))
 			{
 				if (mapchr == 'A' && (founda = '1'))
-					if (!(floodright(x, y)) || !(floodleft(x, y)))
+					if (!floodline(x, y, maplistarray))
 						return (0);
 				x++;
 			}

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   iamerror.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/21 19:17:09 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/28 20:19:25 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/29 13:41:25 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cub3d.h"
+#include "../Includes/cub3d.h"
 
 extern t_error	g_iamerror;
 
@@ -203,6 +203,7 @@ void	printerrors(void)
 		maperrors();
 	else if (texerrorconditions())
 		texerrors();
+	//falta mallocerror!
 	write(1, "\n", 1);
 	return ;
 }

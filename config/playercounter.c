@@ -6,11 +6,11 @@
 /*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/24 19:15:39 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/27 06:54:34 by miki             ###   ########.fr       */
+/*   Updated: 2020/09/27 11:22:00 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cub3d_bonus.h"
+#include "../Includes/cub3d_bonus.h"
 
 /*
 ** This function assigns the player's starting position and configures the

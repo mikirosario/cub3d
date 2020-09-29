@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   maplistfunctions.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/05 16:42:19 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/15 17:23:42 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/29 14:28:16 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cub3d.h"
+#include "../Includes/cub3d.h"
 
 /*
 ** This function analyses a line. If the entire line consists of mapchars,
@@ -30,7 +30,7 @@ int		ismap(char *line)
 	char	*mapchrs;
 
 	i = 0;
-	mapchrs = " 012NnSsEeWw";
+	mapchrs = MAPCHRS;
 	while (line[i] && (tmp = ft_strchr(mapchrs, line[i])))
 		i++;
 	if (i > 0 && !line[i])

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   bmpgenerator.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/19 18:11:02 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/27 19:52:49 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/27 11:26:23 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../cub3d.h"
+#include "../../Includes/cub3d.h"
 
 /*
 ** This function is like int_to_uchar, but we take only the first three bytes

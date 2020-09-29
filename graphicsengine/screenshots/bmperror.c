@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   bmperror.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/25 18:31:22 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/27 18:53:46 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/27 11:26:17 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../cub3d.h"
+#include "../../Includes/cub3d.h"
 
 void	bmperror(int error)
 {
