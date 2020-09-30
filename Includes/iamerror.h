@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 16:29:20 by mrosario          #+#    #+#             */
-/*   Updated: 2020/08/28 19:46:10 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/30 21:38:02 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,5 @@
 # define BMPWRITEFAIL "COULD NOT WRITE TO SCREENSHOT FILE!\n"
 # define BMPCLOSEFAIL "UNABLE TO CLOSE SCREENSHOT FILE\n"
 # define TOOMANYARGS "EXECUTE WITH ./CUB3D \"PATH.CUB\" [OPTIONAL]\"--SAVE\"\n"
+# define BADCUB "BLEEEEEEEEH\n"
 #endif

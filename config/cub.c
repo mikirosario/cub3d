@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/16 18:38:05 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/29 22:31:42 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/30 22:40:50 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,28 @@ int		findfirstmapline(char **line, int *result, unsigned int linenum)
 ** result[8] (see findfirstmapline) and terminate the function *without*
 ** freeing the memory used by line, as the first map line will still be needed
 ** by the map handler.
+**
+** Currently implementing gatekeeper functions. The aim is for superfluous text
+** to be vetoed from cubfile. Must work with the YELLOW errors, though, that
+** allow parameterless execution by substituting default values. Maybe check
+** non-obligatory fails against flags to manage them, or do a phantom array
+** that marks results as checked even if they fail due to bad parameters and
+** are substituted for defaults... will have to think more on it.
 */
 
 void	cubread(int *result, char **line, int fd, int linenum)
 {
+
+	int	val;
+	int	sum;
+
 	while ((ft_get_next_line(fd, line)) > 0 && ++linenum)
 	{
 		if (!(*line))
 			g_iamerror.mallocfail = 1;
+		sum = sumresarray(result);
+		if (!(val = validitycheck(result, *line, sum)))
+			break ;
 		if (result[0] < 1)
 			result[0] = getres(*line, linenum/*, result[0]*/);
 		if (result[1] < 1)
@@ -81,6 +95,11 @@ void	cubread(int *result, char **line, int fd, int linenum)
 			result[7] = getccolor(*line, linenum);
 		if (findfirstmapline(line, result, linenum))
 			break ;
+		if (val == 2 && sum == (sumresarray(result)))
+		{
+			g_iamerror.cubpolice = 1;
+			break ;
+		}
 		del(*line);
 	}
 }
@@ -109,21 +128,21 @@ int		cuberrorhandler(int *result)
 {
 	int i;
 
-	if (result[0] == 0)
+	if (result[0] < 1)
 		g_iamerror.getresfail = 1;
-	if (result[1] == 0)
+	if (result[1] < 1)
 		g_iamerror.getnofail = 1;
-	if (result[2] == 0)
+	if (result[2] < 1)
 		g_iamerror.getsofail = 1;
-	if (result[3] == 0)
+	if (result[3] < 1)
 		g_iamerror.getwefail = 1;
-	if (result[4] == 0)
+	if (result[4] < 1)
 		g_iamerror.geteafail = 1;
-	if (result[5] == 0)
+	if (result[5] < 1)
 		g_iamerror.getsprfail = 1;
-	if (result[6] == 0)
+	if (result[6] < 1)
 		g_iamerror.fcolorinvalid = 1;
-	if (result[7] == 0)
+	if (result[7] < 1)
 		g_iamerror.ccolorinvalid = 1;
 	if (!(result[8]))
 		g_iamerror.nomapfound = 1;
@@ -278,7 +297,7 @@ int		cubhandler(const char *ptr)
 		line = NULL;
 		cubread(result, &line, fd, (linenum = 0));
 		if ((cuberrorhandler(result)) && (maphandler(fd, line)) && \
-		(!g_config.spritenum || !g_iamerror.getsprfail) && !g_iamerror.duplicateparam[0])
+		(!g_config.spritenum || !g_iamerror.getsprfail) && !g_iamerror.duplicateparam[0] && !g_iamerror.cubpolice)
 			success = 1;
 		free(result);
 	}

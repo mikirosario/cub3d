@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/21 19:17:09 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/29 20:23:47 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/30 21:39:01 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,7 +203,8 @@ void	printerrors(void)
 		maperrors();
 	else if (texerrorconditions())
 		texerrors();
-	//if (g_iamerror.cubpolice)
+	if (g_iamerror.cubpolice)
+		ft_printf(RED"%s%s", REDERROR, BADCUB);
 	if (g_iamerror.mallocfail)
 		ft_printf(RED"%s%s"RESET, REDERROR, MALLOCFAIL);
 	write(1, "\n", 1);

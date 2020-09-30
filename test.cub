@@ -1,16 +1,6 @@
-** INSTRUCTIONS
-** R    screenWidth screenHeight
-** NO   relative path to .XPM texture for north wall
-** SO   relative path to .XPM texture for south wall
-** WE   relative path to .XPM texture for west wall
-** EA   relative path to .XPM texture for east wall
-** S    relative path to .XPM texture for sprite
-** F    R,G,B color value for floor
-** C    R,G,B color value for ceiling
-** MAP ARRAY
+
 
 R  1920 1080
-R 394 3949
 no ./textures/blueMetal.xpm
 SO ./textures/yellowMetal.xpm
 WE ./textures/greenMetal.xpm
@@ -19,10 +9,6 @@ S ./sprites/normiSprite.xpm
 F 102,153,153
 C 102,0,255
 
-basurilla
-l33t hacker
-
-** Mapa Válido **
 
 111111111111111111111111
 101

@@ -6,13 +6,69 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/29 18:43:00 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/29 22:23:12 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/30 22:30:34 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Includes/cub3d.h"
 
 extern t_error	g_iamerror;
+
+int	sumresarray(int *result)
+{
+	int	i;
+	int	sum;
+
+	i = 0;
+	sum = 0;
+	while (i < 8)
+		sum += result[i++];
+	return (sum);
+}
+
+/*
+** Checks for valid cub lines. There are two types of valid cubline. We accept
+** empty lines (lines that consist of a NULL). We also accept lines with valid
+** cub parameters, as long as that parameter has not already been passed. For
+** the first type we return (1). For the second type we return (2). The second
+** type will become invalid if, at the end of the cubread while, the sum of the
+** result array has not gone up by 1.
+**
+** Otherwise, the line is invalid and will be placed under arrest by the cub
+** police.
+*/
+
+int	validitycheck(int *result, char *line, int sum)
+{
+	char *singlecubchrs;
+	char *cubchr;
+
+	singlecubchrs = "RSFCrsfcNSEWnsew";
+
+	if (!(*line)) //inocente, se aceptan líneas vacías
+		return (1);
+	//culpable hasta que se demuestre inocente
+	if (sum > 3 && ismap(line)) //mapline válida a partir de 3 parámetros
+		return (1);
+	line = ft_skipspaces(line);
+	if (!(cubchr = (ft_strchr(singlecubchrs, *line)))) //nos saltamos los espacios y *line no es un cubchr, bien por ser otro chr o bien por ser NULL: CULPABLE
+	{
+		g_iamerror.cubpolice = 1;
+		return (0);
+	}
+	//*line es un cubchr de los que tienen dos letras
+	else if (   ((*cubchr == 'N' || *cubchr == 'n') && (*(line + 1) == 'O' || (*(line + 1) == 'o' && !result[1]))) || \
+		((*cubchr == 'S' || *cubchr == 's') && (*(line + 1) == 'O' || (*(line + 1) == 'o' && !result[2]))) || \
+		((*cubchr == 'W' || *cubchr == 'w') && (*(line + 1) == 'E' || (*(line + 1) == 'e' && !result[3]))) || \
+		((*cubchr == 'E' || *cubchr == 'e') && (*(line + 1) == 'A' || (*(line + 1) == 'a' && !result[4]))) || \
+		//line es un cubchr singular
+		((*cubchr == 'R' || *cubchr == 'r') && !result[0]) || ((*cubchr == 'S' || *cubchr == 's') && !result[5]) || \
+		((*cubchr == 'F' || *cubchr == 'f') && !result[6]) || ((*cubchr == 'C' || *cubchr == 'c') && !result[7])  )
+			return (2); //line consta de uno o dos cubchrs válidos y aún no está recogido su parámetro
+	g_iamerror.cubpolice = 1;
+	return (0);
+
+}
 
 /*
 ** These functions exist because I've been informed that the predominant

@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/29 22:31:06 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/09/30 22:30:46 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -427,6 +427,8 @@ unsigned int *y);
 void			texpatherrors(void);
 void			texreaderror(void);
 int				texerrorconditions(void);
+int				validitycheck(int *result, char *line, int sum);
+int				sumresarray(int *result);
 
 /*
 ** Linked List Functions
