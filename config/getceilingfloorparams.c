@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   getceilingfloorparams.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 16:50:30 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/27 11:21:07 by miki             ###   ########.fr       */
+/*   Updated: 2020/10/01 19:04:49 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ const char	*getnumber(int *rgb, const char *line, char callfuncid)
 	return (line);
 }
 
-int			getfcolor(const char *line, unsigned int linenum)
+int			getfcolor(const char *line, unsigned int linenum, int *checked)
 {
 	int	color;
 
@@ -66,6 +66,7 @@ int			getfcolor(const char *line, unsigned int linenum)
 	line = ft_skipspaces(line);
 	if (*line != 'F' && *line != 'f')
 		return (0);
+	*checked = 1;
 	line = (ft_skipspaces(++line));
 	while (*line && color < 3)
 	{
@@ -84,7 +85,7 @@ int			getfcolor(const char *line, unsigned int linenum)
 	return (color == 3 && !g_iamerror.badfcolorsyn ? 1 : 0);
 }
 
-int			getccolor(const char *line, unsigned int linenum)
+int			getccolor(const char *line, unsigned int linenum, int *checked)
 {
 	int	color;
 
@@ -94,6 +95,7 @@ int			getccolor(const char *line, unsigned int linenum)
 	line = ft_skipspaces(line);
 	if (*line != 'C' && *line != 'c')
 		return (0);
+	*checked = 1;
 	line = (ft_skipspaces(++line));
 	while (*line && color < 3)
 	{

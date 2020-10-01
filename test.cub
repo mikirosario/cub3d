@@ -1,14 +1,18 @@
 
-
 R  1920 1080
 no ./textures/blueMetal.xpm
-SO ./textures/yellowMetal.xpm
-WE ./textures/greenMetal.xpm
-EA ./textures/pinkMetal.xpm
-S ./sprites/normiSprite.xpm
-F 102,153,153
-C 102,0,255
 
+SO ./textures/yellowMetal.xpm
+
+WE ./textures/greenMetal.xpm
+
+EA ./textures/pinkMetal.xpm
+
+S ./sprites/normiSprite.xpm
+
+F 102,153,153
+
+C 102,0,255
 
 111111111111111111111111
 101

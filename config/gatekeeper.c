@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/29 18:43:00 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/30 22:30:34 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/10/01 21:23:04 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,34 +38,38 @@ int	sumresarray(int *result)
 ** police.
 */
 
-int	validitycheck(int *result, char *line, int sum)
+int	validitycheck(int *result, char *line, int sum, int linenum)
 {
 	char *singlecubchrs;
 	char *cubchr;
+
+	(void)result;
 
 	singlecubchrs = "RSFCrsfcNSEWnsew";
 
 	if (!(*line)) //inocente, se aceptan líneas vacías
 		return (1);
 	//culpable hasta que se demuestre inocente
-	if (sum > 3 && ismap(line)) //mapline válida a partir de 3 parámetros
+	if (sum > 7 && ismap(line)) //mapline válida a partir de 3 parámetros
 		return (1);
 	line = ft_skipspaces(line);
 	if (!(cubchr = (ft_strchr(singlecubchrs, *line)))) //nos saltamos los espacios y *line no es un cubchr, bien por ser otro chr o bien por ser NULL: CULPABLE
 	{
 		g_iamerror.cubpolice = 1;
+		g_iamerror.badline = linenum;
 		return (0);
 	}
 	//*line es un cubchr de los que tienen dos letras
-	else if (   ((*cubchr == 'N' || *cubchr == 'n') && (*(line + 1) == 'O' || (*(line + 1) == 'o' && !result[1]))) || \
-		((*cubchr == 'S' || *cubchr == 's') && (*(line + 1) == 'O' || (*(line + 1) == 'o' && !result[2]))) || \
-		((*cubchr == 'W' || *cubchr == 'w') && (*(line + 1) == 'E' || (*(line + 1) == 'e' && !result[3]))) || \
-		((*cubchr == 'E' || *cubchr == 'e') && (*(line + 1) == 'A' || (*(line + 1) == 'a' && !result[4]))) || \
+	else if (   ((*cubchr == 'N' || *cubchr == 'n') && (*(line + 1) == 'O' || (*(line + 1) == 'o'))) || \
+		((*cubchr == 'S' || *cubchr == 's') && (*(line + 1) == 'O' || (*(line + 1) == 'o'))) || \
+		((*cubchr == 'W' || *cubchr == 'w') && (*(line + 1) == 'E' || (*(line + 1) == 'e'))) || \
+		((*cubchr == 'E' || *cubchr == 'e') && (*(line + 1) == 'A' || (*(line + 1) == 'a'))) || \
 		//line es un cubchr singular
-		((*cubchr == 'R' || *cubchr == 'r') && !result[0]) || ((*cubchr == 'S' || *cubchr == 's') && !result[5]) || \
-		((*cubchr == 'F' || *cubchr == 'f') && !result[6]) || ((*cubchr == 'C' || *cubchr == 'c') && !result[7])  )
-			return (2); //line consta de uno o dos cubchrs válidos y aún no está recogido su parámetro
+		((*cubchr == 'R' || *cubchr == 'r')) || ((*cubchr == 'S' || *cubchr == 's')) || \
+		((*cubchr == 'F' || *cubchr == 'f')) || ((*cubchr == 'C' || *cubchr == 'c'))  )
+			return (2); //line consta de uno o dos cubchrs válidos
 	g_iamerror.cubpolice = 1;
+	g_iamerror.badline = linenum;
 	return (0);
 
 }
@@ -87,16 +91,11 @@ int	validitycheck(int *result, char *line, int sum)
 ** program will be terminated with EXTREME prejudice. You have been warned.
 */
 
-int	duplicateparam(int linenum, int param)
-{
-	g_iamerror.duplicateparam[param] = linenum;
-	ft_printf("\nDUPLICATE LINE %d\n", linenum);
-	return (0);
-}
-
 int	endcub(char *line, int endfile)
 {
 	if (line && endfile && (*line)) //si primera línea existe y ya es eof y no es nulo, mapa NO ES endfile
-		return (0);
+		endfile = 0;
+	if (!endfile)
+		g_iamerror.badendcub = 1;
 	return (endfile);
 }

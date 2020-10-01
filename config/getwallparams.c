@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   getwallparams.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/22 20:13:05 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/27 11:21:07 by miki             ###   ########.fr       */
+/*   Updated: 2020/10/01 19:47:03 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ extern t_error	g_iamerror;
 ** PROBABLY MOVE THIS TO A DEDICATED FUNCTION TO CONTROL WHERE IT IS PRINTED.
 */
 
-int		getno(const char *line, unsigned int linenum)
+int		getno(const char *line, unsigned int linenum, int *checked)
 {
 	int	i;
 
@@ -52,6 +52,7 @@ int		getno(const char *line, unsigned int linenum)
 	if ((*line != 'N' && *line != 'n') || \
 	(*(line + 1) != 'O' && *(line + 1) != 'o'))
 		return (0);
+	*checked = 1;
 	line = ft_skipspaces(line += 2);
 	if (*line != '.' || *(line + 1) != '/')
 	{
@@ -70,7 +71,7 @@ int		getno(const char *line, unsigned int linenum)
 	return (1);
 }
 
-int		getso(const char *line, unsigned int linenum)
+int		getso(const char *line, unsigned int linenum, int *checked)
 {
 	int	i;
 
@@ -80,6 +81,7 @@ int		getso(const char *line, unsigned int linenum)
 	if ((*line != 'S' && *line != 's') || \
 	(*(line + 1) != 'O' && *(line + 1) != 'o'))
 		return (0);
+	*checked = 1;
 	line = ft_skipspaces(line += 2);
 	if (*line != '.' || *(line + 1) != '/')
 	{
@@ -98,16 +100,17 @@ int		getso(const char *line, unsigned int linenum)
 	return (1);
 }
 
-int		getwe(const char *line, unsigned int linenum)
+int		getwe(const char *line, unsigned int linenum, int *checked)
 {
 	int	i;
 
-	if (!line)
+	if (!line || *checked)
 		return (0);
 	line = ft_skipspaces(line);
 	if ((*line != 'W' && *line != 'w') || \
 	(*(line + 1) != 'E' && *(line + 1) != 'e'))
 		return (0);
+	*checked = 1;
 	line = ft_skipspaces(line += 2);
 	if (*line != '.' || *(line + 1) != '/')
 	{
@@ -126,7 +129,7 @@ int		getwe(const char *line, unsigned int linenum)
 	return (1);
 }
 
-int		getea(const char *line, unsigned int linenum)
+int		getea(const char *line, unsigned int linenum, int *checked)
 {
 	int	i;
 
@@ -136,6 +139,7 @@ int		getea(const char *line, unsigned int linenum)
 	if ((*line != 'E' && *line != 'e') || \
 	(*(line + 1) != 'A' && *(line + 1) != 'a'))
 		return (0);
+	*checked = 1;
 	line = ft_skipspaces(line += 2);
 	if (*line != '.' || *(line + 1) != '/')
 	{

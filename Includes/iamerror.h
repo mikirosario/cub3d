@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 16:29:20 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/30 21:38:02 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/10/01 22:30:05 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,9 @@
 # define BMPWRITEFAIL "COULD NOT WRITE TO SCREENSHOT FILE!\n"
 # define BMPCLOSEFAIL "UNABLE TO CLOSE SCREENSHOT FILE\n"
 # define TOOMANYARGS "EXECUTE WITH ./CUB3D \"PATH.CUB\" [OPTIONAL]\"--SAVE\"\n"
-# define BADCUB "BLEEEEEEEEH\n"
+# define BADCUB "BAD CUB FILE\n"
+# define BADLINE "COULD NOT UNDERSTAND THIS LINE\n"
+# define DUPPARAM "DUPLICATE PARAMETER\n"
+# define BADCUBEND "END CUB FILE WITH MAP OR A SINGLE EMPTY LINE\n"
+# define MISSINGPARAM "ONE OR MORE PARAMETERS ARE MISSING\n"
 #endif

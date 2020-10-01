@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/30 22:30:46 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/10/01 22:29:32 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,10 @@ typedef	struct	s_error
 	char			*couldnotopenxpm;
 	unsigned char	maptoobig : 1;
 	unsigned char	cubpolice : 1;
-	unsigned char	duplicateparam[8];
+	unsigned int	badline;
+	unsigned int	dupparam;
+	unsigned char	badendcub : 1;
+	unsigned char	missingparam : 1;
 	unsigned int	memusage;
 }				t_error;
 
@@ -401,7 +404,6 @@ int				isbitset(unsigned int byte, int bit);
 unsigned int	setbit(unsigned int byte, int bit);
 int				endcub(char *line, int endfile);
 int				ft_stop(int key, void *param);
-int				duplicateparam(int linenum, int param);
 
 /*
 ** Command Line Notifications
@@ -427,7 +429,7 @@ unsigned int *y);
 void			texpatherrors(void);
 void			texreaderror(void);
 int				texerrorconditions(void);
-int				validitycheck(int *result, char *line, int sum);
+int				validitycheck(int *result, char *line, int sum, int linenum);
 int				sumresarray(int *result);
 
 /*
@@ -449,15 +451,15 @@ t_list			*maplistmem(unsigned int y);
 */
 
 void			initialize(t_raycasterdata *rdata);
-int				getres(const char *line, unsigned int linenum);
-int				getno(const char *line, unsigned int linenum);
-int				getso(const char *line, unsigned int linenum);
-int				getwe(const char *line, unsigned int linenum);
-int				getea(const char *line, unsigned int linenum);
-int				getsprite(const char *line, unsigned int linenum);
+int				getres(const char *line, unsigned int linenum, int *checked);
+int				getno(const char *line, unsigned int linenum, int *checked);
+int				getso(const char *line, unsigned int linenum, int *checked);
+int				getwe(const char *line, unsigned int linenum, int *checked);
+int				getea(const char *line, unsigned int linenum, int *checked);
+int				getsprite(const char *line, unsigned int linenum, int *checked);
 unsigned int	create_trgb(int t, int r, int g, int b);
-int				getfcolor(const char *line, unsigned int linenum);
-int				getccolor(const char *line, unsigned int linenum);
+int				getfcolor(const char *line, unsigned int linenum, int *checked);
+int				getccolor(const char *line, unsigned int linenum, int *checked);
 void			spritecounter(double x, double y, char c);
 char			playercounter(int x, int y, char foundplayer);
 int				ismap(char *line);

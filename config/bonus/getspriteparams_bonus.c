@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   getspriteparams_bonus.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 18:08:49 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/27 12:06:32 by miki             ###   ########.fr       */
+/*   Updated: 2020/10/01 19:05:41 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ int		sprtpaths(const char *line, unsigned int linenum, int stype)
 ** On the sprite line the user can leave up to eight paths.
 */
 
-int		getsprite(const char *line, unsigned int linenum)
+int		getsprite(const char *line, unsigned int linenum, int *checked)
 {
 	int	stype;
 
@@ -143,6 +143,7 @@ int		getsprite(const char *line, unsigned int linenum)
 	if ((*line != 'S' && *line != 's') || (!(*(line + 1)) || \
 	*(line + 1) == 'O' || *(line + 1) == 'o'))
 		return (0);
+	*checked = 1;
 	line = ft_skipspaces(++line);
 	stype = 50;
 	g_simg[2] = &g_sprt2img;

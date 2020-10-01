@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 16:26:34 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/29 22:30:59 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/10/01 19:45:51 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ int		setres(const char *line, int res, unsigned int linenum)
 ** getres function will return 1.
 */
 
-int		getres(const char *line, unsigned int linenum)
+int		getres(const char *line, unsigned int linenum, int *checked)
 {
 	int	res;
 
@@ -143,6 +143,7 @@ int		getres(const char *line, unsigned int linenum)
 	line = ft_skipspaces(line);
 	if (*line != 'R' && *line != 'r')
 		return (0);
+	*checked = 1;
 	line++;
 	while (*line && ((ft_isspace(*line)) || ft_isdigit(*line) || \
 	(res && (*line == 'x' || *line == 'X' || *line == ','))))
