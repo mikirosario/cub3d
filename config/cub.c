@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/16 18:38:05 by mrosario          #+#    #+#             */
-/*   Updated: 2020/10/01 22:41:29 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/10/02 15:25:46 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,27 @@ int		findfirstmapline(char **line, int *result, int *checked, unsigned int linen
 			g_iamerror.premaplines = linenum - 1;
 			return (1);
 		}
-	/*if (j < 8)
-	{
-		g_iamerror.cubpolice = 1;
-		g_iamerror.missingparam = 1;
-	}*/
 	return (0);
+}
+
+void	getparam(int *result, int *checked, int linenum, char *line)
+{
+		if (result[0] < 1)
+			result[0] = getres(line, linenum, &checked[0]);
+		if (result[1] < 1)
+			result[1] = getno(line, linenum, &checked[1]);
+		if (result[2] < 1)
+			result[2] = getso(line, linenum, &checked[2]);
+		if (result[3] < 1)
+			result[3] = getwe(line, linenum, &checked[3]);
+		if (result[4] < 1)
+			result[4] = getea(line, linenum, &checked[4]);
+		if (result[5] < 1)
+			result[5] = getsprite(line, linenum, &checked[5]);
+		if (result[6] < 1)
+			result[6] = getfcolor(line, linenum, &checked[6]);
+		if (result[7] < 1)
+			result[7] = getccolor(line, linenum, &checked[7]);
 }
 
 /*
@@ -113,7 +128,6 @@ int		findfirstmapline(char **line, int *result, int *checked, unsigned int linen
 
 void	cubread(int *result, char **line, int fd, int linenum)
 {
-
 	int	val;
 	int	sum;
 	int	checked[8];
@@ -126,22 +140,7 @@ void	cubread(int *result, char **line, int fd, int linenum)
 		sum = sumresarray(checked);
 		if (!(val = validitycheck(result, *line, sum, linenum)))
 			break ;
-		if (result[0] < 1)
-			result[0] = getres(*line, linenum, &checked[0]);
-		if (result[1] < 1)
-			result[1] = getno(*line, linenum, &checked[1]);
-		if (result[2] < 1)
-			result[2] = getso(*line, linenum, &checked[2]);
-		if (result[3] < 1)
-			result[3] = getwe(*line, linenum, &checked[3]);
-		if (result[4] < 1)
-			result[4] = getea(*line, linenum, &checked[4]);
-		if (result[5] < 1)
-			result[5] = getsprite(*line, linenum, &checked[5]);
-		if (result[6] < 1)
-			result[6] = getfcolor(*line, linenum, &checked[6]);
-		if (result[7] < 1)
-			result[7] = getccolor(*line, linenum, &checked[7]);
+		getparam(result, checked, linenum, *line);
 		if (findfirstmapline(line, result, checked, linenum))
 			break ;
 		if (val == 2 && sum == (sumresarray(checked)))
@@ -153,56 +152,7 @@ void	cubread(int *result, char **line, int fd, int linenum)
 		del(*line);
 	}
 	if (g_iamerror.cubpolice)
-		ft_bzero(result, 8 * 4);
-}
-
-/*
-** This function will check the result array to identify error flags.
-** If a parameter has not been successfully read from the cub file,
-** its corresponding result will be 0 and an appropriate error message
-** will be displayed.
-**
-** There are two types of errors - yellow or non-fatal, and red or
-** fatal. Non-fatal errors are handled by using default values instead
-** of user-configured values. An error message will be displayed but
-** the program will not terminate.
-**
-** All errors from position 1 to position 4 on the array are fatal.
-** The error in position 8 is also fatal. The error in position 5 is
-** only fatal if sprites are found, but this is determined after
-** the maphandler function is run. The rest are non-fatal.
-**
-** If any fatal errors are found, this function will return 0.
-** Otherwise, it will return 1.
-*/
-
-int		cuberrorhandler(int *result)
-{
-	int i;
-
-	if (result[0] == 0)
-		g_iamerror.getresfail = 1;
-	if (result[1] == 0)
-		g_iamerror.getnofail = 1;
-	if (result[2] == 0)
-		g_iamerror.getsofail = 1;
-	if (result[3] == 0)
-		g_iamerror.getwefail = 1;
-	if (result[4] == 0)
-		g_iamerror.geteafail = 1;
-	if (result[5] == 0)
-		g_iamerror.getsprfail = 1;
-	if (result[6] == 0)
-		g_iamerror.fcolorinvalid = 1;
-	if (result[7] == 0)
-		g_iamerror.ccolorinvalid = 1;
-	if (!(result[8]))
-		g_iamerror.nomapfound = 1;
-	i = 1;
-	while (result[i] && i < 5)
-		i++;
-	g_iamerror.mapchecked = i == 5 ? 1 : 0;
-	return (i < 5 || !result[8] ? 0 : 1);
+		policereport(result, checked);
 }
 
 /*

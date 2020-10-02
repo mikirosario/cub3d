@@ -6,7 +6,7 @@
 /*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/05 16:42:19 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/29 14:28:16 by miki             ###   ########.fr       */
+/*   Updated: 2020/10/02 15:18:15 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,6 @@
 ** This function analyses a line. If the entire line consists of mapchars,
 ** it returns 1 to validate it as a mapline. If it finds a non-mapchar in
 ** the line or the line is empty, it returns 0 to reject it.
-**
-** The mapchrs list should really be defined in cubhandler function (cub.c)
-** and sent to this function via the maphandler function, as well as to
-** the makemaplist function, also from there. This way it would only have to be
-** defined once. But... Norminette. WE'LL SEE!
 */
 
 int		ismap(char *line)

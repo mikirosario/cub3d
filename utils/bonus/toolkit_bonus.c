@@ -6,7 +6,7 @@
 /*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 18:37:36 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/27 20:51:00 by miki             ###   ########.fr       */
+/*   Updated: 2020/10/02 15:45:43 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,15 @@ t_imagedata *img)
 		x++;
 		tx++;
 	}
+}
+
+
+unsigned int	setbit(unsigned int byte, int bit)
+{
+	unsigned char	mask;
+
+	mask = (unsigned char)1 << bit;
+	return (mask | byte);
 }
 
 /*

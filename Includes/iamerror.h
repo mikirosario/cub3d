@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   iamerror.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 16:29:20 by mrosario          #+#    #+#             */
-/*   Updated: 2020/10/01 22:30:05 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/10/02 04:22:08 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,5 +59,5 @@
 # define BADLINE "COULD NOT UNDERSTAND THIS LINE\n"
 # define DUPPARAM "DUPLICATE PARAMETER\n"
 # define BADCUBEND "END CUB FILE WITH MAP OR A SINGLE EMPTY LINE\n"
-# define MISSINGPARAM "ONE OR MORE PARAMETERS ARE MISSING\n"
+# define MISSINGPARAM "MISSING PARAMETERS: "
 #endif

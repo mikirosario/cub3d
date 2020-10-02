@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/10/01 22:29:32 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/10/02 15:19:29 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ typedef	struct	s_error
 	unsigned int	badline;
 	unsigned int	dupparam;
 	unsigned char	badendcub : 1;
-	unsigned char	missingparam : 1;
+	unsigned char	gotparam;
 	unsigned int	memusage;
 }				t_error;
 
@@ -431,6 +431,9 @@ void			texreaderror(void);
 int				texerrorconditions(void);
 int				validitycheck(int *result, char *line, int sum, int linenum);
 int				sumresarray(int *result);
+void			policereport(int *result, int *checked);
+void			cuberrors(void);
+int				cuberrorhandler(int *result);
 
 /*
 ** Linked List Functions

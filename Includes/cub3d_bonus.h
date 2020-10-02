@@ -6,7 +6,7 @@
 /*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/29 14:29:32 by miki             ###   ########.fr       */
+/*   Updated: 2020/10/02 15:32:18 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,8 +190,8 @@ void			reset_timer(struct timeval *t);
 ** Game Config
 */
 
-int				getftex(const char *line, unsigned int linenum);
-int				getctex(const char *line, unsigned int linenum);
+int				getftex(const char *line, unsigned int linenum, int *checked);
+int				getctex(const char *line, unsigned int linenum, int *checked);
 void			gettexfail(void);
 int				sprarray(t_spritedata *list, t_spritedata ***array);
 void			getanimationimgs(t_imagedata *simg);

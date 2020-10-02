@@ -1,18 +1,16 @@
-** R  1920 1080
 R 1280 720
-** R 600 x 400
 no ./textures/blueMetal.xpm
 SO ./textures/yellowMetal.xpm
 WE ./textures/greenMetal.xpm
 EA ./textures/pinkMetal.xpm
-S 2./sprites/normiSprite.xpm 2./sprites/normiDamaged.xpm 3./sprites/marvin.xpm 4./sprites/potionanimation/redpotion.xpm 4./sprites/potionanimation/redpotion1.xpm 4./sprites/potionanimation/redpotion2.xpm 4./sprites/potionanimation/redpotion3.xpm 4./sprites/potionanimation/redpotion4.xpm 4./sprites/potionanimation/redpotion5.xpm 4./sprites/potionanimation/redpotion6.xpm 5./sprites/spray.xpm 6./sprites/oren.xpm 7./sprites/gemanimation/1.xpm 7./sprites/gemanimation/2.xpm 7./sprites/gemanimation/3.xpm 7./sprites/gemanimation/4.xpm 7./sprites/gemanimation/5.xpm 7./sprites/gemanimation/6.xpm 7./sprites/gemanimation/7.xpm 7./sprites/gemanimation/8.xpm
+s
+S 2./sprites/n ormiSprite.xpm 2./sprites/normiDamaged.xpm 3./sprites/marvin.xpm 4./sprites/potionanimation/redpotion.xpm 4./sprites/potionanimation/redpotion1.xpm 4./sprites/potionanimation/redpotion2.xpm 4./sprites/potionanimation/redpotion3.xpm 4./sprites/potionanimation/redpotion4.xpm 4./sprites/potionanimation/redpotion5.xpm 4./sprites/potionanimation/redpotion6.xpm 5./sprites/spray.xpm 6./sprites/oren.xpm 7./sprites/gemanimation/1.xpm 7./sprites/gemanimation/2.xpm 7./sprites/gemanimation/3.xpm 7./sprites/gemanimation/4.xpm 7./sprites/gemanimation/5.xpm 7./sprites/gemanimation/6.xpm 7./sprites/gemanimation/7.xpm 7./sprites/gemanimation/8.xpm
 F ./bonustextures/newBricks.xpm
 c ./bonustextures/sandbrick.xpm
 
-basurilla
-l33t hacker
 
-** Mapa Válido **
+
+
 
 111111111111111111111111
 100000016110000000000001

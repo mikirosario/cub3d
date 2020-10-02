@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub_bonus.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/16 18:38:05 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/29 20:29:57 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/10/02 15:43:23 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,18 @@ extern t_error	g_iamerror;
 ** valid map line, it will return '0'.
 */
 
-int		findfirstmapline(char **line, int *result, unsigned int linenum)
+int		findfirstmapline(char **line, int *result, int *checked, unsigned int linenum)
 {
 	int i;
+	int	j;
 
 	i = 1;
+	j = 0;
 	while (i < 7 && result[i] == 1)
 		i++;
-	if (i == 7)
+	while (j < 8 && checked[j] == 1)
+		j++;
+	if (i == 7 && j == 8)
 		if (ismap(*line))
 		{
 			result[8] = 1;
@@ -39,6 +43,26 @@ int		findfirstmapline(char **line, int *result, unsigned int linenum)
 			return (1);
 		}
 	return (0);
+}
+
+void	getparam(int *result, int *checked, int linenum, char *line)
+{
+		if (result[0] < 1)
+			result[0] = getres(line, linenum, &checked[0]);
+		if (result[1] < 1)
+			result[1] = getno(line, linenum, &checked[1]);
+		if (result[2] < 1)
+			result[2] = getso(line, linenum, &checked[2]);
+		if (result[3] < 1)
+			result[3] = getwe(line, linenum, &checked[3]);
+		if (result[4] < 1)
+			result[4] = getea(line, linenum, &checked[4]);
+		if (result[5] < 1)
+			result[5] = getsprite(line, linenum, &checked[5]);
+		if (result[6] < 1)
+			result[6] = getfcolor(line, linenum, &checked[6]);
+		if (result[7] < 1)
+			result[7] = getccolor(line, linenum, &checked[7]);
 }
 
 /*
@@ -55,34 +79,77 @@ int		findfirstmapline(char **line, int *result, unsigned int linenum)
 ** result[8] (see findfirstmapline) and terminate the function *without*
 ** freeing the memory used by line, as the first map line will still be needed
 ** by the map handler.
+**
+** UPDATE:
+**
+** The gatekeeper functions veto cub files with superfluous text or duplicate
+** parameters. These were implemented at the end, on request from an evaluator.
+** It's not the cleanest implementation, a bit quick and dirty.
+**
+** The logic is as follows: We set up an array of 8 ints initialized to zero
+** with ft_bzero. The array is called checked and keeps track of which
+** parameters have been checked, whether or not the check succeeded. We then
+** use a function called validitycheck. If a line's text contains a valid
+** parameter (R, NO, SO, WE, etc.), we return 2. Spaces are allowed before
+** the parameter, but nothing else. If the line is empty, we return 1, since
+** we accept empty lines. If anything else is found, validity check signals
+** a cubpolice error and badline error and returns 0, ending the while.
+**
+** Now we sum the values of the checked array. Every time line parser reads one
+** of the parameters  (R, NO, SO, WE, etc.) it will set the corresponding
+** integer in the checked array to 1. For example, if R is read, checked[0] will
+** be set to 1. Thus, if a line passes the validity check and it is not a NULL
+** character (empty line), it MUST be a parameter, and therefore, if it's legit
+** the first time that parameter is being passed, the sum of the checked array
+** values must rise by 1 after all parameter parsers execute. Therefore, if we
+** reach the end of the while with a non-null character in our line and no
+** parameter parser has 'claimed' it (the checked array sum is the same as at
+** the beginning of the while), it MUST be a duplicate parameter. We report
+** this to the cubpolice and pass the linenum where it happened for good
+** measure, and then kick that garbage out of here.
+**
+** Note that to make this work with the other functions, the firstmapline
+** function now must check the checked array as well as the result array to
+** determine whether it is time to start looking for the map, since, although
+** some non-obligatory parameters may be wrong or left empty and the game will
+** work with default values, ALL of them must now be passed.
+**
+** If a cubpolice error was detected during file reading, all results are
+** considered to have failed and are reset to 0, since, much like Parisians if
+** you pronounce a single word wrong, this single mistake means we could not
+** understand anything.
+**
+** Fun time is over, kiddies. Cub files are now serious business and must obey
+** the LAW, or else. ¬¬
 */
 
 void	cubread(int *result, char **line, int fd, int linenum)
 {
+	int	val;
+	int	sum;
+	int	checked[8];
+
+	ft_bzero(checked, 8 * 4);
 	while ((ft_get_next_line(fd, line)) > 0 && ++linenum)
 	{
 		if (!(*line))
 			g_iamerror.mallocfail = 1;
-		if (result[0] < 1)
-			result[0] = getres(*line, linenum);
-		if (result[1] < 1)
-			result[1] = getno(*line, linenum);
-		if (result[2] < 1)
-			result[2] = getso(*line, linenum);
-		if (result[3] < 1)
-			result[3] = getwe(*line, linenum);
-		if (result[4] < 1)
-			result[4] = getea(*line, linenum);
-		if (result[5] < 1)
-			result[5] = getftex(*line, linenum);
-		if (result[6] < 1)
-			result[6] = getctex(*line, linenum);
-		if (result[7] < 1)
-			result[7] = getsprite(*line, linenum);
-		if (findfirstmapline(line, result, linenum))
+		sum = sumresarray(checked);
+		if (!(val = validitycheck(result, *line, sum, linenum)))
 			break ;
+		getparam(result, checked, linenum, *line);
+		if (findfirstmapline(line, result, checked, linenum))
+			break ;
+		if (val == 2 && sum == (sumresarray(checked)))
+		{
+			g_iamerror.cubpolice = 1;
+			g_iamerror.dupparam = linenum;
+			break ;
+		}
 		del(*line);
 	}
+	if (g_iamerror.cubpolice)
+		policereport(result, checked);
 }
 
 /*
@@ -105,7 +172,7 @@ void	cubread(int *result, char **line, int fd, int linenum)
 ** Otherwise, it will return 1.
 */
 
-int		cuberrorhandler(int *result)
+/*int		cuberrorhandler(int *result)
 {
 	int i;
 
@@ -132,7 +199,7 @@ int		cuberrorhandler(int *result)
 		i++;
 	g_iamerror.mapchecked = i == 7 ? 1 : 0;
 	return (i < 7 || !result[8] ? 0 : 1);
-}
+}*/
 
 /*
 ** This function is called only after all obligatory configuration
@@ -278,7 +345,7 @@ int		cubhandler(const char *ptr)
 		line = NULL;
 		cubread(result, &line, fd, (linenum = 0));
 		if ((cuberrorhandler(result)) && (maphandler(fd, line)) && \
-		(!g_config.spritenum || !g_iamerror.getsprfail))
+		(!g_config.spritenum || !g_iamerror.getsprfail) && !g_iamerror.cubpolice)
 			success = 1;
 		free(result);
 	}

@@ -3,16 +3,45 @@
 /*                                                        :::      ::::::::   */
 /*   gatekeeper.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/29 18:43:00 by mrosario          #+#    #+#             */
-/*   Updated: 2020/10/01 21:23:04 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/10/02 05:23:34 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Includes/cub3d.h"
 
 extern t_error	g_iamerror;
+
+/*
+** The police report tells us how many parameters we managed to find. This will
+** help the user identify where the misconfiguration in their cub file is when
+** they get a cub error, as we will print any missing parameters for them.
+**
+** There happen to be 8 parameters we need to check before the map file is
+** loaded, and there happen to be 8 bits in a byte. You know what that means...
+** Time to practise bitshifting. ;) I'll use my new bit setting and reading
+** functions here. We'll set a bit to 1 for every parameter we've found in the
+** g_iamerror.gotparam unsigned char.
+**
+** We'll also reset the results table to 0 to throw all the retrieval errors,
+** since a cub error means we couldn't retrieve anything.
+*/
+
+void	policereport(int *result, int *checked)
+{
+	int	i;
+
+	i = 0;
+	while (i < 8)
+	{
+		if (checked[i])
+			g_iamerror.gotparam = setbit(g_iamerror.gotparam, i);
+		i++;
+	}
+	ft_bzero(result, 8 * 4);
+}
 
 int	sumresarray(int *result)
 {
@@ -50,7 +79,7 @@ int	validitycheck(int *result, char *line, int sum, int linenum)
 	if (!(*line)) //inocente, se aceptan líneas vacías
 		return (1);
 	//culpable hasta que se demuestre inocente
-	if (sum > 7 && ismap(line)) //mapline válida a partir de 3 parámetros
+	if (sum > 7 && ismap(line)) //mapline válida si todos los parámetros están recogidos
 		return (1);
 	line = ft_skipspaces(line);
 	if (!(cubchr = (ft_strchr(singlecubchrs, *line)))) //nos saltamos los espacios y *line no es un cubchr, bien por ser otro chr o bien por ser NULL: CULPABLE

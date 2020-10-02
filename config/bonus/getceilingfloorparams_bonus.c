@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   getceilingfloorparams_bonus.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 16:50:30 by mrosario          #+#    #+#             */
-/*   Updated: 2020/10/01 19:03:46 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/10/02 15:33:39 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ const char	*getnumber(int *rgb, const char *line, char callfuncid)
 	line = ft_skipdigits(line);
 	return (line);
 }
-
+/*
 int			getfcolor(const char *line, unsigned int linenum)
 {
 	int	color;
@@ -110,9 +110,9 @@ int			getccolor(const char *line, unsigned int linenum)
 		g_framedata.xceilingcolor = \
 		(create_trgb(0, g_config.crgb[0], g_config.crgb[1], g_config.crgb[2]));
 	return (color == 3 && !g_iamerror.badccolorsyn ? 1 : 0);
-}
+}*/
 
-int			getftex(const char *line, unsigned int linenum)
+int			getftex(const char *line, unsigned int linenum, int *checked)
 {
 	int			i;
 
@@ -121,6 +121,7 @@ int			getftex(const char *line, unsigned int linenum)
 	line = ft_skipspaces(line);
 	if (*line != 'F' && *line != 'f')
 		return (0);
+	*checked = 1;
 	line = ft_skipspaces(line += 2);
 	if (*line != '.' || *(line + 1) != '/')
 	{
@@ -139,7 +140,7 @@ int			getftex(const char *line, unsigned int linenum)
 	return (1);
 }
 
-int			getctex(const char *line, unsigned int linenum)
+int			getctex(const char *line, unsigned int linenum, int *checked)
 {
 	int			i;
 
@@ -148,6 +149,7 @@ int			getctex(const char *line, unsigned int linenum)
 	line = ft_skipspaces(line);
 	if (*line != 'C' && *line != 'c')
 		return (0);
+	*checked = 1;
 	line = ft_skipspaces(line += 2);
 	if (*line != '.' || *(line + 1) != '/')
 	{
