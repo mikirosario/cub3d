@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   getceilingfloorparams_bonus.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 16:50:30 by mrosario          #+#    #+#             */
-/*   Updated: 2020/10/02 15:33:39 by miki             ###   ########.fr       */
+/*   Updated: 2020/10/02 18:11:41 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ int			getftex(const char *line, unsigned int linenum, int *checked)
 		return (0);
 	}
 	ft_memcpy(g_floorimg.texpath, line, i);
-	return (1);
+	return (!g_iamerror.badfloorsyn ? 1 : 0);
 }
 
 int			getctex(const char *line, unsigned int linenum, int *checked)
@@ -165,5 +165,5 @@ int			getctex(const char *line, unsigned int linenum, int *checked)
 		return (0);
 	}
 	ft_memcpy(g_ceilingimg.texpath, line, i);
-	return (1);
+	return (!g_iamerror.badceilsyn ? 1 : 0);
 }

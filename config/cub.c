@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/16 18:38:05 by mrosario          #+#    #+#             */
-/*   Updated: 2020/10/02 15:25:46 by miki             ###   ########.fr       */
+/*   Updated: 2020/10/02 20:20:40 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,7 +198,10 @@ int		maphandler(int fd, char *line)
 		else if (i == -5)
 			g_iamerror.maptoobig = 1;
 		else if (i == -7)
+		{
 			g_iamerror.cubpolice = 1;
+			g_iamerror.gotparam = 255;
+		}
 		return (0);
 	}
 	return (1);

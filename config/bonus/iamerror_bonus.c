@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/21 19:17:09 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/29 17:54:44 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/10/02 19:47:46 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,39 +121,6 @@ void	texerrors(void)
 }
 
 /*
-** This function handles retrieval errors for the color values supplied
-** by the user to define ceiling and floor colors.
-**
-** Since these errors do not impede the program from launching, the YELLOW
-** ERROR message will be printed, followed by the failed color value retrieval
-** message.
-**
-** Depending on the errors present, the associated error messages will be
-** printed. For syntax errors, the line where the error was detected will be
-** reported to the user. Possible errors are retrieval errors and syntax
-** errors.
-*/
-
-void	ceilingfloorerrors(void)
-{
-	ft_printf(YELLOW"%s"RESET, YELLOWERROR);
-	if (g_iamerror.fcolorinvalid)
-		ft_printf(YELLOW"%s"RESET, FCOLORINVALID);
-	if (g_iamerror.badfcolorsyn)
-		ft_printf("Line %u: "YELLOW"%s"RESET, g_iamerror.badfcolorsyn, \
-		BADFCOLORSYN);
-	if (g_iamerror.fcoloroutofrange)
-		ft_printf(YELLOW"%s"RESET, BADCOLORRANGE);
-	if (g_iamerror.ccolorinvalid)
-		ft_printf(YELLOW"%s"RESET, CCOLORINVALID);
-	if (g_iamerror.badccolorsyn)
-		ft_printf("Line %u: "YELLOW"%s"RESET, g_iamerror.badccolorsyn, \
-		BADCCOLORSYN);
-	if (g_iamerror.ccoloroutofrange)
-		ft_printf(YELLOW"%s"RESET, BADCOLORRANGE);
-}
-
-/*
 ** The printerrors function refers to a global struct called iamerror to check
 ** whether flags have been set signalling certain errors. The flags are set by
 ** the program as they occur. If set, the corresponding error messages will
@@ -195,14 +162,14 @@ void	printerrors(void)
 		ft_printf(RED"%s%s"RESET, REDERROR, NOMAPFOUND);
 	if (g_iamerror.getresfail)
 		reserrors();
-	if (g_iamerror.fcolorinvalid || g_iamerror.ccolorinvalid)
-		ceilingfloorerrors();
 	if (g_iamerror.outofbounds[2] || g_iamerror.noplayer || \
 	g_iamerror.badmap3line || g_iamerror.toomanyplayers[2] || \
 	g_iamerror.maptoobig)
 		maperrors();
 	else if (texerrorconditions())
 		texerrors();
+	if (g_iamerror.cubpolice)
+		cuberrors();
 	if (g_iamerror.mallocfail)
 		ft_printf(RED"%s%s"RESET, REDERROR, MALLOCFAIL);
 	write(1, "\n", 1);

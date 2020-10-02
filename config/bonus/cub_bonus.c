@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub_bonus.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/16 18:38:05 by mrosario          #+#    #+#             */
-/*   Updated: 2020/10/02 15:43:23 by miki             ###   ########.fr       */
+/*   Updated: 2020/10/02 20:21:03 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,9 @@ void	getparam(int *result, int *checked, int linenum, char *line)
 		if (result[5] < 1)
 			result[5] = getsprite(line, linenum, &checked[5]);
 		if (result[6] < 1)
-			result[6] = getfcolor(line, linenum, &checked[6]);
+			result[6] = getftex(line, linenum, &checked[6]);
 		if (result[7] < 1)
-			result[7] = getccolor(line, linenum, &checked[7]);
+			result[7] = getctex(line, linenum, &checked[7]);
 }
 
 /*
@@ -243,8 +243,11 @@ int		maphandler(int fd, char *line)
 			g_iamerror.toomanyplayers[2] = 1;
 		else if (i == -5)
 			g_iamerror.maptoobig = 1;
-		else if (1 == -7)
+		else if (i == -7)
+		{
 			g_iamerror.cubpolice = 1;
+			g_iamerror.gotparam = 255;
+		}
 		return (0);
 	}
 	return (1);

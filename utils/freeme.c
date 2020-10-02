@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   freeme.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 16:44:15 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/27 20:36:19 by miki             ###   ########.fr       */
+/*   Updated: 2020/10/02 17:38:01 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,8 @@ void	freeme(void)
 			del(g_screendata.mlx_ptr);
 		else
 		{
-			mlx_destroy_window(g_screendata.mlx_ptr, g_screendata.mlx_win);
 			freeimgs();
+			mlx_destroy_window(g_screendata.mlx_ptr, g_screendata.mlx_win);
 			del(g_screendata.mlx_ptr);
 		}
 	}

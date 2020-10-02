@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   freeme_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 16:44:15 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/27 20:36:36 by miki             ###   ########.fr       */
+/*   Updated: 2020/10/02 17:51:21 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,15 @@ void	destroyobjectimages(void)
 	int	i;
 
 	i = 0;
-	while (i < 3 && g_lifebar.ptr[i]->mlx_img)
+	while (i < 3 && g_lifebar.ptr[i] && g_lifebar.ptr[i]->mlx_img)
 		mlx_destroy_image(g_screendata.mlx_ptr, \
 		g_lifebar.ptr[i++]->mlx_img);
 	i = 0;
-	while (i < 2 && g_catsbane.ptr[i]->mlx_img)
+	while (i < 2 && g_catsbane.ptr[i] && g_catsbane.ptr[i]->mlx_img)
 		mlx_destroy_image(g_screendata.mlx_ptr, \
 		g_catsbane.ptr[i++]->mlx_img);
 	i = 0;
-	while (i < 2 && g_chisme.ptr[i]->mlx_img)
+	while (i < 2 && g_chisme.ptr[i] && g_chisme.ptr[i]->mlx_img)
 		mlx_destroy_image(g_screendata.mlx_ptr, \
 		g_chisme.ptr[i++]->mlx_img);
 }
@@ -45,8 +45,12 @@ void	destroyimages(t_imagedata *image)
 	if (image->mlx_img)
 	{
 		while (i < 8 && image->animation[i])
-			mlx_destroy_image(g_screendata.mlx_ptr, \
-			image->animation[i++]->mlx_img);
+		{
+			if (image->animation[i]->mlx_img)
+				mlx_destroy_image(g_screendata.mlx_ptr, \
+				image->animation[i]->mlx_img);
+			i++;
+		}
 		mlx_destroy_image(g_screendata.mlx_ptr, image->mlx_img);
 	}
 	i = 0;

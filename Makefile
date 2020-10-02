@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: miki <miki@student.42.fr>                  +#+  +:+       +#+         #
+#    By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/07/15 20:32:43 by mrosario          #+#    #+#              #
-#    Updated: 2020/10/02 15:41:58 by miki             ###   ########.fr        #
+#    Updated: 2020/10/02 18:30:21 by mrosario         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,7 +54,7 @@ BSRC = cub3d_bonus.c ./utils/rotation.c ./utils/bonus/freeme_bonus.c \
 ./graphicsengine/bonus/mouse_bonus.c ./sounds/music_bonus.c ./graphicsengine/bonus/drawtobuffer_bonus.c \
 ./graphicsengine/bonus/skybox_bonus.c ./config/bonus/makemoreimages_bonus.c \
 ./config/bonus/getbonusimgaddresses_bonus.c ./config/playercounter.c \
-./config/mapcheck/bonus/unflood_bonus.c ./config/gatekeeper.c ./config/cuberrors.c
+./config/mapcheck/bonus/unflood_bonus.c ./config/gatekeeper.c ./config/bonus/cuberrors_bonus.c
 
 LSRC = cub3d.c ./utils/rotation.c ./utils/freeme.c ./utils/toolkit.c ./config/cub.c \
 ./config/getscreenres.c ./config/getwallparams.c ./config/getspriteparams.c \
@@ -98,7 +98,7 @@ LBSRC = cub3d_bonus.c ./utils/rotation.c ./utils/bonus/freeme_bonus.c \
 ./graphicsengine/bonus/mouse_bonus.c ./sounds/music_bonus_linux.c ./graphicsengine/bonus/drawtobuffer_bonus.c \
 ./graphicsengine/bonus/skybox_bonus.c ./config/bonus/makemoreimages_bonus.c \
 ./config/bonus/getbonusimgaddresses_bonus.c ./config/playercounter.c \
-./config/mapcheck/bonus/unflood_bonus.c ./config/gatekeeper.c ./config/cuberrors.c
+./config/mapcheck/bonus/unflood_bonus.c ./config/gatekeeper.c ./config/bonus/cuberrors_bonus.c
 
 OBJ = $(SRC:.c=.o)
 

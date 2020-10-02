@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texerrors_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/03 18:36:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/27 12:06:32 by miki             ###   ########.fr       */
+/*   Updated: 2020/10/02 18:27:12 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,11 @@ int		texerrorconditions(void)
 {
 	if (g_iamerror.getnofail || g_iamerror.getsofail || g_iamerror.getwefail \
 	|| g_iamerror.geteafail || g_iamerror.getfloorfail \
-	|| g_iamerror.getceilfail || (g_config.spritenum && g_iamerror.getsprfail) \
-	|| g_iamerror.texpathfail || g_iamerror.orphansprites \
-	|| g_iamerror.texsizefail || g_iamerror.couldnotopenxpm \
-	|| g_iamerror.walltexsizedif || g_iamerror.animtexsizedif)
+	|| g_iamerror.getceilfail || (g_config.spritenum && g_iamerror.getsprfail)
+	|| g_iamerror.badsprsyn	|| g_iamerror.texpathfail \
+	|| g_iamerror.orphansprites || g_iamerror.texsizefail \
+	|| g_iamerror.couldnotopenxpm || g_iamerror.walltexsizedif \
+	|| g_iamerror.animtexsizedif)
 		return (1);
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   getspriteparams_bonus.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 18:08:49 by mrosario          #+#    #+#             */
-/*   Updated: 2020/10/02 15:31:35 by miki             ###   ########.fr       */
+/*   Updated: 2020/10/02 17:21:07 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,8 +140,7 @@ int		getsprite(const char *line, unsigned int linenum, int *checked)
 	if (!line)
 		return (0);
 	line = ft_skipspaces(line);
-	if ((*line != 'S' && *line != 's') || (!(*(line + 1)) || \
-	*(line + 1) == 'O' || *(line + 1) == 'o'))
+	if ((*line != 'S' && *line != 's') || (*(line + 1) == 'O' || *(line + 1) == 'o'))
 		return (0);
 	*checked = 1;
 	line = ft_skipspaces(++line);
