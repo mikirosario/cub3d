@@ -6,7 +6,7 @@
 /*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/19 18:11:02 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/27 11:26:23 by miki             ###   ########.fr       */
+/*   Updated: 2020/10/03 09:54:33 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,7 @@ int			screenshot(unsigned int *buf)
 	g_config.screenshot = 0;
 	error = 0;
 	if ((fd = open("screenie.bmp", O_RDWR | O_CREAT | O_TRUNC | \
-	O_APPEND, 0777)) < 3)
+	O_APPEND, 0755)) < 3)
 		error = error | 00000001;
 	else if (!(writeheader(fd, pad)) || !(copyscreen(fd, pad, buf)))
 		error = error | 00000010;
@@ -158,5 +158,5 @@ int			screenshot(unsigned int *buf)
 		bmperror(error);
 	else
 		ft_printf(GREEN"%s"RESET, SCREENSHOTSAVED);
-	return (1);
+	return (ft_stop(0, (void *)0));
 }
