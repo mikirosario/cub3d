@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_phase1_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 18:31:22 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/29 20:28:44 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/10/05 14:10:01 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ int		linecheck(char *line, unsigned int y, char *mapchrs)
 		return (0);
 	while (x <= MAPMEMCAP && line[x] && (match = ft_strchr(mapchrs, line[x])))
 		x++;
-	if ((g_iamerror.memusage += x + 1) <= MAPMEMCAP && x > 0 && !line[x])
+	if (x > 0 && (g_iamerror.memusage += x + 1) <= MAPMEMCAP && !line[x])
 	{
 		listptr = ft_lstnew(((char *)ft_strdup(line)));
 		listptr->len = ft_strlen((const char *)line);
@@ -154,8 +154,12 @@ int		checkmap(unsigned int y, char *mapchrs, char endfile)
 	char foundplayer;
 
 	foundplayer = 0;
+	if (g_iamerror.mallocfail)
+		return (-6);
 	if (g_iamerror.memusage > MAPMEMCAP)
 		return (-5);
+	if (!endfile)
+		return (-7);
 	if (y < 2)
 		return (-2);
 	if ((foundplayer = playerandspritescheck(foundplayer, mapchrs)) > 1)
@@ -165,10 +169,6 @@ int		checkmap(unsigned int y, char *mapchrs, char endfile)
 	if (!sprarray(g_config.spritelist, &g_config.sprt) || \
 	!sprarray(g_config.doorlist, &g_config.door))
 		g_iamerror.mallocfail = 1;
-	if (g_iamerror.mallocfail)
-		return (-6);
-	if (!endfile)
-		return (-7);
 	ft_printf(MAGENTA"\n**** MAP RETRIEVED ****\n"RESET);
 	printmapbytes();
 	ft_printf(MAGENTA"\n**** SPRITES RETRIEVED ****\n"RESET);

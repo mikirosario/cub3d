@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub_bonus.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/16 18:38:05 by mrosario          #+#    #+#             */
-/*   Updated: 2020/10/02 20:21:03 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/10/05 13:17:39 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ void	cubread(int *result, char **line, int fd, int linenum)
 		if (!(*line))
 			g_iamerror.mallocfail = 1;
 		sum = sumresarray(checked);
-		if (!(val = validitycheck(result, *line, sum, linenum)))
+		if (!(val = validitycheck(*line, sum, linenum)))
 			break ;
 		getparam(result, checked, linenum, *line);
 		if (findfirstmapline(line, result, checked, linenum))

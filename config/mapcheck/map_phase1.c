@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_phase1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 18:31:22 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/29 21:58:29 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/10/05 14:09:40 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,7 +163,7 @@ int		linecheck(char *line, unsigned int y, char *mapchrs)
 		return (0);
 	while (x <= MAPMEMCAP && line[x] && (match = ft_strchr(mapchrs, line[x])))
 		x++;
-	if ((g_iamerror.memusage += x + 1) <= MAPMEMCAP && x > 0 && !line[x])
+	if (x > 0 && (g_iamerror.memusage += x + 1) <= MAPMEMCAP && !line[x])
 	{
 		listptr = ft_lstnew(((char *)ft_strdup(line)));
 		listptr->len = ft_strlen((const char *)line);
@@ -180,12 +180,12 @@ int		checkmap(char *mapchrs, char endfile)
 	char foundplayer;
 
 	foundplayer = 0;
-	if (!endfile)
-		return(-7);
 	if (g_iamerror.mallocfail)
 		return (-6);
 	if (g_iamerror.memusage > MAPMEMCAP)
 		return (-5);
+	if (!endfile)
+		return(-7);
 	if (g_config.maph < 2)
 		return (-2);
 	if ((foundplayer = playerandspritescheck(foundplayer, mapchrs)) > 1)
