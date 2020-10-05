@@ -3,16 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   map_phase1_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 18:31:22 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/29 20:28:44 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/10/05 15:34:42 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../Includes/cub3d_bonus.h"
 
 extern t_error	g_iamerror;
+
+/*
+** Code 0 is for pre-floodfill info. Any non-zero value is for post-floodfill
+** info. Just informs the user what the program is doing.
+*/
+
+void	printinfo(int i)
+{
+	if (!i)
+	{
+		ft_printf(MAGENTA"\n**** MAP RETRIEVED ****\n"RESET);
+		printmapbytes();
+		ft_printf(MAGENTA"\n**** SPRITES RETRIEVED ****\n"RESET);
+		printsprites();
+		ft_printf(GREEN"\n**** CHECKING MAP... ****\n"RESET);
+	}
+	else
+		ft_printf(GREEN"\n**** LOADING MAP... ****\n");
+}
 
 /*
 ** This function checks each map line for sprites ('2') or players ('NSEW').
@@ -137,7 +156,7 @@ int		linecheck(char *line, unsigned int y, char *mapchrs)
 		return (0);
 	while (x <= MAPMEMCAP && line[x] && (match = ft_strchr(mapchrs, line[x])))
 		x++;
-	if ((g_iamerror.memusage += x + 1) <= MAPMEMCAP && x > 0 && !line[x])
+	if (x > 0 && (g_iamerror.memusage += x + 1) <= MAPMEMCAP && !line[x])
 	{
 		listptr = ft_lstnew(((char *)ft_strdup(line)));
 		listptr->len = ft_strlen((const char *)line);
@@ -154,8 +173,12 @@ int		checkmap(unsigned int y, char *mapchrs, char endfile)
 	char foundplayer;
 
 	foundplayer = 0;
+	if (g_iamerror.mallocfail)
+		return (-6);
 	if (g_iamerror.memusage > MAPMEMCAP)
 		return (-5);
+	if (!endfile)
+		return (-7);
 	if (y < 2)
 		return (-2);
 	if ((foundplayer = playerandspritescheck(foundplayer, mapchrs)) > 1)
@@ -165,18 +188,10 @@ int		checkmap(unsigned int y, char *mapchrs, char endfile)
 	if (!sprarray(g_config.spritelist, &g_config.sprt) || \
 	!sprarray(g_config.doorlist, &g_config.door))
 		g_iamerror.mallocfail = 1;
-	if (g_iamerror.mallocfail)
-		return (-6);
-	if (!endfile)
-		return (-7);
-	ft_printf(MAGENTA"\n**** MAP RETRIEVED ****\n"RESET);
-	printmapbytes();
-	ft_printf(MAGENTA"\n**** SPRITES RETRIEVED ****\n"RESET);
-	printsprites();
-	ft_printf(GREEN"\n**** CHECKING MAP... ****\n"RESET);
+	printinfo(0);
 	if (!(floodfill()))
 		return (-1);
-	ft_printf(GREEN"\n**** LOADING MAP... ****\n");
+	printinfo(1);
 	return (1);
 }
 
@@ -199,7 +214,7 @@ int		makemaplist(int fd, char *firstline)
 			g_iamerror.mallocfail = 1;
 		y++;
 	}
-	if(!lnchk)
+	if (!lnchk)
 		endfile = endcub(line, endfile);
 	line ? del(line) : line;
 	g_config.maph = !lnchk || g_iamerror.memusage > MAPMEMCAP ? --y : y;

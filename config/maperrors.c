@@ -6,7 +6,7 @@
 /*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/31 17:47:38 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/29 14:37:24 by miki             ###   ########.fr       */
+/*   Updated: 2020/10/05 15:43:34 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,14 +125,14 @@ void	localizedmaperrors(void)
 		geterrorlocation(g_iamerror.outofbounds, &x, &y);
 		if (*(c = maplistdir(x, y)) != 'P')
 			*c = 'X';
-		ft_printf("Line: %u: %.*s"RED"%c"RESET"%s\n"RED"%s\n"RESET, y + 1 + o, 
+		ft_printf("Line: %u: %.*s"RED"%c"RESET"%s\n"RED"%s\n"RESET, y + 1 + o,
 		x, maplistdir(0, y), maplist(x, y), maplistdir(x + 1, y), OUTOFBOUNDS);
 	}
 	if (g_iamerror.toomanyplayers[2])
 	{
 		geterrorlocation(g_iamerror.toomanyplayers, &x, &y);
-		ft_printf("Line: %u: %.*s"RED"%c"RESET"%s\n"RED"%s\n"RESET, y + 1 + o, 
-		x, maplistdir(0, y), maplist(x, y), maplistdir(x + 1, y), 
+		ft_printf("Line: %u: %.*s"RED"%c"RESET"%s\n"RED"%s\n"RESET, y + 1 + o,
+		x, maplistdir(0, y), maplist(x, y), maplistdir(x + 1, y),
 		TOOMANYPLAYERS);
 	}
 }

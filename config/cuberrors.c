@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cuberrors.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/02 04:46:53 by miki              #+#    #+#             */
-/*   Updated: 2020/10/02 18:14:59 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/10/05 13:01:33 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,22 +90,19 @@ void	missingparamreport(void)
 	char	**splitarray;
 	int		i;
 
+	splitarray = ft_split("R.NO.SO.WE.EA.S.F.C", '.');
+	ft_printf(RED"%s"RESET, MISSINGPARAM);
+	i = 0;
+	while (i < 8)
 	{
-		splitarray = ft_split("R.NO.SO.WE.EA.S.F.C", '.');
-		ft_printf(RED"%s"RESET, MISSINGPARAM);
-		i = 0;
-		while (i < 8)
-		{
-			if (!(isbitset(g_iamerror.gotparam, i)))
-				ft_printf("%s ", splitarray[i]);
-			i++;
-		}
-		write(1, "\n", 1);
-		while (i)
-			del(splitarray[--i]);
-		del(splitarray);
+		if (!(isbitset(g_iamerror.gotparam, i)))
+			ft_printf("%s ", splitarray[i]);
+		i++;
 	}
-	
+	write(1, "\n", 1);
+	while (i)
+		del(splitarray[--i]);
+	del(splitarray);
 }
 
 /*
@@ -130,7 +127,6 @@ void	missingparamreport(void)
 
 void	cuberrors(void)
 {
-
 	ft_printf(RED"%s%s"RESET, REDERROR, BADCUB);
 	if (g_iamerror.badline)
 		ft_printf("Line %d: "RED"%s"RESET, g_iamerror.badline, BADLINE);

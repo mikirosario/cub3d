@@ -6,7 +6,11 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/07 20:24:05 by mrosario          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2020/10/03 16:29:14 by mrosario         ###   ########.fr       */
+=======
+/*   Updated: 2020/10/05 15:54:17 by miki             ###   ########.fr       */
+>>>>>>> 0a85661561a9cab0efbeaa4a38ae8fa4dfad0ace
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +24,17 @@ void	musicfork(void)
 		playtrack(MAIN_THEME);
 	else
 		exit(EXIT_SUCCESS);
+}
+
+/*
+** This function is a generic, run-of-the-mill "free this memory and set the
+** pointer to NULL" function that should really be in my libft by now. :p
+*/
+
+void	del(void *freethis)
+{
+	free(freethis);
+	freethis = NULL;
 }
 
 /*

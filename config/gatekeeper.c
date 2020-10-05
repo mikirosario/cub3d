@@ -6,13 +6,31 @@
 /*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/29 18:43:00 by mrosario          #+#    #+#             */
-/*   Updated: 2020/10/02 05:23:34 by miki             ###   ########.fr       */
+/*   Updated: 2020/10/05 13:16:33 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Includes/cub3d.h"
 
 extern t_error	g_iamerror;
+
+int		isparam(char *cubchr, char *line)
+{
+	if (((*cubchr == 'N' || *cubchr == 'n') && \
+	(*(line + 1) == 'O' || (*(line + 1) == 'o'))) || \
+	((*cubchr == 'S' || *cubchr == 's') && \
+	(*(line + 1) == 'O' || (*(line + 1) == 'o'))) || \
+	((*cubchr == 'W' || *cubchr == 'w') && \
+	(*(line + 1) == 'E' || (*(line + 1) == 'e'))) || \
+	((*cubchr == 'E' || *cubchr == 'e') && \
+	(*(line + 1) == 'A' || (*(line + 1) == 'a'))) || \
+	((*cubchr == 'R' || *cubchr == 'r')) || \
+	((*cubchr == 'S' || *cubchr == 's')) || \
+	((*cubchr == 'F' || *cubchr == 'f')) || \
+	((*cubchr == 'C' || *cubchr == 'c')))
+		return (1);
+	return (0);
+}
 
 /*
 ** The police report tells us how many parameters we managed to find. This will
@@ -43,7 +61,7 @@ void	policereport(int *result, int *checked)
 	ft_bzero(result, 8 * 4);
 }
 
-int	sumresarray(int *result)
+int		sumresarray(int *result)
 {
 	int	i;
 	int	sum;
@@ -67,40 +85,28 @@ int	sumresarray(int *result)
 ** police.
 */
 
-int	validitycheck(int *result, char *line, int sum, int linenum)
+int		validitycheck(char *line, int sum, int linenum)
 {
 	char *singlecubchrs;
 	char *cubchr;
 
-	(void)result;
-
 	singlecubchrs = "RSFCrsfcNSEWnsew";
-
-	if (!(*line)) //inocente, se aceptan líneas vacías
+	if (!(*line))
 		return (1);
-	//culpable hasta que se demuestre inocente
-	if (sum > 7 && ismap(line)) //mapline válida si todos los parámetros están recogidos
+	if (sum > 7 && ismap(line))
 		return (1);
 	line = ft_skipspaces(line);
-	if (!(cubchr = (ft_strchr(singlecubchrs, *line)))) //nos saltamos los espacios y *line no es un cubchr, bien por ser otro chr o bien por ser NULL: CULPABLE
+	if (!(cubchr = (ft_strchr(singlecubchrs, *line))))
 	{
 		g_iamerror.cubpolice = 1;
 		g_iamerror.badline = linenum;
 		return (0);
 	}
-	//*line es un cubchr de los que tienen dos letras
-	else if (   ((*cubchr == 'N' || *cubchr == 'n') && (*(line + 1) == 'O' || (*(line + 1) == 'o'))) || \
-		((*cubchr == 'S' || *cubchr == 's') && (*(line + 1) == 'O' || (*(line + 1) == 'o'))) || \
-		((*cubchr == 'W' || *cubchr == 'w') && (*(line + 1) == 'E' || (*(line + 1) == 'e'))) || \
-		((*cubchr == 'E' || *cubchr == 'e') && (*(line + 1) == 'A' || (*(line + 1) == 'a'))) || \
-		//line es un cubchr singular
-		((*cubchr == 'R' || *cubchr == 'r')) || ((*cubchr == 'S' || *cubchr == 's')) || \
-		((*cubchr == 'F' || *cubchr == 'f')) || ((*cubchr == 'C' || *cubchr == 'c'))  )
-			return (2); //line consta de uno o dos cubchrs válidos
+	else if (isparam(cubchr, line))
+		return (2);
 	g_iamerror.cubpolice = 1;
 	g_iamerror.badline = linenum;
 	return (0);
-
 }
 
 /*
@@ -120,9 +126,9 @@ int	validitycheck(int *result, char *line, int sum, int linenum)
 ** program will be terminated with EXTREME prejudice. You have been warned.
 */
 
-int	endcub(char *line, int endfile)
+int		endcub(char *line, int endfile)
 {
-	if (line && endfile && (*line)) //si primera línea existe y ya es eof y no es nulo, mapa NO ES endfile
+	if (line && endfile && (*line))
 		endfile = 0;
 	if (!endfile)
 		g_iamerror.badendcub = 1;

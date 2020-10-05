@@ -6,7 +6,7 @@
 /*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/03 19:10:33 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/29 14:14:02 by miki             ###   ########.fr       */
+/*   Updated: 2020/10/05 15:47:06 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 extern t_error	g_iamerror;
 
-void		makemaplistarray(t_list **maplistarray)
+void	makemaplistarray(t_list **maplistarray)
 {
 	unsigned int	i;
-	
+
 	i = 0;
 	while (i <= g_config.maph + 1)
 	{
@@ -82,7 +82,8 @@ t_list **maplistarray)
 	if ((y + 1 <= g_config.maph) && (maplistarray[y + 1])->len >= x \
 	&& (mapchr = g_config.map[y + 1][x]) && (mapchr == '0' || mapchr == '2'))
 		g_config.map[y + 1][x] = 'A';
-	else if (y + 1 > g_config.maph || (maplistarray[y + 1])->len < x || mapchr == ' ' || !mapchr)
+	else if (y + 1 > g_config.maph || (maplistarray[y + 1])->len < x || \
+	mapchr == ' ' || !mapchr)
 		return (recorderrorlocation(g_iamerror.outofbounds, x, y, 0));
 	if (y && (maplistarray[y - 1])->len >= x && \
 	(mapchr = g_config.map[y - 1][x]) && (mapchr == '0' || mapchr == '2'))
@@ -167,20 +168,6 @@ t_list **maplistarray)
 ** and labelled traversable).
 */
 
-//ifs que cambio para conversión maplist a maplistarray.
-// maplistarray						maplist
-// (y + 1 < g_config.maph)			----> row = maplistmem(y))->next
-// (maplistarray[y + 1])->len >= x	----> ((maplistmem(y + 1))->len) >= x
-// mapchr = map[y + 1][x]			----> maplist(x, y + 1)
-// map[y + 1][x]					----> (*(maplistdir(x, y + 1)))
-// y + 1 > g_config.maph			----> !row->next
-// (maplistarray[y + 1])->len < x	----> ((maplistmem(y + 1))->len) < x
-// y 								----> row != g_config.maplist
-// (maplistarray[y - 1])->len >= x	----> ((maplistmem(y - 1))->len)
-// mapchr = map[y - 1][x]			----> maplist(x, y - 1)
-// map[y - 1][x]					----> (*(maplistdir(x, y - 1)))
-// map[y][x] 						----> *(maplistdir(x, y))
-
 int		floodline(unsigned int x, unsigned int y, t_list **maplistarray)
 {
 	char	mapchr;
@@ -204,7 +191,7 @@ int		floodline(unsigned int x, unsigned int y, t_list **maplistarray)
 		else if (mapchr == ' ' || !x)
 			return (recorderrorlocation(g_iamerror.outofbounds, \
 			(mapchr == ' ' ? x + 1 : x), y, 0));
-		x--;
+			x--;
 	}
 	return (1);
 }

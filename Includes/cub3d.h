@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/10/02 18:28:09 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/10/05 13:07:38 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -429,7 +429,7 @@ unsigned int *y);
 void			texpatherrors(void);
 void			texreaderror(void);
 int				texerrorconditions(void);
-int				validitycheck(int *result, char *line, int sum, int linenum);
+int				validitycheck(char *line, int sum, int linenum);
 int				sumresarray(int *result);
 void			policereport(int *result, int *checked);
 void			cuberrors(void);

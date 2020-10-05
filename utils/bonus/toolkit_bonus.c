@@ -6,7 +6,7 @@
 /*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 18:37:36 by mrosario          #+#    #+#             */
-/*   Updated: 2020/10/02 15:45:43 by miki             ###   ########.fr       */
+/*   Updated: 2020/10/05 15:52:27 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ t_imagedata *img)
 	}
 }
 
-
 unsigned int	setbit(unsigned int byte, int bit)
 {
 	unsigned char	mask;
@@ -61,17 +60,6 @@ int				isbitset(unsigned int byte, int bit)
 
 	mask = (unsigned char)1 << bit;
 	return (mask & byte);
-}
-
-/*
-** This function is a generic, run-of-the-mill "free this memory and set the
-** pointer to NULL" function that should really be in my libft by now. :p
-*/
-
-void			del(void *freethis)
-{
-	free(freethis);
-	freethis = NULL;
 }
 
 /*

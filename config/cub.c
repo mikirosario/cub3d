@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/16 18:38:05 by mrosario          #+#    #+#             */
-/*   Updated: 2020/10/02 20:20:40 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/10/05 13:17:15 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ extern t_error	g_iamerror;
 ** array. ;)
 */
 
-int		findfirstmapline(char **line, int *result, int *checked, unsigned int linenum)
+int		findfirstmapline(char **line, int *result, int *checked, \
+unsigned int linenum)
 {
 	int i;
 	int j;
@@ -50,22 +51,22 @@ int		findfirstmapline(char **line, int *result, int *checked, unsigned int linen
 
 void	getparam(int *result, int *checked, int linenum, char *line)
 {
-		if (result[0] < 1)
-			result[0] = getres(line, linenum, &checked[0]);
-		if (result[1] < 1)
-			result[1] = getno(line, linenum, &checked[1]);
-		if (result[2] < 1)
-			result[2] = getso(line, linenum, &checked[2]);
-		if (result[3] < 1)
-			result[3] = getwe(line, linenum, &checked[3]);
-		if (result[4] < 1)
-			result[4] = getea(line, linenum, &checked[4]);
-		if (result[5] < 1)
-			result[5] = getsprite(line, linenum, &checked[5]);
-		if (result[6] < 1)
-			result[6] = getfcolor(line, linenum, &checked[6]);
-		if (result[7] < 1)
-			result[7] = getccolor(line, linenum, &checked[7]);
+	if (result[0] < 1)
+		result[0] = getres(line, linenum, &checked[0]);
+	if (result[1] < 1)
+		result[1] = getno(line, linenum, &checked[1]);
+	if (result[2] < 1)
+		result[2] = getso(line, linenum, &checked[2]);
+	if (result[3] < 1)
+		result[3] = getwe(line, linenum, &checked[3]);
+	if (result[4] < 1)
+		result[4] = getea(line, linenum, &checked[4]);
+	if (result[5] < 1)
+		result[5] = getsprite(line, linenum, &checked[5]);
+	if (result[6] < 1)
+		result[6] = getfcolor(line, linenum, &checked[6]);
+	if (result[7] < 1)
+		result[7] = getccolor(line, linenum, &checked[7]);
 }
 
 /*
@@ -138,7 +139,7 @@ void	cubread(int *result, char **line, int fd, int linenum)
 		if (!(*line))
 			g_iamerror.mallocfail = 1;
 		sum = sumresarray(checked);
-		if (!(val = validitycheck(result, *line, sum, linenum)))
+		if (!(val = validitycheck(*line, sum, linenum)))
 			break ;
 		getparam(result, checked, linenum, *line);
 		if (findfirstmapline(line, result, checked, linenum))
@@ -292,7 +293,6 @@ int		cubhandler(const char *ptr)
 	char	*line;
 	int		fd;
 	int		*result;
-	int		linenum;
 	char	success;
 
 	fd = open(ptr, O_RDONLY, S_IRUSR);
@@ -300,9 +300,10 @@ int		cubhandler(const char *ptr)
 	if ((result = ft_calloc(9, sizeof(int))) && fd >= 3)
 	{
 		line = NULL;
-		cubread(result, &line, fd, (linenum = 0));
+		cubread(result, &line, fd, 0);
 		if ((cuberrorhandler(result)) && (maphandler(fd, line)) && \
-		(!g_config.spritenum || !g_iamerror.getsprfail) && !g_iamerror.cubpolice)
+		(!g_config.spritenum || !g_iamerror.getsprfail) && \
+		!g_iamerror.cubpolice)
 			success = 1;
 		free(result);
 	}
