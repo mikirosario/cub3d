@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+         #
+#    By: miki <miki@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/07/15 20:32:43 by mrosario          #+#    #+#              #
-#    Updated: 2020/10/02 18:30:21 by mrosario         ###   ########.fr        #
+#    Updated: 2020/10/05 23:55:56 by miki             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -133,7 +133,7 @@ bdebug: $(LIBFT)
 	gcc $(CFLAG) $(LIBS) $(FRMWRK) $(BSRC) -g -o cub3D
 
 linux: $(LIBFT)
-	gcc $(CFLAG) $(LSRC) $(LINUXLIBS) -g -o cub3D
+	gcc $(CFLAG) $(LSRC) $(LINUXLIBS) -g -O0 -o cub3D
 
 linuxbonus: $(LIBFT)
 	gcc $(CFLAG) $(LBSRC) $(LINUXLIBS) -g -O0 -o cub3D
