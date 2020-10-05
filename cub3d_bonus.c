@@ -3,16 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/07 20:24:05 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/27 11:22:18 by miki             ###   ########.fr       */
+/*   Updated: 2020/10/03 16:29:14 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Includes/cub3d_bonus.h"
 
 t_error g_iamerror;
+
+void	musicfork(void)
+{
+	if (!g_config.screenshot)
+		playtrack(MAIN_THEME);
+	else
+		exit(EXIT_SUCCESS);
+}
 
 /*
 ** I needed a strcmp for this, so here it is. Definitely going into libft.
@@ -103,7 +111,7 @@ int		main(int argc, char **argv)
 	}
 	g_config.musicpid = fork();
 	if (!g_config.musicpid)
-		playtrack(MAIN_THEME);
+		musicfork();
 	mlx_do_key_autorepeatoff(g_screendata.mlx_ptr);
 	mlx_hook(g_screendata.mlx_win, 17, 1L << 17, ft_stop, (void*)0);
 	mlx_hook(g_screendata.mlx_win, 2, 1L << 0, keypress, &g_config);
