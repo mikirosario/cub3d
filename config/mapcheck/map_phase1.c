@@ -6,7 +6,7 @@
 /*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 18:31:22 by mrosario          #+#    #+#             */
-/*   Updated: 2020/10/05 14:09:40 by miki             ###   ########.fr       */
+/*   Updated: 2020/10/05 15:44:49 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,7 +185,7 @@ int		checkmap(char *mapchrs, char endfile)
 	if (g_iamerror.memusage > MAPMEMCAP)
 		return (-5);
 	if (!endfile)
-		return(-7);
+		return (-7);
 	if (g_config.maph < 2)
 		return (-2);
 	if ((foundplayer = playerandspritescheck(foundplayer, mapchrs)) > 1)
@@ -232,7 +232,7 @@ int		makemaplist(int fd, char *firstline)
 			g_iamerror.mallocfail = 1;
 		y++;
 	}
-	if(!lnchk)
+	if (!lnchk)
 		endfile = endcub(line, endfile);
 	line ? del(line) : line;
 	g_config.maph = !lnchk || g_iamerror.memusage > MAPMEMCAP ? --y : y;

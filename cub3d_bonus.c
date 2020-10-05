@@ -6,13 +6,24 @@
 /*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/07 20:24:05 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/27 11:22:18 by miki             ###   ########.fr       */
+/*   Updated: 2020/10/05 15:54:17 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Includes/cub3d_bonus.h"
 
 t_error g_iamerror;
+
+/*
+** This function is a generic, run-of-the-mill "free this memory and set the
+** pointer to NULL" function that should really be in my libft by now. :p
+*/
+
+void	del(void *freethis)
+{
+	free(freethis);
+	freethis = NULL;
+}
 
 /*
 ** I needed a strcmp for this, so here it is. Definitely going into libft.

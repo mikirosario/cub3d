@@ -6,7 +6,7 @@
 /*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/16 18:38:05 by mrosario          #+#    #+#             */
-/*   Updated: 2020/10/05 13:17:39 by miki             ###   ########.fr       */
+/*   Updated: 2020/10/05 15:21:10 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ extern t_error	g_iamerror;
 ** valid map line, it will return '0'.
 */
 
-int		findfirstmapline(char **line, int *result, int *checked, unsigned int linenum)
+int		findfirstmapline(char **line, int *result, int *checked, \
+unsigned int linenum)
 {
 	int i;
 	int	j;
@@ -47,22 +48,22 @@ int		findfirstmapline(char **line, int *result, int *checked, unsigned int linen
 
 void	getparam(int *result, int *checked, int linenum, char *line)
 {
-		if (result[0] < 1)
-			result[0] = getres(line, linenum, &checked[0]);
-		if (result[1] < 1)
-			result[1] = getno(line, linenum, &checked[1]);
-		if (result[2] < 1)
-			result[2] = getso(line, linenum, &checked[2]);
-		if (result[3] < 1)
-			result[3] = getwe(line, linenum, &checked[3]);
-		if (result[4] < 1)
-			result[4] = getea(line, linenum, &checked[4]);
-		if (result[5] < 1)
-			result[5] = getsprite(line, linenum, &checked[5]);
-		if (result[6] < 1)
-			result[6] = getftex(line, linenum, &checked[6]);
-		if (result[7] < 1)
-			result[7] = getctex(line, linenum, &checked[7]);
+	if (result[0] < 1)
+		result[0] = getres(line, linenum, &checked[0]);
+	if (result[1] < 1)
+		result[1] = getno(line, linenum, &checked[1]);
+	if (result[2] < 1)
+		result[2] = getso(line, linenum, &checked[2]);
+	if (result[3] < 1)
+		result[3] = getwe(line, linenum, &checked[3]);
+	if (result[4] < 1)
+		result[4] = getea(line, linenum, &checked[4]);
+	if (result[5] < 1)
+		result[5] = getsprite(line, linenum, &checked[5]);
+	if (result[6] < 1)
+		result[6] = getftex(line, linenum, &checked[6]);
+	if (result[7] < 1)
+		result[7] = getctex(line, linenum, &checked[7]);
 }
 
 /*
@@ -151,55 +152,6 @@ void	cubread(int *result, char **line, int fd, int linenum)
 	if (g_iamerror.cubpolice)
 		policereport(result, checked);
 }
-
-/*
-** This function will check the result array to identify error flags.
-** If a parameter has not been successfully read from the cub file,
-** its corresponding result will be 0 and an appropriate error message
-** will be displayed.
-**
-** There are two types of errors - yellow or non-fatal, and red or
-** fatal. Non-fatal errors are handled by using default values instead
-** of user-configured values. An error message will be displayed but
-** the program will not terminate.
-**
-** All errors from position 1 to position 4 on the array are fatal.
-** The error in position 8 is also fatal. The error in position 5 is
-** only fatal if sprites are found, but this is determined after
-** the maphandler function is run. The rest are non-fatal.
-**
-** If any fatal errors are found, this function will return 0.
-** Otherwise, it will return 1.
-*/
-
-/*int		cuberrorhandler(int *result)
-{
-	int i;
-
-	if (result[0] == 0)
-		g_iamerror.getresfail = 1;
-	if (result[1] == 0)
-		g_iamerror.getnofail = 1;
-	if (result[2] == 0)
-		g_iamerror.getsofail = 1;
-	if (result[3] == 0)
-		g_iamerror.getwefail = 1;
-	if (result[4] == 0)
-		g_iamerror.geteafail = 1;
-	if (result[5] == 0)
-		g_iamerror.getfloorfail = 1;
-	if (result[6] == 0)
-		g_iamerror.getceilfail = 1;
-	if (result[7] == 0)
-		g_iamerror.getsprfail = 1;
-	if (!(result[8]))
-		g_iamerror.nomapfound = 1;
-	i = 1;
-	while (result[i] && i < 7)
-		i++;
-	g_iamerror.mapchecked = i == 7 ? 1 : 0;
-	return (i < 7 || !result[8] ? 0 : 1);
-}*/
 
 /*
 ** This function is called only after all obligatory configuration
@@ -338,7 +290,6 @@ int		cubhandler(const char *ptr)
 	char	*line;
 	int		fd;
 	int		*result;
-	int		linenum;
 	char	success;
 
 	fd = open(ptr, O_RDONLY, S_IRUSR);
@@ -346,9 +297,10 @@ int		cubhandler(const char *ptr)
 	if ((result = ft_calloc(9, sizeof(int))) && fd >= 3)
 	{
 		line = NULL;
-		cubread(result, &line, fd, (linenum = 0));
+		cubread(result, &line, fd, 0);
 		if ((cuberrorhandler(result)) && (maphandler(fd, line)) && \
-		(!g_config.spritenum || !g_iamerror.getsprfail) && !g_iamerror.cubpolice)
+		(!g_config.spritenum || !g_iamerror.getsprfail) && \
+		!g_iamerror.cubpolice)
 			success = 1;
 		free(result);
 	}
