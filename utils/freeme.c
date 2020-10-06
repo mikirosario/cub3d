@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 16:44:15 by mrosario          #+#    #+#             */
-/*   Updated: 2020/10/02 17:38:01 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/10/06 22:43:42 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,18 +75,23 @@ void	freeimgs(void)
 ** I have my freeme ready for that. :)
 */
 
+/*void    free_mlx_ptr(void *mlx_ptr)
+{
+    free(((mlx_ptr_t *)(mlx_ptr))->font->buffer);
+    free(((mlx_ptr_t *)(mlx_ptr))->font);
+    free(mlx_ptr);
+}*/
+
 void	freeme(void)
 {
 	if (g_screendata.mlx_ptr)
 	{
-		if (!g_screendata.mlx_win)
-			del(g_screendata.mlx_ptr);
-		else
+		if (g_screendata.mlx_win)
 		{
 			freeimgs();
 			mlx_destroy_window(g_screendata.mlx_ptr, g_screendata.mlx_win);
-			del(g_screendata.mlx_ptr);
 		}
+		//del(g_screendata.mlx_ptr);
 	}
 	freelists();
 	freestrings();

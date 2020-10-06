@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   keychecks.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/17 18:44:48 by mrosario          #+#    #+#             */
-/*   Updated: 2020/10/06 00:02:55 by miki             ###   ########.fr       */
+/*   Updated: 2020/10/06 21:42:59 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	ft_stop(int key, void *param)
 	{
 		freeme();
 		ft_printf(GREEN"\n**** THANKS FOR PLAYING! :D ****\n\n"RESET);
+		system("leaks cub3D");
 		exit(EXIT_SUCCESS);
 	}
 	return (0);

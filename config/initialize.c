@@ -6,7 +6,7 @@
 /*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 16:10:16 by mrosario          #+#    #+#             */
-/*   Updated: 2020/09/29 19:49:56 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/10/06 21:52:40 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	getdisplayresolution(void)
 
 void	initialize(t_raycasterdata *rdata)
 {
-	(void)rdata;
+	rdata->buf = NULL;
 	g_player.rotspeed = 0.1;
 	g_player.movespeed = 0.25;
 	g_framedata.xfloorcolor = 0x00669999;

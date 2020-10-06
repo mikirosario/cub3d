@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/16 18:38:05 by mrosario          #+#    #+#             */
-/*   Updated: 2020/10/06 02:00:07 by miki             ###   ########.fr       */
+/*   Updated: 2020/10/06 16:38:12 by mrosario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -308,6 +308,7 @@ int		cubhandler(char *ptr)
 
 	fd = open(ptr, O_RDONLY, S_IRUSR);
 	success = 0;
+	result = NULL;
 	if (fd >= 3 && (result = ft_calloc(9, sizeof(int))))
 	{
 		line = NULL;
