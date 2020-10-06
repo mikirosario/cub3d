@@ -6,7 +6,7 @@
 /*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/16 18:38:05 by mrosario          #+#    #+#             */
-/*   Updated: 2020/10/05 15:21:10 by miki             ###   ########.fr       */
+/*   Updated: 2020/10/06 01:57:10 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -285,7 +285,7 @@ int		maphandler(int fd, char *line)
 ** }
 */
 
-int		cubhandler(const char *ptr)
+int		cubhandler(char *ptr)
 {
 	char	*line;
 	int		fd;
@@ -294,7 +294,7 @@ int		cubhandler(const char *ptr)
 
 	fd = open(ptr, O_RDONLY, S_IRUSR);
 	success = 0;
-	if ((result = ft_calloc(9, sizeof(int))) && fd >= 3)
+	if (fd >= 3 && (result = ft_calloc(9, sizeof(int))))
 	{
 		line = NULL;
 		cubread(result, &line, fd, 0);
@@ -302,7 +302,7 @@ int		cubhandler(const char *ptr)
 		(!g_config.spritenum || !g_iamerror.getsprfail) && \
 		!g_iamerror.cubpolice)
 			success = 1;
-		free(result);
+		del(result);
 	}
 	else
 	{

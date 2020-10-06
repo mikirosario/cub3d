@@ -6,7 +6,7 @@
 /*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/16 18:38:05 by mrosario          #+#    #+#             */
-/*   Updated: 2020/10/05 13:17:15 by miki             ###   ########.fr       */
+/*   Updated: 2020/10/06 02:00:07 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -286,9 +286,20 @@ int		maphandler(int fd, char *line)
 **		g_iamerror.couldnotclose = 1;
 **	return (success ? 1 : 0);
 ** }
+**
+** Valgrind discovered a leak here. Notice how I condition entry into the first
+** if on the file descriptor being 3 or more. I used to do that fd check *after*
+** allocating memory for the result array. I free the result array inside that
+** if. Thus, if open failed, the array was never freed, resulting in a leak.
+**
+** To fix this I now do the fd check first, and the allocation only happens at
+** the end of the if expressions, so if result is true we will always enter the
+** if block of code and always free the array.
+**
+** I'm not sure if this is the leak detected by leaks in the Mac, though. *sigh*
 */
 
-int		cubhandler(const char *ptr)
+int		cubhandler(char *ptr)
 {
 	char	*line;
 	int		fd;
@@ -297,7 +308,7 @@ int		cubhandler(const char *ptr)
 
 	fd = open(ptr, O_RDONLY, S_IRUSR);
 	success = 0;
-	if ((result = ft_calloc(9, sizeof(int))) && fd >= 3)
+	if (fd >= 3 && (result = ft_calloc(9, sizeof(int))))
 	{
 		line = NULL;
 		cubread(result, &line, fd, 0);
@@ -305,7 +316,7 @@ int		cubhandler(const char *ptr)
 		(!g_config.spritenum || !g_iamerror.getsprfail) && \
 		!g_iamerror.cubpolice)
 			success = 1;
-		free(result);
+		del(result);
 	}
 	else
 	{

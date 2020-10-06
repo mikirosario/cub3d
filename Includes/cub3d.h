@@ -6,7 +6,7 @@
 /*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 20:25:06 by mrosario          #+#    #+#             */
-/*   Updated: 2020/10/05 13:07:38 by miki             ###   ########.fr       */
+/*   Updated: 2020/10/06 01:14:38 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -466,7 +466,7 @@ int				getccolor(const char *line, unsigned int linenum, int *checked);
 void			spritecounter(double x, double y, char c);
 char			playercounter(int x, int y, char foundplayer);
 int				ismap(char *line);
-int				cubhandler(const char *ptr);
+int				cubhandler(char *ptr);
 void			cubread(int *result, char **line, int fd, int linenum);
 void			setdisplayresolution(void);
 int				floodfill(void);
