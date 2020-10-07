@@ -6,7 +6,7 @@
 /*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/03 19:10:33 by mrosario          #+#    #+#             */
-/*   Updated: 2020/10/06 00:57:56 by miki             ###   ########.fr       */
+/*   Updated: 2020/10/07 15:04:54 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,7 @@ int		floodline(unsigned int x, unsigned int y, t_list **maplistarray)
 		else if (mapchr == ' ' || !x)
 			return (recorderrorlocation(g_iamerror.outofbounds, \
 			(mapchr == ' ' ? x + 1 : x), y, 0));
-		x--;
+			x--;
 	}
 	return (1);
 }

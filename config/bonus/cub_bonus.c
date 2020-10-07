@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub_bonus.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/16 18:38:05 by mrosario          #+#    #+#             */
-/*   Updated: 2020/10/06 16:41:49 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/10/07 15:57:45 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -289,27 +289,26 @@ int		cubhandler(char *ptr)
 {
 	char	*line;
 	int		fd;
-	int		*result;
+	int		*res;
 	char	success;
 
 	fd = open(ptr, O_RDONLY, S_IRUSR);
 	success = 0;
-	result = NULL;
-	if (fd >= 3 && (result = ft_calloc(9, sizeof(int))))
+	res = NULL;
+	if (fd >= 3 && (res = ft_calloc(9, sizeof(int))))
 	{
 		line = NULL;
-		cubread(result, &line, fd, 0);
-		if ((cuberrorhandler(result)) && (maphandler(fd, line)) && \
-		(!g_config.spritenum || !g_iamerror.getsprfail) && \
-		!g_iamerror.cubpolice)
+		cubread(res, &line, fd, 0);
+		if (cuberrorhandler(res) && maphandler(fd, line) && (!g_config.spritenum
+		|| !g_iamerror.getsprfail) && !g_iamerror.cubpolice)
 			success = 1;
-		del(result);
+		del(res);
 	}
 	else
 	{
 		g_iamerror.cubfilenotfound = fd < 0 ? 1 : g_iamerror.cubfilenotfound;
 		g_iamerror.weirdfd = fd >= 0 ? 1 : g_iamerror.weirdfd;
-		g_iamerror.mallocfail = !result ? 1 : g_iamerror.mallocfail;
+		g_iamerror.mallocfail = !res ? 1 : g_iamerror.mallocfail;
 	}
 	g_iamerror.couldnotclose = close(fd) < 0 ? 1 : g_iamerror.couldnotclose;
 	return (success ? 1 : 0);

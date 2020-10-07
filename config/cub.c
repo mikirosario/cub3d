@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosario <mrosario@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miki <miki@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/16 18:38:05 by mrosario          #+#    #+#             */
-/*   Updated: 2020/10/06 16:38:12 by mrosario         ###   ########.fr       */
+/*   Updated: 2020/10/07 15:47:49 by miki             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -292,38 +292,36 @@ int		maphandler(int fd, char *line)
 ** allocating memory for the result array. I free the result array inside that
 ** if. Thus, if open failed, the array was never freed, resulting in a leak.
 **
+**
 ** To fix this I now do the fd check first, and the allocation only happens at
 ** the end of the if expressions, so if result is true we will always enter the
-** if block of code and always free the array.
-**
-** I'm not sure if this is the leak detected by leaks in the Mac, though. *sigh*
+** if block of code and always free the array. Since result is checked in the
 */
 
 int		cubhandler(char *ptr)
 {
 	char	*line;
 	int		fd;
-	int		*result;
+	int		*res;
 	char	success;
 
 	fd = open(ptr, O_RDONLY, S_IRUSR);
 	success = 0;
-	result = NULL;
-	if (fd >= 3 && (result = ft_calloc(9, sizeof(int))))
+	res = NULL;
+	if (fd >= 3 && (res = ft_calloc(9, sizeof(int))))
 	{
 		line = NULL;
-		cubread(result, &line, fd, 0);
-		if ((cuberrorhandler(result)) && (maphandler(fd, line)) && \
-		(!g_config.spritenum || !g_iamerror.getsprfail) && \
-		!g_iamerror.cubpolice)
+		cubread(res, &line, fd, 0);
+		if (cuberrorhandler(res) && maphandler(fd, line) && (!g_config.spritenum
+		|| !g_iamerror.getsprfail) && !g_iamerror.cubpolice)
 			success = 1;
-		del(result);
+		del(res);
 	}
 	else
 	{
 		g_iamerror.cubfilenotfound = fd < 0 ? 1 : g_iamerror.cubfilenotfound;
 		g_iamerror.weirdfd = fd >= 0 ? 1 : g_iamerror.weirdfd;
-		g_iamerror.mallocfail = !result ? 1 : g_iamerror.mallocfail;
+		g_iamerror.mallocfail = !res ? 1 : g_iamerror.mallocfail;
 	}
 	g_iamerror.couldnotclose = close(fd) < 0 ? 1 : g_iamerror.couldnotclose;
 	return (success ? 1 : 0);
